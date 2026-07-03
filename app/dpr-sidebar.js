@@ -962,7 +962,9 @@
       state.activeDailyDate = daily.dateKey;
       state.activeDailyMonth = monthKeyFromDateKey(daily.dateKey) || state.activeDailyMonth;
       var dailyTags = paperTagLabels(daily.paper);
-      if (dailyTags.indexOf(state.activeDailyTag) === -1) state.activeDailyTag = dailyTags[0] || '';
+      if (!state.activeDailyTag || state.activeDailyTag === '__all__' || dailyTags.indexOf(state.activeDailyTag) === -1) {
+        state.activeDailyTag = '__all__';
+      }
       return 'daily';
     }
     var conf = findConferenceRecordByHref(state.model, href);
@@ -1102,6 +1104,55 @@
       if (!paperReadStatus(record.paper, map)) byDate[record.dateKey].unreadCount += 1;
     });
     return { activeKey: active, tabs: tabs, groups: order.map(function (key) { return byDate[key]; }) };
+  }
+
+  function buildDailyCalendarTagView(model, activeDateKey, activeTagKey, readMap, activeMonthKey) {
+    var map = readMap || {};
+    var allKey = '__all__';
+    var dateView = buildDailyDateView(model, activeDateKey, map, activeMonthKey);
+    var activeDate = dateView.activeKey || '';
+    var activeDay = null;
+    (model && model.daily || []).some(function (day) {
+      if (day && day.dateKey === activeDate) {
+        activeDay = day;
+        return true;
+      }
+      return false;
+    });
+    var papers = activeDay && activeDay.papers || [];
+    var tabs = [];
+    var seen = {};
+    addTab(tabs, seen, allKey, '全部');
+    seen[allKey].count = papers.length;
+    seen[allKey].unreadCount = countUnreadPapers(papers, map);
+    papers.forEach(function (paper) {
+      paperTagLabels(paper).forEach(function (tag) {
+        addTab(tabs, seen, tag, tag);
+        seen[tag].count += 1;
+        if (!paperReadStatus(paper, map)) seen[tag].unreadCount += 1;
+      });
+    });
+    var activeTag = activeTagKey && seen[activeTagKey] ? activeTagKey : allKey;
+    var filtered = activeTag
+      ? papers.filter(function (paper) {
+        if (activeTag === allKey) return true;
+        return paperTagLabels(paper).indexOf(activeTag) !== -1;
+      })
+      : papers;
+    var label = activeDay && (activeDay.dateLabel || formatDateLabel(activeDate)) || formatDateLabel(activeDate);
+    if (activeTag && activeTag !== allKey) label += ' / ' + activeTag;
+    return {
+      activeKey: activeTag,
+      activeDateKey: activeDate,
+      tabs: tabs,
+      groups: activeDate ? [{
+        key: activeDate + ':' + (activeTag || 'all'),
+        label: label,
+        papers: filtered,
+        unreadCount: countUnreadPapers(filtered, map),
+      }] : [],
+      calendar: dateView.calendar,
+    };
   }
 
   function buildConferenceConfView(model, activeKey, readMap) {
@@ -1444,9 +1495,7 @@
         : buildConferenceConfView(viewModel, vs.activeConference, map);
     }
     if (resultMode) return buildDailyResultView(model, resultOptions);
-    return axisMode === 'tag'
-      ? buildDailyTagView(viewModel, vs.activeDailyTag, map)
-      : buildDailyDateView(viewModel, vs.activeDailyDate, map, vs.activeDailyMonth);
+    return buildDailyCalendarTagView(viewModel, vs.activeDailyDate, vs.activeDailyTag, map, vs.activeDailyMonth);
   }
 
   function renderBodyHtml(model, viewState) {
@@ -1496,9 +1545,7 @@
     if (viewModel && viewModel.daily && viewModel.daily.length) {
       var dailyView = resultMode
         ? buildDailyResultView(model, resultOptions)
-        : (vs.dailyViewMode === 'tag'
-          ? buildDailyTagView(viewModel, vs.activeDailyTag, vs.readMap)
-          : buildDailyDateView(viewModel, vs.activeDailyDate, vs.readMap, vs.activeDailyMonth));
+        : buildDailyCalendarTagView(viewModel, vs.activeDailyDate, vs.activeDailyTag, vs.readMap, vs.activeDailyMonth);
       var dailyTotal = resultMode ? countPapersInView(dailyView) : summary.daily.papers;
       var dailyUnread = resultMode ? countUnreadInView(dailyView, vs.readMap) : summary.daily.unread;
       if (!resultMode || dailyTotal > 0) {
@@ -1507,11 +1554,11 @@
           group: 'daily',
           title: '日报',
           icon: '📅',
-          mode: vs.dailyViewMode,
+          mode: resultMode ? vs.dailyViewMode : 'tag',
           dailyCalendarPlacement: vs.dailyCalendarPlacement,
           expanded: vs.expandedGroups.daily !== false,
           view: dailyView,
-          toggleLabel: vs.dailyCalendarPlacement === 'top' ? '日历下置' : '日历上置',
+          toggleLabel: vs.dailyCalendarPlacement === 'top' ? '标签上置' : '日历上置',
           totalCount: dailyTotal,
           unreadCount: dailyUnread,
           expandedAxisSections: vs.expandedAxisSections,
@@ -1627,26 +1674,17 @@
       if (unreadEl) unreadEl.textContent = String(unread);
       if (totalEl) totalEl.textContent = String(total);
     });
-    $$('.dpr-sidebar-daily-calendar-row .dpr-sidebar-axis-summary-count', state.bodyEl).forEach(function (countEl) {
-      var activeDay = daysByKey[view.activeKey];
-      if (!activeDay) return;
-      var unreadEl = $('.dpr-sidebar-day-unread', countEl);
-      var totalEl = $('.dpr-sidebar-day-total', countEl);
-      if (unreadEl) unreadEl.textContent = String(activeDay.unreadCount || 0);
-      if (totalEl) totalEl.textContent = String(activeDay.totalCount || 0);
-    });
   }
 
   function syncResolvedAxisState() {
     var readMap = ReadState.getAll();
     var axisModel = modelForUnreadNormalFilter(state.model, readMap);
-    var dailyDate = buildDailyDateView(axisModel, state.activeDailyDate, readMap, state.activeDailyMonth);
-    var dailyTag = buildDailyTagView(axisModel, state.activeDailyTag, readMap);
+    var dailyView = buildDailyCalendarTagView(axisModel, state.activeDailyDate, state.activeDailyTag, readMap, state.activeDailyMonth);
     var confView = buildConferenceConfView(axisModel, state.activeConference, readMap);
     var confTag = buildConferenceTagView(axisModel, state.activeConferenceTag, readMap);
-    state.activeDailyDate = dailyDate.activeKey;
-    state.activeDailyMonth = dailyDate.calendar && dailyDate.calendar.monthKey || monthKeyFromDateKey(dailyDate.activeKey) || '';
-    state.activeDailyTag = dailyTag.activeKey;
+    state.activeDailyDate = dailyView.activeDateKey || '';
+    state.activeDailyMonth = dailyView.calendar && dailyView.calendar.monthKey || monthKeyFromDateKey(dailyView.activeDateKey) || '';
+    state.activeDailyTag = dailyView.activeKey;
     state.activeConference = confView.activeKey;
     state.activeConferenceTag = confTag.activeKey;
   }
@@ -1657,7 +1695,7 @@
     var expandedClass = opts.expanded ? ' is-expanded' : '';
     var resultClass = opts.view && opts.view.resultMode ? ' is-result-mode' : '';
     var axisMode = opts.view && opts.view.resultMode ? 'results' : opts.mode;
-    var isDailyCalendar = opts.group === 'daily' && axisMode === 'date' && !(opts.view && opts.view.resultMode);
+    var isDailyNormal = opts.group === 'daily' && !(opts.view && opts.view.resultMode);
     var calendarPlacement = opts.dailyCalendarPlacement === 'bottom' ? 'bottom' : 'top';
     var totalCount = typeof opts.totalCount === 'number' ? opts.totalCount : countPapersInView(opts.view);
     var unreadCount = typeof opts.unreadCount === 'number' ? opts.unreadCount : 0;
@@ -1668,37 +1706,20 @@
     html.push('    <span class="dpr-sidebar-day-counts"><span class="dpr-sidebar-day-unread">' + unreadCount + '</span>/<span class="dpr-sidebar-day-total">' + totalCount + '</span></span>');
     html.push('  </button>');
     html.push('  <div class="dpr-sidebar-panel-content">');
-    html.push(isDailyCalendar
-      ? renderDailyCalendarAxisRow(opts.view, opts.toggleLabel, calendarPlacement)
-      : renderAxisTabs(opts.group, opts.mode, opts.view, opts.toggleLabel));
-    if (isDailyCalendar && calendarPlacement === 'top') {
-      html.push(renderDailyCalendar(opts.view && opts.view.calendar, calendarPlacement));
+    if (isDailyNormal) {
+      if (calendarPlacement === 'top') {
+        html.push(renderDailyCalendar(opts.view && opts.view.calendar, calendarPlacement));
+        html.push(renderAxisTabs('daily', 'tag', opts.view, opts.toggleLabel));
+      } else {
+        html.push(renderAxisTabs('daily', 'tag', opts.view, opts.toggleLabel));
+        html.push(renderDailyCalendar(opts.view && opts.view.calendar, calendarPlacement));
+      }
+    } else {
+      html.push(renderAxisTabs(opts.group, opts.mode, opts.view, opts.toggleLabel));
     }
     html.push(renderAxisContent(opts.group, axisMode, opts.view, opts.expandedAxisSections, opts.readMap, opts.currentPaperId));
-    if (isDailyCalendar && calendarPlacement === 'bottom') {
-      html.push(renderDailyCalendar(opts.view && opts.view.calendar, calendarPlacement));
-    }
     html.push('  </div>');
     html.push('</section>');
-    return html.join('');
-  }
-
-  function renderDailyCalendarAxisRow(view, toggleLabel, placement) {
-    var calendar = view && view.calendar || {};
-    var activeDay = (calendar.days || []).find(function (day) {
-      return day && day.dateKey === calendar.activeDateKey;
-    }) || null;
-    var activeCount = activeDay
-      ? '<span class="dpr-sidebar-axis-summary-count"><span class="dpr-sidebar-day-unread">' + safeText(activeDay.unreadCount) + '</span>/<span class="dpr-sidebar-day-total">' + safeText(activeDay.totalCount) + '</span></span>'
-      : '';
-    var html = [];
-    html.push('<div class="dpr-sidebar-axis-row dpr-sidebar-daily-calendar-row" data-axis-group="daily" data-axis-mode="date" data-calendar-placement="' + safeAttr(placement) + '">');
-    html.push('  <button type="button" class="dpr-sidebar-axis-toggle" data-axis-toggle="daily" title="' + safeAttr(toggleLabel) + '">⇅</button>');
-    html.push('  <div class="dpr-sidebar-axis-summary">');
-    html.push('    <span class="dpr-sidebar-axis-summary-label">' + safeText(calendar.monthLabel || '日报日历') + '</span>');
-    html.push(activeCount);
-    html.push('  </div>');
-    html.push('</div>');
     return html.join('');
   }
 
@@ -2163,7 +2184,9 @@
         var tabGroup = axisTab.getAttribute('data-axis-tab');
         var tabKey = axisTab.getAttribute('data-axis-key') || '';
         if (tabGroup === 'daily') {
-          if (state.dailyViewMode === 'tag') state.activeDailyTag = tabKey;
+          var dailyAxisRow = axisTab.closest('.dpr-sidebar-axis-row');
+          var dailyAxisMode = dailyAxisRow && dailyAxisRow.getAttribute('data-axis-mode') || '';
+          if (dailyAxisMode === 'tag') state.activeDailyTag = tabKey;
           else {
             state.activeDailyDate = tabKey;
             state.activeDailyMonth = monthKeyFromDateKey(tabKey) || state.activeDailyMonth;
@@ -2393,6 +2416,7 @@
         buildDailyDateView: buildDailyDateView,
         buildDailyCalendarView: buildDailyCalendarView,
         buildDailyTagView: buildDailyTagView,
+        buildDailyCalendarTagView: buildDailyCalendarTagView,
         buildDailyResultView: buildDailyResultView,
         buildConferenceConfView: buildConferenceConfView,
         buildConferenceTagView: buildConferenceTagView,

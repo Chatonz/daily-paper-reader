@@ -7270,37 +7270,6 @@ body.dpr-sidebar-resizing {
   border-color: #c7d2fe;
   color: #4338ca;
 }
-.dpr-sidebar-daily-calendar-row {
-  padding-bottom: 5px;
-}
-.dpr-sidebar-axis-summary {
-  min-width: 0;
-  flex: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 4px 8px;
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  background: #ffffff;
-  color: #475569;
-  font-size: 12px;
-  line-height: 1.2;
-}
-.dpr-sidebar-axis-summary-label {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-weight: 650;
-}
-.dpr-sidebar-axis-summary-count {
-  flex-shrink: 0;
-  color: #94a3b8;
-  font-variant-numeric: tabular-nums;
-  font-size: 11px;
-}
 .dpr-sidebar-axis-tabs {
   min-width: 0;
   flex: 1;

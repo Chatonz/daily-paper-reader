@@ -240,12 +240,14 @@ function testAxisTabsRenderUnreadCounts() {
   assert.ok(html.includes('class="dpr-sidebar-calendar'));
   assert.ok(html.includes('data-calendar-date="20260624" data-unread="1"'));
   assert.ok(html.includes('<span class="dpr-sidebar-calendar-day-total">2</span><span class="dpr-sidebar-calendar-day-unread">1</span>'));
-  assert.ok(!html.includes('data-axis-tab="daily"'));
+  assert.ok(html.includes('data-axis-tab="daily"'));
+  assert.ok(html.includes('data-axis-key="__all__"'));
+  assert.ok(html.includes('data-axis-key="rl"'));
   assert.ok(!html.includes('dpr-sidebar-axis-tab-dot'));
   assert.ok(html.includes('data-axis-key="neurips-2024"'));
   assert.ok(html.includes('data-axis-key="neurips-2024" data-unread="0"'));
   assert.ok(html.includes('<span class="dpr-sidebar-axis-tab-unread">0</span>/<span class="dpr-sidebar-axis-tab-total">1</span>'));
-  assert.ok(html.includes('data-axis-section-toggle="daily:date:20260624" aria-expanded="false" data-unread="1"'));
+  assert.ok(html.includes('data-axis-section-toggle="daily:tag:20260624:__all__" aria-expanded="false" data-unread="1"'));
   assert.ok(!html.includes('dpr-sidebar-axis-section-dot'));
 
   assert.equal(typeof tools.buildAxisViewForMode, 'function');
@@ -256,8 +258,10 @@ function testAxisTabsRenderUnreadCounts() {
     '202606/24/paper-a': 'read',
     '202606/24/paper-b': 'blue',
   });
-  const updatedDateTab = updatedDateView.tabs.find((tab) => tab.key === '20260624');
-  assert.equal(updatedDateTab.unreadCount, 0);
+  const updatedAllTab = updatedDateView.tabs.find((tab) => tab.key === '__all__');
+  assert.equal(updatedDateView.activeDateKey, '20260624');
+  assert.equal(updatedDateView.activeKey, '__all__');
+  assert.equal(updatedAllTab.unreadCount, 0);
   assert.equal(updatedDateView.groups[0].unreadCount, 0);
   assert.equal(updatedDateView.calendar.days.find((day) => day.dateKey === '20260624').unreadCount, 0);
 
@@ -340,7 +344,29 @@ function testDailyCalendarViewUsesMonthGridAndActiveDateOnly() {
   assert.ok(!html.includes('Paper D'), 'inactive daily dates should not render their paper rows');
 }
 
-function testDailyCalendarPlacementToggleRendersSameCalendarAboveOrBelow() {
+function testDailyCalendarTagViewFiltersActiveDateByKeyword() {
+  const sidebar = loadSidebarForTest('#/202606/24/paper-a');
+  const tools = sidebar.__test;
+  const model = tools.parseSidebar(sampleSidebar);
+  assert.equal(typeof tools.buildDailyCalendarTagView, 'function');
+
+  const allView = tools.buildDailyCalendarTagView(model, '20260624', '__all__', {}, '202606');
+  assert.equal(allView.activeDateKey, '20260624');
+  assert.equal(allView.activeKey, '__all__');
+  assert.deepEqual(allView.tabs.map((tab) => tab.key), ['__all__', 'rl', '未标注']);
+  assert.deepEqual(allView.groups[0].papers.map((paper) => paper.title), ['Paper A', 'Paper B']);
+
+  const tagView = tools.buildDailyCalendarTagView(model, '20260624', 'rl', {}, '202606');
+  assert.equal(tagView.activeDateKey, '20260624');
+  assert.equal(tagView.activeKey, 'rl');
+  assert.deepEqual(tagView.groups[0].papers.map((paper) => paper.title), ['Paper A']);
+
+  const fallbackView = tools.buildDailyCalendarTagView(model, '20260624', 'missing-tag', {}, '202606');
+  assert.equal(fallbackView.activeKey, '__all__');
+  assert.deepEqual(fallbackView.groups[0].papers.map((paper) => paper.title), ['Paper A', 'Paper B']);
+}
+
+function testDailyCalendarPlacementToggleSwapsCalendarAndTags() {
   const sidebar = loadSidebarForTest('#/202606/24/paper-a');
   const tools = sidebar.__test;
   const model = tools.parseSidebar(sampleSidebar);
@@ -358,11 +384,11 @@ function testDailyCalendarPlacementToggleRendersSameCalendarAboveOrBelow() {
     activeDailyDate: '20260624',
   });
 
-  assert.ok(topHtml.indexOf('class="dpr-sidebar-calendar') < topHtml.indexOf('data-axis-content="daily"'));
-  assert.ok(bottomHtml.indexOf('data-axis-content="daily"') < bottomHtml.indexOf('class="dpr-sidebar-calendar'));
+  assert.ok(topHtml.indexOf('class="dpr-sidebar-calendar') < topHtml.indexOf('data-axis-tab="daily"'));
+  assert.ok(bottomHtml.indexOf('data-axis-tab="daily"') < bottomHtml.indexOf('class="dpr-sidebar-calendar'));
   assert.ok(topHtml.includes('data-calendar-date="20260624"'));
   assert.ok(bottomHtml.includes('data-calendar-date="20260624"'));
-  assert.ok(topHtml.includes('title="日历下置"'));
+  assert.ok(topHtml.includes('title="标签上置"'));
   assert.ok(bottomHtml.includes('title="日历上置"'));
 }
 
@@ -864,7 +890,8 @@ function testRenderBodyPutsConferenceAboveDaily() {
   assert.ok(html.includes('data-axis-group="conference"'));
   assert.ok(html.includes('data-axis-group="daily"'));
   assert.ok(html.includes('data-axis-mode="conf"'));
-  assert.ok(html.includes('data-axis-mode="date"'));
+  assert.ok(html.includes('data-axis-mode="tag"'));
+  assert.ok(html.includes('class="dpr-sidebar-calendar'));
 }
 
 function testTopLevelPanelsDefaultExpanded() {
@@ -890,6 +917,7 @@ function testActivePaperCanForceOpenTopLevelPanel() {
 
   assert.ok(block.includes('state.expandedGroups.daily = true'));
   assert.ok(block.includes('state.expandedGroups.conference = true'));
+  assert.ok(block.includes("state.activeDailyTag = '__all__';"));
 }
 
 function testPanelHeaderClickOnlyChangesSidebarViewState() {
@@ -1069,8 +1097,9 @@ function testUnreadFilterReusesNormalSidebarViews() {
   assert.ok(html.includes('class="dpr-sidebar-calendar'));
   assert.ok(html.includes('data-calendar-date="20260624"'));
   assert.ok(html.includes('data-calendar-date="20260623"'));
-  assert.ok(!html.includes('data-axis-tab="daily"'));
-  assert.ok(html.includes('title="日历下置"'));
+  assert.ok(html.includes('data-axis-tab="daily"'));
+  assert.ok(html.includes('data-axis-key="__all__"'));
+  assert.ok(html.includes('title="标签上置"'));
 
   assert.ok(!html.includes('Paper A'));
   assert.ok(html.includes('Paper B'));
@@ -1084,7 +1113,8 @@ function testUnreadFilterReusesNormalSidebarViews() {
     readMap: readMap,
   }, readMap);
   assert.equal(dailyView.resultMode, undefined);
-  assert.equal(dailyView.activeKey, '20260624');
+  assert.equal(dailyView.activeDateKey, '20260624');
+  assert.equal(dailyView.activeKey, '__all__');
   assert.deepEqual(dailyView.groups[0].papers.map((paper) => paper.title), ['Paper B']);
 
   const confView = tools.buildAxisViewForMode(model, 'conference', 'conf', {
@@ -1296,7 +1326,8 @@ testAxisViewsForDailyAndConference();
 testHyphenatedConferenceMarkerParsing();
 testAxisTabsRenderUnreadCounts();
 testDailyCalendarViewUsesMonthGridAndActiveDateOnly();
-testDailyCalendarPlacementToggleRendersSameCalendarAboveOrBelow();
+testDailyCalendarTagViewFiltersActiveDateByKeyword();
+testDailyCalendarPlacementToggleSwapsCalendarAndTags();
 testPaperEvidenceAndActionButtonsRender();
 testPaperMetaOrderKeepsEvidenceBetweenTitleAndStars();
 testQuickLinksCenterTextAndDetachIcon();
