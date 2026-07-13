@@ -27,27 +27,33 @@ subscriptions:
   keyword_recall_mode: or
   intent_profiles:
     - tag: human-aigc
-      description: humanoid、世界行动模型、AIGC相关文章
+      description: humanoid、世界行动模型、AIGC，VLA相关文章
       enabled: true
       paper_sources:
         - arxiv
       keywords:
+        - keyword: VLA
+          keyword_cn: ''
+          query: V
         - keyword: humanoid robot
           keyword_cn: 人形机器人
-          query: humanoid robot
+          query: humanoid robot action model
         - keyword: world action model
           keyword_cn: 世界行动模型
-          query: world action model
+          query: world action model for humanoid
         - keyword: humanoid
           keyword_cn: 人形
           query: humanoid
+        - keyword: embodied agent
+          keyword_cn: 具身智能体
+          query: embodied agent with AIGC
       intent_queries:
         - query: research on humanoid robots and world action models
           query_cn: 人形机器人与世界行动模型的研究
           enabled: true
           source: manual
           note: ''
-      updated_at: '2026-07-13T11:35:55.420Z'
+      updated_at: '2026-07-13T11:37:47.630Z'
 source_backends:
   arxiv:
     papers_table: arxiv_papers
