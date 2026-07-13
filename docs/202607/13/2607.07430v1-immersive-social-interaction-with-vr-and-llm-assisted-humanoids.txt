@@ -1,0 +1,71 @@
+Title: Immersive Social Interaction with VR and LLM-Assisted Humanoids
+
+URL Source: https://arxiv.org/pdf/2607.07430v1
+
+Published Time: Thu, 09 Jul 2026 00:57:25 GMT
+
+Number of Pages: 3
+
+Markdown Content:
+# Immersive Social Interaction with VR and LLM-Assisted Humanoids 
+
+Niraj Pudasaini 1∗, Geeta Chandra Raju Bethala 1∗, Pranav Doma 1∗, Anthony Tzes 1, Yi Fang 1
+
+I. I NTRODUCTION 
+
+The growing demand for human-robot interaction in di-verse fields such as elder care, social engagement, and search-and-rescue has driven significant advancements in teleoperation systems for humanoid robots. The aging global population has led to a rise in social isolation and mobil-ity challenges, especially for homebound older adults [1]. This isolation significantly affects the mental and physical well-being of aging people, creating a need for innovative solutions that facilitate remote engagement and interaction. Conversational telepresence and teleoperation robots offer a promising tool for these individuals to connect with the external world, participate in social activities, and maintain a sense of independence. Beyond enhancing social interaction for older adults, teleoperation robotic systems can potentially be used for search and rescue operations in hazardous envi-ronments [2] where human presence is dangerous. However, existing teleoperated robotic systems often face significant challenges in locomotion control, particularly when nav-igating complex and unstructured environments [3], [4]. Additionally, traditional teleoperation interfaces for control-ling robot locomotion are less user-friendly and cognitively demanding [5], requiring operators to manage multiple joints simultaneously. This paper introduces a versatile humanoid teleoperation system that leverages voice commands for locomotion and VR hand tracking for manipulation, enabling users to have whole-body control of a humanoid robot for locomotion ,
+
+manipulation and social interaction tasks. Additionally, Our framework can be used for multi-modal data collection dur-ing teleoperation, which can then be utilized to train robots via imitation learning for more complex tasks. Beyond the tasks studied here, the proposed interface can support natural human-humanoid interactions and collaboration scenarios such as cooperative manipulation [6]. II. M ETHODOLOGY 
+
+Our method consists of: 1). voice-controlled locomotion, 2). teleoperation manipulation, and 3). social interaction for a humanoid robot, facilitating real-time whole-body control and allowing multi-modal data collection for task learning (see Fig 2). 
+
+A. Voice Commands for High-level Locomotion 
+
+Based on the ego-centric images streamed with a resolu-tion of 640 × 480 on an Apple Vision Pro, the user can            
+
+> 1All authors are affiliated with New York University Abu Dhabi (NYUAD), UAE.
+
+{np2289, gb2643 }@nyu.edu     
+
+> Fig. 1. Demonstration of tasks involving voice-controlled locomotion, teleoperated manipulation, and social interaction. For the manipulation
+> task, the user teleoperates with the hands to pick the bottle and place it in a box. For the social interaction task, the robot takes the blue cube from a person, walks towards another person, and hands the cube. Finally, the robot performs hand-shaking gesture.
+
+send the locomotion command through voice. The voice loco-control module translates the locomotion commands into high-level control commands, such as move(x, y), ro-tate(angle), stop() , and stand() . Then, the relevant high-level functions are called for robot navigation. The robot’s bi-pedal locomotion is based on a pre-trained deep reinforcement learning model to produce robust locomotion policy, as developed in prior works [7], [8]. Note that during imple-mentation, we faced challenges with the robot’s bi-pedal morphology, which does not inherently stabilize itself. For the voice loco-control module, we use Deepgram [9] for real-time speech-to-text transcription, GPT-4’s [10] rea-soning to parse locomotion commands from text into high-level control commands, and Silero [11] for text-to-speech synthesis with the LivKit [12] agent framework. During implementation GPT-4 sometimes misinterprets human voice commands. To mitigate this, we implemented a verification step where, if GPT-4 finds the instruction uncertain, the system asks the user to confirm or clarify the command before execution. If the user wants the scene description, it can be generated on-demand using GPT-4’s vision capabilities, but remain disabled by default to conserve computational resources and optimize inference speed. 
+
+B. Teleoperation for Manipulation 
+
+We adopt Apple Vision Pro [13] and VisionPro Teleop [14] to stream the human operator’s wrist and finger poses in SE(3) to the server installed on the robot. The streamed data is then re-targeted and re-mapped to the robot’s arms and fingers that follow the operator’s movements. We use Inspire Robotics [15] dexterous hands as end effectors. For teleoperation manipulation, we control 4 DoF arXiv:2607.07430v1 [cs.RO] 8 Jul 2026 Fig. 2. Our system features voice-controlled locomotion, teleoperated manipulation, social interaction, and multi-modal data collection ability. The user uses Apple Vision Pro to send voice commands for locomotion, social interaction, and hand tracking. The voice loco-control module converts locomotion commands into high-level control commands, while the manipulation module tracks wrist and finger poses to send low-level commands via PD control. Multi-modal data, i.e. , ego-centric images, voice/text commands, 19 body and 12 hand joint angles, and eye movements, is recorded for imitation learning. 
+
+for each arm and 6 DoF for fingers of each hand. Human wrist poses are transformed into the robot’s coordinate frame, and we use inverse kinematics from Pinocchio [16] [17] to compute the joint angles and then pass through the PD controller to make robot’s arm mimics the operator’s arm. 
+
+C. Social Interaction 
+
+We implemented bidirectional audio transmission using the ROS 1 [18]. ROS nodes on both the operator and robot enable real-time audio streaming, allowing the op-erator to hear the robot’s environment and communicate with people around the robot via the robot’s speakers. This setup enhances situational awareness and supports effective telepresence [5] for social interaction. We found that only egocentric view is not suitable for navigation; however, for future work, we plan to integrate an additional waist-mounted camera to enhance the operator’s situational awareness. III. E XPERIMENT SETUP 
+
+The experiment is setup with to evaluate our humanoid teleoperation system’s capabilities in locomotion, manipu-lation, and social interaction (see Figure1). The hardware details are shown in Figure 3   
+
+> Fig. 3. Apple Vision Pro, Inspire Robotics Dexterous Hands, and Unitree H1 Humanoid Robot used in the experimental setup.
+> •
+
+Manipulation Task (Pick and Place Bottle): This task involves teleoperating the robot to pick up a bottle placed randomly on a table and place it into a box. Successful completion demonstrates the robot’s precise manipulation and locomotion control as it navigates to the bottle, grasps it securely, and transports it to the target location.  
+
+> •
+
+Social Interaction Task (Passing Cube): The robot needs to verbally request a cube from one person through verbal communication. It then walks to another person and hands over the cube, ensuring transfers occur based on clear instructions. This task showcases the robot’s coordination of locomotion, manipulation, and social cues for effective social interaction. IV. R ESULTS AND DISCUSSIONS TABLE I PERFORMANCE COMPARISON OF NEW vs. EXPERT USERS              
+
+> Task Success Rate Time (s) Novice Expert Novice Expert
+> Object Pick 0.8 0.90 52 22 Social Interaction 0.7 0.8 326 158
+
+Table II highlights that our method uniquely supports voice-controlled locomotion, manipulation and social inter-action, unlike existing approaches such as Human Plus [19] and Human to Humanoid [20]. This makes our system more accessible and less physically demanding, particularly benefi-cial for homebound older adults and applications in confined or hazardous environments. Additionally, the multimodal data collected during teleoperation can support downstream autonomy beyond imitation learning: aligned voice/text in-structions, egocentric observations, and executed robot ac-tions can provide priors for embodied action reasoning in humanoid loco-manipulation [21], while egocentric RGB streams can support high-fidelity 3D scene reconstruction for perception and mapping using Gaussian Splatting techniques [22]. V. C ONCLUSION 
+
+This paper introduces a comprehensive humanoid teleop-eration system integrating voice-controlled locomotion, VR-based manipulation, and enhanced social interaction capa-bilities. The system addresses the limitations of existing TABLE II COMPARISON OF HUMANOID TELEOPERATION METHODS    
+
+> Method Locomotion Manipulation Social Interaction
+> Open Television [23] Human Plus [19] Human to Humanoid [20]
+> Ours
+
+approaches by enabling intuitive, whole-body control and social engagement, crucial for elderly care and hazardous environments. The capacity of multi-modal data collection lays the groundwork for future advancements in imitation learning, improving the robot’s autonomy and task profi-ciency. Future work includes refining the social interaction module and enhancing multi-modal data processing for more sophisticated behavior learning. REFERENCES [1] National Academies of Sciences, Engineering, and Medicine, 
+
+Social Isolation and Loneliness in Older Adults: Oppor-tunities for the Health Care System . Washington, DC: The National Academies Press, 2020. [Online]. Avail-able: https://nap.nationalacademies.org/catalog/25663/social-isolation-and-loneliness-in-older-adults-opportunities-for-the [2] J. T. Isaacs, K. Knoedler, A. Herdering, M. Beylik, and H. Quin-tero, “Teleoperation for urban search and rescue applications,” Field Robotics , vol. 2, pp. 1177–1190, 2022. [3] P. Hokayem and M. W. Spong, “Bilateral teleoperation: An historical survey,” Automatica , vol. 42, no. 12, pp. 2035–2057, 2006. [4] K. Darvish, L. Penco, J. Ramos, R. Cisneros, J. Pratt, E. Yoshida, S. Ivaldi, and D. Pucci, “Teleoperation of humanoid robots: Asurvey,” HAL , 2023. [Online]. Available: https://hal.science/hal-03931966v1/file/main.pdf [5] D. J. Rea and Y. Seo, “Still not solved: A call for renewed focus on user-centered teleoperation interfaces,” Frontiers in Robotics and AI , vol. 9, p. 704225, 2022. [Online]. Available: https://www.frontiersin.org/articles/10.3389/frobt.2022.704225/full [6] G. C. R. Bethala, H. Huang, N. Pudasaini, A. M. Ali, S. Yuan, C. Wen, A. Tzes, and Y. Fang, “H2-compact: Human-humanoid co-manipulation via adaptive contact trajectory policies,” in 2025 IEEE-RAS 24th International Conference on Humanoid Robots (Hu-manoids) , 2025, pp. 1004–1011. [7] Authors, “Expressive whole-body control for humanoid robots,” 
+
+arXiv preprint arXiv:2402.16796 , 2023. [Online]. Available: https://arxiv.org/abs/2402.16796 [8] A. Kumar, Z. Fu, D. Pathak, and J. Malik, “Rma: Rapid motor adaptation for legged robots,” in Robotics: Science and Systems (RSS) , 2021. [Online]. Available: https://arxiv.org/abs/2107.04034 [9] Deepgram, “Deepgram speech recognition,” https://deepgram.com, 2023. [10] OpenAI, “Gpt-4 technical report,” https://openai.com/research/gpt-4, 2023. [11] S. Team, “Silero models: pre-trained enterprise-grade stt / tts models and benchmarks,” https://github.com/snakers4/silero-models, 2021. [12] LivKit, “Livkit: An open-source toolkit for real-time human-robot interaction,” https://github.com/livekit/agents, 2023. [13] Apple. (2023) Introducing apple vision pro: Apple’s first spatial computer. Accessed: Jan. 13, 2024. [Online]. Avail-able: https://www.apple.com/newsroom/2023/06/introducing-apple-vision-pro/ [14] Y. Park and P. Agrawal, “Using apple vision pro to train and control robots,” 2024. [Online]. Available: https://github.com/Improbable-AI/VisionProTeleop [15] Inspire Robots, “Dexterous hands,” 2024, [Online; ac-cessed Jun. 2024]. [Online]. Available: https://www.inspire-robots.store/collections/the-dexterous-hands [16] Stack of Tasks, “Pinocchio CLIK,” 2024, [Online; accessed Jun. 2024]. [Online]. Available: https://gepettoweb.laas.fr/doc/stack-of-tasks/pinocchio/master/doxygen-html/md doc b-examples i-inverse-kinematics.html [17] J. Carpentier, F. Valenza, N. Mansard et al. , “Pinocchio: Fast Forward and Inverse Dynamics for Poly-Articulated Systems,” 2015–2021. [Online]. Available: https://stack-of-tasks.github.io/pinocchio [18] M. Quigley, K. Conley, B. Gerkey, J. Faust, T. Foote, J. Leibs, R. Wheeler, and A. Y. Ng, “Ros: an open-source robot operating system,” in ICRA workshop on open source software , vol. 3, no. 3.2, 2009, p. 5. [19] Z. Fu, Q. Zhao, Q. Wu, G. Wetzstein, and C. Finn, “Humanplus: Humanoid shadowing and imitation from humans,” 2024. [Online]. Available: https://arxiv.org/abs/2406.10454 [20] T. He, Z. Luo, W. Xiao, C. Zhang, K. Kitani, C. Liu, and G. Shi, “Learning human-to-humanoid real-time whole-body teleoperation,” 2024. [Online]. Available: https://arxiv.org/abs/2403.04436 [21] C. Wen, G. C. R. Bethala, Y. Hao, N. Pudasaini, H. Huang, S. Yuan, B. Huang, A. Nguyen, M. Wang, A. Tzes et al. , “Humanoid agent via embodied chain-of-action reasoning with multimodal foundation mod-els for zero-shot loco-manipulation,” arXiv preprint arXiv:2504.09532 ,2025. [22] Y. Deng, S. Yuan, G. C. R. Bethala, A. Tzes, Y.-S. Liu, and Y. Fang, “Hierarchical scoring with 3d gaussian splatting for instance image-goal navigation,” arXiv preprint arXiv:2506.07338 , 2025. [23] X. Cheng, J. Li, S. Yang, G. Yang, and X. Wang, “Open-television: Teleoperation with immersive active visual feedback,” 2024. [Online]. Available: https://arxiv.org/abs/2407.01512

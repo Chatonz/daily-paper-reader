@@ -1,0 +1,213 @@
+Title: ThorArena: Benchmarking Humanoid Physical Interaction with Human Motion-Force Demonstrations
+
+URL Source: https://arxiv.org/pdf/2607.06052v1
+
+Published Time: Wed, 08 Jul 2026 00:58:50 GMT
+
+Number of Pages: 7
+
+Markdown Content:
+# ThorArena: Benchmarking Humanoid Physical Interaction with Human Motion-Force Demonstrations 
+
+Chenhao Yu 1,∗, Hongwu Wang 1,∗, Weitao Zhang 1,∗,Youhao Hu 1, Jiachen Zhang 1, Gangyang Li 1, Alois Knoll 2, Shaqi Luo 1,†1Beijing Academy of Artificial Intelligence 2Technical University of Munich 
+
+Fig. 1. Overview of ThorArena. ThorArena integrates real-world motion–force demonstration collection, synchronized interaction-force replay in simulation, and standardized evaluation of humanoid whole-body control policies. The acquisition system records synchronized whole-body human motion and forces exerted through both hands across six representative physical interaction tasks. The captured motions are retargeted to humanoid reference trajectories, while the corresponding recorded forces are synchronously replayed at the robot hands during simulation. Policies are evaluated under matched force and no-force settings using FATS and complementary diagnostic metrics, including tracking RMSE, survival rate, robustness ratio, and power overhead. 
+
+Abstract — Humanoid robots are increasingly expected to perform contact-rich tasks that require not only accurate whole-body motion but also robust physical interaction with surrounding objects and humans. Although recent advances in humanoid motion imitation and whole-body control have achieved remarkable tracking performance, existing datasets and benchmarks primarily focus on kinematic motion while largely overlooking synchronized interaction forces. As a result, current evaluations fail to capture how external interaction forces affect tracking accuracy, stability, and control robustness. In this paper, we present ThorArena, a benchmark for evaluating force-aware humanoid interaction based on human demonstrations with synchronized motion and force measure-ments. We collect a real-world interaction dataset that simulta-neously captures whole-body human motion and forces exerted by both hands across six representative physical interaction tasks. Based on these demonstrations, we propose force-aware evaluation metrics that jointly assess whole-body tracking accuracy, robustness under different force levels, control effort, and episode survival through the Force-Aware Tracking Score (FATS) and complementary diagnostic metrics. We further establish a unified benchmark protocol that replays recorded 
+
+> ∗
+
+These authors contributed equally. 
+
+> †
+
+Corresponding author. 
+
+interaction forces in simulation and provides a standardized evaluation interface for different humanoid control policies. Experiments on representative whole-body control policies demonstrate that force-aware evaluation reveals substantial per-formance differences that remain largely hidden under conven-tional no-force evaluation. ThorArena provides a practical and reproducible framework for studying force-aware humanoid interaction and offers a new benchmark for evaluating contact-rich humanoid behaviors. 
+
+I. INTRODUCTION Humanoid robots are increasingly being developed for real-world applications, where many tasks require not only coordinated whole-body motion but also physical interac-tion with surrounding objects and humans. Recent advances in humanoid teleoperation, motion imitation, and whole-body control have enabled robots to reproduce increas-ingly complex human behaviors through large-scale human demonstrations and simulation-based policy learning. How-ever, existing humanoid datasets and benchmarks primarily emphasize kinematic motion tracking, task completion, or motion naturalness, while the role of measured interaction arXiv:2607.06052v1 [cs.RO] 7 Jul 2026 forces is largely overlooked. As a result, current evaluation protocols provide only limited insight into how humanoid policies behave under realistic physical interactions. Force interaction is a fundamental component of contact-rich humanoid tasks. When a humanoid physically interacts with surrounding objects, the resulting forces directly affect whole-body balance, motion tracking accuracy, and control effort. A policy that performs well in free-space motion tracking may experience substantial performance degradation or even failure when interaction forces are applied to the upper body. Therefore, evaluating humanoid behaviors solely under kinematic conditions is insufficient for assessing their performance during physical interaction. To properly char-acterize force-aware humanoid control, benchmark protocols should evaluate not only motion tracking accuracy but also robustness to external interaction forces and stability over long-horizon execution. Although recent humanoid datasets have significantly ex-panded the diversity of motion demonstrations, most of them only provide pose trajectories or retargeted motions without synchronized interaction forces. Likewise, existing evaluation protocols mainly measure kinematic errors or task success while treating external interactions as implicit disturbances. Consequently, there remains a lack of stan-dardized benchmarks that jointly incorporate human motion demonstrations, measured interaction forces, and force-aware evaluation metrics into a unified evaluation framework. In this work, we present ThorArena , a benchmark for force-aware humanoid interaction using synchronized human motion and force demonstrations. ThorArena consists of three tightly integrated components. First, we collect a force-interaction humanoid dataset using a real-world acquisition system that simultaneously records human body motion and two-hand interaction forces, covering six representative contact-rich tasks. Second, we introduce force-aware evalu-ation metrics that jointly characterize whole-body tracking accuracy, robustness under different force levels, control effort, and episode survival through the proposed Force-Aware Tracking Score (FATS) together with complemen-tary diagnostic metrics. Third, we establish a simulation-based benchmark that replays recorded interaction forces during policy rollout and provides a unified force-replay protocol and policy-adapter interface for evaluating different humanoid control policies under consistent physical distur-bances. By combining synchronized motion-force demonstrations with standardized evaluation protocols, ThorArena enables systematic assessment of humanoid policies in realistic contact-rich scenarios. Compared with conventional motion benchmarks, it explicitly measures how interaction forces influence tracking performance, robustness, and control be-havior, providing a practical benchmark for future research on force-aware humanoid interaction. The main contributions of this work are summarized as follows:  
+
+> •
+
+We collect and release a force-interaction humanoid dataset using a real-world acquisition system, contain-ing synchronized human body motion and two-hand interaction-force demonstrations across six representa-tive contact-rich tasks. The paired motion–force data have been used to train the force-aware humanoid control policy Thor2, illustrating their applicability to policy learning and providing a valuable resource for future research on force-aware humanoid control.  
+
+> •
+
+We propose force-aware evaluation metrics , including the Force-Aware Tracking Score (FATS), which jointly evaluate whole-body tracking accuracy, robustness un-der different force levels, control effort, and episode survival.  
+
+> •
+
+We present ThorArena , a simulation-based benchmark for force-aware humanoid interaction with a unified force-replay protocol and policy-adapter interface, en-abling consistent evaluation of representative humanoid whole-body control policies under realistic interaction forces. II. RELATED WORK 
+
+A. Humanoid Teleoperation and Motion Retargeting 
+
+Humanoid teleoperation transfers human motion and task commands to humanoid robots and has become an impor-tant tool for whole-body control and demonstration collec-tion. Recent systems support real-time teleoperation through vision-based pose estimation, VR devices, motion capture systems, and exoskeleton interfaces [1], [2], [3], [4], [5], [6]. Closed-loop approaches further improve long-horizon execution by correcting accumulated global pose drift [7], [8]. Motion retargeting bridges the embodiment gap between humans and humanoid robots. Differences in body pro-portions, joint limits, and actuation capabilities can intro-duce foot sliding, penetration, self-collision, and dynam-ically infeasible motions. Existing methods address these issues using inverse kinematics, motion filtering, data aug-mentation, dynamics-aware optimization, and learned track-ing policies [9], [10], [11]. Recent work further improves tracking generality through unified command spaces, adap-tive sampling, mixture-of-experts architectures, and large-scale motion models [12], [13], [14], [15]. However, these methods mainly emphasize feasible motion generation and kinematic tracking, whereas ThorArena evaluates policies using paired motion–force demonstrations and replayed real-world interaction-force disturbances. 
+
+B. Humanoid Motion Datasets and Evaluation 
+
+Human motion datasets and body representations provide large-scale motion capture data and unified pose formats for motion modeling and policy training [16], [17], [18]. However, these resources are primarily designed for human motion modeling or animation and do not explicitly account for humanoid embodiment constraints or physical interaction. Recent humanoid-oriented datasets convert human mo-tions, Internet videos, or teleoperated demonstrations into robot-compatible trajectories. Some works emphasize large-scale data collection and physically plausible retargeting [19], [20], while others extend the scope to human–object, humanoid manipulation, and humanoid–scene interaction [21], [22], [23]. Existing benchmarks commonly evaluate tracking error, task success, motion difficulty, or perceived human-likeness [24], [25], [26]. Despite this progress, mea-sured interaction forces are rarely incorporated into stan-dardized policy evaluation. ThorArena addresses this gap by combining synchronized motion–force demonstrations with force-replay-based evaluation. III. METHOD In this section, we present the overall methodology for constructing a force-aware humanoid motion benchmark. The proposed framework consists of three components. First, we collect real-world force-interaction demonstrations that pair human motion with synchronized two-hand force mea-surements. Second, we define force-aware evaluation metrics to assess whole-body tracking accuracy, robustness under different contact-force levels, control effort, and episode survival. Third, we develop a benchmark evaluation protocol that replays recorded interaction forces during policy rollout and provides a unified policy-adapter interface for evaluating different humanoid motion policies under the same force-replay protocol. Together, these components enable system-atic evaluation of humanoid motion policies in contact-rich scenarios. 
+
+A. Real-World Force-Interaction Data Acquisition 
+
+To collect synchronized human motion and interaction-force demonstrations, we build the real-world acquisition system shown in Fig. 2(a). The operator wears a PICO 4 Ul-tra headset and body trackers to capture whole-body motion. Two force sensors coupled with 3D-printed hooks measure the forces exerted through the left and right hands, while the hooks provide stable attachment points for interaction with external objects. We design six representative real-world force-interaction tasks to cover common physical interaction patterns. As illus-trated in Fig. 2(b), the task set includes table wiping, object lowering, object lifting, chair pulling, chair pushing, and cooperative carrying. Compared with conventional human motion data, the collected demonstrations contain not only body poses and motion trajectories, but also synchronized force measurements generated during physical interaction. The resulting paired motion–force demonstrations support subsequent motion retargeting, benchmark construction, and force-aware humanoid policy evaluation. In terms of data scale, we collect 60 raw demonstration sequences for each task, resulting in 360 raw sequences in total. Each sequence corresponds to a complete task exe-cution and captures the motion-force evolution throughout the interaction process. Across demonstrations, the measured forces vary in both magnitude and direction, which increases the diversity of force-interaction patterns and provides repre-sentative data for evaluating humanoid behaviors in contact-rich scenarios.             
+
+> Fig. 2. Real-world motion–force acquisition system and task set.
+> (a) The operator uses a VR-based system for whole-body motion capture, while two force sensors coupled with 3D-printed hooks record the forces exerted through both hands and provide stable attachment points for object interaction. (b) Retargeted humanoid motions for the six force-interaction tasks: Clean Table (table wiping), Liftdown Water (lowering and placing a water container), Liftup Water (lifting a water container), Pull Chair
+> (pulling heavy objects), Push Chair (pushing heavy objects), and Syn Carry (cooperative carrying). Red arrows indicate the dominant interaction-force directions.
+
+The collected raw demonstrations are stored as indepen-dent recording sequences. Each sequence contains time-aligned human body keypoint motion and left/right three-axis force measurements. The force measurements are acquired from the sensors mounted on both sides and represented as three-dimensional force vectors. This format preserves the original correspondence between motion and force dur-ing data collection, providing a basis for subsequent data processing, motion retargeting, benchmark construction, and force-aware policy evaluation. 
+
+B. Force-Aware Evaluation Metrics 
+
+To evaluate whole-body motion tracking under interaction forces, we adopt metrics that jointly characterize tracking accuracy, force robustness, control effort, and episode sur-vival. The primary metric is the Force-Aware Tracking Score (FATS). The basic tracking error is the whole-body keypoint error in the world frame: 
+
+ekp (t) = 1
+
+N
+
+> N
+
+# ∑
+
+> k=1
+
+xref  
+
+> k,t
+
+− xk,t 2, (1) where N is the number of body keypoints, and xref  
+
+> k,t
+
+and xk,t
+
+denote the reference and measured positions of keypoint k
+
+at timestep t. The reference keypoints are re-anchored to the robot’s current root pose at every timestep, so the error measures root-relative pose fidelity and is invariant to global root drift, which is reported separately as a diagnostic. Timesteps are stratified into low-, medium-, and high-force regimes by the total applied hand force, using its 33rd and 66th percentiles within each dataset as thresholds. For each Fig. 3. ThorArena benchmark evaluation pipeline. The benchmark replays retargeted reference motions and recorded two-hand forces in simulation, evaluates different whole-body control policies through a unified policy adapter, and reports FATS and complementary diagnostic metrics under force and no-force settings. 
+
+episode i, the keypoint RMSE in the three regimes, Elow  
+
+> i
+
+,
+
+Emid  
+
+> i
+
+, and Ehigh  
+
+> i
+
+, is aggregated into a force-aware tracking error 
+
+Ei =
+
+q
+
+wlow 
+
+ Elow 
+
+> i
+
+2 + wmid 
+
+ Emid 
+
+> i
+
+2 + whigh 
+
+ Ehigh 
+
+> i
+
+2, (2) where (wlow , wmid , whigh ) = ( 0.2, 0.3, 0.5) emphasizes the high-force regime. The episode-level score combines the tracking error with a survival factor si = min  Ti/T ref  
+
+> i
+
+, 1, where Ti is the achieved episode length and T ref  
+
+> i
+
+the reference horizon: 
+
+Si = 100 exp 
+
+
+
+− Ei
+
+σ
+
+
+
+si, FATS = 1
+
+M
+
+> M
+
+# ∑
+
+> i=1
+
+Si, (3) where σ = 0.15 m controls the error sensitivity and M is the number of episodes. In the no-force setting, the same formulation is applied with force replay disabled. We additionally report diagnostic metrics, including the robustness ratio ρ and the power overhead η:
+
+ρ = Elow 
+
+Ehigh , η = Phigh 
+
+Plow , (4) where Elow , Ehigh and Plow , Phigh denote the keypoint RMSE and average mechanical power in the low- and high-force regimes. A robustness ratio closer to one indicates less degra-dation under stronger forces, while a lower power overhead indicates less additional control effort. These diagnostics do not enter the FATS formula. 
+
+C. Benchmark Evaluation Protocol 
+
+As illustrated in Fig. 3, the benchmark integrates re-targeted reference motions, synchronized two-hand force recordings, physics-based simulation, and different whole-body control policies through a unified policy-adapter inter-face. Given a reference motion and its corresponding force recordings, the benchmark runner synchronously replays the recorded forces during policy rollout, advances the simulator, handles episode resets, and records rollout traces. Policy-specific observation construction, inference, and action con-version are encapsulated in lightweight adapters, allowing different policy architectures to be evaluated under the same benchmark runner and force-replay protocol. In the force-replay protocol, the benchmark loads a speci-fied evaluation dataset and replays the recorded left and right force sequences synchronously with the reference motion. The recorded sensor-frame force vectors are first transformed into the hand-local frame and then converted to the world frame according to the simulated hand poses. The trans-formed forces are applied to the left and right hand bodies during simulation. A scalar force coefficient controls the applied force magnitude: it is set to (1) for external-force evaluation, reproducing the measured interaction forces, and set to (0) for no-force evaluation, disabling external force application. For the official benchmark evaluation, we use a full-coverage protocol over the evaluation motion set. The bench-mark constructs a deterministic schedule over all motions in the evaluation dataset, ensuring that every demonstration sequence is evaluated once under the same force-replay pro-tocol. Multiple parallel simulation environments are used to improve evaluation efficiency while preserving deterministic coverage of the motion set. To support different humanoid motion policies, the bench-mark uses a unified policy-adapter interface. Each adapter receives the current simulator state and reference-motion command, constructs the policy-specific observation from available benchmark signals, performs policy inference, and converts the predicted action into the benchmark action representation. Depending on the input requirements of the target policy, the adapter may use reference motion features, robot proprioception, action histories, or future motion infor-mation. This design separates the benchmark mechanics from model-specific observation layouts, action parameterizations, and joint-order conventions, allowing different policy archi-tectures to be evaluated under the same force-replay and Fig. 4. Task-level FATS comparison with and without external forces. 
+
+benchmark protocol without changing the core evaluation pipeline. ThorArena evaluates each policy as a complete control system under a fixed deployment-compatible dynamics pro-file derived from its original training or deployment config-uration. Each profile specifies the robot model, control and physics timesteps, action scaling, and action delay required by the corresponding policy interface. The profiles are fixed before evaluation and remain unchanged across all tasks and demonstration sequences. Across methods, the reference data, force-replay procedure, episode handling, metric com-putation, and rollout-recording protocol are held fixed. IV. EXPERIMENTS We evaluate ThorArena on the collected humanoid force-interaction dataset, which consists of six sub-tasks: clean table , liftdown water , liftup water , pull chair ,
+
+push chair , and syn carry . Four whole-body control poli-cies are compared: Thor2, TWIST2 [6], GMT [14], and SONIC [15]. For each policy, we conduct evaluations under two settings: with recorded external interaction forces and without external forces. We use FATS as the primary evalu-ation metric and further analyze diagnostic metrics including survival rate, body tracking error, force robustness, and control effort. Unless otherwise specified, aggregate metrics are averaged over the six subtasks. Fig. 4 provides an overview of the task-level FATS dis-tribution under both force and no-force conditions. Thor2 consistently occupies the outer region of the radar plots, indicating the best overall tracking performance across the six subtasks. The comparison also shows that external forces cause more pronounced performance degradation for the other policies, especially on push chair .
+
+A. Experiments with External Forces 
+
+The external-force setting evaluates whether a humanoid control policy can maintain stable and accurate motion tracking during physical interaction. Table I reports task-level FATS results, and Table II summarizes the diagnostic metrics averaged over tasks. Thor2 achieves the best overall performance, ranking first on all six subtasks and obtaining the highest average FATS of 81.71 with a near-perfect survival rate.                                                                       
+
+> TABLE I TASK -LEVEL FATS UNDER EXTERNAL FORCES .
+> Task Thor2 TWIST2 [6] GMT [14] SONIC [15]
+> clean table 85.83 80.94 73.33 76.82
+> liftdown water 81.81 78.86 78.88 67.31
+> liftup water 88.10 83.63 77.90 80.05
+> pull chair 74.94 68.46 65.26 67.42
+> push chair 76.90 52.07 51.93 50.37
+> syn carry 82.65 78.71 79.05 78.24
+> TABLE II DIAGNOSTIC METRICS AVERAGED OVER TASKS UNDER EXTERNAL FORCES .
+> Metric Thor2 TWIST2 [6] GMT [14] SONIC [15] FATS 81.71 73.78 71.06 70.04 Survival 1.000 0.941 0.916 0.957 Low KP 27.8 37.5 37.8 43.9 High KP 33.8 40.7 42.4 54.1 Robustness 0.812 0.908 0.888 0.816 Power 1.27 ×1.23 ×1.37 ×1.22 ×
+> Upper KP 27.5 35.7 38.8 55.4 Lower KP 42.8 48.5 48.4 54.4 FATS Std 2.96 9.57 12.75 9.02
+
+The other three policies obtain relatively close aver-age FATS scores but exhibit distinct performance pro-files. TWIST2 attains the highest robustness ratio ρ =
+
+RMSE low /RMSE high , defined as the ratio of keypoint RMSE in low-force to high-force segments ( ρ → 1 indicates slower degradation); GMT tracks more accurately than SONIC under strong interaction forces; and SONIC favors episode stability over tracking precision. We examine these trade-offs in detail below. Fig. 5 visualizes the relationship between tracking score and episode survival under external forces. Thor2 maintains both high tracking scores and nearly full survival ( ≥ 0.99 on all tasks), while the other policies exhibit substantially lower mean episode survival during force interaction. Among all subtasks, push chair causes the largest degradation for TWIST2, GMT, and SONIC, whose survival drops to 0.73– 0.81. Unlike the water-carrying tasks, where vertical loads mainly perturb upper-body tracking, pushing imposes sus-tained horizontal forces that directly threaten balance, mak-ing it the most challenging interaction in the benchmark.  
+
+> Fig. 5. Tracking score and survival distribution under external forces.
+
+We further analyze performance across force intensities in Fig. 6. Thor2 achieves the lowest absolute keypoint error in both force regimes (27.8 mm / 33.8 mm, about 25% lower than the second best), maintaining superior tracking accuracy under external forces. Although TWIST2 attains the highest 
+
+ρ, we note that ρ is a relative measure: its high ratio partly reflects a larger low-force baseline error, and should therefore be interpreted jointly with the absolute errors in Table II. SONIC exhibits the opposite trade-off: it attains the lowest power overhead and the second-highest survival rate—notably outperforming TWIST2 and GMT on the two most demanding tasks—yet incurs the largest keypoint er-rors, concentrated in upper-body segments under sustained force. This suggests that SONIC responds to perturbations compliantly, preserving balance rather than actively rejecting disturbances, at the cost of force-aware tracking precision. 
+
+B. Experiments without External Forces 
+
+The no-force setting evaluates the nominal motion-tracking ability of each policy without physical perturbation. Table III shows that all policies achieve high survival rates close to 1.0, indicating that the performance differences mainly come from tracking accuracy rather than falling or early termination. Thor2 still performs best, achieving a FATS of 84.31 and the lowest keypoint error of 26.1 mm. TWIST2 ranks second, followed by GMT and SONIC.                           
+
+> Fig. 6. Keypoint tracking errors across low-force and high-force segments. TABLE III PERFORMANCE COMPARISON UNDER NO -FORCE EVALUATION .
+> Model FATS Survival KP Error Upper KP Lower KP Thor2 84.31 1.000 26.1 15.3 39.9 TWIST2 [6] 80.96 0.997 32.0 26.6 39.8 GMT [14] 79.25 0.992 34.5 30.9 40.0 SONIC [15] 78.43 0.997 36.2 35.3 39.1
+
+Compared with the external-force setting, the no-force results show smaller performance gaps among policies. The survival rates are almost saturated, and the lower-body errors are also close across different policies. Therefore, the remain-ing performance differences mainly come from upper-body tracking accuracy. This contrast shows that conventional no-force evaluation is insufficient for contact-rich humanoid tasks: it can measure nominal tracking quality, but it cannot reveal force-induced instability, robustness degradation, or additional control effort. ThorArena therefore provides a more complete evaluation by comparing both force and no-force conditions. V. CONCLUSIONS In this paper, we presented ThorArena, a force-aware benchmark for evaluating humanoid motion policies un-der recorded interaction-force disturbances. ThorArena com-bines synchronized human motion–force demonstrations, a simulation-based force-replay protocol, and force-aware evaluation metrics, including FATS. Experiments on repre-sentative whole-body control policies under matched force and no-force settings show that ThorArena reveals differ-ences in force robustness, control effort, and episode survival that are difficult to capture through conventional no-force evaluation. ThorArena provides a practical and reproducible bench-mark for studying force-aware humanoid interaction. Future work will expand the dataset with more diverse tasks, objects, and force conditions, while improving the data acquisition pipeline in terms of sensing accuracy, synchronization, and collection scalability. We will further validate the force-level stratification and metric formulation through systematic experiments, extend the benchmark to additional humanoid embodiments and control systems, and conduct physical-robot evaluations to assess its real-world applicability and consistency with simulation-based results. REFERENCES [1] T. He, Z. Luo, W. Xiao, C. Zhang, K. Kitani, C. Liu, and G. Shi, “Learning human-to-humanoid real-time whole-body teleoperation,” in 2024 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS) . IEEE, 2024, pp. 8944–8951. [2] Z. Fu, Q. Zhao, Q. Wu, G. Wetzstein, and C. Finn, “Humanplus: Humanoid shadowing and imitation from humans,” arXiv preprint arXiv:2406.10454 , 2024. [3] T. He, Z. Luo, X. He, W. Xiao, C. Zhang, W. Zhang, K. Kitani, C. Liu, and G. Shi, “Omnih2o: Universal and dexterous human-to-humanoid whole-body teleoperation and learning,” arXiv preprint arXiv:2406.08858 , 2024. [4] Q. Ben, F. Jia, J. Zeng, J. Dong, D. Lin, and J. Pang, “Homie: Humanoid loco-manipulation with isomorphic exoskeleton cockpit,” 
+
+arXiv preprint arXiv:2502.13013 , 2025. [5] Y. Ze, Z. Chen, J. P. Ara´ ujo, Z. ang Cao, X. B. Peng, J. Wu, and C. K. Liu, “Twist: Teleoperated whole-body imitation system,” arXiv preprint arXiv:2505.02833 , 2025. [6] Y. Ze, S. Zhao, W. Wang, A. Kanazawa, R. Duan, P. Abbeel, G. Shi, J. Wu, and C. K. Liu, “Twist2: Scalable, portable, and holistic humanoid data collection system,” arXiv preprint arXiv:2511.02832 ,2025. [7] Y. Li, Y. Lin, J. Cui, T. Liu, W. Liang, Y. Zhu, and S. Huang, “Clone: Closed-loop whole-body humanoid teleoperation for long-horizon tasks,” 2025. [8] T. Zhu, G. Cai, Y. Zhaohui, G. Ren, H. Xie, Z. Wang, J. Wu, J. Wang, X. Yang, Y. Mu et al. , “Clot: Closed-loop global motion tracking for whole-body humanoid teleoperation,” arXiv preprint arXiv:2602.15060 , 2026. [9] Z. Luo, J. Cao, A. W. Winkler, K. Kitani, and W. Xu, “Perpetual humanoid control for real-time simulated avatars,” in International Conference on Computer Vision (ICCV) , 2023. [10] J. P. Araujo, Y. Ze, P. Xu, J. Wu, and C. K. Liu, “Retargeting matters: General motion retargeting for humanoid motion tracking,” 
+
+arXiv preprint arXiv:2510.02252 , 2025. [11] L. Yang, X. Huang, Z. Wu, A. Kanazawa, P. Abbeel, C. Sferrazza, C. K. Liu, R. Duan, and G. Shi, “Omniretarget: Interaction-preserving data generation for humanoid whole-body loco-manipulation and scene interaction,” arXiv preprint arXiv:2509.26633 , 2025. [12] T. He, W. Xiao, T. Lin, Z. Luo, Z. Xu, Z. Jiang, J. Kautz, C. Liu, G. Shi, X. Wang et al. , “Hover: Versatile neural whole-body controller for humanoid robots,” in 2025 IEEE International Conference on Robotics and Automation (ICRA) . IEEE, 2025, pp. 9989–9996. [13] J. Li, X. Cheng, T. Huang, S. Yang, R. Qiu, and X. Wang, “Amo: Adaptive motion optimization for hyper-dexterous humanoid whole-body control,” Robotics: Science and Systems 2025 , 2025. [14] Z. Chen, M. Ji, X. Cheng, X. Peng, X. B. Peng, and X. Wang, “Gmt: General motion tracking for humanoid whole-body control,” arXiv preprint arXiv:2506.14770 , 2025. [15] Z. Luo, Y. Yuan, T. Wang, C. Li, S. Chen, F. Casta˜ neda, Z.-A. Cao, J. Li, D. Minor, Q. Ben, X. Da, R. Ding, C. Hogg, L. Song, E. Lim, E. Jeong, T. He, H. Xue, W. Xiao, Z. Wang, S. Yuen, J. Kautz, Y. Chang, U. Iqbal, L. Fan, and Y. Zhu, “Sonic: Supersizing motion tracking for natural humanoid whole-body control,” arXiv preprint arXiv:2511.07820 , 2025. [16] M. Loper, N. Mahmood, J. Romero, G. Pons-Moll, and M. J. Black, “Smpl: A skinned multi-person linear model,” in Seminal Graphics Papers: Pushing the Boundaries, Volume 2 , 2023, pp. 851–866. [17] N. Mahmood, N. Ghorbani, N. F. Troje, G. Pons-Moll, and M. J. Black, “Amass: Archive of motion capture as surface shapes,” in 
+
+The IEEE International Conference on Computer Vision (ICCV) , Oct 2019. [Online]. Available: https://amass.is.tue.mpg.de [18] F. G. Harvey, M. Yurick, D. Nowrouzezahrai, and C. Pal, “Robust mo-tion in-betweening,” ACM Transactions on Graphics (TOG) , vol. 39, no. 4, pp. 60–1, 2020. [19] J. Mao, S. Zhao, S. Song, T. Shi, J. Ye, M. Zhang, H. Geng, J. Malik, V. Guizilini, and Y. Wang, “Learning from massive human videos for universal humanoid pose control,” arXiv preprint arXiv:2412.14172 ,2024. [20] K. Lee, S. Kim, Y. Lee, M. Park, H. Kim, D. Hwang, D. Kim, H. Lee, and J. Choo, “Phuma: Physically reliable humanoid locomo-tion dataset,” arXiv preprint arXiv:2510.26236 , 2025. [21] J. Lu, C.-H. P. Huang, U. Bhattacharya, Q. Huang, and Y. Zhou, “Humoto: A 4d dataset of mocap human object interactions,” in 
+
+Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV) , October 2025, pp. 10 886–10 897. [22] Z. Zhao, H. Jing, X. Liu, J. Mao, A. Jha, H. Yang, R. Xue, S. Zakharor, V. Guizilini, and Y. Wang, “Humanoid everyday: A comprehensive robotic dataset for open-world humanoid manipulation,” arXiv preprint arXiv:2510.08807 , 2025. [23] Y. Liu, B. Yang, L. Zhong, H. Wang, and L. Yi, “Mimicking-bench: A benchmark for generalizable humanoid-scene interaction learning via human mimicking,” arXiv preprint arXiv:2412.17730 , 2024. [24] Z. Meng, L. Yin, X. Chen, A. Chen, S. Guo, and Y. Qin, “Bench-marking humanoid imitation learning with motion difficulty,” arXiv preprint arXiv:2512.07248 , 2025. [25] Y. Li, L. Ma, Y. Lin, Y. Du, M. Liu, K. Hu, J. Cui, Y. Zhu, W. Liang, B. Jia, and S. Huang, “Omniclone: Engineering a robust, all-rounder whole-body humanoid teleoperation system,” arXiv preprint arXiv:2603.14327 , 2026. [26] M. Li, M. Liu, Z. Wu, X. Lin, J. Zhang, M. Yan, Z. Xie, C. Zhang, C. Wen, L. Xu et al. , “Towards motion turing test: Evaluating human-likeness in humanoid robots,” in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , 2026, pp. 16 486–16 498.
