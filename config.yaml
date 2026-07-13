@@ -27,33 +27,63 @@ subscriptions:
   keyword_recall_mode: or
   intent_profiles:
     - tag: human-aigc
-      description: humanoid、世界行动模型、AIGC，VLA相关文章
+      description: humanoid、世界行动模型、AIGC相关文章
       enabled: true
       paper_sources:
         - arxiv
       keywords:
-        - keyword: VLA
-          keyword_cn: ''
-          query: V
         - keyword: humanoid robot
           keyword_cn: 人形机器人
-          query: humanoid robot action model
+          query: humanoid robot
         - keyword: world action model
           keyword_cn: 世界行动模型
-          query: world action model for humanoid
+          query: world action model
         - keyword: humanoid
           keyword_cn: 人形
           query: humanoid
-        - keyword: embodied agent
-          keyword_cn: 具身智能体
-          query: embodied agent with AIGC
       intent_queries:
         - query: research on humanoid robots and world action models
           query_cn: 人形机器人与世界行动模型的研究
           enabled: true
           source: manual
           note: ''
-      updated_at: '2026-07-13T11:37:47.630Z'
+      updated_at: '2026-07-13T11:35:55.420Z'
+    - tag: VLA-Humanoid
+      description: VLA，Humanoid，WAM
+      enabled: true
+      paper_sources:
+        - arxiv
+      keywords:
+        - keyword: world action model
+          keyword_cn: 世界动作模型
+          query: w
+        - keyword: vision-language-action model
+          keyword_cn: 视觉-语言-动作模型
+          query: vision language action model for humanoid robots
+        - keyword: humanoid robot
+          keyword_cn: 人形机器人
+          query: humanoid robot control and manipulation
+        - keyword: embodied ai
+          keyword_cn: 具身人工智能
+          query: embodied artificial intelligence for humanoid robots
+        - keyword: action generation
+          keyword_cn: 动作生成
+          query: action generation in robotics using language models
+        - keyword: humanoid manipulation
+          keyword_cn: 人形机器人操控
+          query: manipulation skills for humanoid robots
+      intent_queries:
+        - query: how do vision language action models improve humanoid robot manipulation
+          query_cn: 视觉 语言 动作模型如何改进人形机器人操控
+          enabled: true
+          source: manual
+          note: ''
+        - query: task planning for humanoid robots using language models
+          query_cn: 使用语言模型对人形机器人进行任务规划
+          enabled: true
+          source: manual
+          note: ''
+      updated_at: '2026-07-13T11:39:30.642Z'
 source_backends:
   arxiv:
     papers_table: arxiv_papers
