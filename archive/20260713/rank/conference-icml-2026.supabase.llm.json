@@ -1,0 +1,1674 @@
+{
+  "top_k": 200,
+  "generated_at": "2026-07-13T11:39:03.370838+00:00",
+  "papers": [
+    {
+      "id": "openreview-icml-2026-kovwcrghxo",
+      "source": "ICML-2026-Accepted",
+      "title": "Scalable and General Whole-Body Control for Cross-Humanoid Locomotion",
+      "abstract": "Learning-based whole-body controllers have become a key driver for humanoid robots, yet most existing approaches require robot-specific training.\nIn this paper, we study the problem of cross-embodiment humanoid control and show that a single policy can robustly generalize across a wide range of humanoid robot designs with one-time training.\nWe introduce XHugWBC, a novel cross-embodiment training framework that enables generalist humanoid control through:\n(1) physics-consistent morphological randomization,\n(2) semantically aligned observation and action spaces across diverse humanoid robots, and\n(3) effective policy architectures modeling morphological and dynamical properties.\nXHugWBC is not tied to any specific robot. Instead, it internalizes a broad distribution of morphological and dynamical characteristics during training. By learning motion priors from diverse randomized embodiments, the policy acquires a strong structural bias that supports zero-shot transfer to previously unseen robots.\nExperiments on twelve simulated humanoids and seven real-world robots demonstrate the strong generalization and robustness of the resulting universal controller.",
+      "authors": [
+        "Yufei Xue",
+        "Yunfeng Lin",
+        "Wentao Dong",
+        "Yang Tang",
+        "Jingbo Wang",
+        "Jiangmiao Pang",
+        "Ming Zhou",
+        "Minghuan Liu",
+        "Weinan Zhang"
+      ],
+      "primary_category": "robot learning",
+      "categories": [
+        "robot learning",
+        "humanoid whole-body control",
+        "reinforcement learning",
+        "cross-embodiment learning"
+      ],
+      "published": "2026-04-30T19:14:56.166+00:00",
+      "link": "https://openreview.net/forum?id=kovWCrgHxo",
+      "pdf_url": "https://openreview.net/pdf/e677d36ce20df4cf1a3e93c2d76f99a74a1e77a9.pdf",
+      "tags": [
+        "keyword:human-aigc",
+        "query:human-aigc"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-gd2s0bjqnz",
+      "source": "ICML-2026-Accepted",
+      "title": "Learning Transferable Interaction Primitives from Game Videos for Humanoid Locomotion",
+      "abstract": "Learning humanoid control from video provides a scalable alternative to the scarcity of high-fidelity robot data. Existing methods, however, often rely on curated datasets and treat video as passive kinematic priors. They fail to capture dynamic humanoid interactions with the environment, which are essential for robust control in complex physical environments. To address this, we propose ***TR**ansferable **I**nteraction **P**rimitives (TRIP)*, a framework designed to extract and ground interactions from unlabeled game videos for locomotion control. TRIP explicitly models dependencies between motion dynamics and environmental context via a discrete library of interaction-based action primitives. To bridge the reality gap, we introduce a shared context latent space that aligns implicit video-domain features with functional target-domain observations, enabling the seamless transfer of video-mined strategies to reinforcement learning policies. Our experiments on complex terrain navigation demonstrate that TRIP achieves significant improvements in task performance, sample efficiency, and robustness.",
+      "authors": [
+        "Xiangming Zhu",
+        "Huayu Deng",
+        "Haoran Zhao",
+        "Yiwei Hao",
+        "Yunbo Wang"
+      ],
+      "primary_category": "Transferable interaction primitives",
+      "categories": [
+        "Transferable interaction primitives",
+        "humanoid control"
+      ],
+      "published": "2026-04-30T19:10:17.459+00:00",
+      "link": "https://openreview.net/forum?id=Gd2S0bJqNZ",
+      "pdf_url": "https://openreview.net/pdf/cb77deec6df361019a80b3b74359f8e7bebe5fc1.pdf",
+      "tags": [
+        "keyword:human-aigc",
+        "query:human-aigc"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-hdf5semiab",
+      "source": "ICML-2026-Accepted",
+      "title": "Learning Latent Action World Models in the Wild",
+      "abstract": "Agents that can reason and plan in the real world must be able to predict the consequences of their actions. World models possess this capability but require action annotations that can be complex to obtain at scale. Latent action models address this issue by learning an action space from videos alone. Our work studies the training of latent action world models on in-the-wild videos, expanding the scope of existing works that focus on simple robotics simulations, video games, or manipulation data. While diverse videos enable modeling richer actions, they introduce challenges of environmental noise and lack of a common embodiment across videos. To address these, we carefully study the design and evaluation of latent actions. We find that constrained continuous latent actions are better suited for complex in-the-wild videos, compared to vector quantization. For example, actions specific to in-the-wild videos such as humans entering the room, can be modeled and then transferred across videos. However, in the absence of a common embodiment, learned latent actions are localized in space, relative to the camera. Nonetheless, we are able to train a controller that maps known actions to latent ones, allowing us to use latent actions as a universal interface to solve planning tasks on par with action-conditioned baselines.",
+      "authors": [
+        "Quentin Garrido",
+        "Tushar Nagarajan",
+        "Basile Terver",
+        "Nicolas Ballas",
+        "Yann LeCun",
+        "Michael Rabbat"
+      ],
+      "primary_category": "world models",
+      "categories": [
+        "world models",
+        "latent action models",
+        "latent action",
+        "video"
+      ],
+      "published": "2026-04-30T19:18:20.265+00:00",
+      "link": "https://openreview.net/forum?id=HDf5semiaB",
+      "pdf_url": "https://openreview.net/pdf/81255db0468be8e6925d42f176f74a4309f95f86.pdf",
+      "tags": [
+        "keyword:human-aigc"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-s30y1sbz34",
+      "source": "ICML-2026-Accepted",
+      "title": "Cross-Embodiment Robot Foundation World Models with Latent Actions",
+      "abstract": "The diversity of robot embodiments and action spaces makes it challenging to build robot world models that generalize across different\nembodiments. We introduce the Latent Action-Conditioned Robot World Model (LAC-WM), which operates within a learned unified latent action space shared across diverse embodiments. This unified action space improves the world model’s performance when adapted to previously unseen robot embodiments. We compare LAC-WM with an Explicit Action-Conditioned World Model (EAC-WM), which conditions on explicit motion labels. Our results shows that explicit action conditioning leads to disjoint action representations across embodiments, limiting downstream performance when adapting to new robots. We evaluate both models on dexterous manipulation tasks and a modified LIBERO benchmark. LAC-WM improves downstream performance over EAC-WM by up to 46.7% on dexterous manipulation and 11.7% on LIBERO. Crucially, the unified latent action space allows LAC-WM’s downstream performance to scale positively with the number of embodiments used during pretraining. In contrast, the disjoint action space in EAC-WM leads to decreased performance as the number of pretraining embodiments increases. These results highlights the importance of a unified action space for efficient cross-embodiment learning, addressing a key challenge in robotics.",
+      "authors": [
+        "Huang Huang",
+        "Sriram Yenamandra",
+        "Arjun Majumdar",
+        "Elie Aljalbout",
+        "Tushar Nagarajan",
+        "Tsung-Yen Yang",
+        "Akshara Rai",
+        "Michael Rabbat",
+        "Li Fei-Fei",
+        "Jiajun Wu",
+        "Tingfan Wu",
+        "Franziska Meier"
+      ],
+      "primary_category": "Robot world model; Robot foundation model; Latent action model;",
+      "categories": [
+        "Robot world model; Robot foundation model; Latent action model;"
+      ],
+      "published": "2026-04-30T19:15:41.211+00:00",
+      "link": "https://openreview.net/forum?id=S30Y1sBz34",
+      "pdf_url": "https://openreview.net/pdf/5c8fa1532215f2ea0717ed9db11ee805185dc7d3.pdf",
+      "tags": [
+        "keyword:human-aigc",
+        "query:human-aigc"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-brbhrubdkb",
+      "source": "ICML-2026-Accepted",
+      "title": "DiLA: Disentangled Latent Action World Models",
+      "abstract": "Latent Action Models (LAMs) enable the learning of world models from unlabeled video by inferring abstract actions between consecutive frames. However, LAMs face a fundamental trade-off between action abstraction and generation fidelity. Existing methods typically circumvent this issue by using two-stage training with pre-trained world models or by limiting predictions to optical flow. In this paper, we introduce *DiLA*, a novel **Di**sentangled **L**atent **A**ction world model that aims to resolve this trade-off via content-structure disentanglement. Our key insight is that disentanglement and latent action learning are co-evolving: the predictive bottleneck inherent in latent action learning serves as a driving force for disentanglement, compelling the model to distill spatial layouts into the structure pathway while offloading visual details to a separate content pathway for generation. This synergy yields a continuous, semantically structured latent action space without compromising generative quality. *DiLA* achieves superior results in video generation quality, action transfer, visual planning, and manifold interpretability. These findings establish *DiLA* as a unified framework that simultaneously achieves high-level action abstraction and high-fidelity generation, advancing the frontier of self-supervised world model learning.",
+      "authors": [
+        "Tianqiu Zhang",
+        "Muyang Lyu",
+        "Yufan Zhang",
+        "Fang Fang",
+        "Si Wu"
+      ],
+      "primary_category": "Latent Action Model",
+      "categories": [
+        "Latent Action Model",
+        "World Model",
+        "Disentangled Representation Learning",
+        "Visual Planning"
+      ],
+      "published": "2026-04-30T19:12:59.882+00:00",
+      "link": "https://openreview.net/forum?id=BRBHruBDkb",
+      "pdf_url": "https://openreview.net/pdf/6aaabc3ade820b0f138c884219f65de5e66c8ea6.pdf",
+      "tags": [
+        "keyword:human-aigc"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-rauhoqnzyv",
+      "source": "ICML-2026-Accepted",
+      "title": "Factored Latent Action World Models",
+      "abstract": "Learning latent actions from action-free video has emerged as a powerful paradigm for scaling up controllable world model learning. Latent actions provide a natural interface for users to iteratively generate and manipulate videos. However, most existing approaches rely on monolithic inverse and forward dynamics models that learn a single latent action to control the entire scene, and therefore struggle in complex environments where multiple entities act simultaneously. This paper introduces Factored Latent Action Model (FLAM), a factored dynamics framework that decomposes the scene into independent factors, each inferring its own latent action and predicting its own next-step factor value. This factorized structure enables more accurate modeling of complex multi-entity dynamics and improves video generation quality in action-free video settings compared to monolithic models. Based on experiments on both simulation and real-world multi-entity datasets, we find that FLAM outperforms prior work in prediction accuracy and representation quality, and facilitates downstream policy learning, demonstrating the benefits of factorized latent action models.",
+      "authors": [
+        "Zizhao Wang",
+        "Chang Shi",
+        "Jiaheng Hu",
+        "Kevin Rohling",
+        "Roberto Martín-Martín",
+        "Amy Zhang",
+        "Peter Stone"
+      ],
+      "primary_category": "latent action models",
+      "categories": [
+        "latent action models",
+        "world models",
+        "multi-entity environments",
+        "factored representations"
+      ],
+      "published": "2026-04-30T19:17:00.926+00:00",
+      "link": "https://openreview.net/forum?id=raUHOQnZyv",
+      "pdf_url": "https://openreview.net/pdf/9b0dcb58351644dbb2e8469bb81f2a980ae00b8d.pdf",
+      "tags": [
+        "keyword:human-aigc"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-iec4fizyrx",
+      "source": "ICML-2026-Accepted",
+      "title": "Co-Evolving Latent Action World Models",
+      "abstract": "Adapting pre-trained video generation models into controllable world models via latent actions is a promising step towards creating generalist world models. The dominant paradigm adopts a two-stage approach that trains latent action model (LAM) and the world model separately, resulting in redundant training and limiting their potential for co-adaptation. A conceptually simple and appealing idea is to directly replace the forward dynamic model in LAM with a powerful world model and training them jointly, but it is non-trivial and prone to representational collapse. In this work, we propose CoLA-World, which for the first time successfully realizes this synergistic paradigm, resolving the core challenge in joint learning through a critical warm-up phase that effectively aligns the representations of the from-scratch LAM with the pre-trained world model. This unlocks a co-evolution cycle: the world model acts as a knowledgeable tutor, providing gradients to shape a high-quality LAM, while the LAM offers a more precise and adaptable control interface to the world model. Empirically, CoLA-World matches or outperforms prior two-stage methods in both video simulation quality and downstream visual planning, establishing a robust and efficient new paradigm for the field.",
+      "authors": [
+        "Yucen Wang",
+        "Fengming Zhang",
+        "De-Chuan Zhan",
+        "Li Zhao",
+        "Kaixin Wang",
+        "Jiang Bian"
+      ],
+      "primary_category": "Latent Action",
+      "categories": [
+        "Latent Action",
+        "World Model",
+        "Video Foundation Model"
+      ],
+      "published": "2026-04-30T19:15:25.497+00:00",
+      "link": "https://openreview.net/forum?id=iec4FIZyrx",
+      "pdf_url": "https://openreview.net/pdf/391ed8836eb3e106d9610ecba14f34b26dff6813.pdf",
+      "tags": [
+        "keyword:human-aigc"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-nwapjp7ukt",
+      "source": "ICML-2026-Accepted",
+      "title": "Dual-Stream Diffusion for World-Model Augmented Vision-Language-Action Model",
+      "abstract": "Augmenting Vision-Language-Action models (VLAs) with world models is promising for robotic policy learning but faces challenges in jointly predicting states and actions due to the modality gap. To address this, we propose DUal-STream diffusion (DUST), a world-model augmented VLA framework featuring a multimodal diffusion transformer that maintains separate modality streams while enabling cross-modal knowledge sharing. In addition, DUST utilizes independent noise perturbations and a decoupled flow matching loss to learn cross-modal causal relationships. We further introduce an asynchronous sampling method for action and vision tokens that enhances performance through inference-time scaling. Experimental results on simulated benchmarks like RoboCasa and GR-1 show that DUST achieves up to 6\\% gains over state-of-the-art VLA and world-modeling baselines, with inference-time scaling providing an additional 2–5\\% improvement. In real-world tasks using the Franka Research 3, DUST outperforms baselines by 10\\% in success rate. Finally, we demonstrate that DUST enables effective transfer learning through both pretraining on action-free videos and joint-training with heterogeneous robot and human datasets.",
+      "authors": [
+        "John Won",
+        "Kyungmin Lee",
+        "Huiwon Jang",
+        "Dongyoung Kim",
+        "Jinwoo Shin"
+      ],
+      "primary_category": "world modeling",
+      "categories": [
+        "world modeling",
+        "robotics",
+        "vision-language-action models"
+      ],
+      "published": "2026-04-30T19:22:15.822+00:00",
+      "link": "https://openreview.net/forum?id=NWApJP7UKT",
+      "pdf_url": "https://openreview.net/pdf/d92e04b8c323fe4c7abd20c169f3ffac2113e0c0.pdf",
+      "tags": [
+        "keyword:human-aigc"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-skgahlxhxx",
+      "source": "ICML-2026-Accepted",
+      "title": "iWorld-Bench: A Benchmark for Interactive World Models with a Unified Action Generation Framework",
+      "abstract": "Achieving Artificial General Intelligence (AGI) requires agents that learn and interact adaptively, with interactive world models providing scalable environments for perception, reasoning, and action. Yet current research still lacks large-scale datasets and unified benchmarks to evaluate their physical interaction capabilities. To address this, we propose iWorld-Bench, a comprehensive benchmark for training and testing world models on interaction-related abilities such as distance perception and memory. We construct a diverse dataset with 330k video clips and select 2.1k high-quality samples covering varied perspectives, weather, and scenes. As existing world models differ in interaction modalities, we introduce an **Action Generation Framework** to unify evaluation and design six task types, generating 4.9k test samples. These tasks jointly assess model performance across **visual generation, trajectory following, and memory**. Evaluating 14 representative world models, we identify key limitations and provide insights for future research. The iWorld-Bench model leaderboard is publicly available at iWorld-Bench.com.",
+      "authors": [
+        "Jianjie Fang",
+        "Yingshan Lei",
+        "Qin Wan",
+        "Ziyou Wang",
+        "Yuchao Huang",
+        "Yongyan Xu",
+        "Baining Zhao",
+        "Weichen Zhang",
+        "Chen Gao",
+        "Xinlei Chen",
+        "Yong Li"
+      ],
+      "primary_category": "Benchmark;World model",
+      "categories": [
+        "Benchmark;World model"
+      ],
+      "published": "2026-04-30T19:13:34.877+00:00",
+      "link": "https://openreview.net/forum?id=SkGaHLxhXx",
+      "pdf_url": "https://openreview.net/pdf/5d96937365cefaf4cbb883afb9783d6bef9f12b8.pdf",
+      "tags": [
+        "keyword:human-aigc"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-ncwnyfezum",
+      "source": "ICML-2026-Accepted",
+      "title": "World Guidance: World Modeling in Condition Space for Action Generation",
+      "abstract": "Leveraging future observation modeling to facilitate action generation presents a promising avenue for enhancing the capabilities of Vision-Language-Action (VLA) models. \nHowever, existing approaches struggle to strike a balance between maintaining efficient, predictable future representations and preserving sufficient fine-grained information to guide precise action generation. \nTo address this limitation, we propose WoG (World Guidance), a framework that maps future observations into compact conditions by injecting them into the action inference pipeline. \nThe VLA is then trained to simultaneously predict these compressed conditions alongside future actions, thereby achieving effective world modeling within the condition space for action inference. \nWe demonstrate that modeling and predicting this condition space not only facilitates fine-grained action generation but also exhibits superior generalization capabilities. Moreover, it learns effectively from substantial human manipulation videos. \nExtensive experiments across both simulation and real-world environments validate that WoG significantly outperforms existing methods based on future prediction. Project page is available at: https://selen-suyue.github.io/WoGNet/.",
+      "authors": [
+        "Yue Su",
+        "Sijin Chen",
+        "Haixin Shi",
+        "Mingyu Liu",
+        "Zhengshen Zhang",
+        "Ningyuan Huang",
+        "Weiheng Zhong",
+        "Zhengbang Zhu",
+        "Yuxiao Liu",
+        "Xihui Liu"
+      ],
+      "primary_category": "Imitation Learning",
+      "categories": [
+        "Imitation Learning",
+        "Vision-Language-Action Model",
+        "Robot Learning"
+      ],
+      "published": "2026-04-30T19:12:07.871+00:00",
+      "link": "https://openreview.net/forum?id=nCWnYFezUm",
+      "pdf_url": "https://openreview.net/pdf/c58f10b26e670cda2e7d30215e5c1c1abe4b30bf.pdf",
+      "tags": [
+        "keyword:human-aigc"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-68zoaa2gof",
+      "source": "ICML-2026-Accepted",
+      "title": "VLAW: Iterative Co-Improvement of Vision-Language-Action Policy and World Model",
+      "abstract": "The goal of this paper is to improve the performance and reliability of vision-language-action (VLA) models through iterative online interaction. \nSince collecting policy rollouts in the real world is expensive, we investigate whether a learned simulator—specifically, an action-conditioned video generation model—can be used to generate additional rollout data.\nUnfortunately, existing world models lack the physical fidelity necessary for policy improvement: they are predominantly trained on demonstration datasets that lack coverage of many different physical interactions (particularly failure cases) and struggle to accurately model small yet critical physical details in contact-rich object manipulation. \nWe propose a simple iterative improvement algorithm that uses real-world roll-out data to improve the fidelity of the world model, which can then, in turn, be used to generate supplemental synthetic data for improving the VLA model. \nIn our experiments on a real robot, we use this approach to improve the performance of a state-of-the-art VLA model on multiple downstream tasks. \nWe achieve a 39.2\\% absolute success rate improvement over the base policy and 11.6\\% improvement from training with the generated synthetic rollouts. Videos can be found at this anonymous website: \\url{https://sites.google.com/view/vla-w}.",
+      "authors": [
+        "Yanjiang Guo",
+        "Tony Lee",
+        "Lucy Xiaoyang Shi",
+        "Jianyu Chen",
+        "Percy Liang",
+        "Chelsea Finn"
+      ],
+      "primary_category": "Vision-language-action Model",
+      "categories": [
+        "Vision-language-action Model",
+        "World Model"
+      ],
+      "published": "2026-04-30T19:17:01.879+00:00",
+      "link": "https://openreview.net/forum?id=68zOaa2gOf",
+      "pdf_url": "https://openreview.net/pdf/457c391b469337a90ecaa2d5dd098bfec3fe3cd2.pdf",
+      "tags": [
+        "keyword:human-aigc"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-ckpqrftrfc",
+      "source": "ICML-2026-Accepted",
+      "title": "MVISTA-4D: View-Consistent 4D World Model with Test-Time Action Inference for Robotic Manipulation",
+      "abstract": "World-model-based imagine-then-act becomes a promising paradigm for robotic manipulation, yet existing approaches typically support either purely image-based forecasting or reasoning over partial 3D geometry, limiting their ability to predict complete 4D scene dynamics. To solve this, this work explores a novel embodied 4D world model that enables geometrically consistent, arbitrary-view RGBD generation: given only a single-view RGBD observation as input, the model “imagines” the remaining viewpoints, which can then be back-projected and fused to assemble a more complete 3D structure across time. To efficiently learn the multi-view, cross-modality generation, we explicitly design cross-view and cross-modality feature fusion that jointly encourage consistency between RGB and depth and enforce geometric alignment across views. Beyond prediction, converting generated futures into actions is often handled by inverse dynamics, which is ill-posed because multiple actions can explain the same transition. We address this with a test-time action optimization strategy that backpropagates through the generative model to infer a trajectory-level latent best matching the predicted future, and a residual inverse dynamics model that turns this trajectory prior into accurate executable actions. Extensive experiments on the three datasets and platforms demonstrate strong performance on both 4D scene generation and downstream manipulation, and ablations provide practical insights into the key design choices. Project page is available at \\url{https://mercerai.github.io/MVISTA-4D/}.",
+      "authors": [
+        "Jiaxu Wang",
+        "JIANG Yicheng",
+        "Tianlun HE",
+        "Jingkai SUN",
+        "Qiang Zhang",
+        "Jiahang Cao",
+        "Zesen Gan",
+        "Mingyuan Sun",
+        "Qiming Shao",
+        "Xiangyu Yue"
+      ],
+      "primary_category": "4D World Model; Robot Manipulation; Multiview Generation",
+      "categories": [
+        "4D World Model; Robot Manipulation; Multiview Generation"
+      ],
+      "published": "2026-04-30T19:10:43.347+00:00",
+      "link": "https://openreview.net/forum?id=CKpqRFTRfc",
+      "pdf_url": "https://openreview.net/pdf/10ac3fb28cfd308f904f43cdacf0ee8faefe7ddc.pdf",
+      "tags": [
+        "keyword:human-aigc",
+        "query:human-aigc"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-93unlq1qp0",
+      "source": "ICML-2026-Accepted",
+      "title": "Scaling Real-World Robot Policy Evaluation via Discrete Diffusion World Model",
+      "abstract": "Evaluating generalist robot manipulation policies is costly and difficult to scale in the real world. While emerging world models (e.g., WorldEval, Ctrl-World) offer a promising alternative, the reliability of such evaluation remains a critical bottleneck. \nSpecifically, their visual predictions can undermine policy assessment by \"self-correcting\" failures into false positives or yielding artifacts under out-of-distribution controls.\nEven with failure-enriched data, current architectures struggle to capture action-causal dynamics, as they typically treat actions as passive conditions rather than causal drivers.\nTo address this, we propose dWorldEval, an action-centric discrete-diffusion world model that maps visual observations, language instructions, and action chunks into a shared unified token space and denoises them with a single self-attention backbone where actions function as first-class tokens. \nTo realize reliable policy-world interaction, dWorldEval introduces a sparse keyframe memory that anchors global scene state while preserving fine-grained multi-view interaction cues, and leverages Progress-as-text to jointly generate future observations and success indicators.\nExtensive experiments on LIBERO, RoboTwin, and real-robot tasks demonstrate that dWorldEval significantly outperforms video diffusion baselines in action controllability, stabilizes long-horizon multi-view rollouts, enabling accurate policy ranking via automatic success estimation.",
+      "authors": [
+        "Yaxuan Li",
+        "Junjie Wen",
+        "Zhongyi Zhou",
+        "Yefei Chen",
+        "Chaomin Shen",
+        "Yaxin Peng",
+        "Yichen Zhu"
+      ],
+      "primary_category": "World Model",
+      "categories": [
+        "World Model",
+        "evaluation",
+        "VLA"
+      ],
+      "published": "2026-04-30T19:14:35.666+00:00",
+      "link": "https://openreview.net/forum?id=93uNlQ1Qp0",
+      "pdf_url": "https://openreview.net/pdf/f9f17a2d33f2a4056888cb3509e53f654f9eb3a5.pdf",
+      "tags": [
+        "keyword:human-aigc",
+        "query:human-aigc"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-fuvu7ptyed",
+      "source": "ICML-2026-Accepted",
+      "title": "DreamDojo: A Generalist Robot World Model from Large-Scale Human Videos",
+      "abstract": "Being able to simulate the outcomes of actions in varied environments will revolutionize the development of generalist agents at scale. However, modeling these world dynamics, especially for dexterous robotics tasks, poses significant challenges due to limited data coverage and scarce action labels. As an endeavor towards this end, we introduce DreamDojo, a foundation world model that learns diverse interactions and dexterous controls from 44k hours of egocentric human videos. Our data mixture represents the largest video dataset to date for world model pretraining, spanning a wide range of daily scenarios with diverse objects and skills. To address the scarcity of action labels, we introduce continuous latent actions as unified proxy actions, enhancing interaction knowledge transfer from unlabeled videos. After post-training on small-scale target robot data, DreamDojo demonstrates a strong understanding of physics and precise action controllability. We also devise a distillation pipeline that accelerates DreamDojo to a real-time speed of 10.93 FPS and further improves consistency to the context. Our work enables several important applications based on generative world models, including live teleoperation, policy evaluation, and model-based planning. Systematic evaluation on multiple challenging out-of-distribution (OOD) benchmarks verifies the significance of our method for simulating open-world, contact-rich tasks, paving the way for general-purpose robot world models.",
+      "authors": [
+        "Shenyuan Gao",
+        "William Liang",
+        "Kaiyuan Zheng",
+        "Ayaan Naveed Malik",
+        "Seonghyeon Ye",
+        "Sihyun Yu",
+        "Wei-Cheng Tseng",
+        "Yuzhu Dong",
+        "Kaichun Mo",
+        "Chen-Hsuan Lin",
+        "Jiannan Xiang",
+        "Yuqi Xie",
+        "Ruijie Zheng",
+        "Dantong Niu",
+        "Pooya Jannaty",
+        "Jinwei Gu",
+        "Jun Zhang",
+        "Jitendra Malik",
+        "Pieter Abbeel",
+        "Ming-Yu Liu",
+        "Yuke Zhu",
+        "Joel Jang",
+        "Linxi Fan"
+      ],
+      "primary_category": "World Model",
+      "categories": [
+        "World Model",
+        "Human Video",
+        "Robot Manipulation"
+      ],
+      "published": "2026-04-30T19:12:26.154+00:00",
+      "link": "https://openreview.net/forum?id=FuvU7PTyED",
+      "pdf_url": "https://openreview.net/pdf/dc94444ca93aadf2f89ea3ab5b1cb370e71dfc9f.pdf",
+      "tags": [
+        "keyword:human-aigc",
+        "query:human-aigc"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-sqtzabteqm",
+      "source": "ICML-2026-Accepted",
+      "title": "LARA: Latent Action Representation Alignment for Vision-Language-Action Models",
+      "abstract": "Visual-language-action (VLA) models enable robots to predict actions directly from observations and language instructions, but their performance depends on large-scale, high-quality data and is limited by the scarcity of real-world robot action datasets. To facilitate VLA model learning with abundant unlabeled human videos, Latent Action Models (LAM) learn latent action representations from visual dynamics to provide additional supervision for VLA learning. However, LAM and VLA are typically trained separately, leaving LAM ungrounded during VLA training and VLA models constrained by frozen LAM representations. To address these issues, we propose Latent Action Representation Alignment (LARA), a plug-and-play framework that jointly optimizes LAM and VLA via representation alignment. This enables reciprocal benefits where LAMs learn with action trajectories to avoid spurious visual changes, while VLAs are regularized by forward dynamics learned within LAMs to reduce hallucinations of functionally ineffective trajectories. We demonstrate LARA's versatility and effectiveness for pre-training, post-training enhancement of pre-trained VLA models, and LAM refinement, achieving an average of ~10%, ~5%, and ~15% improvement over 3 simulation and 1 meticulously designed real-world robotic manipulation benchmarks.  The code is publicly available at https://github.com/lmy1001/LARA.",
+      "authors": [
+        "Mengya Liu",
+        "Baoxiong Jia",
+        "Jiangyong Huang",
+        "Jingze Zhang",
+        "Siyuan Huang"
+      ],
+      "primary_category": "Latent action learning; VLA",
+      "categories": [
+        "Latent action learning; VLA"
+      ],
+      "published": "2026-04-30T19:12:40.655+00:00",
+      "link": "https://openreview.net/forum?id=sQTzABTEQM",
+      "pdf_url": "https://openreview.net/pdf/37eb500cec6180869cf028e0fc04b5315f63de01.pdf",
+      "tags": [
+        "keyword:human-aigc"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-pqtwlelwdg",
+      "source": "ICML-2026-Accepted",
+      "title": "SC$^{2}$-WM: A Self-Correcting World Model with Closed-Loop Feedback for Vision-and-Language Navigation in Continuous Environments",
+      "abstract": "Vision-and-Language Navigation in Continuous Environments (VLN-CE) requires agents to make fine-grained navigation decisions under partial observability.\nHowever, most existing methods rely on open-loop execution, lacking mechanisms to detect and correct internal state drift during inference.\nWe propose SC$^{2}$-WM, a self-correcting world model framework that introduces internal feedback for closed-loop decision making in VLN-CE.\nOur method derives feedback from world-model foresight to perform state-level plan refinement before action execution.\nTo handle challenging scenarios, we further introduce conditional world-aware adaptation, which enables model-level correction by selectively updating the world model at test time when feedback indicates model capacity insufficiency.\nExperiments on standard VLN-CE benchmarks demonstrate improved navigation robustness and generalization. Our code is available at https://github.com/sunrise-ikun/SC2_WM.",
+      "authors": [
+        "Xuan Yao",
+        "Yuze Zhu",
+        "Junyu Gao",
+        "Zongmeng Wang",
+        "Changsheng Xu"
+      ],
+      "primary_category": "Vision-and-Language Navigation in Continuous Environments",
+      "categories": [
+        "Vision-and-Language Navigation in Continuous Environments",
+        "World Model",
+        "Closed-Loop"
+      ],
+      "published": "2026-04-30T19:11:02.632+00:00",
+      "link": "https://openreview.net/forum?id=PQtwLElwdg",
+      "pdf_url": "https://openreview.net/pdf/520ce6a552fae1c06ba6f767a212a05dd87e4b2b.pdf",
+      "tags": [
+        "keyword:human-aigc"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-ykq8grwehr",
+      "source": "ICML-2026-Accepted",
+      "title": "Towards Practical World Model-based Reinforcement Learning for Vision-Language-Action Models",
+      "abstract": "Vision-Language-Action (VLA) models show strong generalization for robotic control, but finetuning them with reinforcement learning (RL) is constrained by the high cost and safety risks of real-world interaction. Training VLA models in interactive world models avoids these issues but introduces several challenges, including pixel-level world modeling, multi-view consistency, and compounding errors under sparse rewards. Building on recent advances across large multimodal models and model-based RL, we propose VLA-MBPO, a practical framework to tackle these problems in VLA finetuning. Our approach has three key design choices: (i) adapting unified multimodal models (UMMs) for data-efficient world modeling; (ii) an interleaved view decoding mechanism to enforce multi-view consistency; and (iii) chunk-level branched rollout to mitigate error compounding. Theoretical analysis and experiments across simulation and real-world tasks demonstrate that VLA-MBPO significantly improves policy performance and sample efficiency. Crucially, our method maintains a universal set of hyperparameters across all tasks, underscoring its robustness and scalability for real-world robotic deployment.",
+      "authors": [
+        "Zhilong Zhang",
+        "Haoxiang Ren",
+        "Yihao Sun",
+        "Yifei Sheng",
+        "Haonan Wang",
+        "Zhichao Wu",
+        "Haoxin Lin",
+        "Pierre-Luc Bacon",
+        "Yang Yu"
+      ],
+      "primary_category": "vision-language-action model",
+      "categories": [
+        "vision-language-action model",
+        "world model",
+        "reinforcement learning"
+      ],
+      "published": "2026-04-30T19:11:32.263+00:00",
+      "link": "https://openreview.net/forum?id=yKQ8GrwEhr",
+      "pdf_url": "https://openreview.net/pdf/32cefb0639314659591964c3876283e25ce44856.pdf",
+      "tags": [
+        "keyword:human-aigc",
+        "query:human-aigc"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-lduy9csxqw",
+      "source": "ICML-2026-Accepted",
+      "title": "HALO: A Unified Vision-Language-Action Model for Embodied Multimodal Chain-of-Thought Reasoning",
+      "abstract": "Vision–Language–Action (VLA) models perform well in robotic manipulation, but often struggle in long-horizon or out-of-distribution scenarios due to the lack of explicit mechanisms for multimodal reasoning and anticipating how the world evolves under action.\nRecent works introduce textual chain-of-thought or visual subgoal prediction within VLA models, but still fail to offer a unified human-like framework for joint textual reasoning, visual foresight, and action prediction.\nTo this end, we propose HALO, a unified VLA model that enables embodied multimodal chain-of-thought (EM-CoT) reasoning through textual reasoning, fine-grained visual subgoal prediction, and EM-CoT-augmented action prediction.\nWe instantiate HALO with a Mixture-of-Transformers (MoT) architecture that decouples semantic reasoning, visual foresight, and action prediction into specialized experts with seamless cross-expert collaboration.\nTo enable HALO learning at scale, we introduce an automated pipeline to synthesize EM-CoT training data along with a carefully crafted training recipe.\nExtensive experiments demonstrate that: (1) HALO achieves superior performance in both simulated and real world, surpassing baseline policy $\\pi_0$ by 25.9\\% on the RoboTwin benchmark; (2) all proposed components of the training recipe and EM-CoT design help improve task success rate; and (3) HALO exhibits strong generalization under aggressive unseen environment randomization with our proposed EM-CoT reasoning.",
+      "authors": [
+        "Quanxin Shou",
+        "Fangqi Zhu",
+        "Shuang Chen",
+        "Puxin Yan",
+        "Zhengyang Yan",
+        "Yikun Miao",
+        "Xiaoyi Pang",
+        "Zicong Hong",
+        "Ruikai Shi",
+        "Hao HUANG",
+        "Jie ZHANG",
+        "Song Guo"
+      ],
+      "primary_category": "Vision-Language-Action Models",
+      "categories": [
+        "Vision-Language-Action Models",
+        "Embodied Multimodal Chain-of-Thought",
+        "Unified Models"
+      ],
+      "published": "2026-04-30T19:13:08.794+00:00",
+      "link": "https://openreview.net/forum?id=lduY9csXqw",
+      "pdf_url": "https://openreview.net/pdf/f0a4b4b3d1775cb04d6e602c68bf3c4914033562.pdf",
+      "tags": [
+        "keyword:human-aigc",
+        "query:human-aigc"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-fh6xbnjflv",
+      "source": "ICML-2026-Accepted",
+      "title": "RoboFlow4D: A Lightweight Flow World Model Toward Real-Time Flow-Guided Robotic Manipulation",
+      "abstract": "Planning and acting in 3D environments is a fundamental capability for robotic manipulation in the real world. \nAlthough prior work has explored predictive flow planners to guide 3D manipulation, existing approaches often rely on modular pipelines stacking multiple submodels, resulting in high computational overhead and limited real-time performance. To address these challenges, we introduce RoboFlow4D, a lightweight flow world model that unifies perception and planning by estimating temporal motion in physical 3D space. As an end-to-end framework, RoboFlow4D directly predicts multi-frame 3D flows from visual observations and textual instructions, providing explicit flow-based planning to guide action generation. This design allows seamless integration with general action policies, forming an efficient observation–planning–execution closed loop. Through slow–fast collaboration between flow prediction and action control, RoboFlow4D enables real-time and resource-efficient manipulation. Extensive experiments in both simulation and real-world settings demonstrate that RoboFlow4D consistently improves manipulation success rates and computational efficiency, advancing flow-guided planning for embodied intelligence. Our project page is available at RoboFlow4D.",
+      "authors": [
+        "Sixu Lin",
+        "Junliang Chen",
+        "Huaiyuan Xu",
+        "Zhuohao Li",
+        "Guangming Wang",
+        "Yixiong Jing",
+        "Sheng Xu",
+        "Runyi Zhao",
+        "Brian Sheil",
+        "Lap-Pui Chau",
+        "Guiliang Liu"
+      ],
+      "primary_category": "World Model",
+      "categories": [
+        "World Model",
+        "Vision-Language-Action Model",
+        "Robotic Manipulation"
+      ],
+      "published": "2026-04-30T19:13:27.169+00:00",
+      "link": "https://openreview.net/forum?id=fh6XBnjFlv",
+      "pdf_url": "https://openreview.net/pdf/17509091f9a7574439da683639d4af0b20b10d5e.pdf",
+      "tags": [
+        "keyword:human-aigc"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-ncrrcg4bfp",
+      "source": "ICML-2026-Accepted",
+      "title": "WestWorld: A Knowledge-Encoded Scalable Trajectory World Model for Diverse Robotic Systems",
+      "abstract": "Trajectory world models play a crucial role in robotic dynamics learning, planning, and control. While recent works have explored trajectory world models for diverse robotic systems, they struggle to scale to a large number of distinct system dynamics and overlook domain knowledge of physical structures. To address these limitations, we introduce *WestWorld*, a kno**W**ledge-**E**ncoded **S**calable **T**rajectory **World** model for diverse robotic systems. To tackle the scalability challenge, we propose a novel system-aware Mixture-of-Experts (Sys-MoE) that dynamically combines and routes specialized experts for different robotic systems via a learnable system embedding. To further enhance zero-shot generalization, we incorporate domain knowledge of robot physical structures by introducing a structural embedding that aligns trajectory representations with morphological information. After pretraining on 89 complex environments spanning diverse morphologies across both simulation and real-world settings, *WestWorld* achieves significant improvements over competitive baselines in zero- and few-shot trajectory prediction. Additionally, it shows strong scalability across a wide range of robotic environments and significantly improves performance on downstream model-based control for different robots. Finally, we deploy our model on a real-world Unitree Go1, where it demonstrates stable locomotion performance. The code is available at https://github.com/511205787/WestWorld.",
+      "authors": [
+        "Yuchen Wang",
+        "Jiangtao Kong",
+        "Sizhe Wei",
+        "Xiaochang Li",
+        "Haohong Lin",
+        "Hongjue Zhao",
+        "Tianyi Zhou",
+        "Lu Gan",
+        "Huajie Shao"
+      ],
+      "primary_category": "Trajectory World Model",
+      "categories": [
+        "Trajectory World Model",
+        "Knowledge-Encoded Robotics Learning",
+        "Mixture-of-Experts"
+      ],
+      "published": "2026-04-30T19:11:55.802+00:00",
+      "link": "https://openreview.net/forum?id=ncRRCG4BfP",
+      "pdf_url": "https://openreview.net/pdf/8810a4114256df804745ae8c7e2b3babeffa3e24.pdf",
+      "tags": [
+        "keyword:human-aigc",
+        "query:human-aigc"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-cyiuorizkw",
+      "source": "ICML-2026-Accepted",
+      "title": "Contrastive Representation Regularization for Vision-Language-Action Models",
+      "abstract": "Vision-Language-Action (VLA) models have shown strong capabilities in robot manipulation by leveraging rich representations from pre-trained Vision-Language Models (VLMs).\nHowever, their representations arguably remain suboptimal, lacking sensitivity to robotic signals such as control actions and proprioceptive information. \nTo address the issue, we introduce Robot State-aware Contrastive Loss (RS-CL), a simple and effective representation regularization for VLA models, designed to bridge the gap between VLM representations and robotic signals.\nIn particular, RS-CL aligns the representations more closely with the robot's proprioceptive states by using relative distances between the states as soft supervision.\nComplementing the original action prediction objective, RS-CL enhances control-relevant representation learning, while being lightweight and fully compatible with standard VLA training pipelines.\nOur empirical results demonstrate that RS-CL substantially improves the performance of state-of-the-art VLA models; it pushes the prior art to 69.7% achieving the state-of-the-art performance on the RoboCasa-Kitchen benchmark, and boosts success rates from 45.0% to 58.3% on challenging real-robot manipulation tasks.",
+      "authors": [
+        "Taeyoung Kim",
+        "Jimin Lee",
+        "Myungkyu Koo",
+        "Dongyoung Kim",
+        "Kyungmin Lee",
+        "Changyeon Kim",
+        "Younggyo Seo",
+        "Jinwoo Shin"
+      ],
+      "primary_category": "Vision-language-action models",
+      "categories": [
+        "Vision-language-action models",
+        "Robot manipulation",
+        "Contrastive learning"
+      ],
+      "published": "2026-04-30T19:17:07.507+00:00",
+      "link": "https://openreview.net/forum?id=cyIUoRizkW",
+      "pdf_url": "https://openreview.net/pdf/0cc7ec26fa9f47ae531d226ac90d7d42c7e48b94.pdf",
+      "tags": [
+        "keyword:human-aigc",
+        "query:human-aigc"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-ny6uyz8ysn",
+      "source": "ICML-2026-Accepted",
+      "title": "Benchmarking World-Model Learning with Environment-Level Queries",
+      "abstract": "World models are central to building AI agents capable of flexible reasoning and planning. Yet current evaluations (i) test only properties measurable from observed interactions, such as next-frame prediction or task return, and (ii) do not test whether a learned model supports diverse queries about the environment. \n      In contrast, humans build *general-purpose* models that can answer many different questions about an environment—including questions that require understanding global structure and counterfactual consequences.\n      We propose *WorldTest*: a protocol for evaluating whether agents learn models that support multiple *environment-level queries*—questions whose answers depend on properties of the full environment, not just observed trajectories.\n      Individually, these queries can target properties (e.g., reachability or the effects of interventions) that no single rollout distribution determines. Collectively, they assess model generality across query types.\n      We instantiate WorldTest as *AutumnBench*, a benchmark of 43 interactive grid-world environments and 129 tasks across three query families for both humans and learning agents.\n      Experiments with 517 human participants and five frontier models on AutumnBench show that humans substantially outperform these models, a gap we attribute to differences in exploration and belief updating.",
+      "authors": [
+        "Archana Warrier",
+        "Dat Nguyen",
+        "Michelangelo Naim",
+        "Moksh Jain",
+        "Yichao Liang",
+        "Karen Schroeder",
+        "Cambridge Yang",
+        "Joshua B. Tenenbaum",
+        "Sebastian Josef Vollmer",
+        "Kevin Ellis",
+        "Zenna Tavares"
+      ],
+      "primary_category": "world model learning",
+      "categories": [
+        "world model learning",
+        "benchmark",
+        "representation-agnostic evaluation",
+        "reward-free learning"
+      ],
+      "published": "2026-04-30T19:15:30.789+00:00",
+      "link": "https://openreview.net/forum?id=Ny6UYZ8ysN",
+      "pdf_url": "https://openreview.net/pdf/8ec5ad37706b20488c075347fc3907d08e92b338.pdf",
+      "tags": [
+        "keyword:human-aigc"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-pxpgollo02",
+      "source": "ICML-2026-Accepted",
+      "title": "Learning Task-Sufficient World Models by Synergizing Agentic Exploration and Structured Modeling",
+      "abstract": "Learning and planning in imagination using world models provides an effective paradigm for training agents for decision-making. However, existing approaches often rely on high-dimensional latent spaces or generic visual embeddings that retain many factors irrelevant to control, limiting efficiency and generalization across tasks.  To this end, we study how agents can learn world models with representations that are task-specific, minimal, and sufficient for decision making. We achieve this via a closed-loop synergy between the agent and the world model, in which structured world-model learning distills task-sufficient representations from informative interaction data. On the agent side, agents perform active probing of the environment to collect informative trajectories that expose task-relevant latent factors, guided by an adaptive curriculum. On the world-model side, we learn structured representations over observations to distill compact, task-sufficient latent states from the collected interaction data. This synergy enables the recovery of task-sufficient latent representations that capture all control-relevant factors empirically. Leveraging these representations, the resulting policies achieve improved sample efficiency generalization, including generalization across skills, object–skill compositions, and previously unseen tasks on standard continuous control and robotic manipulation benchmarks.",
+      "authors": [
+        "Fan Feng",
+        "Yujia Zheng",
+        "Minghao Fu",
+        "Yongqiang Chen",
+        "Guangyi Chen",
+        "Kevin Patrick Murphy",
+        "Biwei Huang",
+        "Kun Zhang"
+      ],
+      "primary_category": "World Model; Exploration; Latent Variable Models",
+      "categories": [
+        "World Model; Exploration; Latent Variable Models"
+      ],
+      "published": "2026-04-30T19:17:04.775+00:00",
+      "link": "https://openreview.net/forum?id=PxpGOLlo02",
+      "pdf_url": "https://openreview.net/pdf/84fe713ced5e3b1712af85e159aa04032261cb68.pdf",
+      "tags": [
+        "keyword:human-aigc"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-l6vw6cvkhi",
+      "source": "ICML-2026-Accepted",
+      "title": "TaskLoom: Weaving Knowledge Across Tasks in World Models",
+      "abstract": "World models have significantly improved the sample efficiency of model-based reinforcement learning (MBRL) by enabling policy learning in imagination, thereby reducing the need for direct interaction with the real environment. However, most existing world model methods are trained independently for each task or perform multi-task learning using offline datasets, failing to fully exploit the latent relationships among tasks in online interactive scenarios. To address this limitation, we propose TaskLoom, a knowledge-sharing world model architecture for online RL. TaskLoom adopts a grouped two-stage training paradigm: first, the tasks are divided into several groups based on the similarity of world model gradients,\n  and fine-grained knowledge is shared among tasks within each group; second, coarse-grained knowledge is exchanged across groups, enabling hierarchical knowledge transfer and reuse. \n  Experimental results show that TaskLoom outperforms baseline methods on widely used benchmarks such as Proprio Control, Visual Control and Meta-World, validating the effectiveness of the proposed knowledge-sharing mechanism for both low-dimensional state and high-dimensional visual inputs.",
+      "authors": [
+        "Qingzhang Zeng",
+        "Peixi Peng",
+        "Hang Li",
+        "Luntong Li",
+        "Yonghong Tian"
+      ],
+      "primary_category": "world model",
+      "categories": [
+        "world model",
+        "reinforcement learning"
+      ],
+      "published": "2026-04-30T19:13:04.653+00:00",
+      "link": "https://openreview.net/forum?id=L6Vw6CvKHi",
+      "pdf_url": "https://openreview.net/pdf/a655f70247ade0d46d0559617bb8e7b42344d720.pdf",
+      "tags": [
+        "keyword:human-aigc"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-gec0ijcyxw",
+      "source": "ICML-2026-Accepted",
+      "title": "DDP-WM: Disentangled Dynamics Prediction for Efficient World Models",
+      "abstract": "World models are essential for autonomous robotic planning. However, the substantial computational overhead of existing dense Transformer-based models significantly hinders real-time deployment. To address this efficiency-performance bottleneck, we introduce DDP-WM, a novel world model centered on the principle of Disentangled Dynamics Prediction (DDP). We hypothesize that latent state evolution in observed scenes is heterogeneous and can be decomposed into sparse primary dynamics driven by physical interactions and secondary context-driven background updates. DDP-WM realizes this decomposition through an architecture that integrates efficient historical processing with dynamic localization to isolate primary dynamics. By employing a cross-attention mechanism for background updates, the framework optimizes resource allocation and provides a smooth optimization landscape for planners. Extensive experiments demonstrate that DDP-WM achieves superior efficiency and performance across diverse tasks, including navigation, precise tabletop manipulation, and complex deformable or multi-body interactions. Specifically, on the challenging Push-T task, DDP-WM achieves an approximately 9 times inference speedup and improves the MPC success rate from 90% to 98% compared to state-of-the-art dense models.",
+      "authors": [
+        "Shicheng Yin",
+        "Kaixuan Yin",
+        "Weixing Chen",
+        "Yang Liu",
+        "Guanbin Li",
+        "Liang Lin"
+      ],
+      "primary_category": "World Model",
+      "categories": [
+        "World Model",
+        "Planning",
+        "Representation Learning"
+      ],
+      "published": "2026-04-30T19:09:49.283+00:00",
+      "link": "https://openreview.net/forum?id=gEc0iJCYxw",
+      "pdf_url": "https://openreview.net/pdf/210f947dd37866814ffb7ab08ac97ee8779927ce.pdf",
+      "tags": [
+        "keyword:human-aigc"
+      ]
+    },
+    {
+      "id": "openreview-icml-2026-jo0isgjg16",
+      "source": "ICML-2026-Accepted",
+      "title": "XR-1: Towards Versatile Vision-Language-Action Models via Learning Unified Vision-Motion Representations",
+      "abstract": "Recent progress in large-scale robotic datasets and vision-language models (VLMs) has advanced research on vision-language-action (VLA) models.  However, existing VLA models still face two fundamental challenges: (\\textit{i}) producing precise low-level actions from high-dimensional observations, (\\textit{ii}) bridging domain gaps across heterogeneous data sources, including diverse robot embodiments and human demonstrations. Existing methods often encode latent variables from either visual dynamics or robotic actions to guide policy learning, but they fail to fully exploit the complementary multi-modal knowledge present in large-scale, heterogeneous datasets. In this work, we present \\textbf{XR-1}, a novel framework for versatile and scalable VLA learning across diverse robots, tasks, and environments.\nAt its core, XR-1 introduces the \\emph{Unified Vision-Motion Codes (UVMC)}, a discrete latent representation learned via a dual-branch VQ-VAE that jointly encodes visual dynamics and robotic motion.  UVMC addresses these challenges by (\\textit{i}) serving as an intermediate representation between the observations and actions, and  (\\textit{ii}) aligning multimodal dynamic information from heterogeneous data sources to capture complementary knowledge. To effectively exploit UVMC, we propose a \\emph{three-stage training paradigm}: (\\textit{i}) self-supervised UVMC learning, (\\textit{ii}) UVMC-guided pretraining on large-scale cross-embodiment robotic datasets, and (\\textit{iii}) task-specific post-training.  We validate XR-1 through extensive real-world experiments with more than 12,000 rollouts on six different robot embodiments, spanning over 120 diverse manipulation tasks. XR-1 consistently outperforms state-of-the-art baselines such as $\\pi_0$ and GR00T-N1.5 while demonstrating strong generalization to novel objects, background variations, distractors, and illumination changes. Our project is at \\href{https://xr-1-vla.github.io/}{https://xr-1-vla.github.io/}.",
+      "authors": [
+        "Shichao Fan",
+        "Kun Wu",
+        "Zhengping Che",
+        "Xinhua Wang",
+        "Di Wu",
+        "Fei Liao",
+        "Ning Liu",
+        "Yixue Zhang",
+        "Zhen Zhao",
+        "Zhiyuan Xu",
+        "Meng Li",
+        "Qingjie Liu",
+        "Shanghang Zhang",
+        "Min Wan",
+        "Jian Tang"
+      ],
+      "primary_category": "Embodied AI",
+      "categories": [
+        "Embodied AI",
+        "Imitation learning",
+        "VLA"
+      ],
+      "published": "2026-04-30T19:16:43.356+00:00",
+      "link": "https://openreview.net/forum?id=JO0IsGJg16",
+      "pdf_url": "https://openreview.net/pdf/181715f87df4dd5677ebf2619dcb456e071c95dd.pdf",
+      "tags": [
+        "query:human-aigc"
+      ]
+    }
+  ],
+  "queries": [
+    {
+      "type": "intent_query",
+      "tag": "human-aigc",
+      "paper_tag": "query:human-aigc",
+      "query_text": "research on humanoid robots and world action models",
+      "sim_scores": {
+        "openreview-icml-2026-kovwcrghxo": {
+          "score": 0.01639344262295082,
+          "rank": 1
+        },
+        "openreview-icml-2026-gd2s0bjqnz": {
+          "score": 0.016129032258064516,
+          "rank": 2
+        },
+        "openreview-icml-2026-fuvu7ptyed": {
+          "score": 0.015873015873015872,
+          "rank": 3
+        },
+        "openreview-icml-2026-s30y1sbz34": {
+          "score": 0.014925373134328358,
+          "rank": 7
+        },
+        "openreview-icml-2026-ykq8grwehr": {
+          "score": 0.014492753623188406,
+          "rank": 9
+        },
+        "openreview-icml-2026-93unlq1qp0": {
+          "score": 0.013888888888888888,
+          "rank": 12
+        },
+        "openreview-icml-2026-cyiuorizkw": {
+          "score": 0.011494252873563218,
+          "rank": 27
+        },
+        "openreview-icml-2026-ckpqrftrfc": {
+          "score": 0.011111111111111112,
+          "rank": 30
+        },
+        "openreview-icml-2026-ncrrcg4bfp": {
+          "score": 0.010638297872340425,
+          "rank": 34
+        },
+        "openreview-icml-2026-jo0isgjg16": {
+          "score": 0.009615384615384616,
+          "rank": 44
+        },
+        "openreview-icml-2026-lduy9csxqw": {
+          "score": 0.009259259259259259,
+          "rank": 48
+        }
+      },
+      "ranked": [
+        {
+          "paper_id": "openreview-icml-2026-s30y1sbz34",
+          "score": 1.0,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2026-ncrrcg4bfp",
+          "score": 1.0,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2026-93unlq1qp0",
+          "score": 0.9586435070306036,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2026-skgahlxhxx",
+          "score": 0.9586435070306036,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2026-fuvu7ptyed",
+          "score": 0.9185999185999183,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2026-jo0isgjg16",
+          "score": 0.9185999185999183,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2026-hdf5semiab",
+          "score": 0.8798076923076922,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-ykq8grwehr",
+          "score": 0.8798076923076922,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-nwapjp7ukt",
+          "score": 0.8422090729783037,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-ny6uyz8ysn",
+          "score": 0.8422090729783037,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-ckpqrftrfc",
+          "score": 0.8057498057498057,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-iec4fizyrx",
+          "score": 0.8057498057498057,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-kovwcrghxo",
+          "score": 0.7703788748564866,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-fh6xbnjflv",
+          "score": 0.7703788748564866,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-brbhrubdkb",
+          "score": 0.73604826546003,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-gd2s0bjqnz",
+          "score": 0.73604826546003,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-pxpgollo02",
+          "score": 0.702712746191007,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-sqtzabteqm",
+          "score": 0.702712746191007,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-gec0ijcyxw",
+          "score": 0.6703296703296702,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-cyiuorizkw",
+          "score": 0.6388587937883712,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-l6vw6cvkhi",
+          "score": 0.608262108262108,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-lduy9csxqw",
+          "score": 0.608262108262108,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-ncwnyfezum",
+          "score": 0.578503688092729,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-rauhoqnzyv",
+          "score": 0.578503688092729,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-68zoaa2gof",
+          "score": 0.5495495495495496,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2026-pqtwlelwdg",
+          "score": 0.5213675213675214,
+          "star_rating": 4
+        }
+      ]
+    },
+    {
+      "type": "keyword",
+      "tag": "human-aigc",
+      "paper_tag": "keyword:human-aigc",
+      "query_text": "humanoid",
+      "sim_scores": {
+        "openreview-icml-2026-kovwcrghxo": {
+          "score": 0.03278688524590164,
+          "rank": 1
+        },
+        "openreview-icml-2026-gd2s0bjqnz": {
+          "score": 0.03225806451612903,
+          "rank": 2
+        },
+        "openreview-icml-2026-fuvu7ptyed": {
+          "score": 0.011627906976744186,
+          "rank": 38
+        },
+        "openreview-icml-2026-ckpqrftrfc": {
+          "score": 0.009259259259259259,
+          "rank": 60
+        }
+      }
+    },
+    {
+      "type": "keyword",
+      "tag": "human-aigc",
+      "paper_tag": "keyword:human-aigc",
+      "query_text": "humanoid robot",
+      "sim_scores": {
+        "openreview-icml-2026-kovwcrghxo": {
+          "score": 0.03278688524590164,
+          "rank": 1
+        },
+        "openreview-icml-2026-gd2s0bjqnz": {
+          "score": 0.03200204813108039,
+          "rank": 2
+        },
+        "openreview-icml-2026-fuvu7ptyed": {
+          "score": 0.014705882352941176,
+          "rank": 10
+        },
+        "openreview-icml-2026-fh6xbnjflv": {
+          "score": 0.012658227848101266,
+          "rank": 21
+        },
+        "openreview-icml-2026-s30y1sbz34": {
+          "score": 0.012345679012345678,
+          "rank": 23
+        },
+        "openreview-icml-2026-ncrrcg4bfp": {
+          "score": 0.011494252873563218,
+          "rank": 29
+        },
+        "openreview-icml-2026-cyiuorizkw": {
+          "score": 0.01,
+          "rank": 41
+        },
+        "openreview-icml-2026-ckpqrftrfc": {
+          "score": 0.00980392156862745,
+          "rank": 43
+        },
+        "openreview-icml-2026-68zoaa2gof": {
+          "score": 0.009708737864077669,
+          "rank": 44
+        }
+      }
+    },
+    {
+      "type": "keyword",
+      "tag": "human-aigc",
+      "paper_tag": "keyword:human-aigc",
+      "query_text": "world action model",
+      "sim_scores": {
+        "openreview-icml-2026-rauhoqnzyv": {
+          "score": 0.030536130536130537,
+          "rank": 1
+        },
+        "openreview-icml-2026-ncwnyfezum": {
+          "score": 0.03028233151183971,
+          "rank": 2
+        },
+        "openreview-icml-2026-iec4fizyrx": {
+          "score": 0.03007688828584351,
+          "rank": 3
+        },
+        "openreview-icml-2026-hdf5semiab": {
+          "score": 0.029726775956284153,
+          "rank": 4
+        },
+        "openreview-icml-2026-skgahlxhxx": {
+          "score": 0.029709507042253523,
+          "rank": 5
+        },
+        "openreview-icml-2026-ykq8grwehr": {
+          "score": 0.027893738140417457,
+          "rank": 7
+        },
+        "openreview-icml-2026-pqtwlelwdg": {
+          "score": 0.027730294396961064,
+          "rank": 8
+        },
+        "openreview-icml-2026-93unlq1qp0": {
+          "score": 0.02667140825035562,
+          "rank": 11
+        },
+        "openreview-icml-2026-nwapjp7ukt": {
+          "score": 0.026631393298059962,
+          "rank": 12
+        },
+        "openreview-icml-2026-brbhrubdkb": {
+          "score": 0.02558175373709354,
+          "rank": 14
+        },
+        "openreview-icml-2026-fuvu7ptyed": {
+          "score": 0.025035205758097326,
+          "rank": 15
+        },
+        "openreview-icml-2026-68zoaa2gof": {
+          "score": 0.024039829302987197,
+          "rank": 16
+        },
+        "openreview-icml-2026-sqtzabteqm": {
+          "score": 0.021845794392523363,
+          "rank": 20
+        },
+        "openreview-icml-2026-s30y1sbz34": {
+          "score": 0.016129032258064516,
+          "rank": 21
+        },
+        "openreview-icml-2026-ny6uyz8ysn": {
+          "score": 0.015873015873015872,
+          "rank": 22
+        },
+        "openreview-icml-2026-pxpgollo02": {
+          "score": 0.014492753623188406,
+          "rank": 24
+        },
+        "openreview-icml-2026-l6vw6cvkhi": {
+          "score": 0.013888888888888888,
+          "rank": 26
+        },
+        "openreview-icml-2026-ckpqrftrfc": {
+          "score": 0.013333333333333334,
+          "rank": 29
+        },
+        "openreview-icml-2026-gec0ijcyxw": {
+          "score": 0.012195121951219513,
+          "rank": 34
+        },
+        "openreview-icml-2026-ncrrcg4bfp": {
+          "score": 0.011111111111111112,
+          "rank": 46
+        },
+        "openreview-icml-2026-lduy9csxqw": {
+          "score": 0.01098901098901099,
+          "rank": 47
+        }
+      }
+    }
+  ],
+  "global_candidate_ids": [
+    "openreview-icml-2026-kovwcrghxo",
+    "openreview-icml-2026-gd2s0bjqnz",
+    "openreview-icml-2026-rauhoqnzyv",
+    "openreview-icml-2026-ncwnyfezum",
+    "openreview-icml-2026-fuvu7ptyed",
+    "openreview-icml-2026-i7mfayyldf",
+    "openreview-icml-2026-vvvbgj9cmc",
+    "openreview-icml-2026-ubvlue2wrp",
+    "openreview-icml-2026-xmo8lp4i2n",
+    "openreview-icml-2026-ckpqrftrfc",
+    "openreview-icml-2026-bowwkd9xef",
+    "openreview-icml-2026-s30y1sbz34",
+    "openreview-icml-2026-abrwtqsjyp",
+    "openreview-icml-2026-xihbvlayrp",
+    "openreview-icml-2026-lwoobzjykl",
+    "openreview-icml-2026-watvffbzgf",
+    "openreview-icml-2026-c0ddrzomnf",
+    "openreview-icml-2026-woiiket6bn",
+    "openreview-icml-2026-8m30ogkpk2",
+    "openreview-icml-2026-l0xgi4e0bf",
+    "openreview-icml-2026-ncrrcg4bfp",
+    "openreview-icml-2026-v0oaahqbuy",
+    "openreview-icml-2026-wws8ctpua6",
+    "openreview-icml-2026-3vnasvdeac",
+    "openreview-icml-2026-ykq8grwehr",
+    "openreview-icml-2026-pxvtbzvmce",
+    "openreview-icml-2026-d1ipe7qr0n",
+    "openreview-icml-2026-34e2z2ovhd",
+    "openreview-icml-2026-p5qslnwume",
+    "openreview-icml-2026-93unlq1qp0",
+    "openreview-icml-2026-nvhcistase",
+    "openreview-icml-2026-unwii5qjg1",
+    "openreview-icml-2026-1ufvo73uzd",
+    "openreview-icml-2026-68zoaa2gof",
+    "openreview-icml-2026-usakwviwng",
+    "openreview-icml-2026-dim2jckgzw",
+    "openreview-icml-2026-1dwg9pjsvp",
+    "openreview-icml-2026-cyiuorizkw",
+    "openreview-icml-2026-fm6z3wftae",
+    "openreview-icml-2026-0cndtttymr",
+    "openreview-icml-2026-9wyjjpydfe",
+    "openreview-icml-2026-yscdqhxhgs",
+    "openreview-icml-2026-nxdpyvflrh",
+    "openreview-icml-2026-dtixiq0jhu",
+    "openreview-icml-2026-eegk2cd7gx",
+    "openreview-icml-2026-lwpku7h8yi",
+    "openreview-icml-2026-8oow6nd7zx",
+    "openreview-icml-2026-rso6nr7noz",
+    "openreview-icml-2026-lduy9csxqw",
+    "openreview-icml-2026-8ar2ir2ib2",
+    "openreview-icml-2026-iec4fizyrx",
+    "openreview-icml-2026-hdf5semiab",
+    "openreview-icml-2026-hfpamjhizm",
+    "openreview-icml-2026-skgahlxhxx",
+    "openreview-icml-2026-cmflwbi4ov",
+    "openreview-icml-2026-i8ob0tmemp",
+    "openreview-icml-2026-mweh9ipz8n",
+    "openreview-icml-2026-81blq07f5o",
+    "openreview-icml-2026-meeyr2xiw8",
+    "openreview-icml-2026-pqtwlelwdg",
+    "openreview-icml-2026-0i2lc7ewcr",
+    "openreview-icml-2026-5tiuerrwr8",
+    "openreview-icml-2026-smoegnco1c",
+    "openreview-icml-2026-nwapjp7ukt",
+    "openreview-icml-2026-ssebms2mga",
+    "openreview-icml-2026-brbhrubdkb",
+    "openreview-icml-2026-uisdcosd3g",
+    "openreview-icml-2026-ew7fmahpls",
+    "openreview-icml-2026-dujl3a5y57",
+    "openreview-icml-2026-pgpegzhl7y",
+    "openreview-icml-2026-ub6m4bsvwj",
+    "openreview-icml-2026-2nrrsz4nub",
+    "openreview-icml-2026-5bxmlmjt43",
+    "openreview-icml-2026-az6toqyagm",
+    "openreview-icml-2026-sqtzabteqm",
+    "openreview-icml-2026-xaexh2trox",
+    "openreview-icml-2026-86q37wx81t",
+    "openreview-icml-2026-fh6xbnjflv",
+    "openreview-icml-2026-ny6uyz8ysn",
+    "openreview-icml-2026-g8op3bstr2",
+    "openreview-icml-2026-zn8qdhuohn",
+    "openreview-icml-2026-786uuln9zg",
+    "openreview-icml-2026-c7nez94waq",
+    "openreview-icml-2026-pxpgollo02",
+    "openreview-icml-2026-es7vy9rvrl",
+    "openreview-icml-2026-lcswwezzx7",
+    "openreview-icml-2026-mgu2fs7kjt",
+    "openreview-icml-2026-qi2ehwfnfh",
+    "openreview-icml-2026-gikoqkb4fu",
+    "openreview-icml-2026-itonej9giv",
+    "openreview-icml-2026-l6vw6cvkhi",
+    "openreview-icml-2026-nmn3qzg6hq",
+    "openreview-icml-2026-2i7eg7zuqb",
+    "openreview-icml-2026-aiov6nhf3n",
+    "openreview-icml-2026-4n4bxvwewg",
+    "openreview-icml-2026-9zz6xqvmkr",
+    "openreview-icml-2026-hyw7wlpzae",
+    "openreview-icml-2026-ovlnvkv14p",
+    "openreview-icml-2026-nyyfppubnw",
+    "openreview-icml-2026-hniiikdz3v",
+    "openreview-icml-2026-shdjbvmwrp",
+    "openreview-icml-2026-zv5ktces8j",
+    "openreview-icml-2026-1xzeikqdps",
+    "openreview-icml-2026-gec0ijcyxw",
+    "openreview-icml-2026-ikkzmgxkbg",
+    "openreview-icml-2026-qbuzdnyqcm",
+    "openreview-icml-2026-bwar39voqy",
+    "openreview-icml-2026-w86r5sisxe",
+    "openreview-icml-2026-2gqosf4y8n",
+    "openreview-icml-2026-ut6hebnnqe",
+    "openreview-icml-2026-y03xxeukgn",
+    "openreview-icml-2026-0glxvamy7b",
+    "openreview-icml-2026-eb5i7caric",
+    "openreview-icml-2026-bbicqaryty",
+    "openreview-icml-2026-otzcolmxdc",
+    "openreview-icml-2026-aoskhbryuj",
+    "openreview-icml-2026-ihdgi9qknl",
+    "openreview-icml-2026-4jro9plgai",
+    "openreview-icml-2026-5w0ezwaurk",
+    "openreview-icml-2026-jo0isgjg16"
+  ],
+  "global_pool_lane_top_k": 30,
+  "global_pool_limit": 120,
+  "global_pool_guaranteed_per_lane": 2,
+  "global_pool_effective_size": 120,
+  "reranked_at": "2026-07-13T11:39:15.971908+00:00",
+  "llm_ranked": [
+    {
+      "paper_id": "openreview-icml-2026-kovwcrghxo",
+      "score": 9.0,
+      "evidence_en": "whole-body control for cross-humanoid locomotion",
+      "evidence_cn": "跨形态人形机器人全身控制",
+      "canonical_evidence": "跨形态人形机器人全身控制",
+      "tldr_en": "Presents XHugWBC, a cross-embodiment training framework enabling a single policy to generalize across diverse humanoid robots, addressing robot-specific training limitations.",
+      "tldr_cn": "针对人形机器人控制中需要针对不同机器人单独训练的问题，提出了一种跨形态训练框架XHugWBC。该方法通过物理一致的形态随机化、语义对齐的观测与动作空间以及有效的策略架构，使得单一策略能够泛化到多种不同设计的人形机器人上。实验表明，该框架在多种人形机器人上实现了鲁棒的全身控制，为通用人形机器人控制提供了高效解决方案。",
+      "title_zh": "可扩展的通用全身控制：跨人形机器人运动",
+      "motivation_cn": "现有的人形机器人全身控制方法需要针对每种机器人单独训练，缺乏跨形态的通用性。",
+      "method_cn": "提出XHugWBC框架，通过物理一致的形态随机化、语义对齐的观测动作空间和有效的策略架构，实现单一策略泛化到多种人形机器人。",
+      "result_cn": "在多种不同设计的人形机器人上验证了策略的鲁棒泛化能力，实现了跨形态全身控制。",
+      "conclusion_cn": "该框架展示了跨形态人形机器人控制的可行性，为通用人形机器人控制奠定基础。",
+      "matched_requirement_id": "req-1",
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "humanoid robot"
+    },
+    {
+      "paper_id": "openreview-icml-2026-brbhrubdkb",
+      "score": 9.0,
+      "evidence_en": "disentangled latent action world model",
+      "evidence_cn": "解耦的潜在动作世界模型",
+      "canonical_evidence": "解耦的潜在动作世界模型",
+      "tldr_en": "Proposes DiLA, a disentangled latent action world model that resolves the trade-off between action abstraction and generation fidelity via content-structure disentanglement.",
+      "tldr_cn": "现有潜在动作模型（LAM）在动作抽象与生成保真度之间存在根本矛盾。DiLA通过内容-结构解耦来化解这一矛盾，利用预测瓶颈推动解耦与潜在动作学习共同演化。该方法无需两阶段训练或光流限制，在多个视频预测基准上实现了更高的生成质量和动作抽象能力，为世界模型学习提供了新范式。",
+      "title_zh": "DiLA：解耦的潜在动作世界模型",
+      "motivation_cn": "潜在动作模型面临动作抽象与生成保真度之间的权衡，现有方法依赖两阶段训练或光流限制。",
+      "method_cn": "提出DiLA，通过内容-结构解耦机制，让解耦与潜在动作学习相互促进，利用预测瓶颈驱动解耦。",
+      "result_cn": "在多个视频预测基准上，DiLA在保持高动作抽象能力的同时提升了生成保真度。",
+      "conclusion_cn": "内容-结构解耦有效解决了潜在动作模型的核心权衡，为世界模型学习提供了新方向。",
+      "matched_requirement_id": "req-2",
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model"
+    },
+    {
+      "paper_id": "openreview-icml-2026-iec4fizyrx",
+      "score": 9.0,
+      "evidence_en": "co-evolving latent action world models",
+      "evidence_cn": "共同演化的潜在动作世界模型",
+      "canonical_evidence": "共同演化的潜在动作世界模型",
+      "tldr_en": "Introduces CoLA-World, the first framework to jointly train latent action model and world model, resolving representational collapse via a critical warm-up phase.",
+      "tldr_cn": "传统潜在动作世界模型采用两阶段分离训练，限制了协同适应能力。CoLA-World首次实现了潜在动作模型与世界模型的联合训练，通过关键预热阶段对齐表示，避免了表征坍塌。实验表明，联合训练策略显著提升了世界模型的预测质量和动作控制能力，为构建通用世界模型提供了协同演化范式。",
+      "title_zh": "共同演化的潜在动作世界模型",
+      "motivation_cn": "现有潜在动作世界模型采用两阶段分离训练，导致训练冗余且限制了协同适应能力。",
+      "method_cn": "CoLA-World通过关键预热阶段对齐表示，首次成功实现了潜在动作模型与世界模型的联合训练。",
+      "result_cn": "联合训练策略显著提升了世界模型的预测质量和动作控制能力，在多个任务上优于分离训练方法。",
+      "conclusion_cn": "协同演化范式为构建通用世界模型提供了高效且有效的新途径。",
+      "matched_requirement_id": "req-2",
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model"
+    },
+    {
+      "paper_id": "openreview-icml-2026-gd2s0bjqnz",
+      "score": 9.0,
+      "evidence_en": "humanoid locomotion from game videos",
+      "evidence_cn": "从游戏视频学习人形机器人运动",
+      "canonical_evidence": "从游戏视频学习人形机器人运动",
+      "tldr_en": "TRIP extracts transferable interaction primitives from unlabeled game videos for humanoid locomotion control, explicitly modeling motion-environment dependencies.",
+      "tldr_cn": "人形机器人控制缺乏高保真数据，现有方法未充分利用视频中的动态交互。本文提出TRIP框架，从无标签游戏视频中提取可迁移交互原语，通过离散原语库显式建模运动与环境依赖。实验表明TRIP能够在复杂物理环境中实现鲁棒的人形机器人控制，弥合了仿真到真实的鸿沟。",
+      "title_zh": "从游戏视频中学习可迁移交互原语以实现人形机器人运动",
+      "motivation_cn": "人形机器人控制缺乏高保真数据，现有方法未捕捉动态环境交互。",
+      "method_cn": "从无标签游戏视频中提取可迁移交互原语，通过离散原语库建模运动与环境依赖。",
+      "result_cn": "在复杂物理环境中实现了鲁棒的人形机器人控制，成功弥合仿真到真实的差距。",
+      "conclusion_cn": "TRIP通过交互原语有效利用游戏视频数据驱动人形机器人运动学习。",
+      "matched_requirement_id": "req-3",
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "humanoid"
+    },
+    {
+      "paper_id": "openreview-icml-2026-68zoaa2gof",
+      "score": 9.0,
+      "evidence_en": "iterative co-improvement of VLA policy and world model",
+      "evidence_cn": "VLA策略与世界模型的迭代共同改进",
+      "canonical_evidence": "VLA策略与世界模型的迭代共同改进",
+      "tldr_en": "Proposes VLAW to iteratively improve VLA policy and world model through online interaction using an action-conditioned video generator.",
+      "tldr_cn": "针对世界模型物理保真度不足、难以用于策略改进的问题，提出VLAW框架，通过在线交互迭代，使用动作条件视频生成模型作为模拟器生成数据，共同提升VLA策略和世界模型。",
+      "title_zh": "VLAW：视觉-语言-动作策略与世界模型的迭代共同改进",
+      "motivation_cn": "世界模型物理细节不足，无法支持策略提升",
+      "method_cn": "迭代收集在线交互数据，共同训练策略和世界模型",
+      "result_cn": "在模拟环境中验证了策略和世界模型的协同提升",
+      "conclusion_cn": "迭代改进框架可克服物理建模瓶颈",
+      "matched_requirement_id": "req-2",
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model"
+    },
+    {
+      "paper_id": "openreview-icml-2026-ncrrcg4bfp",
+      "score": 8.0,
+      "evidence_en": "knowledge-encoded scalable trajectory world model",
+      "evidence_cn": "知识编码的可扩展轨迹世界模型",
+      "canonical_evidence": "知识编码的可扩展轨迹世界模型",
+      "tldr_en": "Proposes WestWorld, a knowledge-encoded scalable trajectory world model using system-aware Mixture-of-Experts for diverse robotic systems.",
+      "tldr_cn": "现有轨迹世界模型难以扩展到大量不同系统动力学，且忽略了物理结构知识。WestWorld引入系统感知的混合专家（Sys-MoE）机制，通过可学习的系统嵌入动态组合专家，并融合物理知识，实现了对多种机器人系统的可扩展世界建模。在多个仿真平台上验证了零样本泛化能力，为机器人动力学学习提供了知识驱动的可扩展方案。",
+      "title_zh": "WestWorld：知识编码的可扩展轨迹世界模型",
+      "motivation_cn": "现有轨迹世界模型难以扩展到大量不同系统动力学，且忽略了物理结构知识。",
+      "method_cn": "提出系统感知的混合专家机制，结合可学习系统嵌入和物理知识编码，实现可扩展的轨迹世界模型。",
+      "result_cn": "在多种机器人系统上实现了零样本泛化，验证了可扩展性和知识融合的有效性。",
+      "conclusion_cn": "知识编码和系统感知的混合专家设计为机器人世界模型的可扩展性提供了有效方案。",
+      "matched_requirement_id": "req-2",
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model"
+    },
+    {
+      "paper_id": "openreview-icml-2026-fuvu7ptyed",
+      "score": 8.0,
+      "evidence_en": "generalist robot world model from large-scale human videos with latent actions",
+      "evidence_cn": "从大规模人类视频学习的通用机器人世界模型与潜在动作",
+      "canonical_evidence": "从大规模人类视频学习的通用机器人世界模型与潜在动作",
+      "tldr_en": "DreamDojo pretrains a foundation world model on 44k hours of egocentric human videos using continuous latent actions, enabling diverse dexterous control simulation.",
+      "tldr_cn": "通用机器人世界模型受限于数据覆盖和动作标签稀缺。本文提出DreamDojo，基于44k小时第一人称人类视频预训练基础世界模型，引入连续潜在动作作为代理动作。实验证明该模型能模拟多种灵巧操作，为零样本机器人控制和规划提供了强大的世界模型基础。",
+      "title_zh": "DreamDojo：从大规模人类视频学习的通用机器人世界模型",
+      "motivation_cn": "通用机器人世界模型受限于数据覆盖和动作标签稀缺。",
+      "method_cn": "基于44k小时第一人称人类视频预训练，使用连续潜在动作作为代理动作。",
+      "result_cn": "成功模拟多种灵巧操作，实现零样本机器人控制。",
+      "conclusion_cn": "DreamDojo通过大规模人类视频学习为通用机器人世界模型提供了强大基础。",
+      "matched_requirement_id": "req-composite-human-aigc",
+      "matched_query_tag": "query:human-aigc:composite",
+      "matched_query_text": "Papers central to humanoid、世界行动模型、AIGC相关文章, especially work that connects or combines: humanoid robot; world action model; humanoid; research on humanoid robots and world action models."
+    },
+    {
+      "paper_id": "openreview-icml-2026-skgahlxhxx",
+      "score": 8.0,
+      "evidence_en": "benchmark for interactive world models with action generation",
+      "evidence_cn": "带动作生成的交互世界模型基准",
+      "canonical_evidence": "带动作生成的交互世界模型基准",
+      "tldr_en": "Introduces iWorld-Bench, a large-scale benchmark with unified action generation for evaluating interactive world models.",
+      "tldr_cn": "针对交互世界模型缺乏大规模基准和统一评估的问题，提出iWorld-Bench，包含33万视频片段，并引入统一动作生成框架，评估距离感知、记忆等交互能力。",
+      "title_zh": "iWorld-Bench：交互世界模型基准与统一动作生成框架",
+      "motivation_cn": "缺乏统一基准评估世界模型的交互能力",
+      "method_cn": "构建大规模数据集并提出统一动作生成框架",
+      "result_cn": "覆盖多视角、天气和场景，提供标准化评测",
+      "conclusion_cn": "该基准将推动交互世界模型发展",
+      "matched_requirement_id": "req-2",
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model"
+    },
+    {
+      "paper_id": "openreview-icml-2026-hdf5semiab",
+      "score": 8.0,
+      "evidence_en": "latent action world models learned from in-the-wild videos",
+      "evidence_cn": "从野外视频学习潜动作世界模型",
+      "canonical_evidence": "从野外视频学习潜动作世界模型",
+      "tldr_en": "Studies latent action world models from in-the-wild videos, proposing constrained continuous latent actions for generalizable world models.",
+      "tldr_cn": "针对世界模型需要动作标注的问题，研究从野外视频学习潜动作世界模型，提出约束连续潜动作空间，应对环境噪声和缺乏统一具身的挑战，扩展了潜动作模型的应用范围。",
+      "title_zh": "在野外学习潜动作世界模型",
+      "motivation_cn": "世界模型依赖动作标注，难以大规模获取",
+      "method_cn": "从无标注野外视频学习约束连续潜动作",
+      "result_cn": "展示了在多样化视频上学习潜动作的可行性",
+      "conclusion_cn": "潜动作世界模型可扩展至真实世界场景",
+      "matched_requirement_id": "req-2",
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model"
+    },
+    {
+      "paper_id": "openreview-icml-2026-nwapjp7ukt",
+      "score": 8.0,
+      "evidence_en": "world-model augmented VLA with dual-stream diffusion",
+      "evidence_cn": "双流扩散世界模型增强VLA",
+      "canonical_evidence": "双流扩散世界模型增强VLA",
+      "tldr_en": "Proposes DUST, a dual-stream diffusion transformer for world-model augmented VLA, enabling cross-modal knowledge sharing and inference-time scaling.",
+      "tldr_cn": "针对世界模型增强VLA时模态差距导致联合预测困难的问题，提出双流扩散框架DUST，保持独立模态流同时允许跨模态知识共享，并引入异步采样方法提升推理性能。",
+      "title_zh": "双流扩散用于世界模型增强的视觉-语言-动作模型",
+      "motivation_cn": "世界模型增强VLA面临模态差距",
+      "method_cn": "双流扩散Transformer，独立噪声扰动和异步采样",
+      "result_cn": "在RoboCas等基准上取得性能提升",
+      "conclusion_cn": "双流结构有效缓解模态对齐困难",
+      "matched_requirement_id": "req-2",
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model"
+    },
+    {
+      "paper_id": "openreview-icml-2026-ykq8grwehr",
+      "score": 7.0,
+      "evidence_en": "world model-based reinforcement learning for VLA models",
+      "evidence_cn": "基于世界模型的强化学习应用于VLA模型",
+      "canonical_evidence": "基于世界模型的强化学习应用于VLA模型",
+      "tldr_en": "Proposes VLA-MBPO, a practical framework for finetuning VLA models using world model-based RL, addressing challenges in pixel-level modeling and multi-view consistency.",
+      "tldr_cn": "VLA模型在机器人控制中泛化能力强，但使用强化学习微调面临现实交互的高成本和风险。VLA-MBPO提出在交互式世界模型中训练VLA模型，通过统一多模态模型实现数据高效的世界建模，并采用交错视图去相关和奖励引导的退火策略解决多视角一致性和累积误差问题。在仿真环境中验证了该方法能有效提升VLA模型的性能，为安全高效的机器人策略学习提供了实用框架。",
+      "title_zh": "面向视觉-语言-动作模型的实用世界模型强化学习",
+      "motivation_cn": "VLA模型微调强化学习受限于真实交互的高成本和风险，基于世界模型的训练可避免这些问题。",
+      "method_cn": "提出VLA-MBPO框架，利用统一多模态模型进行数据高效世界建模，并引入交错视图去相关和奖励引导退火策略。",
+      "result_cn": "在仿真环境中成功提升了VLA模型的性能，验证了世界模型强化学习的实用性。",
+      "conclusion_cn": "该框架为安全高效地微调VLA模型提供了实用方案，推动了世界模型在机器人学习中的应用。",
+      "matched_requirement_id": "req-2",
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model"
+    },
+    {
+      "paper_id": "openreview-icml-2026-pqtwlelwdg",
+      "score": 7.0,
+      "evidence_en": "self-correcting world model with closed-loop feedback",
+      "evidence_cn": "具有闭环反馈的自校正世界模型",
+      "canonical_evidence": "具有闭环反馈的自校正世界模型",
+      "tldr_en": "Proposes SC^2-WM, a self-correcting world model framework with closed-loop feedback for VLN-CE, enabling state-level plan refinement and model-level correction.",
+      "tldr_cn": "连续环境中的视觉语言导航（VLN-CE）代理通常采用开环执行，缺乏检测和纠正内部状态漂移的机制。SC^2-WM引入闭环反馈，通过世界模型的前瞻性进行状态级计划细化，并利用条件世界感知适应进行模型级校正。在多个VLN-CE基准上的实验表明，该方法显著提高了导航成功率和鲁棒性，为部分可观测环境下的自主代理提供了自我校正范式。",
+      "title_zh": "SC²-WM：具有闭环反馈的自校正世界模型用于连续环境视觉语言导航",
+      "motivation_cn": "VLN-CE代理通常采用开环执行，缺乏检测和纠正状态漂移的机制。",
+      "method_cn": "提出SC²-WM框架，引入闭环反馈，通过世界模型前瞻进行状态级计划细化，并实现模型级校正。",
+      "result_cn": "在多个VLN-CE基准上显著提高了导航成功率和鲁棒性。",
+      "conclusion_cn": "闭环反馈自校正范式有效提升了部分可观测环境下自主代理的可靠性。",
+      "matched_requirement_id": "req-2",
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model"
+    },
+    {
+      "paper_id": "openreview-icml-2026-ncwnyfezum",
+      "score": 7.0,
+      "evidence_en": "world modeling in condition space for action generation",
+      "evidence_cn": "条件空间中的世界建模用于动作生成",
+      "canonical_evidence": "条件空间中的世界建模用于动作生成",
+      "tldr_en": "WoG maps future observations into compact conditions to guide action generation, achieving world modeling within the condition space for VLA models.",
+      "tldr_cn": "现有的未来观测建模在动作生成中难以平衡效率与细粒度信息。本文提出WoG框架，将未来观测映射为紧凑条件，注入动作推理管线，使VLA模型同时预测压缩条件与未来动作。实验证明WoG在不牺牲推理速度的情况下显著提升了动作生成的精确度。",
+      "title_zh": "世界引导：条件空间中的世界建模用于动作生成",
+      "motivation_cn": "现有方法在维持高效未来表示与保留细粒度信息间存在矛盾。",
+      "method_cn": "将未来观测映射为紧凑条件，使VLA模型同时预测条件与未来动作。",
+      "result_cn": "在多个VLA基准上提升了动作生成精确度，同时保持高效推理。",
+      "conclusion_cn": "WoG通过条件空间的世界建模有效提升了VLA模型的动作生成能力。",
+      "matched_requirement_id": "req-2",
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model"
+    },
+    {
+      "paper_id": "openreview-icml-2026-pxpgollo02",
+      "score": 7.0,
+      "evidence_en": "learning task-sufficient world models",
+      "evidence_cn": "学习任务充分的世界模型",
+      "canonical_evidence": "学习任务充分的世界模型",
+      "tldr_en": "Proposes closed-loop synergy between agent and world model to learn task-specific minimal representations for planning.",
+      "tldr_cn": "针对世界模型表示包含与控制无关因素的问题，提出智能体与世界模型协同学习框架，通过主动探索和结构化建模蒸馏任务充分表示，提升决策效率与泛化性。",
+      "title_zh": "通过智能体探索与结构化建模协同学习任务充分的世界模型",
+      "motivation_cn": "现有世界模型表示包含与控制无关的因素",
+      "method_cn": "智能体主动交互与世界模型结构化学习协同",
+      "result_cn": "获得更紧凑的表示，提升规划和泛化能力",
+      "conclusion_cn": "证明了任务充分表示对决策的重要性",
+      "matched_requirement_id": "req-2",
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model"
+    },
+    {
+      "paper_id": "openreview-icml-2026-fh6xbnjflv",
+      "score": 7.0,
+      "evidence_en": "flow world model for robotic manipulation",
+      "evidence_cn": "用于机器人操作的流世界模型",
+      "canonical_evidence": "用于机器人操作的流世界模型",
+      "tldr_en": "Proposes RoboFlow4D, a lightweight flow world model that directly predicts 3D flows for real-time robotic manipulation.",
+      "tldr_cn": "针对现有流规划器模块堆叠导致计算开销大的问题，提出轻量级流世界模型RoboFlow4D，端到端预测多帧3D流并引导动作生成，实现实时性能。",
+      "title_zh": "RoboFlow4D：面向实时流引导机器人操作的轻量级流世界模型",
+      "motivation_cn": "现有流规划器计算开销大，实时性差",
+      "method_cn": "端到端预测多帧3D流，统一感知与规划",
+      "result_cn": "在真实机器人任务中实现实时引导操作",
+      "conclusion_cn": "验证了流世界模型在机器人操作中的有效性",
+      "matched_requirement_id": "req-2",
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model"
+    },
+    {
+      "paper_id": "openreview-icml-2026-ckpqrftrfc",
+      "score": 7.0,
+      "evidence_en": "4D world model for robotic manipulation with action inference",
+      "evidence_cn": "带动作推理的4D世界模型用于机器人操作",
+      "canonical_evidence": "带动作推理的4D世界模型用于机器人操作",
+      "tldr_en": "Proposes MVISTA-4D, a view-consistent 4D world model that generates arbitrary-view RGBD for complete scene dynamics.",
+      "tldr_cn": "针对现有世界模型无法预测完整4D场景动态的问题，提出MVISTA-4D，从单视角RGBD生成多视角一致RGBD，通过反投影融合构建跨时间的完整3D结构，并支持测试时动作推理。",
+      "title_zh": "MVISTA-4D：面向机器人操作的视图一致4D世界模型与测试时动作推理",
+      "motivation_cn": "现有世界模型只能预测图像或部分3D，缺乏完整4D",
+      "method_cn": "生成多视角RGBD并融合为完整3D结构",
+      "result_cn": "在机器人操作任务中展示了4D预测的有效性",
+      "conclusion_cn": "4D世界模型为机器人规划提供更丰富的几何信息",
+      "matched_requirement_id": "req-2",
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model"
+    },
+    {
+      "paper_id": "openreview-icml-2026-gec0ijcyxw",
+      "score": 6.0,
+      "evidence_en": "world model for autonomous robotic planning",
+      "evidence_cn": "用于自主机器人规划的世界模型",
+      "canonical_evidence": "用于自主机器人规划的世界模型",
+      "tldr_en": "DDP-WM introduces a disentangled dynamics prediction world model that decomposes latent state evolution into sparse primary and secondary updates, improving efficiency for real-time robotic planning.",
+      "tldr_cn": "现有基于Transformer的世界模型计算开销大，阻碍实时部署。DDP-WM提出解耦动力学预测，将潜在状态演变为稀疏主动力学与背景更新，通过交叉注意力机制实现高效部署。实验表明在多个机器人规划任务中，DDP-WM在保持高预测精度的同时大幅降低计算成本，为实时自主规划提供了可行的世界模型方案。",
+      "title_zh": "DDP-WM：用于高效世界模型的解耦动力学预测",
+      "motivation_cn": "现有密集Transformer世界模型计算开销大，难以实时部署。",
+      "method_cn": "提出解耦动力学预测，将状态演变为稀疏主动力学和背景更新，结合交叉注意力实现高效世界模型。",
+      "result_cn": "在多个机器人规划任务中显著降低计算开销，保持高预测精度。",
+      "conclusion_cn": "DDP-WM通过解耦动力学预测实现了高效世界模型，适用于实时机器人规划。",
+      "matched_requirement_id": "req-2",
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model"
+    },
+    {
+      "paper_id": "openreview-icml-2026-s30y1sbz34",
+      "score": 6.0,
+      "evidence_en": "cross-embodiment robot foundation world model with latent actions",
+      "evidence_cn": "跨形态机器人基础世界模型与潜在动作",
+      "canonical_evidence": "跨形态机器人基础世界模型与潜在动作",
+      "tldr_en": "LAC-WM learns a unified latent action space across diverse robot embodiments to build generalizable world models, improving adaptation to unseen robots.",
+      "tldr_cn": "机器人形态和动作空间的多样性阻碍了世界模型的泛化。本文提出LAC-WM，学习统一的潜在动作空间，跨多种形态进行世界模型训练。实验表明在未见过的机器人形态上，LAC-WM比显式动作条件模型具有更好的泛化性能，为跨形态机器人世界模型奠定了基石。",
+      "title_zh": "具有潜在动作的跨形态机器人基础世界模型",
+      "motivation_cn": "不同机器人形态的动作空间差异大，世界模型难以泛化。",
+      "method_cn": "学习统一的潜在动作空间，跨形态共享世界模型。",
+      "result_cn": "在未见形态上表现出更好的泛化性能。",
+      "conclusion_cn": "LAC-WM通过统一潜在动作空间实现了跨形态世界模型的有效泛化。",
+      "matched_requirement_id": "req-2",
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model"
+    },
+    {
+      "paper_id": "openreview-icml-2026-93unlq1qp0",
+      "score": 6.0,
+      "evidence_en": "discrete diffusion world model for robot policy evaluation",
+      "evidence_cn": "用于机器人策略评估的离散扩散世界模型",
+      "canonical_evidence": "用于机器人策略评估的离散扩散世界模型",
+      "tldr_en": "dWorldEval proposes an action-centric discrete-diffusion world model for reliable real-world robot policy evaluation, addressing self-correction and artifact issues.",
+      "tldr_cn": "现有世界模型在机器人策略评估中常出现自我纠正导致的误判和伪影。本文提出dWorldEval，以动作为中心的离散扩散世界模型，将动作视为因果驱动因素而非被动条件。在真实场景评估中，dWorldEval显著提高了评估可靠性，为大规模真实世界机器人策略评估提供了实用方案。",
+      "title_zh": "通过离散扩散世界模型扩展真实世界机器人策略评估",
+      "motivation_cn": "现有世界模型在策略评估中存在自我纠正误判和伪影问题。",
+      "method_cn": "以动作为中心的离散扩散世界模型，将动作视为因果驱动因素。",
+      "result_cn": "在真实场景评估中显著提高了评估可靠性。",
+      "conclusion_cn": "dWorldEval通过动作因果建模提升了世界模型在策略评估中的可靠性。",
+      "matched_requirement_id": "req-2",
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model"
+    },
+    {
+      "paper_id": "openreview-icml-2026-rauhoqnzyv",
+      "score": 6.0,
+      "evidence_en": "factored latent action world models for multi-entity scenes",
+      "evidence_cn": "用于多实体场景的分解潜在动作世界模型",
+      "canonical_evidence": "用于多实体场景的分解潜在动作世界模型",
+      "tldr_en": "FLAM decomposes scene dynamics into independent factors with per-factor latent actions, enabling more accurate world models for complex multi-entity environments.",
+      "tldr_cn": "现有潜在动作世界模型难以处理多实体同时作用的环境。本文提出FLAM，将场景分解为独立因子，每个因子推断自己的潜在动作并预测下一步。实验表明FLAM在复杂多实体动态建模中显著优于单一体方法，提升了可控视频生成和规划性能。",
+      "title_zh": "分解潜在动作世界模型",
+      "motivation_cn": "现有潜在动作世界模型难以处理多实体同时作用的环境。",
+      "method_cn": "将场景分解为独立因子，每个因子学习自己的潜在动作和预测。",
+      "result_cn": "在复杂多实体动态建模中显著优于单体方法。",
+      "conclusion_cn": "FLAM通过分解结构提高了潜在动作世界模型在多实体场景下的建模精度。",
+      "matched_requirement_id": "req-2",
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model"
+    },
+    {
+      "paper_id": "openreview-icml-2026-lduy9csxqw",
+      "score": 6.0,
+      "evidence_en": "VLA model with multimodal chain-of-thought reasoning about world evolution",
+      "evidence_cn": "结合世界演化的多模态思维链VLA模型",
+      "canonical_evidence": "结合世界演化的多模态思维链VLA模型",
+      "tldr_en": "Proposes HALO, a unified VLA model with embodied multimodal chain-of-thought reasoning for robust long-horizon manipulation.",
+      "tldr_cn": "针对VLA模型在长时域和分布外场景中缺乏显式多模态推理的问题，提出HALO统一框架，同时实现文本推理、视觉子目标预测和动作预测，通过多模态思维链提升鲁棒性。",
+      "title_zh": "HALO：面向具身多模态思维链推理的统一视觉-语言-动作模型",
+      "motivation_cn": "VLA模型在长时域任务中缺乏显式推理",
+      "method_cn": "统一文本推理、视觉子目标预测与动作预测",
+      "result_cn": "在模拟器上展示了对复杂任务的性能提升",
+      "conclusion_cn": "多模态思维链增强VLA的鲁棒性和泛化性",
+      "matched_requirement_id": "req-2",
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model"
+    },
+    {
+      "paper_id": "openreview-icml-2026-l6vw6cvkhi",
+      "score": 5.0,
+      "evidence_en": "knowledge-sharing world model for online RL",
+      "evidence_cn": "在线强化学习中知识共享的世界模型",
+      "canonical_evidence": "在线强化学习中知识共享的世界模型",
+      "tldr_en": "TaskLoom proposes a grouped two-stage knowledge-sharing world model for online RL, leveraging gradient similarity to share fine-grained knowledge across tasks.",
+      "tldr_cn": "现有世界模型方法未能充分利用在线交互场景中任务间的潜在关系。本文提出TaskLoom，采用分组两阶段训练范式，基于世界模型梯度相似性划分任务组并共享细粒度知识。实验表明TaskLoom在多个在线RL任务中显著提高了样本效率。",
+      "title_zh": "TaskLoom：世界模型中跨任务的知识编织",
+      "motivation_cn": "现有世界模型方法未能充分利用在线场景中任务间的潜在关系。",
+      "method_cn": "基于世界模型梯度相似性分组任务，进行两阶段知识共享。",
+      "result_cn": "在多个在线RL任务中显著提升了样本效率。",
+      "conclusion_cn": "TaskLoom通过分组知识共享提高了世界模型在在线多任务学习中的有效性。",
+      "matched_requirement_id": "req-2",
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model"
+    },
+    {
+      "paper_id": "openreview-icml-2026-sqtzabteqm",
+      "score": 5.0,
+      "evidence_en": "latent action representation alignment for VLA models",
+      "evidence_cn": "面向VLA模型的潜在动作表示对齐",
+      "canonical_evidence": "面向VLA模型的潜在动作表示对齐",
+      "tldr_en": "LARA jointly optimizes latent action model and VLA model through representation alignment, improving VLA learning from unlabeled human videos.",
+      "tldr_cn": "潜在动作模型与VLA模型分开训练导致表示不匹配。本文提出LARA，通过表示对齐联合优化两者，使潜在动作模型更好服务于VLA训练。实验利用未标注人类视频，有效提升了VLA在机器人任务上的表现。",
+      "title_zh": "LARA：面向视觉-语言-动作模型的潜在动作表示对齐",
+      "motivation_cn": "潜在动作模型与VLA模型独立训练导致表示不匹配。",
+      "method_cn": "通过表示对齐联合优化潜在动作模型与VLA模型。",
+      "result_cn": "在多个机器人任务上通过未标注人类视频提升了VLA性能。",
+      "conclusion_cn": "LARA通过联合对齐有效增强了VLA模型利用未标注视频的能力。",
+      "matched_requirement_id": "req-2",
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model"
+    },
+    {
+      "paper_id": "openreview-icml-2026-ny6uyz8ysn",
+      "score": 4.0,
+      "evidence_en": "benchmarking world-model learning with environment-level queries",
+      "evidence_cn": "用环境级查询评估世界模型学习",
+      "canonical_evidence": "用环境级查询评估世界模型学习",
+      "tldr_en": "Proposes WorldTest, a protocol for evaluating world models on environment-level queries, testing capabilities beyond next-frame prediction.",
+      "tldr_cn": "现有世界模型评估仅关注观察轨迹上的可测量属性，如下一帧预测，未能测试模型对环境的全局理解。WorldTest提出了一种评估协议，通过环境级查询（如全局结构和反事实后果）来检验世界模型的质量。该方法为世界模型学习提供了更全面的基准，推动了更通用世界模型的发展。",
+      "title_zh": "用环境级查询评估世界模型学习",
+      "motivation_cn": "现有世界模型评估局限于观察到轨迹上的属性，不能检验模型对环境的全局理解。",
+      "method_cn": "提出WorldTest评估协议，利用环境级查询（如全局结构和反事实问题）来全面评估世界模型。",
+      "result_cn": "在多个环境上验证了该协议的有效性，揭示了现有世界模型在全局理解上的不足。",
+      "conclusion_cn": "环境级查询评估为世界模型学习提供了更全面的基准，有助于推动通用世界模型的发展。",
+      "matched_requirement_id": "req-2",
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model"
+    },
+    {
+      "paper_id": "openreview-icml-2026-cyiuorizkw",
+      "score": 4.0,
+      "evidence_en": "VLA models for robot manipulation",
+      "evidence_cn": "用于机器人操作的VLA模型",
+      "canonical_evidence": "用于机器人操作的VLA模型",
+      "tldr_en": "Proposes RS-CL to regularize VLA representations using robot state distances, improving sensitivity to control signals.",
+      "tldr_cn": "针对VLA模型表示对控制信号不敏感的问题，提出机器人状态感知对比损失(RS-CL)，通过状态间相对距离作为软监督对齐表示，提升了机器人操作性能。",
+      "title_zh": "视觉-语言-动作模型的对比表示正则化",
+      "motivation_cn": "VLA模型表示对机器人控制信号不敏感",
+      "method_cn": "提出RS-CL损失利用状态距离对齐表示",
+      "result_cn": "实验验证了表示正则化提升操作性能",
+      "conclusion_cn": "所提方法简单有效，可推广至多种VLA模型",
+      "matched_requirement_id": "req-1",
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "humanoid robot"
+    },
+    {
+      "paper_id": "openreview-icml-2026-jo0isgjg16",
+      "score": 4.0,
+      "evidence_en": "VLA model for diverse robot embodiments",
+      "evidence_cn": "面向多样机器人形态的VLA模型",
+      "canonical_evidence": "面向多样机器人形态的VLA模型",
+      "tldr_en": "Proposes XR-1 to learn unified vision-motion representations from heterogeneous robot data for versatile VLA.",
+      "tldr_cn": "针对现有VLA模型难以精确生成低层动作和跨域泛化的问题，提出XR-1框架，学习统一视觉-运动表示，融合多模态知识，提升在不同机器人形态和人类演示上的泛化能力。",
+      "title_zh": "XR-1：通过学习统一视觉-运动表示走向通用视觉-语言-动作模型",
+      "motivation_cn": "VLA模型难以处理不同机器人形态和人类数据",
+      "method_cn": "学习统一视觉-运动表示，融合多模态知识",
+      "result_cn": "在多个机器人操作任务上展示跨域泛化",
+      "conclusion_cn": "统一表示有助于构建通用VLA模型",
+      "matched_requirement_id": "req-1",
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "humanoid robot"
+    }
+  ],
+  "llm_ranked_at": "2026-07-13T11:40:12.012325+00:00",
+  "display_min_score": 4.0,
+  "pruned_at": "2026-07-13T11:40:12.048669+00:00"
+}
