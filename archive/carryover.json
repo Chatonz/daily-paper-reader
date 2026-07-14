@@ -1,29 +1,34 @@
 {
-  "generated_at": "2026-07-13T20:26:23.899507+00:00",
-  "updated_date": "20260713",
+  "generated_at": "2026-07-14T20:40:27.380711+00:00",
+  "updated_date": "20260714",
   "carryover_days": 9,
   "tag_states": {
     "human-aigc": {
-      "updated_date": "20260713",
+      "updated_date": "20260714",
       "carryover_days": 9,
       "items": [
         {
-          "id": "2607.06501v1",
+          "id": "2607.08741v1",
           "source": "arxiv",
-          "title": "Hypothesis-driven Model Expansion under Uncertainty for Open-World Robot Planning",
-          "abstract": "We consider an open-world planning setting in which service robots must operate in unknown environments with incomplete knowledge of objects and actions. Traditional closed-world approaches with pre-programmed knowledge bases fail when robots encounter unexpected situations and tasks, posing a fundamental challenge for autonomous knowledge expansion in human environments. In this work, we propose an open-world planning framework that enables robots to automatically generate, verify, and update hypotheses about their abstract world models. Our key insight is to explicitly maintain uncertainty-aware knowledge expansion and integrate hypothesis verification into goal-reaching planning. The framework leverages foundation models to generate initial hypotheses over states and transitions, and applies automated planning to produce action sequences that jointly address hypothesis verification and task execution. Through iterative execution and refinement, the robot expands its knowledge by incorporating verification feedback from the foundation models when hypotheses prove incorrect. Extensive experiments in simulated and real-world environments demonstrate that our framework enables autonomous knowledge expansion and effective operation in open-world settings. These results indicate that integrating uncertainty-aware model expansion from robot foundation models with planning advances the practical deployment of household service robots.",
+          "title": "ARDY: Autoregressive Diffusion with Hybrid Representation for Interactive Human Motion Generation",
+          "abstract": "Generating realistic 3D human motions in real-time within interactive applications is key for animation, simulation, and humanoid robotics. While recent offline motion generation approaches offer precise control via text and kinematic constraints, they lack the inference speed required for interactive settings. Conversely, existing online methods enable real-time synthesis but often sacrifice controllability or struggle with complex text semantics and long-horizon goals due to limited context windows. In this work, we introduce ARDY, a streaming generation framework that bridges this gap by enabling high-fidelity motion generation controllable via online text prompts and flexible kinematic constraints. ARDY employs a hybrid representation that combines explicit root features with a latent body embedding, balancing precise trajectory control with efficient generative learning. We propose a two-stage autoregressive transformer denoiser that features variable history context and supports conditioning on flexible, long-horizon kinematic constraints. By training on a large-scale motion capture dataset and being directly conditioned on text labels and kinematic constraints sampled from ground truth poses, ARDY natively learns controllable generation that supports online prompting and flexible long-horizon goals. Extensive evaluations on the HumanML3D benchmark and the large-scale, high-fidelity Bones Rigplay dataset demonstrate ARDY's high motion quality and constraint adherence, validating the efficacy of our key architectural decisions. Finally, we demonstrate the method's practical versatility through an interactive demo featuring dynamic text control, diverse keyframe pose constraints, path following, and interactive locomotion control via mouse and keyboard. Supplementary video results, code, and model releases can be found at https://research.nvidia.com/labs/sil/projects/ardy/.",
           "authors": [
-            "Anxing Xiao",
-            "Hanbo Zhang",
-            "Tianrun Hu",
-            "David Hsu"
+            "Kaifeng Zhao",
+            "Mathis Petrovich",
+            "Haotian Zhang",
+            "Tingwu Wang",
+            "Siyu Tang",
+            "Davis Rempe"
           ],
-          "primary_category": "cs.RO",
+          "primary_category": "cs.GR",
           "categories": [
+            "cs.GR",
+            "cs.CV",
+            "cs.LG",
             "cs.RO"
           ],
-          "published": "2026-07-07T17:02:09+00:00",
-          "link": "https://arxiv.org/pdf/2607.06501v1",
+          "published": "2026-07-09T17:41:49+00:00",
+          "link": "https://arxiv.org/pdf/2607.08741v1",
           "tags": [
             "keyword:VLA-Humanoid",
             "keyword:human-aigc",
@@ -31,98 +36,13 @@
             "query:human-aigc"
           ],
           "llm_score": 8.0,
-          "llm_evidence_en": "automatically expands world models for open-world planning",
-          "llm_evidence_cn": "自动扩展世界模型以支持开放世界规划",
-          "llm_evidence": "自动扩展世界模型以支持开放世界规划",
-          "canonical_evidence": "自动扩展世界模型以支持开放世界规划",
-          "llm_tldr_en": "Proposes an open-world planning framework that uses foundation models to generate and verify hypotheses about world models, enabling robots to operate in unknown environments.",
-          "llm_tldr_cn": "针对服务机器人在未知环境中知识不完备的问题，本文提出开放世界规划框架，使机器人能自动生成、验证和更新关于抽象世界模型的假设。关键创新在于显式维护不确定性感知的知识扩展，并将假设验证集成到目标达成规划中。框架利用基础模型生成初始假设，实验表明在未知场景中机器人能有效扩展知识和完成新任务。",
-          "llm_tldr": "针对服务机器人在未知环境中知识不完备的问题，本文提出开放世界规划框架，使机器人能自动生成、验证和更新关于抽象世界模型的假设。关键创新在于显式维护不确定性感知的知识扩展，并将假设验证集成到目标达成规划中。框架利用基础模型生成初始假设，实验表明在未知场景中机器人能有效扩展知识和完成新任务。",
-          "llm_tags": [
-            "query:human-aigc"
-          ],
-          "matched_query_tag": "query:human-aigc",
-          "matched_query_text": "world action model",
-          "matched_requirement_id": "req-2",
-          "selection_source": "carryover_cache",
-          "paper_id": "2607.06501v1",
-          "carry_days": 1
-        },
-        {
-          "id": "2607.04652v1",
-          "source": "arxiv",
-          "title": "KAM-WM: Kinematic Affordance Maps from Latent World Models for Robot Manipulation",
-          "abstract": "Learning manipulation from few demonstrations requires visual priors that capture not only where to interact, but also how the interaction should begin; static priors such as segmentation masks encode only the former. We present KAM-WM, a framework that extracts a coarse directional interaction cue from a frozen latent video world model without rollout or world-model fine-tuning. KAM-WM queries a Flow Matching image-to-video backbone once and interprets its single-step latent velocity as a Kinematic Affordance Map (KAM), which provides task-conditioned interaction regions and coarse motion structure. A lightweight Perceiver compresses KAM into tokens that condition a diffusion policy together with RGB observations and proprioception. Across LIBERO and RoboTwin2.0, KAM-WM reaches 90.6% average success on LIBERO and achieves 65.7% and 22.4% success rates in the Easy and Hard settings on RoboTwin2.0, respectively. Controlled comparisons against a zero-order mask prior suggest that part of the gains comes from directional information beyond spatial localization alone. These results indicate that, in the evaluated settings, a frozen video model can provide a useful first-order visual prior for control without the test-time cost of future rollout.",
-          "authors": [
-            "Xinyu Shao",
-            "Keru Zhou",
-            "Guowei Huang",
-            "Yajun Gao",
-            "Tongtong Cao",
-            "Xiu Li"
-          ],
-          "primary_category": "cs.RO",
-          "categories": [
-            "cs.RO"
-          ],
-          "published": "2026-07-06T04:17:15+00:00",
-          "link": "https://arxiv.org/pdf/2607.04652v1",
-          "tags": [
-            "keyword:VLA-Humanoid",
-            "keyword:human-aigc",
-            "query:VLA-Humanoid",
-            "query:human-aigc"
-          ],
-          "llm_score": 8.0,
-          "llm_evidence_en": "extracts kinematic affordance maps from frozen world model",
-          "llm_evidence_cn": "从冻结的世界模型中提取运动学可操作图",
-          "llm_evidence": "从冻结的世界模型中提取运动学可操作图",
-          "canonical_evidence": "从冻结的世界模型中提取运动学可操作图",
-          "llm_tldr_en": "KAM-WM uses a frozen latent video world model to generate kinematic affordance maps that condition a diffusion policy, enabling few-shot manipulation learning.",
-          "llm_tldr_cn": "针对少样本操作学习中静态先验缺乏运动线索的问题，本文提出KAM-WM框架。它从冻结的潜在视频世界模型中提取粗粒度方向交互线索，解释为运动学可操作图（KAM），提供任务相关交互区域和运动结构。轻量级Perceiver压缩KAM为令牌，与RGB和本体感共同条件化扩散策略。在多个操作任务上，KAM-WM仅需少量演示即可学习鲁棒策略，展示了世界模型用于动作生成的潜力。",
-          "llm_tldr": "针对少样本操作学习中静态先验缺乏运动线索的问题，本文提出KAM-WM框架。它从冻结的潜在视频世界模型中提取粗粒度方向交互线索，解释为运动学可操作图（KAM），提供任务相关交互区域和运动结构。轻量级Perceiver压缩KAM为令牌，与RGB和本体感共同条件化扩散策略。在多个操作任务上，KAM-WM仅需少量演示即可学习鲁棒策略，展示了世界模型用于动作生成的潜力。",
-          "llm_tags": [
-            "query:human-aigc"
-          ],
-          "matched_query_tag": "query:human-aigc",
-          "matched_query_text": "world action model",
-          "matched_requirement_id": "req-2",
-          "selection_source": "carryover_cache",
-          "paper_id": "2607.04652v1",
-          "carry_days": 1
-        },
-        {
-          "id": "2607.08620v1",
-          "source": "arxiv",
-          "title": "A New Human-Likeness and Comfort Index for Robot Movements Along Prescribed Paths",
-          "abstract": "As human-robot interaction rapidly spreads in numerous fields, the subject of robot acceptance gains increasing importance. Visual similarity to the human body, as occurs for humanoids, is generally not enough to ensure acceptance in physical interaction, as acceptance directly links to comfort and ergonomics, which are measured in terms of the quality of the robot movement perceived by the human. This paper discusses the connection between comfort and similarity of the robot movement to the human one. By considering the kinematic characterization of human movement, this paper focuses on the time laws of such movements, wherein the end-effector path is prescribed. Based on the lognormality principle for modeling human movements, a human-likeness index is defined and used to provide an a priori characterization of trajectories. Such an index can be used to evaluate the performance of trajectory generation algorithms in producing human-like movements before they are actually executed. For validation purposes, 68 subjects are required to judge their comfort. The results of three experimental campaigns involving a physical interaction with a robot demonstrate a globally consistent trend between the preference in terms of perceived comfort and the distribution of the suggested human-likeness index.",
-          "authors": [
-            "Rosanna Coccaro",
-            "Enrico Ferrentino",
-            "Antonio Parziale",
-            "Angelo Marcelli",
-            "Pasquale Chiacchio"
-          ],
-          "primary_category": "cs.RO",
-          "categories": [
-            "cs.RO"
-          ],
-          "published": "2026-07-09T15:53:51+00:00",
-          "link": "https://arxiv.org/pdf/2607.08620v1",
-          "tags": [
-            "keyword:VLA-Humanoid",
-            "keyword:human-aigc",
-            "query:VLA-Humanoid",
-            "query:human-aigc"
-          ],
-          "llm_score": 8.0,
-          "llm_evidence_en": "proposes human-likeness and comfort index for robot movements with direct mention of humanoids",
-          "llm_evidence_cn": "提出机器人运动的人类相似性和舒适度指标，直接讨论人形机器人",
-          "llm_evidence": "提出机器人运动的人类相似性和舒适度指标，直接讨论人形机器人",
-          "canonical_evidence": "提出机器人运动的人类相似性和舒适度指标，直接讨论人形机器人",
-          "llm_tldr_en": "A human-likeness and comfort index for robot movements is proposed based on kinematic characterization of human motion, emphasizing humanoid acceptance.",
-          "llm_tldr_cn": "人形机器人在物理交互中除了外形相似，运动质量也影响接受度。本文基于人类运动学特征，利用对数正态原理建模，提出一个描述机器人运动人类相似性和舒适度的新指标，用于评估沿预定路径的运动时间规律。",
-          "llm_tldr": "人形机器人在物理交互中除了外形相似，运动质量也影响接受度。本文基于人类运动学特征，利用对数正态原理建模，提出一个描述机器人运动人类相似性和舒适度的新指标，用于评估沿预定路径的运动时间规律。",
+          "llm_evidence_en": "human motion generation for humanoid robotics",
+          "llm_evidence_cn": "面向人形机器人的动作生成",
+          "llm_evidence": "面向人形机器人的动作生成",
+          "canonical_evidence": "面向人形机器人的动作生成",
+          "llm_tldr_en": "Proposes ARDY, a streaming framework for interactive 3D human motion generation using autoregressive diffusion and hybrid representations, enabling real-time control via text and kinematic constraints.",
+          "llm_tldr_cn": "实时生成逼真3D人体运动对动画、仿真和人形机器人至关重要。现有离线方法精确但速度慢，在线方法牺牲可控性。本文提出ARDY，一个流式生成框架，结合自回归扩散与混合表征，支持在线文本提示和运动学约束控制。在多个基准上实现实时高保真运动生成，可交互式编辑。该框架可直接用于人形机器人的运动规划与仿真。",
+          "llm_tldr": "实时生成逼真3D人体运动对动画、仿真和人形机器人至关重要。现有离线方法精确但速度慢，在线方法牺牲可控性。本文提出ARDY，一个流式生成框架，结合自回归扩散与混合表征，支持在线文本提示和运动学约束控制。在多个基准上实现实时高保真运动生成，可交互式编辑。该框架可直接用于人形机器人的运动规划与仿真。",
           "llm_tags": [
             "query:human-aigc"
           ],
@@ -130,150 +50,13 @@
           "matched_query_text": "humanoid",
           "matched_requirement_id": "req-3",
           "selection_source": "carryover_cache",
-          "paper_id": "2607.08620v1",
-          "carry_days": 1
-        },
-        {
-          "id": "2607.08127v1",
-          "source": "arxiv",
-          "title": "Understanding and Mitigating the Video-Action Generalization Gap via Temporal Ratio",
-          "abstract": "Generative video foundation models exhibit strong compositional priors, yet world-action models (WAMs) and video-action models (VAMs) often lose these priors after finetuning on robotic action data. We refer to this discrepancy as the video-action generalization gap. In this paper, we systematically investigate this gap by evaluating a comprehensive design space of VAMs, demonstrating that standard design choices yield no emergent explanation pattern. To explain this behavior, we introduce the Temporal Ratio (TR), an attention-based measure of how strongly the action head relies on future latent rollouts relative to the anchored current frame. TR has two key properties: first, a model's structural reliance on future-predictive latents, measured via TR, acts as a predictor of its compositional generalization capacity; second, it natively fluctuates based on task phase, shifting attention to future frames during planning and reverting to the present frame for precise manipulation. Finally, based on these findings, we propose an inference-time adaptive guidance method, which exploits this intrinsic feature attention pattern to dynamically amplify compositional video conditioning signals precisely when the policy relies on future rollouts. Evaluated on the LIBERO benchmark and real-world tasks, our approach mitigates the OOD-ID compositional generalization gap. More details: https://umishra.me/temporal-ratio/",
-          "authors": [
-            "Utkarsh A. Mishra",
-            "Yongxin Chen",
-            "Danfei Xu",
-            "Yang Liu",
-            "Xi Chen",
-            "Jiayuan Mao"
-          ],
-          "primary_category": "cs.CV",
-          "categories": [
-            "cs.CV",
-            "cs.RO"
-          ],
-          "published": "2026-07-09T05:56:08+00:00",
-          "link": "https://arxiv.org/pdf/2607.08127v1",
-          "tags": [
-            "keyword:VLA-Humanoid",
-            "keyword:human-aigc",
-            "query:VLA-Humanoid",
-            "query:human-aigc"
-          ],
-          "llm_score": 8.0,
-          "llm_evidence_en": "analyzes world-action models and video-action models, introduces Temporal Ratio",
-          "llm_evidence_cn": "分析世界动作模型和视频动作模型的泛化差距，提出时间比率度量",
-          "llm_evidence": "分析世界动作模型和视频动作模型的泛化差距，提出时间比率度量",
-          "canonical_evidence": "分析世界动作模型和视频动作模型的泛化差距，提出时间比率度量",
-          "llm_tldr_en": "The video-action generalization gap in WAMs and VAMs is analyzed, and Temporal Ratio is introduced to measure action head reliance on future rollouts, enabling mitigation strategies.",
-          "llm_tldr_cn": "视频基础模型在微调为世界动作模型或视频动作模型后丢失组合先验，形成泛化差距。本文系统研究该差距，提出时间比率（TR）度量动作头对未来潜在展开的依赖程度。实验表明TR与泛化性能相关，并利用该发现提出缓解策略。",
-          "llm_tldr": "视频基础模型在微调为世界动作模型或视频动作模型后丢失组合先验，形成泛化差距。本文系统研究该差距，提出时间比率（TR）度量动作头对未来潜在展开的依赖程度。实验表明TR与泛化性能相关，并利用该发现提出缓解策略。",
-          "llm_tags": [
-            "query:human-aigc"
-          ],
-          "matched_query_tag": "query:human-aigc",
-          "matched_query_text": "world action model",
-          "matched_requirement_id": "req-2",
-          "selection_source": "carryover_cache",
-          "paper_id": "2607.08127v1",
-          "carry_days": 1
-        },
-        {
-          "id": "2607.06559v1",
-          "source": "arxiv",
-          "title": "RynnWorld-4D: 4D Embodied World Models for Robotic Manipulation",
-          "abstract": "Robotic manipulation in the open world requires not only recognizing what a scene looks like, but also anticipating how its 3D structure moves under interaction. We argue that synchronized RGB, depth, and optical flow, namely RGB-DF, provide a physically grounded representation that captures the underlying 4D dynamics of a scene. Compared to 2D pixel videos, this multi-modal synergy aligns visual appearance with geometric structure and temporal motion, creating a representation space significantly closer to the low-level end-effector actions demanded by robotic systems, thereby narrowing the gap between world prediction and policy learning. Building on this insight, we introduce RynnWorld-4D, a generative model that co-produces future RGB frames, depth maps, and optical flow from a single RGB-D image and a language instruction within one unified diffusion process. This 4D world model features a tri-branch architecture that integrates cross-modal attention with frame-wise 3D RoPE, ensuring that appearance, geometry, and motion evolve consistently. To supply training data at scale, we curate Rynn4DDataset 1.0, a massive dataset of over 254.4 million frames across egocentric human and robotic manipulation videos with high-quality pseudo-labels for depth and optical flow. We further propose RynnWorld-4D-Policy, an inverse dynamics head that consumes the internal 4D representations of RynnWorld-4D in a single forward pass, bypassing expensive multi-step denoising, to output robot actions in a closed-loop manner. Experiments show that RynnWorld-4D produces temporally and spatially coherent 4D predictions, and that RynnWorld-4D-Policy achieves state-of-the-art performance on real-world dexterous bimanual manipulation tasks, particularly excelling in tasks demanding spatial precision and temporal coordination.",
-          "authors": [
-            "Haoyu Zhao",
-            "Xingyue Zhao",
-            "Siteng Huang",
-            "Xin Li",
-            "Deli Zhao",
-            "Zhongyu Li"
-          ],
-          "primary_category": "cs.RO",
-          "categories": [
-            "cs.RO"
-          ],
-          "published": "2026-07-07T17:58:15+00:00",
-          "link": "https://arxiv.org/pdf/2607.06559v1",
-          "tags": [
-            "keyword:VLA-Humanoid",
-            "keyword:human-aigc",
-            "query:VLA-Humanoid",
-            "query:human-aigc"
-          ],
-          "llm_score": 8.0,
-          "llm_evidence_en": "4D world model for robotic manipulation aligns with world action model concept",
-          "llm_evidence_cn": "4D世界模型与世界行动模型概念一致",
-          "llm_evidence": "4D世界模型与世界行动模型概念一致",
-          "canonical_evidence": "4D世界模型与世界行动模型概念一致",
-          "llm_tldr_en": "RynnWorld-4D uses synchronized RGB, depth, and optical flow to build a generative 4D world model that predicts future observations, bridging world prediction and policy learning for robotic manipulation.",
-          "llm_tldr_cn": "针对机器人操作中世界预测与策略学习脱节的问题，本文提出RynnWorld-4D，利用同步RGB、深度和光流（RGB-DF）构建物理驱动的4D世界模型，联合预测未来RGB帧、深度图等，使表示空间更接近末端执行器动作需求，从而缩小世界预测与策略学习之间的差距。实验表明该方法有效提升了操作性能和泛化能力。",
-          "llm_tldr": "针对机器人操作中世界预测与策略学习脱节的问题，本文提出RynnWorld-4D，利用同步RGB、深度和光流（RGB-DF）构建物理驱动的4D世界模型，联合预测未来RGB帧、深度图等，使表示空间更接近末端执行器动作需求，从而缩小世界预测与策略学习之间的差距。实验表明该方法有效提升了操作性能和泛化能力。",
-          "llm_tags": [
-            "query:human-aigc"
-          ],
-          "matched_query_tag": "query:human-aigc",
-          "matched_query_text": "world action model",
-          "matched_requirement_id": "req-2",
-          "selection_source": "carryover_cache",
-          "paper_id": "2607.06559v1",
-          "carry_days": 1
-        },
-        {
-          "id": "2607.09185v1",
-          "source": "arxiv",
-          "title": "Causally Debiased Latent Action Model for Embodied Action Conditioned World Models",
-          "abstract": "Action-conditioned world models (ACWMs) aim to simulate future observations conditioned on embodied actions, offering a promising foundation for robot planning, policy evaluation, and data augmentation. However, learning controllable ACWMs requires large-scale action-labeled data, which remains costly to collect in the real world. Latent action models (LAMs) mitigate this bottleneck by inferring latent actions from unlabeled videos, but existing LAMs are typically trained with reconstruction-only objectives and therefore entangle action-relevant dynamics with action-irrelevant visual factors such as backgrounds and untouched objects. In this work, we identify this action-irrelevant bias as a key obstacle to controllable ACWMs and introduce evaluation metrics to measure latent-action bias, action following, and robustness. We propose CD-LAM, a causally debiased framework for LAM-based ACWMs. CD-LAM introduces three efficient fine-tuning objectives: embodiment-centric reconstruction, action-centric contrastive learning, and latent space calibration, which together encourage embodiment-focused, action-aware, and calibrated non-collapsed latent action representations. Experiments on 2B and 14B ACWM backbones show that CD-LAM substantially improves latent-action controllability, downstream robot-action following, visual fidelity, and adaptation efficiency, requiring only 6k fine-tuning steps and more than 12$\\times$ fewer robot-action adaptation updates than the baseline.",
-          "authors": [
-            "Yufan Wei",
-            "Kun Zhou",
-            "Lingjun Mao",
-            "Zijun Zhang",
-            "Ziming Xu",
-            "Ziqiao Xi",
-            "Shuang Liang",
-            "Ruobing Han",
-            "Yuchen Yan",
-            "Xinyue Wang",
-            "Fan Feng",
-            "Biwei Huang"
-          ],
-          "primary_category": "cs.CV",
-          "categories": [
-            "cs.CV",
-            "cs.RO"
-          ],
-          "published": "2026-07-10T08:20:27+00:00",
-          "link": "https://arxiv.org/pdf/2607.09185v1",
-          "tags": [
-            "keyword:VLA-Humanoid",
-            "keyword:human-aigc",
-            "query:VLA-Humanoid",
-            "query:human-aigc"
-          ],
-          "llm_score": 8.0,
-          "llm_evidence_en": "Latent action model for action-conditioned world models, directly relevant to world action model concept",
-          "llm_evidence_cn": "为动作条件世界模型设计的潜在动作模型，与世界行动模型概念直接相关",
-          "llm_evidence": "为动作条件世界模型设计的潜在动作模型，与世界行动模型概念直接相关",
-          "canonical_evidence": "为动作条件世界模型设计的潜在动作模型，与世界行动模型概念直接相关",
-          "llm_tldr_en": "Causally Debiased Latent Action Model infers latent actions from unlabeled videos for action-conditioned world models, removing action-irrelevant bias to improve controllability.",
-          "llm_tldr_cn": "动作条件世界模型（ACWM）依赖大量带标签数据，潜在动作模型可从无标签视频推断动作，但常混入背景等行动无关因素。本文引入因果去偏框架，分离行动相关与无关动态，使潜在动作更加可控，从而提升ACWM在机器人规划、策略评估和数据增强中的应用效果。实验表明该方法在多个模拟环境中优于基线。",
-          "llm_tldr": "动作条件世界模型（ACWM）依赖大量带标签数据，潜在动作模型可从无标签视频推断动作，但常混入背景等行动无关因素。本文引入因果去偏框架，分离行动相关与无关动态，使潜在动作更加可控，从而提升ACWM在机器人规划、策略评估和数据增强中的应用效果。实验表明该方法在多个模拟环境中优于基线。",
-          "llm_tags": [
-            "query:human-aigc"
-          ],
-          "matched_query_tag": "query:human-aigc",
-          "matched_query_text": "world action model",
-          "matched_requirement_id": "req-2",
-          "selection_source": "carryover_cache",
-          "paper_id": "2607.09185v1",
+          "paper_id": "2607.08741v1",
           "carry_days": 1
         }
       ]
     },
     "VLA-Humanoid": {
-      "updated_date": "20260713",
+      "updated_date": "20260714",
       "carryover_days": 9,
       "items": []
     }
