@@ -6,77 +6,77 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-14
-- 运行时间：2026-07-14 20:52:13 UTC
+- 最新运行日期：2026-07-15
+- 运行时间：2026-07-15 21:43:33 UTC
 - 运行状态：成功
 - 本次总论文数：19
 - 精读区：7
 - 速读区：12
 
 ### 今日简报（AI）
-今日VLA研究重磅突破：SEAM与LEEVLA两篇9分论文聚焦动作块平滑执行与环境演化。推荐精读SEAM（动作块执行优化）和LEEVLA（潜在环境演化机制）。若想快速上手，可优先阅读InternVLA-A1.5的组成泛化方法及视频-动作泛化间隙的缓解策略。
-- 详情：[/202607/14/README](/202607/14/README)
+今天共精读7篇、速读12篇，其中两篇高分论文聚焦仿人机器人视觉运球与最优传输强化学习。最值得看的是《Vision-Based Dribbling for Humanoid Soccer》（9.0分）和《Optimal Transport Q-Learning for Flow Policy Steering》（8.0分）。建议优先精读前两篇高分工作，速读关注CLAP、从后悔中学习及时空掩码VLA等方向。
+- 详情：[/202607/15/README](/202607/15/README)
 
 ### 精读区论文标签
-1. [SEAM: Smooth Execution of Action-Chunked Motion for Vision-Language-Action Policies](/202607/14/2607.04609v1-seam-smooth-execution-of-action-chunked-motion-for-vision-language-action-policies)  
+1. [Vision-Based Dribbling for Humanoid Soccer via Privileged Representation Learning](/202607/15/2607.12702v1-vision-based-dribbling-for-humanoid-soccer-via-privileged-representation-learning)  
    标签：评分：9.0/10、query:vla-humanoid
-   evidence：无需训练的推理方法提升VLA动作块一致性
-2. [LEEVLA: Seeing What Matters in Latent Environment Evolution for Vision-Language-Action](/202607/14/2607.08182v1-leevla-seeing-what-matters-in-latent-environment-evolution-for-vision-language-action)  
-   标签：评分：9.0/10、query:vla-humanoid
-   evidence：含潜在世界演化的VLA架构
-3. [AgenticFocus: Object-Preserving Mixed Reality Synthesis from Human FPV Video for Dexterous Humanoid Learning](/202607/14/2607.08857v1-agenticfocus-object-preserving-mixed-reality-synthesis-from-human-fpv-video-for-dexterous-humanoid-learning)  
-   标签：评分：9.0/10、query:human-aigc
-   evidence：从人类第一人称视频生成混合现实数据用于灵巧人形机器人学习
-4. [Learning Roller-Skating Motions of Humanoid Robots Based on Adversarial Motion Priors](/202607/14/2607.10815v1-learning-roller-skating-motions-of-humanoid-robots-based-on-adversarial-motion-priors)  
-   标签：评分：9.0/10、query:human-aigc
-   evidence：人形机器人溜冰运动学习
-5. [Towards Predictive, Aligned, and Scalable Robot Learning](/202607/14/2607.11270v1-towards-predictive-aligned-and-scalable-robot-learning)  
-   标签：评分：9.0/10、query:human-aigc
-   evidence：潜在世界行动模型，用于预测性机器人学习
-6. [See like a Robot: Robot-Centric Pointmaps for Vision-Language-Action Models](/202607/14/2607.11498v1-see-like-a-robot-robot-centric-pointmaps-for-vision-language-action-models)  
-   标签：评分：9.0/10、query:vla-humanoid
-   evidence：通过解决观测-动作帧不匹配改进VLA模型
-7. [From World Action Models to Embodied Brains: A Roadmap for Open-World Physical Intelligence](/202607/14/2607.11689v1-from-world-action-models-to-embodied-brains-a-roadmap-for-open-world-physical-intelligence)  
-   标签：评分：9.0/10、query:human-aigc
-   evidence：面向开放世界物理智能的世界动作模型路线图
+   evidence：人形机器人运球控制与操作，直接相关
+2. [Optimal Transport Q-Learning for Flow Policy Steering and Acceleration](/202607/15/2607.06262v1-optimal-transport-q-learning-for-flow-policy-steering-and-acceleration)  
+   标签：评分：8.0/10、query:vla-humanoid
+   evidence：视觉语言动作模型，流式策略，强化学习微调
+3. [From Foundation to Application: Improving VLA Models in Practice](/202607/15/2607.06403v1-from-foundation-to-application-improving-vla-models-in-practice)  
+   标签：评分：8.0/10、query:vla-humanoid
+   evidence：VLA模型在实际应用中的改进
+4. [Lift3D-VLA: Lifting VLA Models to 3D Geometry and Dynamics-Aware Manipulation](/202607/15/2607.06564v1-lift3d-vla-lifting-vla-models-to-3d-geometry-and-dynamics-aware-manipulation)  
+   标签：评分：8.0/10、query:vla-humanoid
+   evidence：结合三维点云推理的VLA动作生成模型
+5. [Vision Language Action (VLA) Models for Unmanned Aerial Robotics and Bimanual Manipulation: A Review](/202607/15/2607.06706v1-vision-language-action-vla-models-for-unmanned-aerial-robotics-and-bimanual-manipulation-a-review)  
+   标签：评分：8.0/10、query:vla-humanoid
+   evidence：VLA模型综述，聚焦动作生成
+6. [Harness VLA: Steering Frozen VLAs into Reliable Manipulation Primitives via Memory-Guided Agents](/202607/15/2607.08448v2-harness-vla-steering-frozen-vlas-into-reliable-manipulation-primitives-via-memory-guided-agents)  
+   标签：评分：8.0/10、query:vla-humanoid
+   evidence：记忆增强的VLA框架用于可靠操作原语，直接涉及视觉-语言-动作模型
+7. [Causally Debiased Latent Action Model for Embodied Action Conditioned World Models](/202607/15/2607.09185v1-causally-debiased-latent-action-model-for-embodied-action-conditioned-world-models)  
+   标签：评分：8.0/10、query:human-aigc
+   evidence：用于世界模型的因果去偏潜在动作模型
 
 ### 速读区论文标签
-1. [InternVLA-A1.5: Unifying Understanding, Latent Foresight, and Action for Compositional Generalization](/202607/14/2607.04988v1-internvla-a15-unifying-understanding-latent-foresight-and-action-for-compositional-generalization)  
+1. [CLAP: Direct VLM-to-VLA Adaptation via Language-Action Grounding](/202607/15/2607.08974v1-clap-direct-vlm-to-vla-adaptation-via-language-action-grounding)  
    标签：评分：8.0/10、query:vla-humanoid
-   evidence：统一理解、潜在预测和动作的VLA模型，用于组合泛化
-2. [From Foundation to Application: Improving VLA Models in Practice](/202607/14/2607.06403v1-from-foundation-to-application-improving-vla-models-in-practice)  
+   evidence：直接VLM到VLA适配用于动作预测
+2. [Learning More from Less: Reinforcement Learning from Hindsight](/202607/15/2607.09042v1-learning-more-from-less-reinforcement-learning-from-hindsight)  
    标签：评分：8.0/10、query:vla-humanoid
-   evidence：改进VLA模型，扩展动作空间并实现跨本体泛化
-3. [Understanding and Mitigating the Video-Action Generalization Gap via Temporal Ratio](/202607/14/2607.08127v1-understanding-and-mitigating-the-video-action-generalization-gap-via-temporal-ratio)  
-   标签：评分：8.0/10、query:human-aigc
-   evidence：分析世界动作模型和视频动作模型的泛化差距，提出时间比率度量
-4. [FabriVLA: A Lightweight Vision-Language-Action Model for Precise Multi-Task Manipulation](/202607/14/2607.08575v2-fabrivla-a-lightweight-vision-language-action-model-for-precise-multi-task-manipulation)  
+   evidence：VLA模型的强化学习后训练，事后重标记提高样本效率
+3. [TS-Mask VLA: 2D Temporal-Spatial Masking for Vision-Language-Action Model with Effective Bridging](/202607/15/2607.09818v1-ts-mask-vla-2d-temporal-spatial-masking-for-vision-language-action-model-with-effective-bridging)  
    标签：评分：8.0/10、query:vla-humanoid
-   evidence：用于操作的视觉语言行动模型
-5. [RoboTALES: Learning Reasoning-Guided Robot Policies via Task-Aligned Simulated Futures](/202607/14/2607.06018v1-robotales-learning-reasoning-guided-robot-policies-via-task-aligned-simulated-futures)  
+   evidence：用于VLA动作生成的二维时空掩码方法
+4. [SUREFlow: State-space Uncertainty-aware REsidual Flow Matching for Robust Robot Manipulation](/202607/15/2607.10504v1-sureflow-state-space-uncertainty-aware-residual-flow-matching-for-robust-robot-manipulation)  
+   标签：评分：8.0/10、query:vla-humanoid
+   evidence：带不确定性感知流匹配的VLA策略，用于鲁棒机器人操作
+5. [SIEVE: Structure-Aware Data Selection for Imitation Learning with VLA Models](/202607/15/2607.06442v1-sieve-structure-aware-data-selection-for-imitation-learning-with-vla-models)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：基于LLM的任务规划用于机器人策略
-6. [Training-Free Acceleration for Vision-Language-Action Models with Action Caching and Refinement](/202607/14/2607.06370v1-training-free-acceleration-for-vision-language-action-models-with-action-caching-and-refinement)  
+   evidence：提出结构感知的数据选择方法用于VLA模仿学习
+6. [EvoPlan: Evolutionary Neuro-Symbolic Robot Planning with Spatio-Temporal Guarantees](/202607/15/2607.06724v1-evoplan-evolutionary-neuro-symbolic-robot-planning-with-spatio-temporal-guarantees)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：使用动作缓存加速VLA模型
-7. [SIEVE: Structure-Aware Data Selection for Imitation Learning with VLA Models](/202607/14/2607.06442v1-sieve-structure-aware-data-selection-for-imitation-learning-with-vla-models)  
+   evidence：基于大语言模型的神经符号机器人任务规划
+7. [Multi-Agent Robotic Control with Onboard Vision-Language Models](/202607/15/2607.07403v1-multi-agent-robotic-control-with-onboard-vision-language-models)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：VLA模仿学习的数据选择方法
-8. [RynnWorld-4D: 4D Embodied World Models for Robotic Manipulation](/202607/14/2607.06559v1-rynnworld-4d-4d-embodied-world-models-for-robotic-manipulation)  
-   标签：评分：7.0/10、query:human-aigc
-   evidence：4D具身世界模型，预测RGB、深度和光流用于机器人操作
-9. [RoboVista: Evaluating Vision Language Models for Diverse Robot Applications](/202607/14/2607.04610v1-robovista-evaluating-vision-language-models-for-diverse-robot-applications)  
+   evidence：多智能体系统使用车载VLM进行机器人控制
+8. [LEEVLA: Seeing What Matters in Latent Environment Evolution for Vision-Language-Action](/202607/15/2607.08182v1-leevla-seeing-what-matters-in-latent-environment-evolution-for-vision-language-action)  
+   标签：评分：7.0/10、query:vla-humanoid
+   evidence：提出潜环境演化的VLA模型用于动作生成
+9. [Ego-Human Motion Prediction with 3D-Aware LLM](/202607/15/2607.07001v1-ego-human-motion-prediction-with-3d-aware-llm)  
    标签：评分：6.0/10、query:vla-humanoid
-   evidence：面向多种机器人应用的VLM评估框架，包含具身AI
-10. [KAM-WM: Kinematic Affordance Maps from Latent World Models for Robot Manipulation](/202607/14/2607.04652v1-kam-wm-kinematic-affordance-maps-from-latent-world-models-for-robot-manipulation)  
+   evidence：基于LLM的自我中心人体运动预测用于具身AI
+10. [GeoProp: Grounding Robot State in Vision for Generalist Manipulation](/202607/15/2607.07101v1-geoprop-grounding-robot-state-in-vision-for-generalist-manipulation)  
    标签：评分：6.0/10、query:vla-humanoid
-   evidence：用于操作技能的世界模型；运动学可操作性地图
-11. [Diagnosing Semantic Handoff Failures in Agent-Orchestrated Vision-Language-Action Skill Composition](/202607/14/2607.06256v1-diagnosing-semantic-handoff-failures-in-agent-orchestrated-vision-language-action-skill-composition)  
+   evidence：本体感觉与视觉对齐用于通用操作
+11. [TouchWorld: A Predictive and Reactive Tactile Foundation Model for Dexterous Manipulation](/202607/15/2607.07287v1-touchworld-a-predictive-and-reactive-tactile-foundation-model-for-dexterous-manipulation)  
    标签：评分：6.0/10、query:vla-humanoid
-   evidence：使用语言模型进行机器人任务规划
-12. [Hypothesis-driven Model Expansion under Uncertainty for Open-World Robot Planning](/202607/14/2607.06501v1-hypothesis-driven-model-expansion-under-uncertainty-for-open-world-robot-planning)  
-   标签：评分：6.0/10、query:human-aigc
-   evidence：开放世界机器人规划中基于假设的世界模型扩展
+   evidence：触觉基础模型用于灵巧操作
+12. [APIVOT: Adaptive Planning with Interleaved Vision-Language Thoughts](/202607/15/2607.08024v1-apivot-adaptive-planning-with-interleaved-vision-language-thoughts)  
+   标签：评分：6.0/10、query:vla-humanoid
+   evidence：使用交替语言与视觉思维的VLM规划器，可迁移到人形机器人行动生成
 
 
 <div class="dpr-home-promo-card">
