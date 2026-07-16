@@ -1,0 +1,507 @@
+Title: A New Human-Likeness and Comfort Index for Robot Movements Along Prescribed Paths
+
+URL Source: https://arxiv.org/pdf/2607.08620v1
+
+Published Time: Fri, 10 Jul 2026 01:18:08 GMT
+
+Number of Pages: 14
+
+Markdown Content:
+> 1
+
+# A New Human-Likeness and Comfort Index for Robot Movements Along Prescribed Paths 
+
+Rosanna Coccaro, Enrico Ferrentino, Antonio Parziale, Angelo Marcelli and Pasquale Chiacchio 
+
+Abstract —As human-robot interaction rapidly spreads in nu-merous fields, the subject of robot acceptance gains increasing importance. Visual similarity to the human body, as occurs for humanoids, is generally not enough to ensure acceptance in physical interaction, as acceptance directly links to comfort and ergonomics, which are measured in terms of the quality of the robot movement perceived by the human. This paper discusses the connection between comfort and similarity of the robot movement to the human one. By considering the kinematic characterization of human movement, this paper focuses on the time laws of such movements, wherein the end-effector path is prescribed. Based on the lognormality principle for modeling human movements, a human-likeness index is defined and used to provide an a priori characterization of trajectories. Such an index can be used to evaluate the performance of trajec-tory generation algorithms in producing human-like movements before they are actually executed. For validation purposes, 68 subjects are required to judge their comfort. The results of three experimental campaigns involving a physical interaction with a robot demonstrate a globally consistent trend between the preference in terms of perceived comfort and the distribution of the suggested human-likeness index. 
+
+Index Terms —Comfort index, human-robot collaboration, human-robot interaction, robot acceptance. 
+
+I. I NTRODUCTION 
+
+# SINCE the emergence of Human-Robot Interaction (HRI) as a field, several studies have concerned the “social” dimension of robots in industry, particularly, in relation to cognitive and perceptual workload for robot operators [1], that can undermine acceptance. A strategy to tackle user robot acceptance goes through the design of robots resembling humans in both their physical aspect and their behavior, as described in [2]. To this extent, recent research has led to the development of brain-inspired intelligent robots that are capable of emulating humans and animals in both their external structures and internal mechanisms. This is achieved through the integration of visual cognition, decision-making, motion control, and musculoskeletal systems [3], [4], [5]. A fundamental premise is that humans tend to favor engaging with machines (and robots) [6] in a manner that resembles their interactions with other humans [7], [8]. This is sustained 
+
+This research was conducted in the frame of the Department of Excellence 2023/2027 Project and partially funded by Istituto Nazionale della Previdenza Sociale (INPS). The authors are with the Department of Computer Engineering, Electrical Engineering and Applied Mathematics (DIEM), University of Salerno, 84084 Fisciano, Italy (e-mail: rcoccaro@unisa.it ;
+
+eferrentino@unisa.it ; anparziale@unisa.it ;
+
+amarcelli@unisa.it ; pchiacchio@unisa.it )This article has supplementary material provided by the authors available at https://dx.doi.org/10.21227/amq5-qp90. The source code is also available at https://github.com/unisa-acg/trajectory planning matlab/tree/v01r00. 
+
+by the concept of motor contagion , which posits that an individual’s motor actions are involuntarily influenced by observing and experiencing others’ movements. The degree of motor contagion is influenced by the human likeness of a robot: the greater the resemblance between robot and human movements and appearance, the stronger the motor contagion effect. Movement kinematics, such as the velocity profile and the trajectory of the limb, might also vary the degree of motor resonance evoked in the observer. This is demonstrated in [9], where participants were asked to reproduce an action after observing either a human or a robot performing it. Motor contagion occurred in both cases, except when the robot violated the biological laws of motion. This supports the idea that the observer relies on recognizing elements of its own motor repertoire in the observed model. Likewise, [10] suggests that exhibiting a human-like movement of the robot results in an easier prediction by the human counterpart. On the other hand, fast movements have been observed to increase anxiety and risk perception among human co-workers, who, consequently, exhibit unpleasant and inefficient behavior. Therefore, the evidence suggests that time parametrization is crucial and worth of investigation when designing motion planning processes for human-robot interaction [11]. Indeed, recent works explicitly propose planning for human-like ve-locity profiles to achieve natural motion [12]. Based on the current literature, our study formulates the following 
+
+Hypothesis 1. If A and B correspond to, respectively, “a movement is similar to a human one” and “a movement is comfortable”, then: 
+
+A ⇐⇒ B. (1) In the above statement, the term movement is used to denote the time law of the movement, as the geometrical component, i.e. the path, is notably task-dependent. Among the many facets of human-robot interaction, we are particularly interested in, and therefore this study focuses on, evaluating the comfort of a human interacting solely with the robot’s end-effector, as in collaborative assembly and transportation tasks. Therefore, our hypothesis states that a human will perceive the robot’s end-effector movement as comfortable as that of a human teammate if and only if the former exhibits the same time law as the latter. From now on, for the sake of brevity, we will use the term movement as specified above. Thus, in this paper, we aim to evaluate the comfort by measuring the similarity of the robot movement with the corresponding human one, which we term human-likeness , so addressing a notable gap in the literature that consists in the arXiv:2607.08620v1 [cs.RO] 9 Jul 2026 2
+
+absence of a quantitative index for such a similarity [11], [13]. Moreover, as it follows from above, such a measure can be employed in trajectory planning to obtain a comfortable-by-design movement, avoiding the burden of the trial-and-error approach adopted by data-driven strategies. The definition of an objective measure accounting for the specific characteristics of the human movement represents a significant advancement in the field. Therefore, in what follows, through a large ex-perimental campaign of collaborative human-robot interaction sessions focused on comfort, we validate our index and, in turn, we also confirm the validity of Hypothesis 1 in our data. 
+
+A. Related works 
+
+Two main branches can be identified in the literature dealing with human likeness in robotics: one regarding human-like robotic movements, and another concerning means for comfort evaluation. For the latter, one of two approaches is typically adopted: one focuses on the human perspective and aims to measure how humans behave or perceive the robot, as in [14], [15], [16], [17], the other is centered on the robot’s actual movement and is usually based on metrics such as repeatability [18], trajectory smoothness [19], or the two-thirds power law [20]. Recent advancements within this second domain have expanded toward task-specific comfort metrics combining smoothness, velocity, and proxemics considerations [21], as well as ergonomic indicators derived from human posture and task execution [22], [23]. We thus focus on works that bridge these two domains, with the aim of studying comfort through the similarity to the human movement. An example is found in [24], in which the authors propose a method for generating human-like reaching movements in robots, that produces smooth trajectories and allows for natural obstacle avoidance. The method is validated through experi-ments with an anthropomorphic upper limb robot. An indicator of human likeness is defined, consisting of the difference between the robot trajectory and the human reference one. This indicator, that is, in fact, a prevalent way to assess human likeness, allows having a quantitative measure of such simi-larity, but it cannot be of general use, as it can be exclusively computed after the trajectory has been executed. Furthermore, the results demonstrate that the degree of human likeness is dependent on the specific human subject, leading to an addi-tional lack of generality. Similarly, [25] introduces objective engineering metrics computed directly from the robot’s motion data and demonstrates that such metrics correlate with human perception and can be incorporated into control optimization loops. However, despite their methodological differences, both approaches assess human-likeness from executed motion and remain tied to specific trajectories, control parameters, and hardware characteristics. This limitation further motivates the importance of capturing common intrinsic features of human kinetics rather than mapping human trajectories to robot kine-matics, which often demands sophisticated domain adaptation architectures to handle cross-subject variability [26]. In [27], the authors propose a path planner for a humanoid robot, aiming to enhance its performance in terms of HRI. The proposed method employs a time index, with the objective of generating a path that is perceived as natural by humans. A survey is conducted on humans’ preferences. Participants are shown a set of video clips in which a simulated robot traces two different paths. For each video, they are asked to express whether one of the two planned paths feels more natural or if no difference is discerned. This research diverges from our approach as we pursue human likeness by examining time laws, whereas the authors investigate the planned path. Moreover, the authors do not propose a quantitative human-likeness measure, as surveys are employed in path evaluation. Similarly, in [28], experiments are conducted to analyze, through surveys, the human perception of both artificial and human movements. Human movements are generated using the sigma-lognormal model [29], while the artificial move-ments have a trapezoidal velocity profile [30]. The robot is programmed to perform triangular and square shapes in its free space, and, in one of the proposed experimental setups, each participant has to touch the robot’s end-effector with their index finger to track its movements. Participants are asked to rate the comfort and friendliness of each movement on a scale. The study reveals that humans do not display a clear preference for either human or robotic movement when ob-serving the motion or interacting with a robot by just tracking its end-effector. In this regard, some significant considerations arise concerning the proposed human movement. Despite its intention to resemble natural motion, it may not achieve sufficient human likeness, and this aspect could potentially contribute to the observed results. Furthermore, it is worth noting that the interaction experiment solely involves tracking rather than an active physical engagement with the robot. This methodological distinction may influence the human perception of movement, introducing potential variations in comfort evaluation. 
+
+B. Problem statement 
+
+The issue addressed in this study is that, despite increasing interest in exploring the concept of comfort in HRI, currently there is no global quantitative index of comfort that can be computed without the need to experience the movement itself [11]. The available indices fall into two main categories: qualitative, a posteriori measures, e.g. questionnaires, that aim to assess comfort after interaction has occurred [31], [32]; quantitative measures, that primarily focus on local motion characteristics. In this latter case, a key challenge lies in integrating multiple quantitative measures related to different aspects of the movement, e.g. human-robot proximity [33], jerk-based measures [34] and legibility [31]. It is also worth noting that measures such as jerk or power-spectral-density-based ones are not direct indicators of comfort. Rather, they may only capture necessary but not sufficient conditions for comfort, as comfortable interactions are characterized by smooth movements [35]. Finally, since in most application scenarios it is desirable for the planning to be independent of prior experience, it is crucial to have an a priori comfort index. Such an index would enable the planning for human-like trajectories without relying on post-hoc assessments. COCCARO et al. : A NEW HUMAN-LIKENESS AND COMFORT INDEX FOR ROBOT MOVEMENTS ALONG PRESCRIBED PATHS 3
+
+C. Statement of contribution 
+
+As discussed above, the concept of motor contagion pro-vides the foundation for formulating Hypothesis 1. The main contribution of this paper is to provide the empirical evidence validating it. Along this line, we introduce a comfort index that enables the evaluation of a trajectory’s comfort before making an experience of it, addressing the problem stated in Section I-B. On the basis of Hypothesis 1, the comfort index is designed as a human likeness index. Therefore, as will be dis-cussed in Section II-A, relying on the sigma-lognormal model of velocity [36], it evaluates comfort indirectly, through the level of resemblance of the robot behavior to the human one. Notably, this index addresses a gap in the existing literature, namely the absence of a quantitative mean of assessment by which to obtain objective information concerning the human likeness of robotic trajectories [11], prior to their execution. Unlike other proposed indices, our index is not task-related, thus dependent on the performance of single interactions, but it captures global characteristics of comfort. As an additional contribution, we provide a planning tech-nique that, within certain limits, can generate human-like movements for arbitrary paths. We employ this technique in our validation procedure. Lastly, our approach differs from others in that it decouples the geometric path assigned to the robot end-effector and its time law. We associate comfort to the latter, so that, in prin-ciple, any movement performed by the robot can be human-like (and comfortable), regardless of its geometry. This would extend the applicability of human-like movements to those industrial and medical scenarios where robots are required to accurately track specific paths, while possibly interacting with humans. 
+
+D. Outline 
+
+This article is organized as follows. In Section II, we provide an overview of the essential concepts on which the proposed human-likeness index is based, alongside the definition of such index. We recall some techniques used for time parametriza-tion of robotic paths, as these will be employed in Section III, throughout the index validation procedure. Section III portrays the methodology used for the validation of the human-likeness index. A first numerical validation of the index is presented, leading to the introduction of interaction experiments. The experimental setup is presented in Section IV and experimental results are analyzed and discussed in Section V, with a focus on describing the advantages and disadvantages of our index and methodology. Finally, we draw conclusions and highlight future developments in Section VI. II. M ATERIALS AND METHODS 
+
+Given that the concept of “behavior” covers a range of different aspects, there is to specify that this paper is concerned with the kinematic characteristics of movement. Among these, we focus on the time law that underlies movement, assum-ing that the geometrical features of said motion are already defined. Our focus therein lies in investigating whether the human likeness of robot trajectories can be assessed only on their time laws, regardless of their geometric paths, which would enable preserving the level of accuracy required from a robot during the execution of a specific task. This can be required in tasks such as collaborative welding [37] and rehabilitation [38], where a path is prescribed, and the human coworker is expected to comply with the robot as it executes the movement. While we recognize that the internal robot movement may appear less visually pleasant when the robot lacks anthropomorphic physical characteristics, analyzing the impact of robot appearance or internal movements on the user’s perceived comfort is beyond the scope of this work. We further clarify that, when we refer to movement, we are concerned only with the end-effector motion, not the overall joint movements of the robot. 
+
+A. Motor program and sigma-lognormal model 
+
+Hypothesis 1 sets an identity between comfort and human likeness. But, when can a movement be said to be similar to a human one? The ability of humans and animals to accomplish a complex motor action using different end-effectors is a phenomenon known as “motor equivalence”. Studies on this phenomenon suggest that the central nervous system memorizes motor ac-tions through an encoding independent of the motor commands required to move a specific end-effector [39]. This abstract representation of an action is known as motor program , which has been defined as “ a central representation of a sequence of motor actions ” [40]. The concept of motor program originated in the work of Lashley [41], where the author conjectured the existence of a repertoire of “units of action” that can be preselected and activated by trigger commands, specifying the order in which the units of actions have to be executed. At the beginning of the learning process, the central nervous system controls each unit of action separately, aiming to reach a 3-D target point in space that has been visually selected. During this initial stage, movements are executed in a stop-and-go modality, as each unit of action starts only after the previous one has finished. Such a strategy is slow and energetically expensive, but it allows for the learner to exploit the feedback information to correct errors and be able to track a trajectory that is more accurate in terms of motor production and more economical in terms of metabolic energy expenditure [42] as the learning goes on. Once learning is consolidated, the sequence of target points is no longer considered as composed of isolated steps, but encoded as a single, continuous behavior, in which each unit of action is commanded and executed before the previous one terminates. So, a motor program is an abstract representation of a com-plex movement, developed through repeated practice, aimed at accurately performing the movement while minimizing the consumption of metabolic energy, i.e. it consists of the mini-mal set of units of action necessary to perform the movement it encodes. We thus answer the opening question of this section by setting the following 
+
+Proposition 1. A sufficient condition for a movement to be human-like is for it to be the realization of a motor program. 4
+
+Amidst the discussions and developments surrounding the motor program concept, the kinematic theory of rapid human movements [43] and its sigma-lognormal model [36] suggest that such “units of action”, called strokes , are lognormal impulse responses produced by a neuromuscular system acti-vated by impulsive commands delivered by the central nervous system. The lognormal function equation is 
+
+Λ( t; t0, μ, σ ) = 1
+
+σ√2π(t − t0) exp 
+
+
+
+− 12σ2 [ln( t − t0) − μ]2
+
+
+
+,
+
+(2) where t represents the time, t0 is the time shift and μ and σ
+
+are the mean and the standard deviation of the distribution on a logarithmic scale, respectively. Let xj (t) ∈ R3 be the j-th stroke of a movement in the three-dimensional space. According to the mentioned models, it exhibits a lognormal velocity norm that results from the activation of either the agonist or the antagonist neuromuscular system recruited to perform the movement [36], i.e. 
+
+∥ ˙xj (t)∥ = Dj Λ( t; tj , μ j , σ j ), (3) in which the dot notation indicates the time derivative. There-fore, Dj is the amplitude of the command given for the generation of the neuromuscular component, tj is the time of the command’s emission, μj and σj represent the time delay and response time of the neuromuscular impulse response, respectively. Within this framework, complex human movements can then be conceptualized as composed by a time superimposition of strokes, i.e. agonist and antagonist activation. Hence, the ve-locity profile ˙xr of a complex human movement is modeled as a vectorial summation of N lognormal elementary movements: 
+
+˙xr (t) = PNj=1 ˙xj (t). (4) The effect of time superimposition of strokes is that target points are never reached and inferring the motor program by analyzing the executed trajectory is not trivial. It is also important to note that the resulting movement is not deter-mined just by the motor program, as additional contributions from the spinal cord allow fine adjustments during execution, meaning that some strokes originate from these adjustments rather than directly from the motor program [44]. In the literature, there are specific algorithms that, from a complex movement (measured/observed), perform stroke extraction and parameter estimation, i.e., computing ˙xr (t) through an itera-tive process. These methods lead to trajectory reconstruction, both in the spatial and in the kinematic domain, by means of an optimization problem that aims at maximizing the Signal-to-Noise Ratio (SNR) between the observed movement and its reconstruction ˙xr (t), assessed in regard to both the geometric path and velocity profile. Given their inherent correlation, optimizing one aspect might result in a compromise with the other. Such algorithms can differ in terms of stroke definition and performance over the SNR measurement. A detailed discussion on strokes extraction and movement reconstruction is beyond the scope of this work, thus, for specific examples, we refer the interested reader to [36], [45], [44]. We further support our choice of the sigma-lognormal model as recon-structions based on it are found to be difficult to distinguish from genuine human movements [46]. For this study, we choose the Robust Zero crossing (RX0) algorithm available in the ScriptStudio (SS) software [36], as it exhibits satisfactory performances on the reconstruction of both the geometric path and the velocity profile 1. The latter is the factor that we aim to isolate and examine. This approach, which decouples geometry and kinematics, is justified by the fact that, in (4), ˙xj is only constrained in its norm, according to (3), suggesting that, in principle, human-like profiles can be assigned to arbitrary geometrical paths and that, in other words, human likeness is independent of the geometrical features of the path. Interestingly, we note that this velocity-centered approach is consistent with the recent literature on primitives-based plan-ning and has remarkable applications going beyond comfort evaluation [47]. 
+
+B. Phase plane representation of time laws 
+
+The phase plane analysis is a typical approach in robotic planning used to isolate time laws and analyze them regardless of the underlying geometrical path, which can be defined either in joint space or in task space. In the latter case, the path is 
+
+x(λ) ∈ Rm, where λ is the path parameter and, if the robot cannot stop or reverse its motion, it is a strictly monotonic function of time, i.e. 
+
+λ(t) : R → [0; L], ˙λ = dλ dt > 0 ∀t. (5) 
+
+Remark 1. L is chosen as the length of the path. 
+
+The function λ(t), or equivalently, its inverse t(λ), repre-sents the time law, and it has to be found as a result of the time parametrization process. The phase plane analysis deals with determining λ(t) indirectly, through the definition of curves in the λ- ˙λ plane, i.e. plotting the pseudo-velocity ˙λ with respect to the path parameter λ. ˙λ(λ) is termed Phase Plane Trajectory 
+
+(PPT), from which the time can be computed as 
+
+t(λ) = 
+
+Z λ
+
+> 0
+
+1˙λ(l) dl. (6) Once a time law is available, it can be assigned to a path to obtain a trajectory , i.e. x λ(t) = x(t). Let x′(λ) = dx(λ)
+
+> dλ
+
+and x′′ (λ) = d2x(λ) 
+
+> dλ 2
+
+. By using the chain rule on ˙x λ(t) and 
+
+¨x λ(t), we obtain the equations 
+
+˙x = x′ ˙λ, (7) 
+
+¨x = x′ ¨λ + x′′ ˙λ2, (8) which link the task velocity and acceleration ˙x(t) and ¨x(t)
+
+with their parametric velocity and acceleration x′(λ) and     
+
+> 1According to [45], SS may struggle to recover long and complex velocity profiles. In such a case, start and stop (cuspidal) points shall be identified in the geometric path to break it into smaller segments, and then use SS on each segment. Alternatively, different sigma-lognormal reconstruction algorithms shall be considered for the computation of the HL index, e.g. iDeLog. We remark that, while the latter approach may have an impact on the absolute value of the HL index (by the effect of possibly changing both Nand the SNR), it would not prevent the user from performing comparative analyses, as proposed in this paper. COCCARO et al. : A NEW HUMAN-LIKENESS AND COMFORT INDEX FOR ROBOT MOVEMENTS ALONG PRESCRIBED PATHS 5
+
+x′′ (λ). To this respect, we note that the pseudo-velocity ˙λ can also be regarded as the magnitude of the tangential velocity 
+
+∥ ˙x(t)∥ (when given with respect to time) or ∥ ˙x(λ)∥ (when given with respect to the path parameter). If Remark 1 holds, x′(λ) (also termed λ-velocity or para-metric velocity ) is the unit vector tangent to the path, and 
+
+x′′ (λ) (also termed λ-acceleration or parametric acceleration )is a vector normal to the path, whose magnitude depends on the path curvature. Therefore, we have that [48]: 
+
+∥x′∥ = 1 , (9) 
+
+x′T x′′ = 0 . (10) 
+
+C. Human-Likeness index definition 
+
+When a trajectory x(t) is given (either through observa-tion of human movements or by a planning algorithm) we can reconstruct its best sigma-lognormal approximation ˙xr (t)
+
+according to (4), with one of the algorithms mentioned in Section II-A. From this, we isolate the PPT and evaluate the performance of trajectory reconstruction, by computing the SNR on the time law only: 
+
+SN R = 10 log 
+
+R 10 ˙λ2(s) ds 
+
+R 10 ( ˙λ(s) − ˙λr (s)) 2 ds , (11) where ˙λ(λ) is the PPT associated to ˙x(t) and ˙λr (λ) is that associated to the reconstructed movement ˙xr (t). Note that the integration is performed over the path, normalized with respect to its length L. Therefore, s ∈ [0 , 1] represents the achieved path fraction. A large SNR in (11) attests to a high degree of similarity between the given trajectory x(t) and its sigma-lognormal reconstruction xr (t). Therefore, one may conclude that the SNR alone is a human-likeness index. However, any move-ment can be accurately approximated with an arbitrarily large number of strokes N , while human movements, being the realization of well-developed motor programs, are composed of a minimal set of strokes (see Proposition 1 and related discussion). Therefore, reconstructions characterized by many strokes must be penalized in virtue of representing the typical human behavior of optimizing metabolic energy consumption. Hence, we define the human-likeness index HL as 
+
+HL = SN R ¯NN , (12) where ¯N is the minimum amount of strokes necessary to encode the motor program of the assigned path, so that N ≥ ¯N
+
+always holds, and 0 < ¯N /N ≤ 1 is a measure of the movement’s simplicity. Since the HL index is a measure of similarity to a motor program, we can elaborate on Proposition 1 to state 
+
+Proposition 2. For a given movement, if HL is maximized, the movement is human-like. 
+
+Remark 2. Considering that the HL index is an index of similarity to a sigma-lognormal motor program and that Proposition 2 only provides a sufficient condition, we should expect that movements exist that are human-like, but whose 
+
+HL index is low. These shall comprise the movements includ-ing additional strokes generated by the spinal cord signals based on proprioceptive information. D. Time parametrization of robotic paths 
+
+Before introducing the experimental setup to validate (12), it is worth recalling some basic planning concepts in the phase plane. Indeed, we will use this technique to generate “surrogates” of human movements in the validation process. As we said in Section II-B, planning in the phase plane amounts to defining the PPT ˙λ(λ). In this work, we adopt, for each time parametrization, one of the following methods. 
+
+1) Constant velocity profile: since ˙λ(λ) is the tangential velocity’s norm, assigning a constant velocity profile in the phase plane is as simple as setting 
+
+˙λ(λ) = k, (13) where k ∈ R+ is a constant. 
+
+2) Time-Optimal Trajectory Planning (TOTP): in TOTP [49], the objective is to find ˙λ(λ) such as to minimize the trajectory tracking time, subject to application-dependent constraints. Since our objective is that of emulating human movements, and robots have actuation capacity beyond human abilities, we disregard physical robot limits, usually given in the joint space, e.g., maximum motor velocity, maximum actuation torque, and only consider task space constraints in terms of acceleration and velocity limits. In the definition of such constraints in the phase plane, we mainly consider the results from [48], from which we recall the most relevant developments. Acceleration constraints are given as 
+
+∥ ¨x∥ ≤ amax . (14) By inserting (8) in (14), we find limits on ¨λ:
+
+αx,min (λ, ˙λ) ≤ ¨λ ≤ αx,max (λ, ˙λ), (15) where 
+
+αx,min (λ, ˙λ) = −x′T x′′ ˙λ2
+
+∥x′∥2 +
+
+−
+
+q
+
+(x′T x′′ )2 ˙λ4 + ∥x′∥2(a2 
+
+> max
+
+− ∥ x′′ ∥2 ˙λ4)
+
+∥x′∥2 ,αx,max (λ, ˙λ) = −x′T x′′ ˙λ2
+
+∥x′∥2 ++
+
+q
+
+(x′T x′′ )2 ˙λ4 + ∥x′∥2(a2 
+
+> max
+
+− ∥ x′′ ∥2 ˙λ4)
+
+∥x′∥2 .
+
+(16) By using (9) and (10), the limits above become 
+
+αx,min (λ, ˙λ) = −
+
+q
+
+a2 
+
+> max
+
+− ∥ x′′ ∥2 ˙λ4, (17) 
+
+αx,max (λ, ˙λ) = + 
+
+q
+
+a2 
+
+> max
+
+− ∥ x′′ ∥2 ˙λ4. (18) Since the term under square root must be non-negative, the inequalities above also impose a limit on ˙λ:
+
+˙λ ≤ pamax /∥x′′ ∥. (19) 6
+
+As far as task velocity constraints are concerned, they can be written as 
+
+∥ ˙x∥ ≤ vx,max , (20) which, by using (7) and (9), can be transformed into 
+
+˙λ ≤ vx,max . (21) Equations (19) and (21) determine that, regardless of the path, pseudo-velocities cannot be arbitrarily chosen. Indeed, any PPT will be limited above by the so-called Maximum Velocity Curve (MVC) 
+
+˙λmax (λ) = min 
+
+r amax 
+
+∥x′′ (λ)∥ , v x,max 
+
+
+
+, (22) while its time derivative ¨λ will be subject to (15). Therefore, TOTP is performed through the resolution of the following optimization problem: 
+
+min  
+
+> ¨λ∈I (λ, ˙λ)
+
+Z L
+
+> 0
+
+1˙λ(λ) dλ, 
+
+subject to 0 ≤ λ ≤ L, 
+
+˙λ(0) = ˙λ(L) = 0 ,
+
+0 < ˙λ(λ) ≤ ˙λmax (λ),
+
+I(λ, ˙λ) ≜
+
+h
+
+αx,min (λ, ˙λ), α x,max (λ, ˙λ)
+
+i
+
+.
+
+(23) This problem can be demonstrated to have a bang-bang nature in the control ¨λ [50] and can be solved with several tech-niques, being the switching points method [49] and dynamic programming [51] the most used. The former is also the one we employ in this work. III. I NDEX VALIDATION SETUP 
+
+In virtue of Hypothesis 1 and our definition of the human-likeness index in (12), we would like to answer the following questions.  
+
+> •
+
+Given two movements with significantly different values of HL , is the one with the largest value of HL recognized as more comfortable than the other?  
+
+> •
+
+Given two movements with similar HL values, are they indistinguishable from the comfort standpoint? For such validation, we recruited participants among the members of the Robotics Laboratory and students enrolled in various STEM and non-STEM curricula from the University of Salerno. All subjects agreed to participate voluntarily and provided formal consent by reading and signing a document outlining the study’s purpose and the participants’ rights 2.Moreover, participants were pre-selected based on the infor-mation provided in a preliminary questionnaire, accompanying this paper as supplementary material. This inquired about their motor skills and any potential upper body injuries that could have prevented them from experiencing the movements or providing an unbiased answer. Therefore, we excluded   
+
+> 2The experimental procedure had no potential to damage the mental or physical health of human participants. The research project did not involve vulnerable participants, nor did it have access to private or sensitive data for purposes that are not related to the project. The authors adhered to the code of conduct of the University of Salerno.
+> Fig. 1. HL index computation process. The numbers in brackets refer to the equations used in the text.
+
+participants who had suffered from upper body injuries in the last 3 months. In the end, 76 subjects were enrolled. The participants were divided in two separate groups. The first one, termed G1, consists of 8 subjects, 7 males and 1 female, aged between 23 and 33 years (mean 26.9, std ± 3.9) .The second one (G2), comprises 68 subjects, 33 males and 35 females, aged between 19 and 30 years (mean 22.4, std ± 4.2) .Among them, 35 are enrolled in STEM and 33 in non-STEM curricula. No subject was included in both G1 and G2. 
+
+Algorithm 1: Experimental dataset generation 
+
+Data: ˙λh(λ), xh(λ) 
+
+> 1
+
+˙λU N I (λ) ← (13)  
+
+> 2
+
+˙λST OT P AC (λ) ← Integrate ¨λ from (23) and scale  
+
+> 3
+
+foreach ˙λ(λ) ∈ { ˙λh, ˙λU N I , ˙λST OT P AC } do  
+
+> 4
+
+HL ← Algorithm 2 ( ˙λ(λ), xh(λ))  
+
+> 5
+
+end Algorithm 2: HL index computation process 
+
+Data: ˙λ(λ), x(λ) 
+
+> 1
+
+¯N ← Count strokes in x(λ) 
+
+> 2
+
+λ(t) ← Compute from ˙λ(λ), inverting (6)  
+
+> 3
+
+x(t) ← x λ(t) 
+
+> 4
+
+[ ˙λr (λ), N ] ← Reconstruct x(t) using SS  
+
+> 5
+
+SN R ← Compute SNR between ˙λ(λ) and ˙λr (λ) 
+
+> 6
+
+HL ← Apply (12) using SN R , N , and ¯N
+
+The methodology for the experimental dataset generation process is presented by the pseudocode in Algorithm 1, while the HL index computation process is shown in Fig. 1 and accompanied by the pseudocode in Algorithm 2. G1 records human movements on a graphic tablet, as detailed next in Section III-A. The geometrical features of the movements are then extracted and time-parametrized with both uniform and time-optimal velocity profiles, as described in Section II-D. Thus, one human and two artificial/synthetic time laws are available for each geometrical path. Both human and artificial trajectories are then fed into the trajectory reconstruction software, which extracts the sigma-lognormal profiles needed COCCARO et al. : A NEW HUMAN-LIKENESS AND COMFORT INDEX FOR ROBOT MOVEMENTS ALONG PRESCRIBED PATHS 7
+
+to compute the SN R in (12). The number of expected strokes ¯N is identified from the geometrical path. Indeed, it corresponds to the number of target points because ele-mentary strokes are the actions to reach them. In the stroke segmentation literature, target points are typically identified where significant changes in path curvature occur. Inspired by the functioning of the human vision system and the concept of saliency [52], algorithms have been proposed that can retrieve these segmentation points as the highest peaks in a curvature saliency map [53]. In our context, these target points, i.e. ¯N , correspond to the switching points from maximum deceleration to maximum acceleration, identified on the MVC in the phase plane. The interested reader is referred to [49] for more details on switching points identification. We note that this methodology does not require additional parameters to be estimated, and is agnostic regarding both trajectory reconstruction and stroke recognition algorithms. In the next two sections, we provide details for generating human and artificial trajectories by G1. 
+
+A. Generation of human trajectories 
+
+Research on human movements typically requires two key components: the recording equipment and the specific motor task under examination. The selection of both components hinges on the application or aspect of the movement being investigated. For instance, motion trackers were used in a study on feeding manipulation tasks [54], while smart pads were utilized to diagnose Alzheimer’s disease by analyzing drawing and handwriting movements [55]. In our research, for the sake of practicality, we opt for a motor task involving drawing simple shapes ((a)-(c) in Fig. 2). Such shapes can be identified as a reversed spring (RS), a sequence of 5 connected “l” (5L), and the bigram eu (EU). They vary by their respective levels of curvature within the pattern. For instance, the RS has mild curves, the EU has two points at infinite curvature, and the 5L exhibits, on average, an intermediate curvature compared to the other two. Moreover, by selecting these shapes instead of handwritten words or goal-driven actions, both the subjects performing the tasks and those interacting with the robot can concentrate solely on the sensorimotor aspects of writing, avoiding cognitive overload, as previous research indicates that drawing objects with a semantic component activates cortical areas unrelated to motor execution but dedicated to the integration of semantic information [56]. Notably, the selected shapes require precise synchronization of multiple elementary movements, making it challenging from a motor perspective. Moreover, choosing a 2D movement does not pose any limitations, as the kinematic theory of rapid human movements has been shown to easily extend to 3D movements [57]. Shapes were drawn using a ballpoint pen on a sheet of paper placed on an ink-and-paper WACOM Intuos 2 digitizing tablet, that has a sampling rate of 100 Hz. Motion data of the pen on the 2D tablet plane was recorded using MovAlyzeR v6.1 [58]. Each participant in G1 received instructions on writing the patterns shown in Fig. 2 (a)-(c), so to cover as much as possible of the A4 sheet surface. The participants were prompted by a computer beep for each writing instance, 
+
+(a) (b) (c) 
+
+(d) (e) (f) 
+
+(g) (h) (i) 
+
+(j) (k) (l)         
+
+> Fig. 2. (a)-(c) Human handwriting patterns with (d)-(f) corresponding tangential velocity, (g)-(i) Uniform tangential velocity and (j)-(l) STOTPAC tangential velocity, see Section III-B.
+
+recording 10 repetitions per pattern, thus obtaining 80 samples of movements execution for each pattern. Post-processing removed the in-air movements at the beginning and end of each execution. 
+
+B. Generation of artificial trajectories 
+
+To generate the artificial handwriting trajectories corre-sponding to the selected human movements, we adopt the techniques introduced in Section II-D, by taking all the human trajectories produced by G1 and replacing the original time law, so that the geometrical path does not change. To make TOTP time laws more similar to human ones, we select 
+
+amax in (14) to be the maximum acceleration observed in the recorded human movement, and scale the time axis resulting from the resolution of (23) to match the duration of the corresponding human time law. For the same reason, in case of the uniform velocity profile the value of k in (13) is computed from the human movement duration, removing any bias asso-ciated with different durations when observing/experimenting with such trajectories. In what follows, we refer to human-recorded trajectories as Human and to the two artificial classes of handwriting trajectories as Uniform and STOTPAC (Scaled TOTP with Acceleration Constraints). In Fig. 2 (g)-(i), we report the tangential velocity profiles associated with the Uniform time law, while those associated with STOTPAC are in Fig. 2 (j)-(l). 8                                                                                                  
+
+> TABLE I MEAN AND STANDARD DEVIATION OF SNR, NUMBER OF STROKES NAND
+> HL INDEX FOR ALL HUMAN AND ARTIFICIAL TRAJECTORIES ,GROUPED BY PATTERN
+> Method Pattern ¯NSN R NHL
+> Human 27.86 ±2.08 12.28 ±2.05 13.99 ±2.54 Uniform RS 625.15 ±1.71 18.34 ±2.25 8.34 ±1.10 STOTPAC 26.42 ±1.04 13.34 ±1.48 12.03 ±1.45 Human 27.16 ±1.84 18.24 ±2.57 15.17 ±2.23 Uniform 5L 10 23.26 ±1.66 32.78 ±3.26 7.18 ±0.94 STOTPAC 24.90 ±1.76 19.35 ±2.88 13.10 ±1.85 Human 26.17 ±1.99 12.16 ±2.30 13.37 ±2.75 Uniform EU 621.12 ±1.61 21.10 ±2.53 6.07 ±0.70 STOTPAC 24.89 ±1.65 13.40 ±1.93 11.35 ±1.66
+
+C. HL index evaluation 
+
+Tab. I displays the mean and standard deviation of the SNR in (11), the number of strokes N and the HL index in (12) for all Human trajectories executed by G1 and their artificial counterparts. The values are grouped by the patterns of Fig. 2 (a)-(c), for which the expected number of strokes in the motor program ¯N (computed on the path) is also reported. The same data are shown in Fig. 3, in which the distributions of the HL index are reported for each pattern and class of time laws in the form of box plots. Notably, since the STOTPAC trajectories have been de-signed to resemble human ones, and because they naturally take into account the path curvature, we observe a high degree of similarity in the HL index between Human and STOTPAC trajectories. This suggests that the latter may be difficult to distinguish from Human ones, making them more suitable for approximating human time laws. Proposition 2 suggests that if a planner can generate sigma-lognormal velocity profiles with a limited amount of strokes, ideally the number of strokes that would be comprised in a fully-developed motor program, then the resulting movement will be human-like. We thus pose the question: if a movement is designed to maximize the HL index, is the movement perceived as comfortable by humans? Hence, we posit 
+
+Proposition 3. If, for a given movement, the HL index is maximized, the movement is comfortable. 
+
+In virtue of Hypothesis 1 and Proposition 2, we expect Proposition 3 to hold. Through the design of suitable experi-ments, we aim to provide empirical evidence. 
+
+D. Interaction experiment 
+
+With the focus on robot acceptance in collaborative tasks, we structure our experiments with a robot that passively moves the arm of the involved subjects (to activate their proprioceptive receptors), asking them about their perceived comfort. The experiments are designed as comparison tests, in which human subjects are presented with two handwriting motions and asked to select the most comfortable one according to their self-evaluation [59]. Comparison tests are preferred because humans struggle to assess movements when they lack a reference [60]. Moreover, formulating the question in terms of comfort, instead of similarity to a human, allows for the subject to express a bias-free preference. The G2 group is involved in the experimental procedure, together with a velocity-controlled 6-DOF UR10 robot, which is supplied with both Human and artificial trajectories. During the experiment, subjects are required to actively engage with the robot, maintaining contact with its end-effector, which is custom-designed and 3D-printed, during the execution of movements. Since an underlying assumption of this work is that the human behavior is encoded in the velocity information [29], we configure the robot controller to perform velocity control, that is to control velocity directly. The robot executes the handwriting trajectories within its free space, without in-teracting with any surrounding objects, on a virtual horizontal plane. To ensure safety, a physical barrier is placed between the robot and the human, preventing the participant from entering the robot’s workspace with their entire body. Additionally, the robot is programmed to operate near its workspace boundary to limit its extension towards the human. The end-effector is stiff to avoid the introduction of artificial dynamics, yet it maintains a degree of fragility to facilitate breakage in the event of a collision, preserving the participant’s safety. The experiment setup is as in Fig. 4. IV. E XPERIMENTAL SETUP 
+
+Three campaigns of experiments have been conducted: 1) Human-Uniform , involves the robot executing 30 tra-jectories, in the form of 15 pairs (5 per pattern), each composed of a Human and its Uniform counterpart. 2) Human-STOTPAC , involves the robot executing 30 tra-jectories, in the form of 15 pairs (5 per pattern), each composed of a Human and its STOTPAC counterpart. 3) Human-Human , involves the robot executing 36 trajec-tories, in the form of 18 pairs (6 per pattern), each composed of a Human with higher HL and a Human with lower HL .We select the trajectories shown during the experimental campaigns from the G1 dataset, collected as in Section III-A. This selection is carried out to maximize the subjects in G1 and patterns coverage, while exploring the whole HL range, as presented in Section III-C. In particular, we classify pairs based on three levels of HL difference: low, medium, and high, defined relatively to the pairs in the same campaign. Accordingly, low-to-medium and medium-to-high thresholds are (5 , 10) , (1 .5, 5) , and (0 .5, 5) for the first, the second, and the third campaign, respectively. In the context of the third campaign, we also address instances where a comparison is drawn between two human trajectories, either executed by the same subject or by two distinct ones. This allows us to account for 3 (number of patterns) × 3 (levels of difference of HL ) × 2(case in which the subject is the same or not) = 18 trajectories. Each participant completes all three campaigns, thus ac-counting for a total of 48 queries, i.e., single comparisons between two trajectories. The order of execution of the two trajectories in a query and of queries in a campaign is ran-domized among participants, to avoid ordering biases. In each query, participants are asked: “In which of the two movements did you feel more comfortable in interacting with the robot?”. COCCARO et al. : A NEW HUMAN-LIKENESS AND COMFORT INDEX FOR ROBOT MOVEMENTS ALONG PRESCRIBED PATHS 9Uniform STOTPAC Human 
+
+0
+
+10 
+
+20 HL Uniform STOTPAC Human 
+
+0
+
+10 
+
+20 HL Uniform STOTPAC Human 
+
+0
+
+10 
+
+20 HL     
+
+> Fig. 3. Boxplot of HL index in (12) calculated for patterns in Fig. 2a, 2b and 2c, ordered from left to right, respectively.
+> Fig. 4. Human-Robot interaction experiment setup.
+
+0 10 20 30 40 50 60 70 80 90 100 
+
+Human VS Uniform 
+
+Human VS STOTPAC 
+
+Human (High HL) VS Human (Low HL) 0 10 20 30 40 50 60 70 80 90 100 
+
+Human VS Uniform 
+
+Human VS STOTPAC 
+
+Human (High HL) VS Human (Low HL) 0 10 20 30 40 50 60 70 80 90 100 
+
+Human VS Uniform 
+
+Human VS STOTPAC 
+
+Human (High HL) VS Human (Low HL)  
+
+> Fig. 5. Preference rate for the most comfortable trajectory of a pair in all campaigns, evaluated on the patterns in Fig. 2a, 2b and 2c, ordered from top to bottom, respectively.
+
+Participants enter the experimental room individually to ensure that their decision-making is not influenced by the opinions of other participants. To avoid potential fatigue and attentional drop-off effects, that could affect the results, a sin-gle pause is included within each campaign, after the first half of queries (8 for Human-Uniform and Human-STOTPAC , 9 for Human-Human ). Furthermore, each campaign is conducted one week apart to minimize carryover effects. Before each campaign, the operator presents the protocol to the participant and shows the three patterns, as seen in Fig. 2 (a)-(c). The patterns, printed in their original size, are placed on the desk below and parallel to the execution plane as a visual reference. This approach enables the participants to familiarize themselves with the geometrical features of the tra-jectories, so preventing the participants from creating a mental representation of the movements while they are experiencing it, a phenomenon that could potentially interfere with their decision-making process or result in reduced attentiveness. The protocol adopted across all the experimental campaigns is presented in written form to the subject before performing each campaign: “The robot will perform the 3 writing patterns shown herein as if holding a pen and writing on a paper sheet lying on the desk. Each pattern will be executed twice, and throughout each robot execution, you shall hold the orange handle as if it were a pen. Grasp it firmly to prevent it from slipping out of your hand. After the second execution terminates, you can let go off the grip. You will then be asked to answer the following question: “In which of the two movements did you feel most comfortable interacting with the robot?” If you cannot provide a definitive answer, you can ask the robot to execute the pattern again. The robot has been positioned so that it cannot touch you, and, for safety reasons, there will be an operator present at all times, ready to stop the robot if there are any anomalies. When you feel ready, we can start. The first experiment will begin in a few seconds.” 
+
+V. R ESULTS ANALYSIS 
+
+A. Consistency between HL index and user preferences 
+
+The outcomes of the experiments, in terms of preference rate for the most comfortable trajectory in a pair, for the three campaigns, are summarized in Fig. 5. Except for one outlier associated with the EU pattern, i.e. Fig. 5 (bottom), our trials show a consistent preference for the Human trajectories in the Human-Uniform comparisons. When replacing the Uniform profile with the STOTPAC one, the participants still globally prefer the Human trajectories, but, in several trials, they feel STOTPAC trajectories more comfortable than Human ones. Lastly, when comparing two Human trajectories, as expected, subjects seem to have not a clear preference between one trajectory or the other, but a slight preference for the Human trajectory with higher HL . We observe that this trend is globally consistent with the distributions of the HL values reported in Fig. 3, i.e., Human trajectories exhibiting, on average, a larger HL value, are perceived as more comfortable by the general population, and, compared to Uniform ones, 10                         
+
+> TABLE II COMPARISON BETWEEN HL, MAJ AND USER PREFERENCE RATE
+> Preference rate Preference rate ID Human STOTPAC Uniform for Human for Human wrt STOTPAC wrt Uniform 01WL HL 16.57 14.72 8.05 81.58% 100% MAJ 31.35 46.72 43.75 01TL HL 15.63 13.90 6.31 71.05% 100% MAJ 62.80 90.41 77.81
+
+STOTPAC trajectories, presenting an intermediate average HL 
+
+value, are more frequently “confused” with Human ones. 
+
+B. Comparison with jerk 
+
+Since mean absolute jerk (MAJ) is a common a-priori metric to assess the comfort of movements, we conduct a dedicated analysis to compare it with both the proposed HL index and the outcome of interaction experiments. Therefore, we focus on the 15 trajectories experimented by volunteers in the interaction experiments of the Human-Uniform and Human-STOTPAC campaigns. Let jU and jS be the MAJ for Uniform and STOTPAC trajectories, respectively. While there is a gen-eral agreement between HL index, MAJ and user preference, there might be cases in which trajectories with higher jerk are preferred more frequently by users than trajectories with lower jerk. Tab. II reports two of such cases from our dataset, i.e., STOTPAC trajectories are preferred more frequently than Uniform trajectories ( 18 .42% -28 .95% vs. 0%, respectively) in comparisons with Human trajectories, despite being jS > j U 3.Conversely, the HL index, by capturing more fundamental aspects of the human movement, better aligns with the user preference. 
+
+C. Impact of path curvature on HL index 
+
+We note that the preference for the Human trajectory in the Human-STOTPAC comparison campaign showcases some variability across patterns, and, specifically, the subjects feel the STOTPAC time laws particularly uncomfortable when ap-plied to the EU pattern. To explain this different behavior in the EU pattern case, we rely on unsolicited comments that some participants made when answering the Human-STOTPAC queries related to such a pattern. In particular, without knowing the agent that generated the trajectories, they reported that STOTPAC ones felt more jerky, which was influencing their perception of comfort and, hence, guiding their preference towards Human ones. Indeed, because of its bang-bang nature, TOTP accentuates acceleration and deceleration as the path curves get tighter. Among the patterns, the EU one presents the tightest curves at the two angular points delineating the upper edges of the ‘U’ letter. Whereas a human would naturally approach such points with deliberate, controlled deceleration and acceleration, TOTP produces abrupt velocity variations, that are likely the cause of the jerkiness reported by subjects. This detailed aspect is only weakly captured by the proposed                  
+
+> 3In the case of Uniform trajectories, the MAJ is computed on the executed trajectory, including the short segments necessary to reach the peak velocity and to return back to zero. Only these segments contribute to the jerk computation, as it is otherwise zero. TABLE III LOGISTIC REGRESSION RESULTS FOR RS, 5L AND EU PATTERNS .DEPENDENT VARIABLE =ph
+> Predictor OR 95% CI OR RS ∆HL 1.2120 [1.1539, 1.2732] 5L ∆HL 1.1721 [1.1253, 1.2209] EU ∆HL 1.1005 [1.0623, 1.1401]
+
+HL index in (12) (see Tab. I), while it is a core factor that subjects may consider when evaluating comfort. 
+
+D. HL index as comfort predictor 
+
+We want to assess the performance of the proposed HL 
+
+index in indicating comfort. In particular, said HL h and HL l
+
+the HL values for the two trajectories in the comparison, and ∆HL = HL h − HL l > 0, we assess whether the binary variable “preference for the trajectory with HL h” ( ph)correlates with the continuous variable ∆HL , i.e. humans are more likely to perceive the most human-like trajectory as comfortable as the distance in terms of HL increases. On the other hand, if the two trajectories are similar in terms of 
+
+HL , they tend to be “confused”, i.e. humans do not exhibit a clear preference for one trajectory or the other. In other words, we want to assess whether ∆HL is a predictor for ph. The results of the three campaigns are grouped by pattern, and then subject to confirmatory analysis by a logistic regression. The dependent variable ph is equal to 1 if the preferred trajectory is the one with HL h, 0 otherwise. The logistic regression results, as shown in Tab. III, indicate that the probability of feeling the trajectory with HL h more comfortable has a sta-tistically significant association with ∆HL . This is confirmed by a deviance test, which determines whether our models fit significantly better than constant ones (i.e. no correlation condition). The deviance test is performed on each pattern, with p = 1 .05 · 10 −16 for the RS one, p = 4 .14 · 10 −17 for the 5L one and p = 4 .71 · 10 −8 for the EU one. These p-values indicate that each model significantly differs from a constant, thus proving that ∆HL is a predictor for ph. Odds Ratio (OR) and 95% Confidence Interval of OR (95% CI OR), for each model, are reported in Tab. III. We use 4 decimal places to keep statistical precision. A post-hoc power analysis is conducted using G*Power version 3.1 to evaluate the achieved statistical power of the logistic regression analysis performed for each pattern [61]. Each analysis is based on the total sample size, i.e., 1088, and a significance level α = 0 .05 . The odds ratio, which is the observed effect size, is equal to 1.2120 , 1.1721 , and 1.1005 
+
+for RS, 5L, and EU patterns, respectively. The achieved power 
+
+(1 − β) is calculated to be 100%, 100%, and 99.9% for RS, 5L, and EU patterns, respectively. This suggests that the three logistic regression tests have sufficient power to detect the observed effect. 
+
+E. HL index sensitivity 
+
+An additional analysis is performed on the Human-Human comparisons campaign. The aim is to assess whether marked differences in terms of the HL index between two trajectories COCCARO et al. : A NEW HUMAN-LIKENESS AND COMFORT INDEX FOR ROBOT MOVEMENTS ALONG PRESCRIBED PATHS 11 
+
+in a comparison correspond to differences in the perceived comfort. In other words, we aim to assess whether a threshold of ∆HL exists at which two trajectories are clearly perceived as different from a comfort perspective. Since we do not observe marked differences in the comfort perception between the two patterns, for each single trajectory pair, let Ph be the rate of preference for the trajectory with 
+
+HL h across subjects, regardless of the pattern, i.e. 
+
+Ph =
+
+P|G2 | 
+
+> i=1
+
+ph,i 
+
+|G2 | , (24) where |G2 | is the cardinality of G2, and ph,i is the i-th subject preference for the trajectory with HL h. We group all trajectory pairs into two groups, having either ∆HL ≤ T or ∆HL > T ,where T = 0 .600 is an empirically selected threshold that well separates the classes. We find that 6 pairs fall into the former group, while 12 pairs fall into the latter. For each group, we compute the average of the rates Ph, i.e. μl = 40 .50 
+
+and μh = 63 .92 , respectively. After assessing normality through a Shapiro-Wilk test across both the whole sample and within every single class, identified by the threshold, we conduct a two-tailed t-Student test for the difference between the population means μl and μh, with a significance level 
+
+α = 0 .05 . The null hypothesis H0 : μl − μh = 0 is rejected with a p-value of 0.0119 , proving that there is statistical significance that the two groups’ means are different. In line with the commented results of the logistic regression test, we confirm that two human trajectories can be distinguished in terms of comfort if they are “different enough” in terms of the proposed HL index. 
+
+F. Accuracy of HL index in single comparisons 
+
+While a global correlation between the proposed HL index and comfort is observed, as demonstrated by our analyses, the former is not guaranteed to be an index of comfort in single comparisons, mainly because the perception of comfort is user-dependent. Indeed, we observed subjects preferring the STOTPAC trajectory even in cases where its HL index was remarkably lower than its Human counterpart. A clear example of this is found in subject 28 from the Human-STOTPAC campaign. In query 12, the subject preferred STOTPAC (HL: 13.50) over Human (HL: 22.20). This limitation can also be explained in light of Remark 2: some users might “feel” fea-tures of the experienced movement that make it comfortable, even though its HL index is low. However, our results show that the probability of such an event tends to zero as the distance in HL between the two trajectories is maximized, thus confirming Proposition 3. 
+
+G. Summary 
+
+We designed our HL index to be an index of similarity to a motor program, hence, from Proposition 3, it follows that if the similarity to a motor program is maximized, the movement is perceived as comfortable. In turn, these results also empirically validate Hypothesis 1. Ultimately, the issue of acceptance is resolved through the similarity to a motor program. VI. C ONCLUSION AND FUTURE WORK 
+
+The issue of the acceptance of robots by human operators is a multifaceted one that is strongly linked to how humans perceive motion. Additionally, the level of comfort associated with a given movement, to which acceptance directly links, highly depends upon an individual’s unique perception across a multitude of distinct factors. These properties are challenging to quantify, and are thus expected to require examples from humans. Based upon the kinematic theory of human move-ments, we proposed an index whose maximization provides a sufficient condition for a movement to be comfortable, without the need for humans to have an experience of it. We solved the problem of comfort by measuring the similarity of a movement to a mental motor program. In addition, our approach associates comfort with the movement’s time law, which enables any movement to become comfortable, regardless of the movement’s geometry. To validate our index, we conducted experiments with human subjects, who were instructed to interact with a robot and to evaluate comfort over human-recorded and artificially-planned trajectories. Despite its limitation in capturing user-dependent factors, our results show that our index is indeed an index of comfort. In particular, according to it, human-recorded trajectories are classified as more comfortable than artificial ones, and this is confirmed by the direct experience of our sample of users. We specify that our results cannot be generalized to subjects whose motor program is not developed enough (e.g. young children) or whose execution is affected by physical disabilities or stiff muscles (e.g. elderly or disabled individuals). Moreover, we recognize that different user-dependent fac-tors exist, such as different individuals’ movement habits, physiological disparities, and psychological state fluctuations, that could influence the subjects’ perception of movement. These factors may significantly influence comfort perception and the effectiveness of the HL index. Although these factors were not examined in our study, we laid the foundation for fur-ther investigations by collecting relevant information through the administered questionnaire, aimed at assessing some of these factors and evaluating participants’ motor competence. With a focus on future developments on the topic of robot acceptance in HRI, the index’s capability to provide an a priori characterization of trajectories makes it fit to be employed as a performance index for human-like trajectories’ generation algorithms, providing an objective evaluation of such methods and facilitating their comparison. Such an index could be particularly valuable in motion planning for exoskeletons, especially in rehabilitation contexts, where therapies might require tracking a prescribed path for functional rehabilitation. As the HL index is also correlated to metabolic energy expenditure, future work might investigate how the index, applied to robotic trajectories, compares to direct measures of power consumption. The potential applications of this index extend beyond robotic ones, an example being the generation of synthetic handwriting. By training generative networks to generate sam-ples whose index is above a given threshold, the likelihood of generating implausible samples is reduced, thereby avoiding the introduction of artificial variability in the training data. 12 
+
+Moreover, our proposed human likeness evaluation system in its entirety could be deployed to medical centers. When integrated with a motion capture system, it can be used to quantify arm motion pathologies that result in kinematic deviations from the normal range of motion observed in healthy upper limbs. Our experiments also showcase that not all artificially-generated trajectories are equivalent in terms of comfort and that time-optimal parametrizations are sometimes good candidates to replace human movements while preserving comfort. To this end, it is pertinent to investigate new trajectory planning algorithms that would target the maximization of our index, possibly overcoming the limitations associated with time-optimal movements. The fact that we can only define a sufficient condition for a movement to be comfortable makes our index more suitable for synthesis than analysis of movements. This prompts further inquiry into movement features that the similarity with the mo-tor program does not address, but that are likewise important for comfort. This will be the subject of future research. ACKNOWLEDGMENTS 
+
+The authors would like to thank Giovanni Mignone for conducting preliminary experiments that helped us lay the foundations of this study, and Gianluca Pallante for engaging in fruitful discussions on our statistical analyses. REFERENCES [1] A. B. Moniz and B.-J. Krings, “Robots Working with Humans or Humans Working with Robots? Searching for Social Dimensions in New Human-Robot Interaction in Industry,” Societies , vol. 6, no. 3, p. 23, Sep. 2016. [2] J. Fink, “Anthropomorphism and human likeness in the design of robots and human-robot interaction,” in Social Robotics , S. S. Ge, O. Khatib, J.-J. Cabibihan, R. Simmons, and M.-A. Williams, (Eds.). Springer Berlin Heidelberg, 2012, pp. 199–208. [3] H. Qiao, J. Chen, and X. Huang, “A Survey of Brain-Inspired Intelligent Robots: Integration of Vision, Decision, Motion Control, and Muscu-loskeletal Systems,” IEEE Trans. Cybern. , vol. 52, no. 10, pp. 11 267– 11 280, Oct. 2022. [4] A. Parziale and A. Marcelli, “Understanding upper-limb movements via neurocomputational models of the sensorimotor system and neu-rorobotics: where we stand,” Artif. Intell. Rev. , vol. 57, 2024. [5] J. Su, P. Liu, and Y. Song, “Achieving targeted tracking control accuracy within given timeframe for arm-hand robotic systems under actuation faults,” IEEE Trans. Syst. Man Cybern.: Syst. , vol. 55, no. 8, p. 5207–5219, Aug. 2025. [6] Z. Yuan, W. V. Ransbeeck, G. A. Wiggins, and D. Botteldooren, “A Dynamic Systems Approach to Modeling Human–Machine Rhythm Interaction,” IEEE Trans. Cybern. , vol. 55, no. 5, pp. 2052–2064, May 2025. [7] M. Natarajan and M. Gombolay, “Effects of Anthropomorphism and Accountability on Trust in Human Robot Interaction,” in Proceedings of the 2020 ACM/IEEE International Conference on Human-Robot Interaction , ser. HRI ’20. New York, NY, USA: Association for Computing Machinery, Mar. 2020, pp. 33–42. [8] K. Nie and R. Langari, “Modeling human upper limb trajectories for reaching motions on cleverarm,” IEEE Transactions on Medical Robotics and Bionics , vol. 6, no. 4, pp. 1603–1615, 2024. [9] A. Bisio, A. Sciutti, F. Nori, G. Metta, L. Fadiga, G. Sandini, and T. Pozzo, “Motor contagion during human-human and human-robot interaction,” PLoS ONE , vol. 9, no. 8, pp. 1–10, 08 2014. [10] R. Baddoura and G. Venture, “Human motion characteristics in relation to feeling familiar or frightened during an announced short interaction with a proactive humanoid,” Front. Neurorobotics , vol. 8, 2014. [11] G. Gulletta, W. Erlhagen, and E. Bicho, “Human-like arm motion generation: A review,” Robotics , vol. 9, no. 4, 2020. [12] C. Gaebert, O. Rehren, S. Jansen, K. Jahn, P. Ohler, G. D. Rey, and U. Thomas, “Effects of human-like characteristics in sampling-based motion planning on the legibility of robot arm motions,” ACM Trans. Hum.-Robot Interact. , vol. 14, no. 3, p. 1–25, Mar. 2025. [13] D. Kuli´ c, G. Venture, K. Yamane, E. Demircan, I. Mizuuchi, and K. Mombaur, “Anthropomorphic Movement Analysis and Synthesis: A Survey of Methods and Applications,” IEEE Trans. Robot. , vol. 32, no. 4, pp. 776–795, Aug. 2016. [14] S. Marchesi, F. Bossi, D. Ghiglino, D. De Tommaso, and A. Wykowska, “I am looking for your mind: Pupil dilation predicts individual differ-ences in sensitivity to hints of human-likeness in robot behavior,” Front. Robot. AI , vol. 8, pp. 1–10, 2021. [15] D. Ghiglino, C. Willemse, D. De Tommaso, F. Bossi, and A. Wykowska, “At first sight: robots’ subtle eye movement parameters affect human attentional engagement, spontaneous attunement and perceived human-likeness,” Paladyn, Journal of Behavioral Robotics , vol. 11, pp. 31–39, 2020. [16] D. Ghiglino, D. De Tommaso, C. Willemse, S. Marchesi, and A. Wykowska, “Can i get your (robot) attention? human sensitivity to subtle hints of human-likeness in a humanoid robot’s behavior,” 
+
+Proceedings of the Annual Meeting of the Cognitive Science Society ,2020. [17] Y. Yan and Y. Jia, “Design and evaluation of a human-comfort-aware robot behavior controller,” in 2025 American Control Conference (ACC) .IEEE, 2025, p. 2709–2714. [18] M. Koskinopoulou and P. Trahanias, “A methodological framework for robotic reproduction of observed human actions: Formulation using latent space representation,” in 2016 IEEE-RAS 16th International Conference on Humanoid Robots (Humanoids) , 2016, pp. 565–572. [19] J.-J. Chang, T.-I. Wu, W.-L. Wu, and F.-C. Su, “Kinematical measure for spastic reaching in children with cerebral palsy,” Clin. Biomech. ,vol. 20, no. 4, pp. 381–388, 2005. [20] E. De Momi, L. Kranendonk, M. Valenti, N. Enayati, and G. Fer-rigno, “A neural network-based approach for trajectory planning in robot–human handover tasks,” Front. Robot. AI , vol. 3, 2016. [21] S. Maheshwari, “Comfort-aware motion planning for robot-assisted feeding,” American Journal of Student Research , p. 118–131, 2025. [22] P. Ribeiro, A. Cardoso, D. Rodrigues, E. C. e Silva, L. Louro, A. Colim, and E. Bicho, “Human-ergonomics-constrained motion planning of safe and human-like movements in a robotic assistant,” in 2026 IEEE Inter-national Conference on Autonomous Robot Systems and Competitions (ICARSC) . IEEE, Apr. 2026, p. 91–98. [23] S. Proia, G. Cavone, P. Scarabaggio, R. Carli, and M. Dotoli, “An integrated control framework for safe and ergonomic human-drone interaction in industrial warehouses,” IEEE Trans. Syst. Man Cybern.: Syst. , vol. 55, no. 5, pp. 3570–3585, 2025. [24] C. He, X.-W. Xu, X.-F. Zheng, C.-H. Xiong, Q.-L. Li, W.-B. Chen, and B.-Y. Sun, “Anthropomorphic Reaching Movement Generating Method for Human-Like Upper Limb Robot,” IEEE Trans. Cybern. , vol. 52, no. 12, pp. 13 225–13 236, Dec. 2022. [25] N. Tamura, S. Ikemoto, T. Uchida, and H. Ishiguro, “Quantification of human-like motion of androids in relation to control parameters,” IEEE Access , vol. 14, p. 17196–17205, 2026. [26] X.-Y. Liu, G. Li, X.-H. Zhou, X. Liang, and Z.-G. Hou, “A weight-aware-based multisource unsupervised domain adaptation method for human motion intention recognition,” IEEE Trans. Cybern. , vol. 55, no. 7, pp. 3131–3143, 2025. [27] S.-H. Ryu, Y. Kang, S.-J. Kim, K. Lee, B.-J. You, and N. L. Doh, “Humanoid Path Planning From HRI Perspective: A Scalable Approach via Waypoints With a Time Index,” IEEE Trans. Cybern. , vol. 43, no. 1, pp. 217–229, Feb. 2013. [28] J. J. Quintana, M. A. Ferrer, M. Diaz, J. J. Feo, A. Wolniakowski, and K. Miatliuk, “Uniform vs. lognormal kinematics in robots: Perceptual preferences for robotic movements,” Appl. Sci. , vol. 12, pp. 1–17, 2022. [29] R. Plamondon and W. Guerfali, “The generation of handwriting with delta-lognormal synergies,” Biol. Cybern. , vol. 78, pp. 119–132, 1998. [30] L. E. Kavraki and S. M. LaValle, “Motion planning,” in Springer Handbook of Robotics , B. Siciliano and O. Khatib, (Eds.). Springer International Publishing, 2016, pp. 139–162. [31] A. D. Dragan, K. C. Lee, and S. S. Srinivasa, “Legibility and predictabil-ity of robot motion,” in 2013 8th ACM/IEEE International Conference on Human-Robot Interaction (HRI) . IEEE, 2013, pp. 301–308. [32] P. Howell, J. Kolb, Y. Liu, and H. Ravichandar, “The Effects of Robot Motion on Comfort Dynamics of Novice Users in Close-Proximity Human-Robot Interaction,” in 2023 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS) , Oct. 2023, pp. 9859–9864, iSSN: 2153-0866. COCCARO et al. : A NEW HUMAN-LIKENESS AND COMFORT INDEX FOR ROBOT MOVEMENTS ALONG PRESCRIBED PATHS 13 
+
+[33] Y. Yan and Y. Jia, “A review on human comfort factors, measurements, and improvements in human-robot collaboration,” Sensors , vol. 22, no. 19, 2022. [34] N. Hogan and D. Sternad, “Sensitivity of smoothness measures to movement duration, amplitude, and arrests,” J. Mot. Behav. , vol. 41, pp. 529–34, 11 2009. [35] J. Rozlivek, A. Roncone, U. Pattacini, and M. Hoffmann, “Harmonious—human-like reactive motion control and multimodal perception for humanoid robots,” IEEE Trans. Robot. , vol. 41, pp. 378–393, 2025. [36] C. O’Reilly and R. Plamondon, “Development of a Sigma–Lognormal representation for on-line signatures,” Pattern Recognit. , vol. 42, pp. 3324–3337, 2009. [37] D. Antonelli and S. Astanin, “Qualification of a collaborative human-robot welding cell,” Procedia CIRP , vol. 41, pp. 352–357, 2016. [38] B. Luciani, L. Roveda, F. Braghin, A. Pedrocchi, and M. Gandolla, “Trajectory learning by therapists’ demonstrations for an upper limb rehabilitation exoskeleton,” IEEE Robot. Automat. Lett. , vol. 8, no. 8, pp. 4561–4568, 2023. [39] A. M. Wing, “Motor control: Mechanisms of motor equivalence in handwriting,” Curr. Biol. , vol. 10, no. 6, pp. R245–R248, 2000. [40] J. J. Summers and J. G. Anson, “Current status of the motor program: Revisited,” Hum. Mov. Sci. , vol. 28, no. 5, pp. 566–577, Oct. 2009. [41] K. S. Lashley, “The problem of serial order in behavior,” in Cerebral Mechanisms in Behavior; the Hixon Symposium . Oxford, England: Wiley, 1951, pp. 112–146. [42] W. A. Sparrow and K. M. Newell, “Metabolic energy expenditure and the regulation of movement economy,” Psychonomic Bulletin & Review ,vol. 5, pp. 173–196, 1998. [43] R. Plamondon, “A kinematic theory of rapid human movements: Part I. Movement representation and generation,” Biol. Cybern. , vol. 72, pp. 295–307, 1995. [44] A. Parziale, R. Parisi, and A. Marcelli, Extracting the Motor Program of Handwriting from its Lognormal Representation . WORLD SCIEN-TIFIC, 2020, ch. 13, pp. 289–308. [45] M. A. Ferrer, M. Diaz, C. Carmona-Duarte, and R. Plamondon, “iDeLog: Iterative Dual Spatial and Kinematic Extraction of Sigma-Lognormal Parameters,” IEEE Trans. Pattern Anal. Machine Intell. , vol. 42, no. 1, pp. 114–125, Jan. 2020. [46] L. A. Leiva, M. Diaz, N. T. Attygalle, M. A. Ferrer, and R. Plamondon, “Telling human and machine handwriting apart,” IEEE Trans. Syst. Man Cybern.: Syst. , pp. 1–12, 2025. [47] Y. Wang, Z. Sun, C. Qu, Y. Luo, H. Zhang, K. Dong, Y. Liu, Q. Zhang, B. Cai, E. Cheng, J. Ren, and B. Song, “An error-tolerant design of joint planner for a table tennis robot using variable-sigmoid-based motion template,” IEEE Trans. Syst. Man Cybern.: Syst. , vol. 55, no. 12, pp. 9355–9370, 2025. [48] L. Zlajpah and B. Nemec, “Implementation of time-optimal path-tracking control on palletizing robots,” in ISIE ’99. Proceedings of the IEEE International Symposium on Industrial Electronics (Cat. No.99TH8465) . IEEE, 1999, pp. 861–866. [49] J.-J. Slotine and H. Yang, “Improving the efficiency of time-optimal path-following algorithms,” IEEE J. Robot. Automat. , vol. 5, pp. 118– 124, 1989. [50] Y. Chen and S. Y.-P. Chien, “General structure of time-optimal control of robotic manipulators moving along prescribed paths,” in 1992 American Control Conference , 1992, pp. 1510–1514. [51] K. Shin and N. McKay, “A dynamic programming approach to trajectory planning of robotic manipulators,” IEEE Trans. Automat. Contr. , vol. 31, no. 6, pp. 491–500, Jun. 1986. [52] L. Itti, C. Koch, and E. Niebur, “A model of saliency-based visual attention for rapid scene analysis,” IEEE Trans. Pattern Anal. Machine Intell. , vol. 20, no. 11, pp. 1254–1259, 1998. [53] A. Parziale and A. Marcelli, “Should We Look at Curvature or Velocity to Extract a Motor Program?” in Intertwining Graphonomics with Human Movements , C. Carmona-Duarte, M. Diaz, M. A. Ferrer, and A. Morales, (Eds.). Cham: Springer International Publishing, 2022, pp. 203–216. [54] T. Bhattacharjee, G. Lee, H. Song, and S. S. Srinivasa, “Towards robotic feeding: Role of haptics in fork-based food manipulation,” IEEE Robot. Automat. Lett. , vol. 4, pp. 1485–1492, 2019. [55] N. D. Cilia, G. De Gregorio, C. De Stefano, F. Fontanella, A. Marcelli, and A. Parziale, “Diagnosing alzheimer’s disease from on-line handwrit-ing: A novel dataset and performance benchmarking,” Eng. Appl. Artif. Intell. , vol. 111, 2022. [56] G. S. Harrington, D. Farias, and C. H. Davis, “The neural basis for simulated drawing and the semantic implications,” Cortex , vol. 45, pp. 386–393, 2009. [57] A. Fischer, R. Schindler, M. Bouillon, and R. Plamondon, “Modeling 3D movements with the kinematic theory of rapid human movements,” in Series in machine perception and artificial intelligence . WORLD SCIENTIFIC, 2020, pp. 327–342. [58] H. L. Teulings, “MovAlyzeR. version 6.1,” 2019. [59] W. Wang, Y. Chen, R. Li, and Y. Jia, “Learning and Comfort in Human–Robot Interaction: A Review,” Appl. Sci. , vol. 9, p. 5152, Nov. 2019. [60] G. Mignone, A. Parziale, E. Ferrentino, A. Marcelli, and P. Chiacchio, “Observation vs. interaction in the recognition of human-like move-ments,” Front. Robot. AI , vol. 10, 2023. [61] F. Faul, E. Erdfelder, A. Buchner, and A.-G. Lang, “Statistical power analyses using g* power 3.1: Tests for correlation and regression analyses,” Behav. Res. Methods , vol. 41, no. 4, pp. 1149–1160, 2009. 
+
+Rosanna Coccaro received the M.Sc. degree in computer engineering in 2023 at the University of Salerno, Fisciano, Italy. She is currently pursuing the Ph.D. degree in Information Engineering with the Department of Information and Electrical Engi-neering and Applied Mathematics, at the University of Salerno. Her research interests include robotics, human–robot interaction, motion planning and con-trol for mobile manipulators, redundancy resolution, trajectory optimization, and physical human–robot collaboration. 
+
+Enrico Ferrentino (Member, IEEE) received the M.Sc. degree in computer and automation engineer-ing from the Polytechnic University of Turin, Turin, Italy, in 2014, and the Ph.D. degree in robotics from the University of Salerno, Fisciano, Italy, in 2020. From 2013 to 2014, he was a Visiting Scholar with NASA’s Jet Propulsion Laboratory, Pasadena, CA, USA, where he contributed to the Axel tethered robot project within the Robotic Mobility group, led by Dr. Issa Nesnas. Between 2014 and 2017, he was a Ground Segment Engineer with ALTEC S.p.A., Turin, Italy, working on the ESA robotic mission ExoMars. In 2019, he was a Visiting Scholar with LAAS-CNRS, Toulouse, France, where he participated in the H2020 PRO-ACT project as part of the team led by Prof. Antonio Franchi. Since 2020, he has been a Lecturer in Robotics and Medical Robotics with the Department of Information Engineering, Electrical Engineering and Applied Mathematics, University of Salerno, where he is currently an Assistant Professor and technical advisor of the Robotics Labo-ratory, led by Prof. Pasquale Chiacchio. In 2024, he was appointed Associate Editor for the IEEE TRANSACTIONS ON AUTOMATION SCIENCE AND ENGINEERING. He is an active member of IEEE RAS, contributing to RAS-sponsored conferences as associated editor, and special session and work-shop organizer. His research interests include optimal planning and control of robotic manipulators, force control, haptic teleoperations, human–robot collaboration, and software architectures for robot control, with applications spanning industrial, medical, and aerospace robotics. 14 
+
+Antonio Parziale received the M.Sc. degree in Elec-tronic Engineering and the Ph.D. degree in Infor-mation Engineering from the University of Salerno, Italy, in 2009 and 2016, respectively. Following his Ph.D., he held multiple positions as a Postdoctoral Research Fellow with the Natural Computation Lab-oratory at the University of Salerno. From 2023 to 2026, he was an Assistant Professor with the Department of Information Engineering, Electrical Engineering and Applied Mathematics, University of Salerno. He is also a co-founder and CTO of Natural Intelligent Technologies srl, a university spin-off where he led the R&D of AI-based solutions for handwriting recognition and document automation, coordinating international industrial projects and European funded initiatives. His primary research focuses on AI and automatic systems for handwriting processing, including signature verification, and handwriting analysis as an early indicator of neurodegenerative diseases. Parallelly, he investigates neurocomputational models of the human motor system to understand how the brain learns and controls movement execution. His goal is to generate human-like movements in artificial systems, aiming to enhance safe human-robot collaboration in industrial and rehabilitative robotics. Dr. Parziale serves as Associate Editor for IET Biometrics. He has also served as Publications Chair for major international conferences, including the Machine Learning for Health (ML4H) symposium and the International Graphonomics Society (IGS) conference, and has been recognized with Outstanding Reviewer Awards from IEEE Access and the IAPR ICDAR conference. 
+
+Angelo Marcelli received the M.Sc. degree in elec-tronic engineering and the Ph.D. degree in electronic and information engineering from University of Naples Federico II, Naples, Italy, in 1983 and 1987, respectively. Along the years he held a position as visiting scholar at the Academy of Science in Minsk and St. Petersburgh (former Sovier Union), SUNY at Stony Brook and Rensslear Polytechnic Institute (USA). He is currently a Professor in In-formation Processing System with the Department of Information Engineering, Electrical Engineering and Applied Mathematics, University of Salerno, Italy, and is the founder and director of the Natural Computation Laboratory of the Department. His reseach focuses on handwriting from two complementary points of view: handwriting motor skills learning and bio-inspired artificial intelligence for handwriting processing. Along the first venue he has developed neurocompu-tational models for simulating the behaviour of the main brain areas and the spinal cord role in motor learning and execution, as well as the effects on them of neural disfunctionalities. In the realm of bio-inspired artificial intelligence he has contributed to evolutionary computation, immune computing and social intelligence, proposing new algorithms and thier application to handwriting recognition, historical document processing, forensic handwriting examination and handwriting analysis for supporting the diagnosis of neurodegenerative diseases and other neurological disorder. The results of his investigation and the intense experimental work for supporting them have been published in journals and proceedings of the most relevant international conferences in the respective field. He holds two patents on handwriting technologies and is one of the founder of Natural Intelligence Technologies Ltd, established in 2012 as a spin-off of his lab, that provides solutions for forensic handwriting analysis, automatic reading of handwritten documents, and human-in-the-loop systems for historical document transcription. He has been involved in research projects funded by both European Union and Italian funding agencies, as well as company. Angelo Marcelli served as Director of the department Ph.D Program in Information Engineering, from 2007 to 2013, and from 2014 to 2018 as Dean of the School of Engineering at his home institution. From 2005 to 2011 he was the President of the International Graphonomics Society. Prof. Marcelli is Chief Scientific Advisor of the Journal of Forensic Document Examination and Associate editor of Pattern Recognition Letters. He is a life member of the IEEE, IEEE Computer Society and IEEE Computational Intelligence Society. 
+
+Pasquale Chiacchio received the M.Sc. degree in electronic engineering and the Ph.D. degree in elec-tronic and information engineering from University of Naples Federico II, Naples, Italy, in 1987 and 1992, respectively. He is currently a Professor in Au-tomatic Control and Robotics with the Department of Information Engineering, Electrical Engineering and Applied Mathematics, University of Salerno, Fisciano, Italy. His main research interests include robotics and modeling and control of discrete event systems. In the robotics field, he has been working on robot control and identification, inverse kinematics problem, interaction control, control of redundant manipulators, and control of cooperative ma-nipulators. In the discrete event systems field, he has been working on supervisory control based on monitors, optimal supervisory control, and formal specification for supervisory systems. The results have been published in the main journals of the sector and have been accompanied by an intense experimental activity. He has been a Coordinator of two Research Projects of National Interest (PRIN) and has been involved in research projects funded by the European Union (ECHORD, AIRobots, EuRoC, LOCOMACHS, and LABOR). In December 2011, he was nominated Knight and then in July 2014, he was promoted to an Officer of the Order of Merit of the Italian Republic. From 2016 to 2024, he has been the Director of the Ph.D. Program in Information Engineering. Prof. Chiacchio is a member of the Italian Society of Control Researchers.

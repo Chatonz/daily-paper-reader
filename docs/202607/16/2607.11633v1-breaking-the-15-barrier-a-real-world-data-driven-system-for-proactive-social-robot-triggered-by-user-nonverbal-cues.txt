@@ -1,0 +1,270 @@
+Title: Breaking the 15
+
+URL Source: https://arxiv.org/pdf/2607.11633v1
+
+Published Time: Tue, 14 Jul 2026 03:22:06 GMT
+
+Number of Pages: 8
+
+Markdown Content:
+# Breaking the 15% Barrier: A Real-World Data-Driven System for Proactive Social Robot Triggered by User Nonverbal Cues 
+
+Yuga Yano 1,2, Yuki Okafuji 2,3, Ryo Miyoshi 2,3, Sanae Yamashita 2,3, Yoshiki Ohira 2,3
+
+Abstract — Service robots in retail stores increasingly rely on cascaded speech pipelines (STT–LLM–TTS), yet many cus-tomer–robot interactions are initiated or guided by nonverbal behaviors such as approaching, waving, pointing, or showing items. This paper studies such cues in a real-world store de-ployment with a teleoperated humanoid robot and shows that a non-negligible portion of robot turns are triggered by nonverbal behaviors rather than spoken input, revealing a limitation of audio-only dialogue systems. In a 6-day in-the-wild deployment, 15.3% of robot utterances were initiated by users’ nonverbal behaviors rather than spoken input. Based on an analysis of observed customer behaviors, we define a set of frequent, service-relevant nonverbal cues and develop a real-time multi-person, multi-label recognizer that runs online from video. We then propose a dialogue framework that conditions LLM-based utterance generation on recognized nonverbal cue tokens, and optionally leverages a vision–language model when items are shown, enabling proactive robot responses without hand-crafted rules. We evaluate the approach offline on nonverbal-triggered turns and demonstrate an online prototype that reacts to users’ nonverbal cues in real time. 
+
+I. I NTRODUCTION 
+
+Service robots capable of autonomous customer-service dialogue are being introduced in retail stores to reduce the workload of store staff and improve the customer experi-ence [1]–[3]. Recently, advances in large language models (LLMs) such as ChatGPT [4] and Gemini [5], as well as speech-to-text (STT) and text-to-speech (TTS) technologies, have significantly improved the verbal interaction capabilities of service robots. Meanwhile, many nonverbal behaviors— such as waving and pointing—often trigger interactions [6]. In contrast, widely deployed spoken dialogue systems are often implemented as a cascaded pipeline: the input speech is transcribed by STT, the transcript is fed into an LLM to generate a response, and the response is synthesized by TTS [7]. In such systems based on only audio input, spoken dialogue systems cannot incorporate users’ nonverbal behaviors as inputs, which leads to missed opportunities for engagement. While many studies of human activity recognition have focused on developing dedicated models, recent advances in large-scale infrastructure models have made it possible to describe detailed user behavior using vision language models (VLMs) [8]–[10]. However, such VLM-based approaches require a high-performance GPU for real-time recognition, and significant challenges remain before deployment as a     
+
+> 1Kyushu Institute of Technology, Fukuoka, Japan
+> 2CyberAgent, Tokyo, Japan
+> 3The University of Osaka, Osaka, Japan For correspondence:
+
+yano.yuuga158@mail.kyutech.jp Hello!!!   
+
+> Touching the robot
+> Please
+> don’t touch…
+> Showing items
+> It is
+> so cute !
+> Coming / waving
+> Touching a bag
+> Wow, that bag
+> looks heavy!
+> Fig. 1. In this study, we (a) collect dialogue data from a remote-controlled robot installed in a physical store, (b) analyze utterances resulting from the user’s nonverbal behavior, and (c) propose an autonomous dialogue system based on that analysis. We build a dialogue robot that can respond to the user’s nonverbal behavior in real time.
+
+customer-service dialogue system. In this study, real-time recognition refers to a speed of at least 1 fps. This is because humans generally expect a response delay of approximately one second to user actions [11]; therefore, human activity recognition must be completed within this time frame, even when the time required for speech generation and voice synthesis is excluded. Therefore, it is essential to analyze nonverbal behaviors that play important roles in customer-service interactions and to develop a dialogue framework that integrates a real-time recognition model. Fig. 1 provides an overview of our research objective. In this paper, we aim to realize natural spoken interaction in real-world service environments. To this end, we make two main contributions:  
+
+> •
+
+We collect human–robot interaction data in a physical retail store through teleoperation and analyze the robot’s utterances. In particular, we quantify response patterns to users’ spoken utterances and to users’ nonverbal behaviors that trigger speech. We identify user non-verbal behaviors that influence dialogue and present an analysis that connects these findings to model design.  
+
+> •
+
+We develop a real-time multi-label recognition model that detects important user nonverbal behaviors. We further propose an example of a dialogue framework that generates proactive responses based on the rec-ognized behaviors. We demonstrate that the proposed system generates dialogue content conditioned on users’ nonverbal behaviors. It matches human teleoperators’ intent on frequent social cues, while rarer task-related directives remain a limitation. arXiv:2607.11633v1 [cs.RO] 13 Jul 2026 In our first contribution, we deployed a teleoperated customer-service robot at the entrance of a retail store and categorized its utterances into responses to users’ speech and utterances triggered by users’ nonverbal behaviors. The latter cannot be handled by conventional speech-recognition-based dialogue systems combined with LLMs. Our analysis showed that about 15% of the robot’s utterances were nonverbal-triggered. From the 21 triggering behaviors identified, we selected nine as particularly important based on their fre-quency and relevance in service interactions. In our second contribution, we develop a recognition model for the nine key behaviors and integrate it into a dialogue system. The model performs real-time multi-label prediction for multiple users. We also propose a dialogue framework that incorporates recognized behaviors in real time to generate proactive responses. Experimental results show that the system matches the teleoperator’s intent on frequent social cues, while task-related directives remain a limitation. II. R ELATED WORKS 
+
+A. Classification of User Nonverbal Behaviors in HRI 
+
+In Human–Robot Interaction (HRI), users’ attention, en-gagement, intention to participate, and turn-taking timing are often conveyed through nonverbal cues such as gaze, posture, interpersonal distance, gestures, and object manipulation. Because speech alone cannot capture these signals well, analyzing user nonverbal behavior has been a longstanding topic in HRI [6]. In field settings (e.g., public spaces and retail stores), user motivations and engagement styles vary widely [12]; therefore, it is important to clarify which directly observable behaviors in real environments should be treated as dialogue-relevant inputs. In this study, we focus on observable behaviors rather than concepts that require estimating internal states such as emotions. Under this definition, nonverbal behaviors in HRI can be organized into the following observable units [6]. 1) Proxemics / Approach–Avoid : Changes in relative po-sition and distance (e.g., approaching, stopping, staying nearby, or leaving) provide strong cues for interaction onset/offset and intervention timing. Distance interpre-tation depends on operational definitions for safety and comfort [13]. 2) Body orientation / Posture : Body, shoulder, and head orientation, as well as leaning forward, are inter-pretable indicators of attention and partner selection. This modality is often combined with other modalities to detect user intent. 3) Gaze / Head movement : Gaze fixation, mutual gaze, and nodding are frequently used as backchannels and turn-transition cues. Recent work also adapts turn-taking models to HRI to improve fluency and inform when a robot should intervene [14]. 4) Gesture / Signaling : Raising a hand, waving, and pointing are often linked to attention-seeking, engage-ment requests, and instructions. Relevant gesture sets vary by task and context and are usually defined for specific research aims. 5) Object manipulation / Showing : Showing items or using a smartphone can reveal what the user is in-terested in. In customer service, attraction and engage-ment should be treated as a continuous process, making such behaviors important to capture [15]. 6) Observable overt affect-like behavior : Smiling or laughing can provide coarse cues of interaction success and acceptance when treated as observable behaviors rather than as direct estimates of internal states. While prior works provide rich classifications of nonverbal behavior, the findings are often tied to specific robot roles and environments. As a result, they are not yet systematically organized from a system-design viewpoint—especially re-garding which observable behaviors should be prioritized for recognition when deploying dialogue systems in real-world settings. Choosing an appropriate granularity and coverage of behaviors as dialogue inputs requires prioritization along two axes: system feasibility (e.g., real-time recognition) and interaction value (e.g., intervention effectiveness). 
+
+B. User Action Recognition 
+
+Understanding customer behavior in retail environments relates to video-based human action understanding in com-puter vision, including action recognition and temporal action detection. Many recent approaches leverage video features and vision–language models. SlowFast [16] introduced a dual-pathway architecture that jointly models local motion and global context by com-bining a low-frame-rate stream for appearance/context with a lightweight high-frame-rate stream for motion. Action Transformer [17] uses each person’s ROI features as queries to aggregate spatiotemporal context from an entire clip for multi-label person action classification. TubeR [18] further introduces person-specific queries to predict trajectories and action labels across frames. Beyond these performance-oriented methods, foundation models have enabled more fine-grained understanding. ActionCLIP [19] frames action recognition as video–text matching and exploits label semantics for zero-/few-shot transfer via prompting. It presented a pipeline that adapts pretrained image-/video–text models to action recognition through prompting. VideoRefer [10] introduces an object-referring dataset/benchmark and a video LLM that models region and temporal representations for object-level spa-tiotemporal understanding. By using SAM2 [20] for mask generation and tracking, user-specified regions can be input to support detailed description and reasoning. Despite strong accuracy, foundation-model-based ap-proaches often require substantial computation and infer-ence time, making direct deployment in HRI difficult. Store robots require low-latency estimation of real-time nonver-bal behaviors for multiple people and dialogue generation based on those estimates. We therefore propose a pipeline that leverages foundation-model representations while en-abling fast multi-person, multi-label action classification and behavior-conditioned dialogue generation under HRI con-straints. Our target is real-time, multi-person recognition within the one-second response budget. Large offline video models on server-class GPUs operate at a different point, so we prioritize deployability over offline accuracy rather than benchmarking against them (see Sec. IV for measured VLM latencies). 
+
+C. Utterance Generation Based on Nonverbal Behavior 
+
+Recent studies have adapted robot dialogue by recognizing user nonverbal behavior and using the results for utterance selection. Here, we focus on work where user nonverbal information affects utterance content (e.g., paraphrasing, continuation, or repair), not only turn-taking timing. Constantin et al. observed that pointing often introduces referential ambiguity and proposed a system that estimates pointing and the pointed object to adapt utterances to the ambiguity level [21]. Axelsson and Skantze presented a robot that recognizes multimodal user responses (gaze, head movement, brief verbal feedback) and adjusts content using a knowledge graph updated by these recognition states [22]. More recently, LLMs have been integrated into dialogue sys-tems: Allgeuer et al. incorporate nonverbal perception (e.g., posture or gesture detection) as textual states to generate responses consistent with user behavior [23]. These studies typically assume a small set of task-specific nonverbal behaviors. In customer service, however, social and task functions coexist, and it is unclear which observable behaviors drive which dialogue functions and to what extent. Therefore, we analyze interaction data from a teleoperated dialogue robot deployed in a physical retail store. We extract utterances triggered by user nonverbal behaviors and map them to a compact set of dialogue-function labels, then quantify the correspondence between behaviors and dialogue functions. Based on this analysis, we build LLM-based ut-terance generation conditioned on the recognized behaviors. III. C ONVERSATION DATA COLLECTION AND ANALYSIS IN A R EAL -WORLD STORE 
+
+A. Data Collection 
+
+To analyze users’ nonverbal behaviors in relation to spoken content in human–robot customer-service conversations, we collected data in a real retail store with approval from the ethical committee of The University of Osaka. The dataset was recorded at a drugstore in Japan, where a teleoperated customer-service robot provided store informa-tion and small talk to customers. The robot was operational for a total of 32 hours (6 days), of which only 1 hour and 42 minutes were annotated, representing all interaction time where dialogue occurred. Fig. 2 shows the teleoperation setup. We used Sota, a desktop-sized humanoid robot (approx. 0.3 m tall). It has 8 degrees of freedom (arms, torso, neck). A rear camera streamed the scene to the operator in real time, and the robot used an onboard microphone and speaker for spoken dialogue. A small display in front of the robot presented guidance about the store’s information. robot   
+
+> camer a
+> notice
+> display
+> audi o
+> (a) Operator (b) Robot side
+> monitor
+> operato r
+> Vision
+> headset
+> gaze tracker
+> Voice
+> Robot behavior
+> controller
+> Fig. 2. Data collection setup in the store. The operator viewed the rear-camera and controlled the robot’s speech, gestures, and gaze behavior.
+
+The remote operator viewed the rear-camera feed and controlled the robot’s speech using their own voice af-ter conversion, gestures via a controller, and gaze via an eye-tracking device. To preserve the operator’s customer-service skills, the robot had no autonomous functions; all behaviors were operator-controlled. The operator’s voice was converted to a robot-like voice using MorphVOX to reduce an uncanny mismatch between appearance and voice [24]. Using a DualSense wireless controller, the operator could trigger five gestures (raise a hand, wave goodbye, extend a hand, shake the head, and a shy motion), chosen with reference to prior work on data-driven co-speech gesture generation [25]. The operator’s gaze was measured with Pupil Core and transmitted to the robot, which then oriented its gaze toward the user’s face or body. Together, these components supported natural interaction through the robot. 
+
+B. Annotation 
+
+We annotated the collected dialogue data for the analyses and the experiments reported later. Four annotators with no conflict of interest performed the work. Label definitions and decision criteria were aligned with the researchers in advance, and all labels were finalized after double-checking by another annotator and/or a researcher. We first transcribed the robot (operator)’s and customers’ utterances as timestamped dialogue histories. By aligning transcripts with person-tracking IDs from the videos, we can attribute each utterance to a specific user. We then classified all of the robot’s utterances into responses to customers’ spoken utterances and utterances initiated in reaction to customers’ nonverbal behaviors (nonverbal-triggered utterances). A nonverbal-triggered ut-terance is a proactive robot utterance driven not by the customer’s spoken content itself but by observable behaviors such as gaze, approach, or gestures. For nonverbal-triggered utterances, we further assigned two labels a) and b). 
+
+a) Categorization of user nonverbal behaviors that triggered the utterance: This label captures the customer’s behavior immediately before a nonverbal-triggered utter-ance. We designed labels by referring to the higher-level observational units 1)–6) in Related Work and selecting behaviors that are common in retail settings and likely to affect customer-service dialogue design and generation [6]. 
+
+b) Categorization of the intent of nonverbal-triggered utterances: This label classifies the function/intent of robot utterances into five categories. Based on prior frameworks for dialogue act schemas and task-oriented vs. casual con-versation [26], [27], we condensed teleoperated utterances in real-store customer-service scenes into a compact set that can be analyzed and mapped to implementation at the utterance level. Motivated by work on proactive dialogue strategies and interaction breakdown/repair [28], [29], we chose a granular-ity that accommodates co-occurring social obligations (e.g., greetings), task completion, engagement initiation, and user-state comments. To reduce interpretive variance, multiple authors finalized these labels by consensus.  
+
+> •
+
+Social & Greeting : Greetings, farewells, thanks, and self-introductions (e.g., “Hello,” “See you,” “I’m Sota.”)  
+
+> •
+
+Task-related info & directives : Store-related informa-tion, invitations, or directives (e.g., sales, app guidance, navigation, cautions; “I recommend the app.”)  
+
+> •
+
+User/state comment & empathy : Comments or em-pathetic remarks about the user’s behavior/appearance/-belongings, weather, or condition (e.g., “Your red coat looks nice,” “That bag looks heavy.”)  
+
+> •
+
+Engagement invitation : Utterances that initiate or en-courage conversation, including small-talk questions (e.g., “Let’s talk,” “Can I help you find something?”)  
+
+> •
+
+Other : Utterances that do not fit the above categories 
+
+C. Analysis Results 
+
+We extracted all utterances of the operator and labeled each utterance as either a response to a customer utterance or a nonverbal-triggered utterance. Among 2,178 robot ut-terances, 334 were nonverbal-triggered utterances (15.3%), indicating that a meaningful portion of utterance generation in customer-service interactions is driven by customers’ nonverbal behaviors rather than speech input. We then aggregated the customer behaviors that triggered these utterances and identified 21 behavior types. Table I summarizes their frequencies. The most frequent were Ap-proached , Watching from a distance , and Waved . These dominant behaviors align with prior findings that proxemics (distance/approach) and bodily cues of attention and interest (e.g., gaze and hand waving) are key signals for interaction initiation and engagement formation in public and service contexts [6], [13], [30], [31]. Note that the total count in Table I is larger than the number of nonverbal-triggered utterances because multiple nonverbal behaviors can co-occur (e.g., a customer approaches while waving) and be attributed to a single utterance. From the 21 behaviors, we selected nine as important for subsequent recognition: Approached , Walked away , User– user interaction , Nodded , Showed items , Peered into robot ,
+
+Touched belongings , Pointed , and Waved . These were cho-sen because they are relatively frequent, characteristic of customer-service scenes, and expected to be stably detectable in video. We intentionally retain Touched belongings despite                                                         
+
+> TABLE I COUNTS AND PERCENTAGES BY NONVERBAL BEHAVIOR CATEGORY
+> Users’ Nonverbal Behavior Count Percentage (%) Approached 118 29.2 Watching from a distance 48 11.9 Waved 47 11.6 Walked away 32 7.9 Wandering around robot 25 6.2 Touched / attempted to touch 19 4.7 Walking while looking at robot 17 4.2 Walking without looking at robot 16 4.0 User–user interaction 16 4.0 Peered into robot 11 2.7 Rock-paper-scissors / hand gestures 10 2.5 Pointed 92.2 Other behaviors 82.0 Using hand sanitizer 61.5 Laughed 61.5 Showed items 51.2 Raised hand 41.0 Nodded 41.0 Touched belongings 30.7 Total 404 100.0 TABLE II COUNTS AND PERCENTAGES BY NONVERBAL -TRIGGERED UTTERANCE LABEL
+> Nonverbal-triggered utterance label Count Percentage (%) Social & Greeting 147 44.0 Engagement invitation 100 29.9 User/state comment & empathy 45 13.5 Task-related info & directives 35 10.5 Other 72.1 Total 334 100.0
+
+its low frequency because it is strongly associated with task-related guidance and represents a high-value intervention in retail service. We use these nine behaviors as the target recognition classes in the following sections. We also mapped nonverbal-triggered utterances to the five intent categories (Table II). The most frequent intent was 
+
+Social & Greeting , suggesting that operators often initiated greetings based on customers’ nonverbal cues at interaction start. The second most frequent was Engagement invitation ,which tends to appear when customers remain silent or wait, implying that operators rely on nonverbal behaviors to decide when to ask follow-up questions or shift topics. Finally, Table III summarizes how triggering behaviors relate to utterance intent. Approached , Walked away , Pointed ,and Waved mainly triggered Social & Greeting , whereas 
+
+Touched belongings more often led to Task-related info & directives . User–user interaction and Nodded showed higher proportions of Engagement invitation , and Showed items 
+
+tended to correspond to User/state comment & empathy . This correspondence helps characterize which intents are likely elicited by each behavior and informs design guidelines for utterance selection based on nonverbal behavior recognition. TABLE III COUNTS OF UTTERANCE -INTENT LABELS FOR EACH OF THE NINE TARGET NONVERBAL BEHAVIORS (PERCENTAGES ARE WITHIN EACH BEHAVIOR ). Social & Greeting Engagement invitation User/state comment & empathy Task-related info & directives Approached 73 (66.4%) 26 (23.6%) 4 (3.6%) 6 (5.5%) Waved 29 (65.9%) 9 (20.5%) 4 (9.1%) 2 (4.6%) Walked away 22 (73.3%) 3 (10.0%) 2 (6.7%) 1 (3.3%) User–user interaction 3 (23.1%) 5 (38.5%) 2 (15.4%) 3 (23.1%) Peered into robot 3 (27.3%) 4 (36.4%) 3 (27.3%) 1 (9.1%) Pointed 5 (62.5%) 2 (25.0%) 0 (0.00%) 1 (12.5%) Showed items 0 (0.0%) 1 (25.0%) 2 (50.0%) 0 (0.0%) Nodded 1 (25.0%) 2 (50.0%) 0 (0.0%) 0 (0.0%) Touched belongings 0 (0.0%) 1 (33.3%) 0 (0.0%) 2 (66.7%) 
+
+IV. N ONVERBAL CUES DETECTION 
+
+In Section III, we showed that in teleoperated customer-service interactions in a retail store, customers’ nonverbal behaviors serve as triggers for starting and sustaining conver-sations. To translate this into autonomous customer-service dialogue, we must estimate such behaviors from video in real time and output them in a form usable for proactive utterance control (e.g., initiating interaction, asking questions at appropriate moments, or switching topics). Accordingly, in this section, we formulate a recognition model that estimates the following nine behaviors from input video: Approached ,
+
+Walked away , User–user interaction , Nodded , Showed items ,
+
+Peered into robot , Touched belongings , Pointed , and Waved .
+
+A. Spatio-Temporal Nonverbal Cues Recognition 
+
+An outline of the proposed architecture for user nonverbal behavior recognition is shown in Fig. 3. 
+
+Formulation: The inputs are a video clip X = {It}Tt=1 
+
+consisting of T frames and a sequence of bounding boxes 
+
+bi = {bi,t }Tt=1 for each person i ∈ { 1, . . . , P } appearing in the clip. Here, bi,t = ( xi,t , y i,t , w i,t , h i,t ) represents the location of person i at frame t. The output is a set of non-mutually-exclusive (multi-label) nonverbal behavior classes for each person i, and the supervision is given as a multi-label vector yi = [ yi, 1, . . . , y i,C ]⊤ ∈ { 0, 1}C .
+
+Proposed method: First, we feed the video clip X
+
+into a pretrained feature extractor ϕ(·) to obtain visual scene features. We use a Vision Transformer as the feature extractor. 
+
+f = ϕ(X) ∈ RN ×D . (1) Here, N is the number of tokens and D is the feature dimension. Next, we normalize each person’s bounding box sequence 
+
+bi by the frame size to obtain ˜bi,t and form a sequence by concatenating the T frames. 
+
+˜bi = [ ˜bi, 1; . . . ; ˜bi,T ] ∈ RT ×4. (2) We feed this sequence into an MLP ψ(·) to extract positional features for person i.
+
+pi = ψ(˜bi) ∈ RT ×D. (3) The MLP is shared across frames. Feature   
+
+> Extractor
+> Input video
+> Bounding boxes
+> ❄
+> 🔥
+> MLP
+> 🔥
+> MLP
+> 🔥
+> Attentive
+> Pooler
+> : Hadamard product
+> : Frozen
+> :Trainable 🔥
+> ❄
+> ID1
+> ID2
+> ID3
+> Action labels
+> Fig. 3. Proposed architecture for user nonverbal behavior recognition
+
+Then, to focus the scene features f on person i, we compute fused features via an element-wise (Hadamard) product between f and the positional features broadcast along the token dimension. 
+
+hi = f ⊙ pi ∈ RN ×D . (4) This operation gates the generic scene features with the positional features pi, transforming them into representations relevant to person i.Next, we aggregate the fused features with an attentive pooler. The attentive pooler uses a learnable query q ∈ RD
+
+and applies multi-head cross-attention to the fused features 
+
+hi to obtain a person-specific representation. 
+
+zi = CrossAttn( q, hi) ∈ RD . (5) Finally, we feed zi into an MLP classifier g(·) to compute the logits si for each class. 
+
+si = g(zi) ∈ RC , ˆyi,c = σ(si,c ) (6) We train the model using binary cross-entropy (BCE) loss. Because our dataset is highly imbalanced, we introduce class weights based on the inverse of the number of positive examples nc for each class c.
+
+L = 1
+
+|B| 
+
+X
+
+> i∈B
+> C
+
+X
+
+> c=1
+
+wcBCE(ˆ yi,c , y i,c ), wc = 1
+
+nc
+
+. (7) This increases the relative contribution of minority classes and mitigates learning bias. TABLE IV ACCURACY OF NONVERBAL CUES DETECTION                                             
+
+> Recognition labels precision recall F1 accuracy Approached 0.99 0.83 0.90 0.89 Waved 0.57 0.62 0.59 0.98 Walked away 0.50 0.83 0.62 0.95 User–user interaction 0.95 0.31 0.47 0.95 Peered into robot 0.89 0.71 0.79 0.99 Pointed 0.57 0.67 0.62 1.00 Showed items 0.95 0.82 0.88 1.00 Nodded 0.82 0.54 0.65 0.98 Touched belongings 0.69 0.52 0.61 0.92 micro Avg. 0.89 0.73 0.80 0.97
+
+B. Recognition results 
+
+For the feature extractor, we use V-JEPA2 [32], a ViT-based foundation model for general-purpose visual features. To evaluate the proposed method without confounding errors from person detection or tracking, in this section, we use the dataset’s ground-truth bounding boxes and tracking IDs. Each person (bounding box) in every frame is annotated with the corresponding nonverbal behavior labels. For training, we segment videos into clips of T frames and perform action recognition only for persons whose bounding boxes are available throughout all T frames. We construct the training set by sliding the clip start time in steps of w frames. The method is implemented in PyTorch and trained for 20 epochs with batch size 16. We evaluate performance with 5-fold cross-validation and report the averaged results. When running inference with the trained nonverbal-cue recognizer on a live camera stream, we form an input clip using a sliding window of the most recent eight frames. In our current implementation, the recognizer (excluding person detection/tracking) performs inference at approximately 8 FPS. This satisfies the real-time requirement in this paper (>1 FPS) and enables the dialogue module to condition its responses on recently observed user cues. As a reference, describing users’ nonverbal behaviors in a 2-second video clip took 6.63 ±1.19 s with Gemini 3.5 Flash and 2.54 ± 0.58 s with Gemini 3.5 Flash Lite on average, both exceeding the one-second response budget; we therefore exclude VLM baselines from our comparison. Table IV reports precision, recall, F1, and accuracy for each label. Because the labels are highly imbalanced, we treat micro-F1 and per-class precision/recall as the primary indicators. In terms of F1-score, all labels except User– user interaction exceed 0.6, with a micro-average F1 of 0.8. Behaviors with larger motion (e.g., approaching and showing items) are easier to capture and achieve higher scores. For rarer behaviors such as pointing and touching belongings, the F1-score is around 0.6, suggesting that the model can still recognize minority labels in this imbalanced dataset (see Table I for the label distribution). V. U TTERANCE GENERATION 
+
+We integrate a recognition model for nine key nonverbal behaviors into an utterance-generation system. Because we touching showing     
+
+> coming
+> Hello!!
+> [coming] [touching] [showing]
+> User -user
+> interaction
+> What did
+> you buy?
+> dialog history
+> Action recognition results
+> It is so
+> cute!
+> [user -user interaction]
+> Say hi
+> to the robot.
+> Make an
+> utterance
+> Thank you!!
+> Fig. 4. Ideal interaction generated by the proposed system
+
+aim to mimic the content of human customer-service dia-logue in this study, we focus on utterance generation rather than utterance timing. Natural turn-taking can be handled by methods such as Voice Activity Projection (VAP) [2]. 
+
+A. Nonverbal Cues-Aware Utterance Generation 
+
+Fig. 4 shows the ideal interaction generated by the pro-posed system, which conditions utterance generation on nonverbal behaviors. As a base dialogue system, we use a cascaded pipeline with an LLM: the user’s speech is tran-scribed by STT, and the LLM generates the next utterance from the dialogue history [7]. The nonverbal cues detection runs in parallel to the di-alogue system. Using camera images and person-detection results, it emits a nonverbal label only when one of the nine target behavior states is observed. A temporal filter suppresses transient false positives. The emitted label is appended to the dialogue history and provided to the LLM, allowing it to generate responses that reflect the user’s nonverbal behavior. Only when the Showed items behavior is detected, we additionally use a VLM to identify items in the current image and generate an utterance about the presented items. Nonverbal labels are encoded as prompt tokens (e.g., [waved], [pointed]), whose meanings are explained in the initial prompt (e.g., [waved] indicates the user is waving). Overall, an LLM serves as the dialogue backbone while a lightweight nonverbal recognizer runs concurrently, enabling real-time utterance generation. 
+
+B. Offline Experiments 
+
+In the collected dataset, we evaluate the proposed utterance generation method for nonverbal-triggered utterance scenes, which cannot be generated by conventional dialogue systems. An interaction video segment and the dialogue history im-mediately preceding a robot’s turn are used to generate the robot’s next utterance. Both the video and dialogue history include only information available before the target turn. We examine the extent to which the generated utterances approximate those of the teleoperator. For evaluation, we map both teleoperator and generated utterances to the intent categories in Table II and compute their agreement. Intent labels for generated utterances were assigned by human annotators using the same schema as Table II, independent of the teleoperator labels. This intent-level evaluation is adopted because the objective is not to reproduce the teleoperator’s exact wording, but to assess Fig. 5. Intent classification results. Label 1 denotes Social & Greeting ,label 2 denotes Task-related info & directives , label 3 denotes User/state comment & empathy , and label 4 denotes Engagement invitation .
+
+whether the system correctly interprets the relevant nonverbal cue and produces an appropriate dialogue intent. We evaluate the 334 nonverbal-triggered utterances in our dataset. We use ground-truth person detections and dialogue histo-ries because the aim in this section is to assess the accuracy of nonverbal-triggered utterance based on recognition, rather than the end-to-end performance of an online integrated system. The LLM prompt specifies only the robot role, environmental information, and the semantics of nonverbal behavior tokens; we deliberately avoid explicit rules for re-sponding to each label to test performance under a minimal-prompt setting. We use Gemini 2.5 Flash as the LLM. For Fig. 5, we report results on the four main intent classes excluding Other . The overall agreement between teleoperator intents and those derived from our generated utterances is 49.1%, but this aggregates intents with very different prevalence and difficulty. Notably, the dominant 
+
+Social & Greeting achieves 69% accuracy, whereas the rare 
+
+Task-related info & directives —often under-specified under our deliberately minimal prompting—substantially lowers the overall score. A naive majority-class baseline reaches 44.0%, indicating a consistent improvement from nonverbal conditioning. These trends are consistent with the correspondence be-tween nonverbal behaviors and intent labels (Table III). The comparatively high accuracy for Social & Greeting is largely attributable to behaviors such as Approached , Walked away ,
+
+Pointed , and Waved , which are biased toward this intent. Moreover, frequent behaviors such as Approached (29.2%) and Waved (11.6%) (Table I) provide clear discrete cues in the prompt, facilitating selection of Social & Greeting .In contrast, the low accuracy for Task-related info & directives can be attributed to the small overall prevalence of this label (Table II) and its strongest associated behavior being rare: Touched belongings (66.7% in Table III, but 0.7% in Table I). Additionally, utterances in this category often require environment-specific details (e.g., campaign infor-mation or cautions) that are difficult to infer under minimal prompting. The teleoperator also occasionally produced such utterances at timings that disregard the surrounding context, further complicating intent inference and increasing misclas-sification. Consequently, the model tends to over-predict the safer and less content-specific Engagement invitation .Finally, confusion between Social & Greeting and Engage-ment invitation arises because identical nonverbal behaviors can plausibly elicit either intent. Although Approached ,
+
+Waved , and Pointed are biased toward Social & Greeting ,they still account for at least 20% of Engagement invita-tion instances (Table III), yielding an inherently ambiguous boundary when conditioning on nonverbal cues alone. 
+
+C. Online Prototype: Real-Time Interactive Dialogue System 
+
+To verify that the proposed recognition-to-generation pipeline can operate online, we implemented a real-time interactive dialogue prototype that connects the trained nonverbal-cue recognizer with LLM-based utterance gen-eration. While offline experiments isolate nonverbal cue recognition using ground-truth tracks, the online prototype uses an automatic detector/tracker to demonstrate feasibility under realistic sensing noise. 
+
+a) System configuration: Our prototype runs on a PC equipped with an Intel Core i7-11800H CPU, 32 GB RAM, and an NVIDIA GeForce RTX 3080 GPU. The system takes camera and microphone streams as input and processes them through a person detection/tracking module, implemented using a custom model based on DEIMv2 [33], [34], which outputs per-frame bounding boxes and track IDs. User speech is transcribed with Google Cloud Speech-to-Text (STT). Based on the dialogue history and recognized nonverbal-cue tokens, the system generates responses using Gemini 2.5 Flash and synthesizes speech using VOICEVOX. A lightweight runtime layer synchronizes these modules and manages inter-process communication. 
+
+b) Qualitative system behavior in supplementary videos: Supplementary videos provide qualitative examples of the proposed integrated system, including proactive greet-ings elicited by approaching or waving, speech generation in response to a user nod, and cue-conditioned comments emitted when the user shows an item. VI. D ISCUSSION AND LIMITATIONS 
+
+We presented a framework for customer-service dialogue in a real store, treating users’ nonverbal behaviors preceding robot utterances as triggers for interaction initiation and inter-vention. The framework includes real-world data collection and analysis via teleoperation, selection of nine operationally important behaviors, and real-time recognition of them under multi-person conditions, and proactive utterance generation conditioned on recognition results. Designing recognition targets from the phenomenon of nonverbal-triggered utter-ances offers practical guidance beyond speech-input-centered dialogue design. Our approach is not a simple reflex of speaking upon detection; it leverages dialogue history to choose appropriate intent and phrasing during brief contact opportunities. Fu-ture work should improve environment-dependent guidance and cautions by incorporating store-specific knowledge, for example, via a two-stage architecture (lightweight intent selection + LLM) that separates intent control from surface realization. Evaluation should also go beyond intent-label agreement by penalizing missing task guidance and incor-porating user-experience measures. This study has several limitations. First, our evaluation is mainly offline and does not fully capture how real-world errors (e.g., person detection/tracking) propagate through the pipeline; online, end-to-end evaluations with user metrics are needed. Second, because the data were collected from teleoperated service at the entrance of a single store, general-ization across store types, crowd levels, layouts, and operator strategies is limited, and intent imbalance may affect estima-tion and learning. Third, we evaluated utterance generation primarily at the intent level, only indirectly addressing phras-ing quality, factual correctness, safety, and service quality. Future work should expand data across environments, assess robustness, and combine objective metrics with subjective quality assessments. REFERENCES [1] Y. Yano, A. Mizutani, Y. Fukuda, D. Kanaoka, T. Ono, and H. Tamukoh, “Unified understanding of environment, task, and human for human-robot interaction in real-world environments,” in IEEE International Conference on Robot and Human Interactive Commu-nication , pp. 224–230, 2024. [2] K. Inoue, Y. Okafuji, J. Baba, Y. Ohira, K. Hyodo, and T. Kawahara, “A noise-robust turn-taking system for real-world dialogue robots: A field experiment,” in IEEE/RSJ International Conference on Intelligent Robots and Systems , pp. 874–879, 2025. [3] Y. Okafuji, T. Ishikawa, K. Matsumura, J. Baba, and J. Nakanishi, “Pseudo-eating behavior of service robot to improve the trustworthi-ness of product recommendations,” Advanced Robotics , vol. 38, no. 5, pp. 343–356, 2024. [4] A. Hurst, A. Lerer, A. P. Goucher, A. Perelman, A. Ramesh, A. Clark, A. Ostrow, A. Welihinda, A. Hayes, A. Radford, et al. , “Gpt-4o system card,” arXiv preprint arXiv:2410.21276 , 2024. [5] G. Comanici, E. Bieber, M. Schaekermann, I. Pasupat, N. Sachdeva, I. Dhillon, M. Blistein, O. Ram, D. Zhang, E. Rosen, et al. , “Gemini 2.5: Pushing the frontier with advanced reasoning, multimodality, long context, and next generation agentic capabilities,” arXiv preprint arXiv:2507.06261 , 2025. [6] J. Urakami and K. Seaborn, “Nonverbal cues in human–robot interac-tion: A communication studies perspective,” Journal of Humam-Robot Interaction , vol. 12, no. 2, 2023. [7] Y. Chen, X. Yue, C. Zhang, X. Gao, R. T. Tan, and H. Li, “Voicebench: Benchmarking llm-based voice assistants,” arXiv preprint arXiv:2410.17196 , 2024. [8] C. Huang, Y. Shi, J. Wen, W. Wang, Y. Xu, and X. Cao, “Ex-VAD: Explainable fine-grained video anomaly detection based on visual-language models,” in Proceedings of the 42nd International Conference on Machine Learning , vol. 267 of Proceedings of Machine Learning Research , pp. 25750–25761, PMLR, 13–19 Jul 2025. [9] R. Xu, G. Xiao, Y. Chen, L. He, K. Peng, Y. Lu, and S. Han, “Streamingvlm: Real-time understanding for infinite video streams,” 
+
+arXiv preprint arXiv:2510.09608 , 2025. [10] Y. Yuan, H. Zhang, W. Li, Z. Cheng, B. Zhang, L. Li, X. Li, D. Zhao, W. Zhang, Y. Zhuang, et al. , “Videorefer suite: Advancing spatial-temporal object understanding with video llm,” in Computer Vision and Pattern Recognition Conference , pp. 18970–18980, 2025. [11] T. Shiwa, T. Kanda, M. Imai, H. Ishiguro, and N. Hagita, “How quickly should communication robots respond?,” in ACM/IEEE International Conference on Human-Robot Interaction , pp. 153–160, 2008. [12] A. Koike, Y. Okafuji, K. Hoshimure, and J. Baba, “What drives you to interact?: The role of user motivation for a robot in the wild,” in ACM/IEEE International Conference on Human-Robot Interaction ,pp. 183–192, 2025. [13] N. E. Neef, S. Zabel, M. Lauckner, and S. Otto, “What is appropriate? on the assessment of human-robot proxemics for casual encounters in closed environments,” International Journal of Social Robotics ,vol. 15, pp. 953–967, 2023. [14] G. Skantze and B. Irfan, “Applying general turn-taking models to conversational human-robot interaction,” in ACM/IEEE International Conference on Human-Robot Interaction , p. 859–868, 2025. [15] S. Song, T. Iwamoto, Y. Okafuji, J. Baba, J. Nakanishi, Y. Yoshikawa, and H. Ishiguro, “From attraction to engagement: A robot-clerk col-laboration strategy for retail success,” IEEE Robotics and Automation Letters , vol. 10, no. 7, pp. 6672–6679, 2025. [16] C. Feichtenhofer, H. Fan, J. Malik, and K. He, “Slowfast networks for video recognition,” in IEEE/CVF international conference on computer vision , pp. 6202–6211, 2019. [17] R. Girdhar, J. Carreira, C. Doersch, and A. Zisserman, “Video action transformer network,” in IEEE/CVF conference on computer vision and pattern recognition , pp. 244–253, 2019. [18] J. Zhao, Y. Zhang, X. Li, H. Chen, B. Shuai, M. Xu, C. Liu, K. Kundu, Y. Xiong, D. Modolo, et al. , “Tuber: Tubelet transformer for video action detection,” in IEEE/CVF Conference on Computer Vision and Pattern Recognition , pp. 13598–13607, 2022. [19] M. Wang, J. Xing, and Y. Liu, “Actionclip: A new paradigm for video action recognition,” arXiv preprint arXiv:2109.08472 , 2021. [20] N. Ravi, V. Gabeur, Y.-T. Hu, R. Hu, C. Ryali, T. Ma, H. Khedr, R. Rädle, C. Rolland, L. Gustafson, E. Mintun, J. Pan, K. V. Alwala, N. Carion, C.-Y. Wu, R. Girshick, P. Dollár, and C. Feichtenhofer, “Sam 2: Segment anything in images and videos,” arXiv preprint arXiv:2408.00714 , 2024. [21] S. Constantin, F. I. Eyiokur, D. Yaman, L. Bärmann, and A. Waibel, “Interactive multimodal robot dialog using pointing gesture recogni-tion,” in European Computer Vision Association Workshops , pp. 640– 657, 2023. [22] A. Axelsson and G. Skantze, “Do you follow?: A fully automated system for adaptive robot presenters,” in ACM/IEEE International Conference on Human-Robot Interaction , pp. 102–111, 2023. [23] P. Allgeuer, H. Ali, and S. Wermter, “When robots get chatty: Grounding multimodal human-robot conversation and collaboration,” 
+
+arXiv preprint arXiv:2407.00518 , 2024. [24] W. J. Mitchell, S. Kevin A Szerszen, A. S. Lu, P. W. Schermerhorn, M. Scheutz, and K. F. MacDorman, “A mismatch in the human realism of face and voice produces an uncanny valley,” i-Perception , vol. 2, no. 1, pp. 10–12, 2011. [25] S. Nyatsanga, T. Kucherenko, C. Ahuja, G. E. Henter, and M. Neff, “A comprehensive review of data-driven co-speech gesture generation,” 
+
+arXiv preprint arXiv:2301.05339 , 2023. [26] H. Bunt, V. Petukhova, E. Gilmartin, C. Pelachaud, A. Fang, S. Keizer, and L. Prévot, “The iso standard for dialogue act annotation, second edition,” in International Conference on Language Resources and Evaluation , pp. 549–558, 2020. [27] H. Chen, X. Liu, D. Yin, and J. Tang, “A survey on dialogue systems: Recent advances and new frontiers,” ACM SIGKDD Explorations Newsletter , vol. 19, no. 2, pp. 25–35, 2017. [28] F. Nothdurft, S. Ultes, and W. Minker, “Finding appropriate interaction strategies for proactive dialogue systems—an open quest,” in European and the 5th Nordic Symposium on Multimodal Communication , pp. 73– 80, 2015. [29] L. Tisserand, B. Stephenson, H. Baldauf-Quilliatre, M. Lefort, and F. Armetta, “Unraveling the thread: Understanding and addressing sequential failures in human–robot interaction,” Frontiers in Robotics and AI , vol. 11, p. 1359782, 2024. [30] S. Satake, T. Kanda, D. F. Glas, M. Imai, H. Ishiguro, and N. Hagita, “How to approach humans? strategies for social robots to initiate interaction,” in ACM/IEEE International Conference on Human-Robot Interaction , 2009. [31] Y. Chamoto, Y. Okafuji, K. Matsumura, J. Baba, and J. Nakanishi, “Investigating the influence of task-dependent and task-independent robot behavior on the impression of robots and the user experience,” in IEEE International Conference on Robot and Human Interactive Communication , pp. 640–646, 2023. [32] M. Assran, A. Bardes, D. Fan, Q. Garrido, R. Howes, M. Muckley, A. Rizvi, C. Roberts, K. Sinha, A. Zholus, et al. , “V-jepa 2: Self-supervised video models enable understanding, prediction and plan-ning,” arXiv preprint arXiv:2506.09985 , 2025. [33] K. Hyodo, “472_deimv2-wholebody34: Lightweight human de-tection models generated on high-quality human data sets,” 2025. Available: https://github.com/PINTO0309/PINTO_ model_zoo/tree/main/472_DEIMv2-Wholebody34 .[34] S. Huang, Y. Hou, L. Liu, X. Yu, and X. Shen, “Real-time object detection meets dinov3,” arXiv preprint arXiv:2509.20787 , 2025.
