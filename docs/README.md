@@ -6,77 +6,56 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-17
-- 运行时间：2026-07-17 20:26:28 UTC
+- 最新运行日期：2026-07-18
+- 运行时间：2026-07-18 21:30:23 UTC
 - 运行状态：成功
-- 本次总论文数：19
-- 精读区：7
-- 速读区：12
+- 本次总论文数：12
+- 精读区：3
+- 速读区：9
 
 ### 今日简报（AI）
-今日精选19篇论文，精读2篇高分工作聚焦机器人世界-动作模型的推理幻觉与语义锚定方案。最值得关注《BadWAM》揭示“梦对但做错”的深层矛盾，以及《Semantic Anchoring》提出的动作语义锚定方法。后续可结合《Reflex》的实时推理与光照鲁棒性研究，探索理论与实际部署的差距。
-- 详情：[/202607/17/README](/202607/17/README)
+今日收录12篇具身智能与机器人论文，精读3篇。精读中ABot-AgentOS提出终身多模态记忆通用机器人操作系统，DiMaS通过分布匹配控制视觉-语言-动作模型，值得重点关注。建议优先阅读精读论文，速读中小米U0世界基础模型与Hy-Embodied-VLM高效物理世界智能体也值得跟进。
+- 详情：[/202607/18/README](/202607/18/README)
 
 ### 精读区论文标签
-1. [BadWAM: When World-Action Models Dream Right but Act Wrong](/202607/17/2607.15207v1-badwam-when-world-action-models-dream-right-but-act-wrong)  
-   标签：评分：10.0/10、query:human-aigc
-   evidence：世界行动模型的对抗攻击框架
-2. [Semantic Anchoring for Robotic Action Representations](/202607/17/2607.13597v1-semantic-anchoring-for-robotic-action-representations)  
-   标签：评分：9.0/10、query:vla-humanoid
-   evidence：VLA动作表示的语义锚定
-3. [Steering Robustness into World Action Models via Mechanistic Interpretability and Optimal Control](/202607/17/2607.14943v1-steering-robustness-into-world-action-models-via-mechanistic-interpretability-and-optimal-control)  
-   标签：评分：9.0/10、query:human-aigc
-   evidence：关注世界行动模型的鲁棒性
-4. [Scaling Behavior Foundation Model for Humanoid Robots](/202607/17/2607.15163v1-scaling-behavior-foundation-model-for-humanoid-robots)  
-   标签：评分：9.0/10、query:human-aigc
-   evidence：扩展行为基础模型用于人形控制
-5. [Semantic Audio-driven Understanding for Dynamic Humanoid Whole Body Control](/202607/17/2607.14182v1-semantic-audio-driven-understanding-for-dynamic-humanoid-whole-body-control)  
-   标签：评分：8.0/10、query:human-aigc
-   evidence：语义音频驱动的动态人形机器人全身控制
-6. [Action QFormer: Structured Representation Shaping under Action Supervision in Vision-Language-Action Models](/202607/17/2607.14635v1-action-qformer-structured-representation-shaping-under-action-supervision-in-vision-language-action-models)  
+1. [ABot-AgentOS: A General Robotic Agent OS with Lifelong Multi-modal Memory](/202607/18/2607.10350v2-abot-agentos-a-general-robotic-agent-os-with-lifelong-multi-modal-memory)  
    标签：评分：8.0/10、query:vla-humanoid
-   evidence：Action QFormer在动作监督下重组VLA模型的多模态表示
-7. [FoMoVLA: Bridging Visual Foresight and Motion Guidance for Vision-Language-Action Models](/202607/17/2607.14739v1-fomovla-bridging-visual-foresight-and-motion-guidance-for-vision-language-action-models)  
-   标签：评分：8.0/10、query:human-aigc
-   evidence：结合视觉前瞻和运动引导的VLA作为世界动作模型
+   evidence：通用机器人代理操作系统，支持VLM/VLA，适用于具身人工智能
+2. [DiMaS: Distribution Matching for Steering Vision-Language-Action Models](/202607/18/2607.14280v1-dimas-distribution-matching-for-steering-vision-language-action-models)  
+   标签：评分：8.0/10、query:vla-humanoid
+   evidence：针对VLA模型的分布匹配引导，实现机器人操作的细粒度行为控制
+3. [RoboTTT: Context Scaling for Robot Policies](/202607/18/2607.15275v1-robottt-context-scaling-for-robot-policies)  
+   标签：评分：8.0/10、query:vla-humanoid
+   evidence：通过测试时训练实现基于VLA的机器人策略上下文缩放
 
 ### 速读区论文标签
-1. [Reflex: Real-Time VLA Control through Streaming Inference](/202607/17/2607.14695v1-reflex-real-time-vla-control-through-streaming-inference)  
-   标签：评分：8.0/10、query:vla-humanoid
-   evidence：VLA流匹配策略的实时流式推理
-2. [Lights, Camera, Malfunction: When Illumination Robustness Leaves VLA Models Blind to Color](/202607/17/2607.14698v1-lights-camera-malfunction-when-illumination-robustness-leaves-vla-models-blind-to-color)  
-   标签：评分：8.0/10、query:vla-humanoid
-   evidence：VLA模型在光照攻击下的鲁棒性
-3. [AeroAct: Action-Centered World-Action Models for Language-Conditioned Quadrotor Flight](/202607/17/2607.14997v1-aeroact-action-centered-world-action-models-for-language-conditioned-quadrotor-flight)  
-   标签：评分：8.0/10、query:human-aigc
-   evidence：首个面向真实世界飞行的世界动作模型，直接对应世界动作模型概念
-4. [DriftWorld: Fast World Modeling through Drifting](/202607/17/2607.15065v1-driftworld-fast-world-modeling-through-drifting)  
-   标签：评分：8.0/10、query:human-aigc
-   evidence：基于漂移的快速世界建模用于机器人规划
-5. [Affordance-Based Manipulation Planning with Text Goals and Sim-to-Real Generalisation via Real-to-Sim Image Conversion](/202607/17/2607.11004v1-affordance-based-manipulation-planning-with-text-goals-and-sim-to-real-generalisation-via-real-to-sim-image-conversion)  
+1. [Xiaomi-Robotics-U0: Unified Embodied Synthesis with World Foundation Model](/202607/18/2607.11643v1-xiaomi-robotics-u0-unified-embodied-synthesis-with-world-foundation-model)  
+   标签：评分：7.0/10、query:human-aigc
+   evidence：世界基础模型用于具身合成，与世界行动模型和AIGC相关
+2. [Hy-Embodied-VLM-1.0: Efficient Physical-World Agents](/202607/18/2607.12894v1-hy-embodied-vlm-10-efficient-physical-world-agents)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：基于 affordance 的操纵规划与文本目标
-6. [VIA: Visual Interface Agent for Robot Control](/202607/17/2607.11119v1-via-visual-interface-agent-for-robot-control)  
+   evidence：面向物理世界的具身VLM，与VLA和人形主题一致
+3. [Exploratory, Communicative, and Deployable: Vision-Driven Embodied Agents for Open-World Mobile Manipulation](/202607/18/2607.13653v1-exploratory-communicative-and-deployable-vision-driven-embodied-agents-for-open-world-mobile-manipulation)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：利用基础模型通过视觉界面控制机器人
-7. [Jetson-PI: Towards Onboard Real-Time Robot Control via Foresight-Aligned Asynchronous Inference](/202607/17/2607.12659v1-jetson-pi-towards-onboard-real-time-robot-control-via-foresight-aligned-asynchronous-inference)  
+   evidence：视觉驱动的开放世界移动操作具身智能框架
+4. [RxBrain: Embodied Cognition Foundation Model with Joint Language-Visual Reasoning and Imagination](/202607/18/2607.14187v1-rxbrain-embodied-cognition-foundation-model-with-joint-language-visual-reasoning-and-imagination)  
+   标签：评分：7.0/10、query:human-aigc
+   evidence：具身认知联合语言-视觉推理与世界模型
+5. [Representation-Aligned Tactile Grounding for Contact-Rich Robotic Manipulation](/202607/18/2607.14609v1-representation-aligned-tactile-grounding-for-contact-rich-robotic-manipulation)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：VLA模型在板载设备上的高效部署实现实时控制
-8. [ExToken: Structured Exploration for Efficient Vision-Language-Action Reinforcement Fine-tuning](/202607/17/2607.12931v1-extoken-structured-exploration-for-efficient-vision-language-action-reinforcement-fine-tuning)  
+   evidence：触觉接地用于接触丰富操作的VLA策略
+6. [Towards Human-like Physical Intelligence: LifelongVision-Language-Action Learning for Robotic Manipulation](/202607/18/2607.14852v1-towards-human-like-physical-intelligence-lifelongvision-language-action-learning-for-robotic-manipulation)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：为高效VLA强化微调提供结构化探索
-9. [Compositional Context Fine-Tuning Vision-Language Model for Complex Assembly Action Understanding from Videos](/202607/17/2607.10797v1-compositional-context-fine-tuning-vision-language-model-for-complex-assembly-action-understanding-from-videos)  
+   evidence：终身VLA学习用于机器人操作
+7. [WALA Learning Executable Latent Actions from Action-Labeled Demonstrations and Action-Free Videos](/202607/18/2607.11397v1-wala-learning-executable-latent-actions-from-action-labeled-demonstrations-and-action-free-videos)  
    标签：评分：6.0/10、query:vla-humanoid
-   evidence：VLM微调用于复杂装配动作理解
-10. [A Minimalist Retargeting-Guided Reinforcement Learning Recipe for Dexterous Manipulation](/202607/17/2607.11874v1-a-minimalist-retargeting-guided-reinforcement-learning-recipe-for-dexterous-manipulation)  
+   evidence：从视频和演示中学习可执行潜在动作，实现操作技能获取
+8. [Worlds in One Demo: A Synthetic Data Engine for Learning Open-World Mobile Manipulation](/202607/18/2607.13154v1-worlds-in-one-demo-a-synthetic-data-engine-for-learning-open-world-mobile-manipulation)  
+   标签：评分：6.0/10、query:human-aigc
+   evidence：从单个演示重建世界基底用于合成数据生成
+9. [Open-AoE: An Open Egocentric Manipulation Dataset and Toolchain for Embodied Learning](/202607/18/2607.14183v1-open-aoe-an-open-egocentric-manipulation-dataset-and-toolchain-for-embodied-learning)  
    标签：评分：6.0/10、query:vla-humanoid
-   evidence：重定向引导的强化学习用于灵巧操作
-11. [Contract-Grounded Behavior Tree Synthesis via Coding Agents](/202607/17/2607.12220v1-contract-grounded-behavior-tree-synthesis-via-coding-agents)  
-   标签：评分：6.0/10、query:vla-humanoid
-   evidence：基于合约的行为树合成，用于机器人任务规划
-12. [Reducing Temporal Redundancy for Efficient Vision-Language-Action Inference](/202607/17/2607.12287v1-reducing-temporal-redundancy-for-efficient-vision-language-action-inference)  
-   标签：评分：6.0/10、query:vla-humanoid
-   evidence：VLA推理加速方法可泛化至人形机器人
+   evidence：自我中心操作数据集，支持机器人学习
 
 
 <div class="dpr-home-promo-card">
