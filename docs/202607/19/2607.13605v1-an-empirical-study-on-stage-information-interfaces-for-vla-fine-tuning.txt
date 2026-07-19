@@ -1,0 +1,172 @@
+Title: An Empirical Study on Stage-Information Interfaces for VLA Fine-Tuning
+
+URL Source: https://arxiv.org/pdf/2607.13605v1
+
+Published Time: Thu, 16 Jul 2026 00:47:25 GMT
+
+Number of Pages: 5
+
+Markdown Content:
+# An Empirical Study on Stage-Information Interfaces for VLA Fine-Tuning 
+
+Yingwei Ji 
+
+Abstract — One high-level instruction in long-horizon manip-ulation can cover several action stages. We use segmented action annotations as an intermediate representation between the full-task instruction and VLA action chunks. A progress module tracks the active stage, while the action policy receives stage information either as current-stage text or as a normalized ordinal stage index in robot state. We compare these interfaces with GR00T N1.6 on LIBERO-10 under direct fine-tuning and continuation fine-tuning from a full-task instruction baseline. Under direct fine-tuning, full-task instruction, current-stage text, and O RDINAL STAGE -S TATE achieve mean success rates of 57.45%, 50.24%, and 54.36%, respectively, showing that explicit stage information does not automatically improve the policy. Under continuation, the corresponding means are 49.07%, 50.00%, and 53.75%, with O RDINAL STAGE -S TATE exceeding both alternatives in all three paired runs. The observed benefit differs across interface representations and training arrange-ments. 
+
+I. I NTRODUCTION 
+
+Long-horizon manipulation maps one stable task goal to a changing sequence of low-level actions. For example, the task put both moka pots on the stove includes approaching the first pot, grasping it, transporting it, placing it, and repeating the sequence for the second pot. We began with a practical intuition: if the task is divided into subtasks, the language can describe the current action more precisely, and the action distribution within each segment should become narrower. With less variation in each segment, a vision-language-action (VLA) policy might be easier to train. Our results did not follow this intuition uniformly. In direct fine-tuning, both the stage-text and ordinal-state variants were below the O RIGINAL mean. Adding a segment signal did not automatically improve the policy, and in some cases it reduced rollout success. That mismatch brings us back to a more basic question than whether segmentation is useful: how should subtask information be represented and introduced during action-policy training? One possible explanation is that stage conditioning changes how examples share representations across phases. The O RIGINAL task instruction keeps one language repre-sentation for all stages, while observations and robot state distinguish the current behavior. T ASK CTX instead appends the active stage phrase to the task prompt, supplying a differ-ent language condition for each stage. Most vision-language parameters are frozen, while the top four language-model layers remain trainable. T ASK CTX changes the language condition seen by both these upper layers and the action module using limited task data. We study the interface question on LIBERO-10 with GR00T N1.6. A progress module estimates completion of the active stage and controls when the system advances. The resulting stage pointer is exposed to the action policy either as active-stage text or as an ordinal stage index in state. We compare these designs under two arrangements: direct fine-tuning from the pretrained model and continuation from a full-task baseline. The comparisons use the same stage annotations, controller, GR00T backbone, fine-tuning scope, and paired action-policy runs. We make two contributions. First, we formulate subtask-conditioned VLA fine-tuning as an interface problem be-tween a stage-tracking module and an action policy, compar-ing current-stage text with an ordinal stage-state signal under shared annotations and control logic. Second, we evaluate the two interfaces under direct fine-tuning and continuation from a full-task baseline. Explicit stage information does not exceed the O RIGINAL mean under direct training, while ORDINAL STAGE -S TATE achieves the highest continuation mean and exceeds both alternatives in all three paired runs. II. R ELATED WORK 
+
+Recent VLA systems have made imitation-based robot learning increasingly capable. RT-2 connects web-scale vision-language knowledge to robotic control, while Open-VLA, Octo, RoboFlamingo, and SmolVLA explore open or efficient adaptation across manipulation settings [1], [2], [3], [4], [5]. Continuous-action systems such as π0 and GR00T N1 further support direct action generation with flow- or diffusion-style heads [6], [7]. However, stronger models do not remove a practical bottleneck: collecting diverse robot demonstrations remains expensive. Adding descriptions to trajectories that have already been collected can be substantially cheaper than gathering new physical interactions, and modern vision-language models can help propose detailed action segments for review. This creates an appealing possibility: extract more supervision from fixed robot data by describing what the robot is doing at each stage. Long-horizon systems already suggest that intermediate language can organize behavior. SayCan connects high-level reasoning to executable skills, RT-H inserts language motions between task instructions and low-level actions, and DeMiAn enriches demonstrations with segment-level descriptions [8], [9], [10]. These works make detailed subtask annotation tech-nically plausible, but they do not make its benefit automatic. Once a trajectory has been divided into stages, the action policy still needs an interface through which that information can affect learning. Our question comes from the practical use of annotation rather than annotation generation itself: arXiv:2607.13605v1 [cs.RO] 15 Jul 2026 Fig. 1. Closed-loop rollout pipeline. A single action model produces the current action chunk. While the environment executes that chunk, the progress model updates the stage controller for the next request. The action model is treated as one module; only its stage-information input differs across experiments. 
+
+does an active-stage label help a fine-tuned VLA, and should it enter through language or state? Progress-aware systems provide a natural way to keep track of the active stage. ProgVLA and ProgressVLA esti-mate task progress, SeqVLA uses completion to trigger tran-sitions, and CycleVLA and See-Plan-Rewind use progress or milestones for monitoring and recovery [11], [12], [13], [14], [15]. We use completion in this internal role: a progress model advances a shared stage pointer, but its completion scalar is not given to the action policy. The experiment focuses on a concrete module-interface choice under the same stage tracker and annotations: expose the active stage as semantic text, or as a normalized ordinal value in robot state. We study this choice by fine-tuning GR00T N1.6 with its visual encoder and most language-model layers frozen [16]. III. M ETHOD 
+
+Let ot be the visual observation, st the robot state, and 
+
+ltask the original task instruction. The action module predicts a low-level chunk at:t+H . We insert an ordered action-stage representation between ltask and this chunk. Figure 1 shows how the progress and action models form a closed loop with the environment, with the estimated stage used by the next action request. 
+
+A. VLA Backbone and Fine-Tuning Scope 
+
+We use the pretrained NVIDIA GR00T N1.6-3B model [7], [16]. Its VLM encodes camera images and task language. State and action projectors connect robot inputs to a 32-layer Diffusion Transformer (DiT), which predicts relative action chunks with flow matching. We freeze the vi-sual encoder and all but the top four language-model layers. We fine-tune those four language layers together with the action-side projectors, vision-language layer normalization, and DiT on LIBERO. 
+
+B. Action Segmentation 
+
+For each LIBERO task, Qwen2.5-VL [17] receives the original task information and instructions for action segmen-tation. It produces the ordered stage phrases and demonstra-tion frame ranges used in this study. We use one fixed set of stage phrases and demonstration frame boundaries for all methods. The annotation procedure is not an experimental variable; we compare how the resulting stage information is exposed to the action module. These frame ranges label demonstrations and are not provided as an oracle during roll-out. Adjacent low-level motions are grouped into semantic stages, so one stage can include approach, grasp, transport, and placement motions when they serve the same subgoal. The resulting sequence C = ( c1, . . . , c K ) lies between the complete task instruction and low-level action chunks.                
+
+> TABLE I EXAMPLE STAGES FROM ONE ANNOTATED DEMONSTRATION .
+> Field Example Index Time / frames Task Turn on the stove and put the moka pot on it –27.2 s / 0–272 Stage PressButton the stove 10–10.5 / 0–105 Stage Place the moka pot on the stove 210.5–25 / 105–250 Stage Retract arms 325–27.2 / 250–272
+
+Table I shows three stages from the fixed annotation used throughout the study. Frame boundaries vary across demonstrations. 
+
+C. Progress Module 
+
+Frame boundaries [bk, e k] assign each training frame to stage k. The local target is 
+
+pt = clip 
+
+ t − bk
+
+ek − bk
+
+, 0, 1
+
+
+
+. (1) The progress model gϕ is initialized from the pretrained GR00T checkpoint and receives ot, st, ltask , and the active phrase ck. During progress training, the visual encoder and Fig. 2. Stage-information injection routes. Each experiment selects one mapping from the shared stage pointer to the inputs of the same action-model module. T ASK CTX changes language; O RDINAL STAGE -S TATE appends the normalized ordinal value to robot state. 
+
+all but the top four language-model layers are frozen. The top four language layers, action-side projector, diffusion/DiT module, and action-head VLLN remain trainable, while a linear scalar head followed by a sigmoid predicts progress. We optimize Smooth L1 loss, disable the action loss, and use zero action tokens during progress-only training. At rollout, the system maintains a stage pointer kt and queries 
+
+ˆpt = gϕ(ot, s t, [ltask ; ckt ]) . (2) The pointer advances when ˆpt > 0.8 after at least 15 stage frames. The pointer is exposed to the action policy either as the active stage label or as its normalized ordinal index. The completion estimate only advances the pointer and is not provided to the action policy. 
+
+D. Action-Module Interfaces 
+
+Figure 2 summarizes the two alternative mappings from the shared stage pointer to the action-model inputs. 
+
+Original. The comparison receives no explicit stage input: 
+
+at:t+H = πA(ot, s t, l task ). (3) 
+
+Semantic Stage Interface (T ASK CTX ). The active phrase is sent through language: 
+
+at:t+H = πB (ot, s t, [ltask ; ckt ]) . (4) 
+
+Ordinal Stage-State Interface. The original instruction is preserved, and the active-stage index is appended to state: 
+
+at:t+H = πC (ot, [st; zt], l task ). (5) The progress module controls the one-based pointer kt ∈{1, . . . , K τ } for task τ , which the processor maps to zt. Let               
+
+> TABLE II INPUTS RECEIVED BY THE ACTION MODULE . H ERE gL, g RARE THE TWO FINGER -STATE DIMENSIONS .
+> Method Text State ORIGINAL task x, y, z, rpy , g L, g R
+> TASK CTX task + stage x, y, z, rpy , g L, g R
+> ORDINAL STAGE -S TATE task x, y, z, rpy , g L, g R, z t
+
+Kmax = max τ Kτ ; for LIBERO-10, Kmax = 6 . GR00T applies min-max state normalization: 
+
+zt = 2 kt − 1
+
+Kmax − 1 − 1. (6) Thus, the action model receives the clipped value zt ∈
+
+[−1, 1] , not kt and not a task-relative value normalized by 
+
+Kτ . Appending zt expands the active dataset and processor state schema from eight to nine dimensions. The GR00T state encoder already contains the corresponding ninth input column, so no model tensor is resized. All projector weights, including the nonzero ninth column, are restored from the same source checkpoint within each comparison. The orig-inal eight-dimensional LIBERO interface does not activate the ninth slot during baseline fine-tuning. 
+
+E. Training Arrangements 
+
+We evaluate two training arrangements. Direct fine-tuning introduces each interface while adapting the pretrained GR00T policy to the downstream tasks. Baseline-first contin-uation first adapts the policy with the complete task instruc-tion and then introduces each interface from the resulting full-task checkpoint. Within each arrangement and paired TABLE III DIRECT 5K SUCCESS RATE . M EAN ± SAMPLE STANDARD DEVIATION IS ACROSS THREE PAIRED ACTION -POLICY RUNS .                         
+
+> Method Run 1 Run 2 Run 3 Mean ±std ORIGINAL 64.80 58.96 48.60 57.45 ±8.20
+> TASK CTX 44.62 49.00 57.09 50.24 ±6.32 ORDINAL STAGE -S TATE 45.80 62.08 55.20 54.36 ±8.17
+
+run, O RIGINAL , T ASK CTX , and O RDINAL STAGE -S TATE 
+
+share the same source initialization and training budget. 
+
+F. Closed-Loop Deployment 
+
+The progress and action models run as a pipeline (Fig. 1). While the environment executes the current 8-step action chunk, the progress module estimates active-stage comple-tion. Its output updates the stage pointer and conditions the next action-chunk request. Progress inference runs in parallel and completes before the next request. IV. E XPERIMENTS 
+
+A. Experiment Setup 
+
+Benchmark and data. We evaluate on LIBERO-10 [18]. One action model is trained on all ten tasks using the first 30 demonstrations per task. All experiments use the LIBERO/GR00T eight-dimensional state and seven-dimensional action formats described above. ORDINAL 
+
+STAGE -S TATE appends one normalized scalar to state. 
+
+Models. We train the original-language baseline and two stage-conditioned direct variants from pretrained GR00T and evaluate them at 5k steps. For each training seed, continu-ation variants start from the same corresponding full-task baseline-5k checkpoint and continue for 1k steps. A single fixed progress model is trained for 10k steps and shared across all action-policy seeds and both arrangements. Its completion estimate controls the stage pointer but is not sent to the action policy. 
+
+Compute and rollout. Training and rollout use a server with four NVIDIA A800 GPUs. Each method is evaluated on all 10 tasks with 50 requested episodes per task and 
+
+nenvs = 10 . We use rollout seed 7001, action and progress strides of 8, threshold 0.8, and at least 15 stage frames before advancement. The actual episode count is read from one CSV row per completed episode. Each arrangement is repeated in three paired action-policy runs with fixed random seeds 101, 202, and 303. 
+
+B. Direct Fine-Tuning 
+
+Table III answers whether explicit stage information helps when introduced at the start of downstream adaptation. Neither stage-conditioned interface exceeds the O RIGINAL 
+
+mean. O RDINAL STAGE -S TATE is 4.12 percentage points above T ASK CTX and exceeds it in two of the three paired runs, but remains 3.09 points below O RIGINAL in mean. TASK CTX is 7.21 points below O RIGINAL in mean, although it is higher in Run 3.                              
+
+> TABLE IV SUCCESS AFTER 5K FULL -TASK BASELINE FINE -TUNING AND 1KCONTINUATION . M EAN ±SAMPLE STANDARD DEVIATION IS ACROSS PAIRED RUNS .
+> Method Run 1 Run 2 Run 3 Mean ±std ORIGINAL 47.60 52.00 47.60 49.07 ±2.54 TASK CTX 53.89 49.20 46.91 50.00 ±3.56 ORDINAL STAGE -S TATE 57.57 54.69 49.00 53.75 ±4.36
+
+C. Baseline-First Continuation 
+
+Table IV asks which interface has the highest mean after full-task baseline fine-tuning. The ordering is O RDI - 
+
+> NAL
+
+STAGE -S TATE > TASK CTX > ORIGINAL . O RDINAL 
+
+STAGE -S TATE exceeds TASK CTX and ORIGINAL on all three paired runs, improving their means by 3.75 and 4.69 percentage points, respectively. TASK CTX is 0.93 points above O RIGINAL in mean and exceeds it in one run. 
+
+D. Result Scope 
+
+The reported standard deviations are across three inde-pendent paired action-policy runs, with the rollout seed fixed. A single 10k-step progress model is shared across all action-policy runs and both arrangements. The two absolute success-rate ranges are not combined because the arrange-ments use different initialization histories and training trajec-tories. Each arrangement is compared internally. O RDINAL 
+
+STAGE -S TATE has a higher mean than T ASK CTX in both arrangements, but neither stage-conditioned interface exceeds ORIGINAL under direct training. V. D ISCUSSION 
+
+The direct results complicate our initial intuition that a more precise stage description should make action learning easier. Knowing the active stage can reduce action ambiguity, but neither stage-conditioned interface exceeds O RIGINAL 
+
+under direct fine-tuning. The interface itself becomes part of the learning problem. 
+
+A. Interface Representation and Data Sharing 
+
+The higher mean of O RDINAL STAGE -S TATE relative to TASK CTX can be read through the existing GR00T computa-tion path. In the action DiT, the robot state token and noised action tokens form the hidden sequence that produces cross-attention queries, while visual and language tokens provide keys and values. TASK CTX modifies the prompt before vision-language encoding. Each stage produces a different language context, and the action queries must retrieve stage semantics through cross-attention. Because the visual encoder and most lan-guage layers are frozen, adaptation to these prompts mainly occurs in the top four language layers and the action module. ORDINAL STAGE -S TATE keeps the full-task prompt un-changed. The normalized stage index passes through the state projector and becomes part of the state-action sequence before the first DiT block. It participates in self-attention from the beginning of action computation and changes the queries used in later cross-attention layers. These paths also suggest a difference in how exam-ples share representations. T ASK CTX partitions one task’s demonstrations across several stage-conditioned language contexts, whereas O RDINAL STAGE -S TATE retains a shared full-task language context and separates stages with a low-dimensional action-side variable. More specific conditioning may reduce ambiguity within a stage, but it also leaves fewer examples under each condition. This variance trade-off offers one account of why O RDINAL STAGE -S TATE has a higher mean than T ASK CTX in both arrangements while both remain below O RIGINAL under direct fine-tuning. 
+
+B. Introducing Stage Information after Full-Task Fine-Tuning 
+
+The continuation results add a second observation: O R- 
+
+> DINAL
+
+STAGE -S TATE exceeds both alternatives in all three paired runs after the shared full-task baseline. During direct fine-tuning, the policy must adapt to LIBERO and learn the new stage interface at the same time. Baseline-first continuation instead introduces stage information after the policy has learned a basic mapping from task language, observations, and robot state to actions. For O RDINAL STAGE -S TATE , the full-task prompt learned during baseline fine-tuning remains unchanged. The con-tinuation phase introduces only the ordinal state variable, which may act as a compact adjustment to the existing ac-tion representation. T ASK CTX augments the baseline prompt with stage-dependent context, requiring the upper language layers and action module to adapt the existing language-action relationship to several new contexts. This difference in compatibility with the baseline policy offers one explanation for the continuation ordering. It also shifts the practical question from whether stage annotations are available to how the stage-tracking module communicates with the action policy and when that interface is introduced. 
+
+C. Limitations 
+
+The study is limited to LIBERO-10, GR00T N1.6-3B, the current parameter-freezing setup, and the evaluated training budgets. Direct and continuation use different initializa-tion histories and update budgets. T ASK CTX and O RDINAL 
+
+STAGE -S TATE provide different forms of stage information, so the comparison does not isolate the input channel alone. The stage annotations, progress model, and rollout seed are fixed across action-policy runs. Three paired action-policy runs provide only a limited view of variation across training seeds. VI. C ONCLUSION 
+
+We study how active subtask information should be ex-posed to a VLA action policy. Under direct fine-tuning, neither stage text nor ordinal stage state exceeds the O RIGI - 
+
+> NAL
+
+mean, showing that explicit stage annotations do not automatically simplify policy learning. After continuation from a full-task baseline, O RDINAL STAGE -S TATE achieves the highest mean and exceeds both O RIGINAL and T ASK CTX 
+
+in all three paired runs. These results suggest that a low-dimensional stage-state interface can be more effective than modifying the language input processed by a mostly frozen vision-language backbone, particularly when adapting an existing full-task policy. Whether this pattern carries to matched training schedules, other benchmarks, and real robots remains open. REFERENCES [1] A. Brohan, N. Brown, J. Carbajal, Y. Chebotar, X. Chen et al. , “RT-2: Vision-language-action models transfer web knowledge to robotic control,” 2023. [2] M. J. Kim, K. Pertsch, S. Karamcheti, T. Xiao, A. Balakrishna, S. Nair

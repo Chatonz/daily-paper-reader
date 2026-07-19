@@ -1,0 +1,277 @@
+Title: Human-Robot Interaction in GenAI Architectures via the Agent-Client Protocol
+
+URL Source: https://arxiv.org/pdf/2607.14919v1
+
+Published Time: Fri, 17 Jul 2026 01:37:37 GMT
+
+Number of Pages: 8
+
+Markdown Content:
+> IEEE ROBOTICS AND AUTOMATION LETTERS. PREPRINT VERSION. SUBMITTED JULY, 2026 1
+
+# Human-Robot Interaction in GenAI Architectures via the Agent-Client Protocol 
+
+Jesus Moncada-Ramirez 1, Jose-Raul Ruiz-Sarmiento 1, and Javier Gonzalez-Jimenez 1
+
+Abstract —Recent advances in Generative Artificial Intelligence (GenAI), particularly Large Language Models (LLMs), are driv-ing robotic architectures toward agent-based high-level orches-tration, in which natural-language instructions can be translated into context-aware action sequences. While the integration of these agents and robotic capabilities is increasingly converging toward standardization through the Model Context Protocol (MCP), the upper Human-Robot Interaction (HRI) layer remains fragmented by proprietary, ad hoc interfaces that hinder real-time human-in-the-loop collaboration. To address this fragmentation, this paper proposes the adop-tion of the Agent-Client Protocol (ACP)—a communication standard originally introduced for coding agents in software engineering—as a unified communication contract for the HRI layer in agent-based robotic systems. By combining ACP at the interface-agent link and MCP at the agent-execution link, we formulate a fully decoupled three-layer architecture that separates human interaction, deliberative orchestration, and physical execution. This topology removes rigid architectural dependencies, enabling heterogeneous user interfaces to con-nect to the same robotic system and allowing the underlying robotic platform to be replaced without requiring client-specific integration changes. Moreover, it provides native support for collaborative HRI capabilities such as real-time observability, explicit human authorization, and immediate task interruption. We experimentally evaluate the proposed architecture on a phys-ical mobile robot, demonstrating interoperability across three heterogeneous user interfaces and validating real-time human-in-the-loop workflows with negligible latency overhead. 
+
+Index Terms —Software Architecture for Robotic and Au-tomation, Cognitive Control Architectures, Human Factors and Human-in-the-Loop, AI-Enabled Robotics, Autonomous Agents 
+
+I. I NTRODUCTION 
+
+While robotics has traditionally relied on tightly coupled software architectures and deterministic logic systems for high-level decision-making and planning [1], recent advances in Generative Artificial Intelligence (GenAI) are reshaping this paradigm [2]. In particular, the adoption of Large Language Models (LLMs) [3] and Vision-Language-Action (VLA) mod-els [4] is driving robotic systems toward architectures based on autonomous AI agents, where high-level natural-language instructions can be translated into context-aware action se-quences. This evolution alleviates some of the rigidity of 
+
+This work has been submitted to the IEEE for possible publication. Copyright may be transferred without notice, after which this version may no longer be accessible. 
+
+> 1
+
+The authors are with the Machine Perception and Intelligent Robotics Group (MAPIR-UMA), Malaga Institute for Mechatronics Engineer-ing and Cyber-Physical Systems (IMECH.UMA), University of Malaga, 29071 M´ alaga, Spain (e-mail: jemonra@uma.es ; jotaraul@uma.es ;
+
+javiergonzalez@uma.es ). 📊  Web dashboard 📱 Mobile tablet  🖥  Debugging terminal 👓  Intelligent glasses 
+
+> No standard, proposed in this work
+
+Agent Client Protocol (ACP)                   
+
+> 🛠 tool_1() 🛠 tool_3() 🛠 tool_4() 🛠 tool_5() 🛠 tool_2()
+> Widely used standard
+> Model Context Protocol (MCP)
+> 🤖 Robot Operating System (ROS)
+> 🌐 Internet 💾 Memory 📷 Camera 🛞 Navigation 📣 Speaker
+
+🦾  LLM-driven  agent  (autonomous  robot )
+
+LLM 🧠 
+
+Fig. 1. Architecture overview of an autonomous robot powered by LLMs. In the lower execution layer, the agent acts as a client to an MCP server to consume tools that grant access to hardware (such as the camera via ROS) and other external services (Internet). In the upper layer, the ACP unifies bidirectional communication between the robot (agent) and various user interfaces (clients). 
+
+traditional programming abstractions—such as finite state ma-chines and behavior trees—by enabling robots to interpret in-tuitive user instructions (e.g., “Carry the medical box to room 3” ) and reason about task execution at a semantic level. As a result, these models extend robotic systems with capabilities such as common-sense reasoning, contextual generalization, and real-time dynamic replanning. To implement this form of high-level deliberation, a com-mon architectural pattern is to employ an LLM as a central orchestrator, equipped with a set of tools that provide access to the robot’s primitive capabilities (e.g., perception, navi-gation, or manipulation) [5], [6]. This integration of LLMs with external functionalities defines the operational frame-work of an autonomous agent, typically structured under the 
+
+Reason+Act (ReAct) paradigm [7]. Under this model, the agent interleaves internal reasoning with the execution of 
+
+function calls , forming an iterative cycle of thought, action, and observation that enables closed-loop deliberative control. For example, given the instruction “Pick up the battery” , the agent may first generate an intermediate reasoning step ( “I must locate the battery visually” ), invoke a perception tool (detect_objects() ), and use the resulting observation (“The battery is at coordinates X, Y” ) to guide its next action (navigate_to(X, Y) ). To formalize the integration between LLM-driven agents and their available tools, the Model Context Protocol arXiv:2607.14919v1 [cs.RO] 16 Jul 2026 2 IEEE ROBOTICS AND AUTOMATION LETTERS. PREPRINT VERSION. SUBMITTED JULY, 2026 
+
+(MCP) [8] has emerged as an open standard for tool discovery and invocation. Architecturally, MCP follows a client-server model in which the server encapsulates the functionalities of an underlying system and exposes them to the LLM through a standardized communication contract. In the robotics domain, an MCP server can encapsulate the robot’s execution middleware—such as Robotic Operating System (ROS) topics, services, or actions—and expose it to the agent as a structured catalog of tools. Although the interaction between LLM-driven agents and robotic execution systems is progressively converging toward standardization through MCP, the same does not hold for the upper interaction layer. The bidirectional communication be-tween human operators and robotic agents remains fragmented across proprietary and tightly coupled implementations [9]. This lack of a common communication contract imposes substantial integration overhead, requiring user interfaces to be redesigned or refactored whenever the robotic system changes, or conversely, forcing modifications in the robot’s high-level communication logic when deploying new interfaces. Beyond engineering costs, this fragmentation also limits Human-Robot Interaction (HRI). On one hand, it obscures the agent’s in-termediate reasoning and decision-making process, making it difficult for users to inspect the system’s internal state. On the other hand, it complicates critical collaborative operations such as requesting explicit user authorization for sensitive actions or interrupting an ongoing task to provide corrective instructions in real time. Ultimately, this lack of standardization hinders the realization of effective human-in-the-loop robotic workflows. A similar fragmentation problem has already been addressed in the software engineering domain. Early AI-driven program-ming assistants—now commonly referred to as coding agents 
+
+(e.g., Claude Code, Codex)—relied on proprietary integrations tied to specific Integrated Development Environments (IDEs) (e.g., VS Code, IntelliJ), resulting in duplicated integration effort across platforms. To address this limitation, the com-munity recognized the need to decouple the user interface (the client) from the AI logic (the agent), establishing a common communication layer for transmitting user intent, managing permissions, and visualizing the agent’s progress in real time. This led to the creation of the Agent-Client Protocol 
+
+(ACP) [10], a bidirectional standard that allows any application (client) to interact with AI agents (servers) through a unified and platform-agnostic communication contract. Motivated by this standardization strategy, this work pro-poses and experimentally evaluates the adoption of ACP as the communication protocol for the upper interaction layer in GenAI-orchestrated robotic systems. By combining ACP at the interface–agent link and MCP at the agent–execution link, we formulate a fully decoupled three-layer architecture. This topology removes rigid architectural dependencies and incorporates human interaction as a native component of the system, enabling real-time observability, ambiguity resolution, and explicit permission management. To illustrate the architectural implications of this proposal, consider a mobile manipulator powered by an LLM-based agent tasked with inspecting and classifying components on a factory floor (see Fig. 1). Under a non-unified architecture, enabling human supervision requires implementing custom communication pathways for each user interface. For exam-ple, if operators need to monitor the robot through a web dashboard, a mobile tablet, and a developer terminal, each frontend must be individually integrated with the robot’s backend communication logic, often requiring additional ad hoc mechanisms for state transmission, intervention, or assis-tance requests. By contrast, encapsulating the robotic agent behind the ACP exposes a single standardized communication contract. This allows heterogeneous ACP-compatible clients to connect to the same robotic system without requiring modifications to the robot-side orchestration logic. As a result, ACP not only reduces integration effort but also provides a common substrate for advanced HRI capabilities across multiple interfaces. To evaluate the architectural feasibility of the proposal, we deployed the architecture on a physical mobile robot called Sancho. We validated the connection of three heterogeneous user interfaces (a developer CLI, a tablet application, and a generic web client) without requiring modifications to the robot’s orchestration layer. From the experiments conducted, we report a representative assistance session and analyze its execution trace, illustrating how the architecture natively supports real-time human-in-the-loop interaction. Furthermore, latency analysis of representative HRI workflows shows that the communication overhead introduced by ACP ( 1.0 ms) and MCP ( 170 .6 ms) is negligible, amounting to only 171 .6 ms (less than 0.5% of the average 36 .9-second interaction loop, which is dominated by LLM inference and physical tool execu-tion such as navigation). To promote reproducibility, the source code implementing the proposed architecture on Sancho 1 and the developed client interfaces 2 have been released as open-source. II. R ELATED WORK 
+
+The transition toward agent-based robotic architectures has gained significant attention in recent years, largely driven by the emergence of LLMs and multimodal foundation mod-els. This section reviews the current landscape of AI-driven robotics, focusing on orchestration paradigms, hardware ab-straction, and the remaining challenges in HRI standardization. 
+
+A. LLM-Driven Robotic Orchestration 
+
+Early integrations of LLMs into robotics exploited their zero-shot reasoning capabilities to translate abstract natural-language instructions into structured task decompositions [11]. To improve the physical feasibility of these plans, frameworks such as SayCan [3] introduced grounding mechanisms to align the model’s output with the robot’s available affordances. Building upon these foundations, architectures such as LLM-Planner [6] extended the paradigm through hierarchical plan-ning, using the LLM to generate high-level sub-goals that were subsequently executed by specialized low-level controllers. Beyond purely text-driven architectures, the field has progres-sively evolved toward Vision-Language-Action (VLA) models,   
+
+> 1Sancho source code: https://github.com/MAPIRlab/sancho robot/
+> 2ACP clients developed: https://github.com/MAPIRlab/sancho-acp-clients MONCADA-RAMIREZ et al. : HUMAN-ROBOT INTERACTION IN GENAI ARCHITECTURES VIA THE AGENT-CLIENT PROTOCOL 3
+
+such as RT-1 [12] and RT-2 [4], which provide a more direct mapping from multimodal observations and user intent to low-level control policies. While static planning and purely reactive strategies remain effective for short-horizon tasks, more complex and open-ended scenarios require foundation models to operate as high-level orchestrators within closed-loop control systems. Recent architectures exemplify this transition by placing the foundation model at the center of iterative perception-action loops [13]. For instance, AutoRT [5] adopts this paradigm to coordinate fleets of robots in unstructured environments, while SayPlan [14] grounds the model in 3D scene graphs to support long-horizon task execution. Inspired by iterative reasoning frameworks such as ReAct [7] and Inner Monologue [15], these systems allow the LLM to continuously observe the envi-ronment, perform actions, and replan in response to execution failures. Despite these advances in autonomy, their implementations typically remain tightly coupled to specific hardware stacks or software ecosystems, lacking a unified abstraction layer for interoperability across heterogeneous robotic platforms. To address this limitation, the architecture proposed in this work isolates the agent orchestrator into a fully decoupled central layer. By relying exclusively on standardized communication contracts, the proposed approach ensures that the agent’s rea-soning remains independent of both the underlying execution platform and the external user interfaces. 
+
+B. Hardware Abstractions 
+
+To perform tasks beyond text generation, LLM-driven agents require structured interfaces to discover and interact with external tools and APIs. In the robotics domain, early integration approaches, such as Code as Policies [16], lever-aged the code-generation capabilities of LLMs to synthesize executable Python programs that directly invoked hardware APIs. Other works, such as ProgPrompt [17], structured this interaction by exposing the model to a predefined set of high-level callable functions. Despite these advances, the discovery, invocation, and documentation of these capabilities have tra-ditionally relied on ad hoc parsers and custom integrations. To address this fragmentation, recent efforts have moved toward protocol-level standardization through the MCP [8]. By adopting a client-server architecture, MCP defines a unified JSON-RPC communication contract for tool discovery and ex-ecution, abstracting the complexities of the underlying robotic middleware [18], [19]. While our work adopts MCP for the lower execution layer, we note that standardizing the hardware link only solves half of the architectural problem, leaving the human-interaction layer unaddressed. 
+
+C. Human-Robot Interaction in GenAI Architectures 
+
+Despite recent progress in agent-based robotic systems, the bidirectional communication between human operators and LLM-driven robots remains largely implemented through task-specific and tightly coupled interfaces [20], [21]. Current HRI solutions in GenAI-enabled robotics typically rely on proprietary communication channels and application-specific frontends [9]. While traditional robotic visualization tools (e.g., RViz, Foxglove) provide effective support for monitoring deterministic system telemetry (e.g., point clouds, coordinate transforms, or navigation states), they lack the semantic ab-stractions required to support natural-language interaction and expose the internal reasoning processes of LLM-based agents. As a result, functionalities that are increasingly important for collaborative embodied AI—such as real-time intent vi-sualization, explicit human authorization for sensitive actions, and context-preserving session management—must often be implemented independently for each robotic system [21]. This fragmentation limits interoperability and increases integration complexity across heterogeneous interfaces. As discussed earlier, the software engineering domain addressed a similar fragmentation problem between coding agents and IDEs through the ACP [10]. However, to the best of our knowledge, no prior work has adapted and evaluated this decoupling strategy in the robotics domain. The architecture proposed in this work addresses this gap by introducing ACP as a common communication protocol for the upper interaction layer, enabling heterogeneous user interfaces to interact with robotic agents in a decoupled, unified manner. III. D ESCRIPTION OF THE PROPOSED ARCHITECTURE 
+
+The proposed robotic architecture, illustrated in Fig. 2, is a fully decoupled three-layer system connected through asynchronous JSON-RPC communication contracts: ACP at the upper interface–agent link and MCP at the lower agent– execution link. Functionally, the interface layer governs HRI (see Section III-A), the cognitive layer concentrates high-level orchestration and planning (see Section III-B), and the execu-tion layer encapsulates physical control, deterministic safety constraints, and hardware-level operations (see Section III-C). 
+
+A. Interface Layer 
+
+The interface layer represents the user-facing entry point (frontend) of the architecture and can be instantiated through heterogeneous ACP clients , i.e., user interfaces such as a console, a web dashboard, or a mobile application, without requiring modifications to the robotic agent hosted in the cognitive layer, which operates as the ACP server. Under the ACP, and adapted here to the robotics domain, the client is an interaction layer not responsible for planning or physical control of the robot. All deliberation resides in the agent (server), while the client is limited to managing the dialogue session, capturing user intents, and visualizing the agent’s feedback. In this context, a session is defined as a continuous, stateful communication lifecycle between the client interface and the robotic agent. Rather than a single prompt-response exchange, a session spans multiple dialogue turns and iterative ReAct loops, encompassing user instructions, tool executions, environment observations, and dynamic replanning. It acts as an interaction context, preserving the agent’s short-term memory and operational state until the connection is explicitly terminated by the client. 4 IEEE ROBOTICS AND AUTOMATION LETTERS. PREPRINT VERSION. SUBMITTED JULY, 2026 🔨  tool_1()                        
+
+> 🔨 tool_2() 🦾
+> Robot
+> hardware
+> 📊 User interface 1 💻 ACP client 1
+> 📱 User interface 2
+> ...
+> 💻 MCP client 1
+> 💻 MCP client 2
+> ...
+> initialize
+> authenticate
+> session/new
+> session/prompt
+> session/request-permission
+> session/update
+> 💻 ACP client 2
+> ...
+> User enters the app
+> User writes a prompt
+> User acepts the request
+> input
+> output
+> tools
+> 💻 ACP server
+> session/update
+> 💻 MCP server
+> Hierarchical planner
+> ...
+> 🤖
+> Robot
+> Operating
+> System
+> (ROS)
+> 🌐 External system 1
+> ...
+> 🔨 tool_3()
+> ... (more tools)
+
+👤  Interface  layer 🧠  Cognitive  layer 🦾  Execution  layer   
+
+> reasoning
+> ... (more tools) Orchestrating core (e.g. ReAct agent) Agent-Client Protocol (ACP)
+> (more user interfaces) Human-robot interaction via ACP clients Orchestration, reasoning and planning Tool execution and physical control
+
+LLM  (more clients)  (more orchestrating cores)  (more clients)  (more external systems) 🧠 
+
+Fig. 2. Overview of the proposed robotic architecture. The architecture is structured into three communicating layers: an interface layer composed of multiple ACP clients for HRI, a cognitive layer that operates as an ACP server and an MCP client to perform orchestration and planning, and an execution layer that exposes robot and external capabilities through an MCP server while ensuring deterministic control and safety. 
+
+The following list summarizes the client-side operations defined by the ACP and describes their practical role within the proposed robotic architecture. 
+
+a) Connection Initialization: At the start of the inter-action, the client and the agent establish a communication channel to ensure protocol compatibility and validate the client’s identity (through the initialize operation in the ACP specification). During this step, both parties negotiate their supported capabilities, including client-side resources (e.g., file system access, terminal execution) and agent-side functionalities (e.g., multimodal prompts or MCP connectiv-ity), which define the operational scope of subsequent sessions. This initialization model also enables concurrent interaction, allowing multiple client interfaces to connect simultaneously to the same robotic system. 
+
+b) Authentication: To guarantee access control, the agent may require credential validation ( authenticate ), ensuring that only clients with the appropriate authorization can estab-lish sessions that affect the robot’s operation. 
+
+c) Session Management: The interaction is structured through a complete lifecycle that allows creating (session_new ), loading (session_load ), listing (session_list ), forking (session_fork ), resuming (session_resume ), and closing sessions (session_close ). This management is vital at an operational level, as it ensures that the robot agent does not lose context when switching sessions, allows for immediate control recovery after a network failure, and ensures atraceable log of all decisions made, among others. 
+
+d) Configuration Selection: The behavior of the robotic agent during a session can be dynamically modified by select-ing the appropriate operating mode ( session/set_mode ), which allows adjusting the agent’s available tools, system prompts, and permission requirements on the fly. Trans-lated to a robotic context, this feature allows seamless transitions between passive (e.g., stationary sensor monitor-ing, reasoning, trajectory generation without physical actu-ation) and active profiles (e.g., movement-only, fully au-tonomous operation, human-in-the-loop supervised execution). Additionally, the client can adjust the LLM governing the agent ( session/set_model ), choosing the most suitable one depending on cost, response speed, and other require-ments of the intended task. Beyond these, the agent can publish additional settings to be configured by the client (session/set_config_option ). 
+
+e) Instruction Delivery: The core of the interaction materializes when the operator transmits directives in nat-ural language, optionally supported by multimodal context (session/prompt ). This input triggers the agent’s cogni-tive cycle, which processes the user intent, plans the neces-sary physical actions, and asynchronously reports its progress within the session flow. 
+
+f) Cancellation: To guarantee dynamic and safe human intervention, the protocol incorporates an immediate interrup-tion mechanism ( session/cancel ). This operation allows the operator to halt the cognitive loop and physical execution in real-time in the face of operational risks, context degrada-tion, or the need to replan the mission. Reverse operations, initiated by the server toward the client, are detailed in Section III-B, as they originate in the agent’s orchestration logic. 
+
+B. Cognitive Layer 
+
+The cognitive layer forms the deliberative core of the architecture, where an LLM transforms user intent into high-level action plans under the coordination of an orchestrator core (see Section III-B1). Operationally, this layer maintains two simultaneous communication links: it operates as an ACP server toward the interface layer (see Section III-B2) and as an MCP client toward the execution layer for tool discovery and invocation (see Section III-B3). 
+
+1) Orchestrator Core: The orchestrator core concentrates the deliberative logic of the system by transforming user intent into executable action sequences. Although it typically follows the ReAct [7] paradigm, its design is compatible with MONCADA-RAMIREZ et al. : HUMAN-ROBOT INTERACTION IN GENAI ARCHITECTURES VIA THE AGENT-CLIENT PROTOCOL 5
+
+other orchestration paradigms, including hierarchical planning and multi-agent coordination. At each iteration, the orches-trator evaluates the current context, invokes tools through the MCP client, and integrates the resulting observations to refine its action plan. In parallel, it uses the ACP to stream its intermediate reasoning and execution progress to the user interface, enabling clarification requests or human validation when ambiguities or execution failures arise. Overall, the orchestrator maintains an iterative loop of reasoning, execution, and evaluation. This enables the system to adapt safely to unforeseen events while preserving a strict separation between high-level deliberation and low-level phys-ical control. 
+
+2) ACP Server: Within the proposed architecture, the or-chestrator core leverages the ACP server to issue requests and notifications to the ACP client (recall Section III-A). The following list summarizes the server-initiated communication primitives defined by the ACP, highlighting their role in enabling real-time observability, human-in-the-loop validation, and feedback during robotic execution. 
+
+a) Status Updates to the Client: Real-time supervi-sion is guaranteed through a continuous stream of events reporting on agent messages, thoughts, and tool usage (session/update ). In this way, the operator maintains visibility into the agent’s internal state and can interpret how the task evolves at each stage. 
+
+b) Human Authorization Requests: Human intervention is explicitly integrated when execution requires prior validation for a sensitive action ( session/request_permission ). This control point formalizes the human-in-the-loop scheme and reduces operational risk in decisions impacting safety, the environment, or the mission. 
+
+c) Local File Read and Write: Although not astrictly central capability in many robotic deployments, reading and writing files (fs/read_text_file ,
+
+fs/write_text_file ) can be useful for the agent to transfer files to the client, such as execution traces or diagnostic logs 
+
+d) Terminal Process Management: The terminal process management on the client provided by the ACP (terminal/create , terminal/output ,
+
+terminal/wait_for_exit , terminal/release ,
+
+terminal/kill ) generally makes little sense in a robotic deployment; therefore, these operations should be restricted. 
+
+3) MCP Client: The MCP client bridges the cognitive layer with the robot’s physical capabilities by consuming the formal catalog of structured tools (e.g., navigate to a waypoint, open the gripper, check the battery level) exposed by the execution layer (see Section III-C). The LLM itself does not interact with the hardware; rather, it outputs tool-call intents which the MCP client forwards to the MCP server for execution, returning the results as contextual feedback to the model, always under the control of the orchestrator core (recall Section III-B1). This separation decouples cognitive logic from physical implemen-tation, ensuring portability across different robotic platforms. 
+
+C. Execution Layer 
+
+The execution layer establishes the connection between high-level orchestration and the physical operation of the robot through an MCP server. This component encapsulates the operational capabilities of the system—including native middleware functionalities (such as ROS topics, services, and actions) as well as external resources (such as web services or cloud queries)—and exposes them to the cognitive layer as a unified catalog of standardized tools. From an engineering perspective, this layer retains full responsibility for low-level control and operational safety. The MCP server validates invocation parameters, enforces physical constraints, and rejects unsafe actions before they reach the hardware. Consequently, non-deterministic generative infer-ence is isolated from fast control loops, leaving stability, temporal guarantees, and emergency-stop mechanisms to spe-cialized deterministic components. IV. E XPERIMENTAL EVALUATION 
+
+This section presents the experimental evaluation of the proposed architecture through its deployment on a physical mobile robot operating in a standard office environment (see Section IV-A). The evaluation focuses on three architectural properties. First, we assess the decoupling between the robotic agent and its user interfaces enabled by the ACP, demonstrat-ing that three heterogeneous clients can connect to the robot without requiring modifications to its orchestration logic (see Section IV-B). Second, we present a representative collabora-tive assistance scenario and analyze its execution trace within the architecture, illustrating how the proposed design supports real-time human-in-the-loop interaction (see Section IV-C). Finally, we analyze the computational overhead introduced by the architectural decoupling through ACP and MCP, showing that the proposed three-layer design preserves the robot’s real-time responsiveness (see Section IV-D). 
+
+A. Evaluation Setup 
+
+The proposed three-layer architecture has been implemented and deployed on the mobile robot Sancho , which is based on the ROS 2 Humble framework. Built upon an AgileX Ranger Mini V3 base, Sancho is equipped with two Hokuyo laser scanners to support robust navigation and reactive capabilities. For environmental perception and HRI, it incorporates an Orbbec Astra RGB-D camera, as well as a head-mounted RGB camera and an integrated speaker for verbal communication and social interaction. To materialize the execution layer, an MCP server was de-veloped to interface with the robot’s hardware and middleware. Given that all physical capabilities of the robot are natively managed by ROS, this server acts as a semantic bridge to the underlying ROS topics, services, and actions. The defined MCP tools enable the agent to get a pre-built topological map of the environment, navigate to specific coordinates or locations, capture images via the RGB camera, and synthesize speech through the robot’s integrated speakers. In the cognitive layer, the orchestrator core is im-plemented as a pure ReAct agent driven by the LLM 6 IEEE ROBOTICS AND AUTOMATION LETTERS. PREPRINT VERSION. SUBMITTED JULY, 2026 
+
+gemini-3.1-flash-lite . Given the user’s prompt, this agent iteratively reasons and invokes the available MCP tools until the task is completed. As a specific implementation detail, an initial LLM call is executed to generate the robot’s preliminary thought. Similar to how many conversational inter-faces display their thought process while generating a longer response, this initial intention is shared with the ACP clients as the very first message, providing users with immediate feedback on what the robot is about to do. Regarding the ACP server in this layer, since the ACP currently relies on standard input/output ( stdio ) for local process communication, the protocol was deployed over a raw TCP transport layer to en-able remote network connection, requiring clients to establish a socket connection before exchanging JSON-RPC messages. In the interface layer, three heterogeneous user interfaces were deployed to act as independent ACP clients. A descrip-tion of them, along with the demonstration of how the ar-chitecture seamlessly accommodates their connection without requiring any custom integration adapters or modifications to the robot’s logic, is discussed below. 
+
+B. Decoupling of the Robotic Agent and User Interfaces 
+
+To validate that the proposed architecture successfully de-couples the robot (agent, whose logic lives in the cognitive layer) from the user interfaces (clients, which live in the inter-face layer), we connected three different ACP clients to Sancho without modifying its orchestrator (see Fig. 3). Specifically, the evaluated interfaces include two custom-developed clients and one pre-existing third-party application: (i) a Developer CLI (see Fig. 3.a), our custom minimalist terminal-based client for low-level command injection; (ii) a Mobile app (see Fig. 3.b), our custom touchscreen-based interface deployed on a tablet for on-site operators; and (iii) acp-ui (see Fig. 3.c) 3, a pre-existing, general-purpose open-source client. Integrating these diverse clients required no custom code on the robot, thanks to the implementation of the ACP in the robot (ACP server in the cognitive layer) and user interfaces (ACP clients in the interface layer), demonstrating how this protocol enables true decoupling in the architecture. Actually, not only does it allow multiple interfaces to connect to a single robot, but conversely, it ensures that the developed user interfaces can instantly connect to any other robotic system implementing the ACP, showcasing the complete portability and independence of the interface layer. 
+
+C. HRI Workflow Validation 
+
+To evaluate the architecture’s suitability for HRI, several experimental trials were conducted; among these, we highlight a representative usage session of Sancho interacting with a user via the acp-ui client in an assistance robotic context. The trace of this representative session, depicted in Fig. 4, unfolded as follows. First, the user instructed Sancho to navigate to a specific laboratory location and deliver a spoken message (P1; session/prompt event in ACP). The agent processed the intent and started executing the navigation,   
+
+> 3https://github.com/formulahendry/acp-ui
+> Fig. 3. The three heterogeneous ACP clients connected to Sancho in the experiments: ( a) developer CLI, ( b) mobile app, and ( c)acp-ui
+
+streaming its internal reasoning and progress back to the user’s interface in real time (session/update ). Upon reach-ing the destination and before synthesizing the speech, the agent proactively paused its execution loop to request explicit human authorization ( session/request_permission ). Note that requiring authorization for speech synthesis was a specific implementation decision to maintain a quiet office environment, preventing the robot from emitting loud ver-bal messages without confirmation. Once the user granted permission via the interface, Sancho delivered the message. Subsequently, the user commanded the robot to return to the starting position (P2; session/prompt ). However, shortly after the robot started its return navigation, the user remem-bered an additional detail that needed to be communicated and instantly aborted the task ( session/cancel ). This command immediately halted the robot’s physical movement. Then, the user issued a new instruction encompassing the forgotten message (P3; session/prompt ), prompting the agent to replan and execute the updated task. Once completed, the user commanded the robot back to the starting location (P4; session/prompt ). As shown, the native ACP capabilities—real-time observ-ability, explicit authorization, and instant task interruption— allow operators to supervise and intervene at any point during the robot’s operation, enforcing safety boundaries before trig-gering sensitive physical actions. To better understand the operation of the ACP and the proposed architecture, Fig. 5 illustrates the exchange across the three architectural layers during the connection initial-ization and the first prompt (P1). First, the client initializes the connection by executing the initialize command and creating a session via a session/new request. When the user inputs the prompt P1 (“Go to lab 2.3.7...”), the client transmits this via a session/prompt request. The cognitive orchestrator performs an initial LLM call to generate MONCADA-RAMIREZ et al. : HUMAN-ROBOT INTERACTION IN GENAI ARCHITECTURES VIA THE AGENT-CLIENT PROTOCOL 7(P1)  Hi, Sancho! Go to lab 2.3.7 and tell         
+
+> everyone it's time for breakfast!
+> 1
+> 2
+> (P2) Now go back to Lab 2.3.6—we need you here. 4
+> 65
+> (P3) Wait! I forgot to tell you that breakfast is at the College of Education!
+> Go back to room 2.3.7 and let them know.
+> 7
+> (P4) That’s all! Come to Lab 2.3.6 now. 10
+> 8Lab 2.3.6
+> 11
+> (R1) Attention everyone! It is breakfast time! 3
+> (R2) Attention! Change of plans: breakfast is
+> actually at the College of Education.
+> 9
+> (R3) I have arrived at Lab 2.3.6. 12 (ACP cancel) (User) (Corridor) (Corridor) Lab 2.3.7 (Sancho) (Sancho)
+
+Fig. 4. Map of the experimental environment showing the robot’s trajectory and interaction sequence of the HRI session. Numbered circles indicate the chronological execution order: white circles represent user prompts (P1–P4) and robot responses (R1–R3), yellow circles represent navigation actions, and the red circle (6) denotes a user-triggered cancellation through ACP. 
+
+a preliminary thought and publishes it as a progress update to the client using a session/update notification. Next, the cognitive layer establishes its connection with the execution layer using the initialize and tool/list commands, discovering 7 available MCP tools. To perform the physical navigation, the cognitive layer first retrieves the topological map via get_topological_map and then triggers navi-gation via navigate_to_pose , sending progress updates to the client after each tool completes. Upon arrival, and before executing the speech synthesis, the cognitive agent pauses its execution loop and issues an s/request_permission 
+
+request. As mentioned, requiring authorization for this specific tool is an implementation decision. Once the user accepts the permission, the client returns an approved response, allowing the agent to proceed by calling the speak tool on the execution layer. Finally, the execution layer reports success, and the cognitive layer completes the loop by sending a final 
+
+session/update notification and the session/prompt 
+
+response. 
+
+D. Overhead Analysis 
+
+To quantify the computational impact of the proposed architectural decoupling, we analyzed the latency breakdown of the representative usage session described in Section IV-C as an example. Table I presents the detailed timing breakdown for each interaction within the session. These timings are categorized into five distinct phases: (i) Initial LLM Thought ,measuring the time taken by the LLM to generate its first thought; (ii) ReAct LLM Inference , corresponding to the sub-sequent reasoning cycles within the ReAct loop; (iii) Phys-ical Tools (MCP) , representing the execution of hardware actions via the MCP server (navigation and speech synthesis); (iv) User Authorization (ACP) , which accounts for the user response latency when granting permission; and (v) Protocols & APIs , capturing the JSON-RPC serialization, TCP round-trips, and minor software-only MCP tool calls (e.g., retrieving the topological map, which do not involve physical actuation). As shown, the completed interactions of the session required an average of 36 .94 s. As expected, the vast majority of this Connection initialization  
+
+> Prompt P1
+> session /prompt (resp) initialize
+> initialize
+> “Go to lab 2.3.7. ...” (noti) session/update
+> Generate thought Shows initial thought
+> initialize (resp) initialize
+> get_topological_map(...) (resp) topological map
+> navigate_to_pose(...) (resp) sucess
+> s/request_permission Authorization prompt
+> Accepts permission
+> approved
+> speak(...) (resp) sucess
+> Physical navigation
+> User authorization
+> Speech synthesis (resp) session/new
+> session/new (noti) session/update
+> (tool completed) (noti) session/update
+> (tool completed)
+> tool/list (resp) 7 tools available (resp) session/prompt Shows success message (noti) session/update
+> (tool completed)
+
+ACP  MCP Interface Cognitive Execution User 
+
+> Robot
+> 1
+> 2
+> 3
+
+Fig. 5. Sequence diagram of the user and architectural layers communication flow in the connection initialization and first interaction (P1). TABLE I LATENCY BREAKDOWN OF A REPRESENTATIVE EXPERIMENTAL SESSION 
+
+Phase P1 P2* P3 P4 Avg. 
+
+Initial LLM Thought 2.49 s 2.76 s 2.18 s 2.86 s 2.51 sReAct LLM Inference 5.38 s 1.56 s 3.62 s 4.55 s 4.52 sPhysical Nav. (MCP) 25 .12 s 12 .07 s 20 .57 s 20 .47 s 22 .05 sSpeech Synth. (MCP) 3.94 s – 6.39 s 3.95 s 4.76 sUser Auth. (ACP) 3.02 s – 2.36 s 3.42 s 2.93 sProtocols & APIs 380 .9 ms 1.1 ms 66 .0 ms 68 .0 ms 171 .6 ms 
+
+Total 40 .33 s 16 .39 s 35 .19 s 35 .31 s 36 .94 s
+
+*P2 was cancelled by the user and did not complete. Avg. represents the average of completed prompts (P1, P3, P4). 
+
+time was consumed by deterministic physical navigation via ROS 2 ( 22 .05 s, 59 .7%) and LLM inference (totaling 7.03 s, 
+
+19 .0% across both the initial thought and the subsequent reasoning loops). In contrast, the communication overhead introduced by the proposed protocols is negligible. The ACP layer (handling session management and state streaming) introduces just 1.0 ms ( < 0.01 %), while the MCP layer (handling connection and tool routing) adds only 170 .6 ms (0.5%). These results confirm that the latency footprint of 8 IEEE ROBOTICS AND AUTOMATION LETTERS. PREPRINT VERSION. SUBMITTED JULY, 2026 
+
+dividing the system into three distinct layers, bridged by the ACP and MCP contracts, represents less than 0.5% of the total execution time. Therefore, the architecture provides layer decoupling, successfully enables advanced HRI capabilities, and does not compromise the robot’s real-time responsiveness. V. C ONCLUSIONS AND LIMITATIONS 
+
+This paper has addressed a key HRI challenge in GenAI-driven robotics: the fragmentation and tight coupling between LLM-based agents and their user interfaces. To address this limitation, we proposed the adoption of the ACP as a unifying communication protocol for the upper interface–agent link. Combined with MCP at the lower agent–execution link, this yields a fully decoupled three-layer architecture. The exper-imental evaluation demonstrated that this topology enables multiple heterogeneous user interfaces to interact with the same robotic system without requiring custom integration, while naturally supporting human-in-the-loop capabilities such as real-time intent observability, explicit authorization, and task interruption, all with negligible computational overhead. Despite these advantages, the proposed approach presents certain limitations. Since ACP was originally designed for coding agents in software engineering, some of its operations are not directly applicable to robotic systems. For example, terminal process management offers limited practical utility in this context and should typically be restricted. Further-more, the protocol does not natively support capabilities that could be useful for robotics, such as continuous multimodal data streaming (e.g., live camera feeds) or asynchronous background telemetry (e.g., battery-level monitoring without explicit user prompts), requiring complementary mechanisms outside the ACP specification. Future work may explore extensions to the ACP specifi-cation to incorporate multimodal streaming and continuous telemetry primitives, further strengthening its applicability as a unified layer for GenAI-enabled robotic systems. ACKNOWLEDGMENT 
+
+This work has been supported by the projects: MINDMAPS (PID2023-148191NB-I00), funded by the Ministry of Science, Innovation, and Universities of Spain; Voxeland (PPRO-B1-2023-017, JA.B1-09), funded by the University of M´ alaga; the Andalusian Plan for Research, Development, and Innovation (PPRO-TEP960-G-2023); and the Spanish FPU fellowship program under grant FPU24/02974. REFERENCES [1] B. Siciliano and O. Khatib, Eds., Springer Handbook of Robotics .Berlin, Heidelberg: Springer, 2008. [2] R. Firoozi, J. Tucker, S. Tian, A. Majumdar, J. Sun, W. Liu et al. , “Foun-dation models in robotics: Applications, challenges, and the future,” The Int. J. Robot. Res. , vol. 44, no. 5, pp. 701–739, 2025. [3] M. Ahn, A. Brohan, N. Brown, Y. Chebotar, O. Cortes, B. David et al. ,“Do as I can, not as I say: Grounding language in robotic affordances,” in Proc. 6th CoRL , ser. PMLR, vol. 205. PMLR, 2023, pp. 287–318. [4] B. Zitkovich, T. Yu, S. Xu, P. Xu, T. Xiao, F. Xia et al. , “RT-2: Vision-language-action models transfer web knowledge to robotic control,” in 
+
+Proc. 7th CoRL , ser. PMLR, vol. 229. PMLR, 2023, pp. 2165–2183. [5] M. Ahn, D. Dwibedi, C. Finn, M. G. Arenas, K. Gopalakrishnan, K. Hausman et al. , “AutoRT: Embodied foundation models for large scale orchestration of robotic agents,” arXiv preprint arXiv:2401.12963 ,2024. [6] C. H. Song, J. Wu, C. Washington, B. M. Sadler, W.-L. Chao, and Y. Su, “LLM-planner: Few-shot grounded planning for embodied agents with large language models,” in Proc. ICCV , 2023, pp. 2998–3009. [7] S. Yao, J. Zhao, D. Yu, N. Du, I. Shafran, K. R. Narasimhan et al. ,“ReAct: Synergizing reasoning and acting in language models,” in Proc. 11th ICLR , 2023. [8] Anthropic, “Model Context Protocol (MCP),” https: //modelcontextprotocol.io, 2024. [9] S. H. Vemprala, R. Bonatti, A. Bucker, and A. Kapoor, “ChatGPT for robotics: Design principles and model abilities,” IEEE Access , vol. 12, pp. 55 682–55 696, 2024. [10] Zed Industries and JetBrains, “Agent Client Protocol (ACP),” https:// agentclientprotocol.com, 2025. [11] W. Huang, P. Abbeel, D. Pathak, and I. Mordatch, “Language models as zero-shot planners: Extracting actionable knowledge for embodied agents,” in Proc. 39th ICML , ser. PMLR, vol. 162. PMLR, 2022, pp. 9118–9147. [12] A. Brohan, N. Brown, J. Carbajal, Y. Chebotar, J. Dabis, C. Finn et al. ,“RT-1: Robotics transformer for real-world control at scale,” in Proc. RSS , 2023. [13] J. Moncada-Ramirez, J.-L. Matez-Bandera, J. Gonzalez-Jimenez, and J.-R. Ruiz-Sarmiento, “Agentic workflows for improving large language model reasoning in robotic object-centered planning,” Robotics , vol. 14, no. 3, p. 24, 2025. [14] K. Rana, J. Haviland, S. Garg, J. Abou-Chakra, I. Reid, and N. Suen-derhauf, “SayPlan: Grounding large language models using 3D scene graphs for scalable robot task planning,” in Proc. 7th CoRL , ser. PMLR, vol. 229. PMLR, 2023, pp. 23–72. [15] W. Huang, F. Xia, T. Xiao, H. Chan, J. Liang, P. Florence et al. ,“Inner monologue: Embodied reasoning through planning with language models,” in Proc. 6th CoRL , ser. PMLR, vol. 205. PMLR, 2023, pp. 1769–1782. [16] J. Liang, W. Huang, F. Xia, P. Xu, K. Hausman, B. Ichter et al. , “Code as policies: Language model programs for embodied control,” in Proc. ICRA . IEEE, 2023, pp. 9493–9500. [17] I. Singh, V. Blukis, A. Mousavian, A. Goyal, D. Xu, J. Tremblay et al. ,“ProgPrompt: Generating situated robot task plans using large language models,” in Proc. ICRA . IEEE, 2023. [18] W. Guan, Q. Hu, H. Xi, C. Zhang, A. Li, and J. Cheng, “RoboNeuron: A middle-layer infrastructure for agent-driven orchestration in embodied AI,” arXiv preprint arXiv:2512.10394 , 2025. [19] robotmcp Contributors, “ROS MCP Server,” https://github.com/ robotmcp/ros-mcp-server, 2025. [20] A. Z. Ren, A. Dixit, A. Bodrova, S. Singh, S. Tu, N. Brown et al. ,“Robots that ask for help: Uncertainty alignment for large language model planners,” in Proc. 7th CoRL , ser. PMLR, vol. 229. PMLR, 2023. [21] Y. Cui, S. Karamcheti, R. Palleti, N. Shivakumar, P. Liang, and D. Sadigh, “No, to the right: Online language corrections for robotic manipulation via shared autonomy,” in Proc. HRI , 2023, pp. 93–101.

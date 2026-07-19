@@ -6,56 +6,53 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-18
-- 运行时间：2026-07-18 21:30:23 UTC
+- 最新运行日期：2026-07-19
+- 运行时间：2026-07-19 19:56:41 UTC
 - 运行状态：成功
-- 本次总论文数：12
-- 精读区：3
-- 速读区：9
+- 本次总论文数：10
+- 精读区：0
+- 速读区：10
 
 ### 今日简报（AI）
-今日收录12篇具身智能与机器人论文，精读3篇。精读中ABot-AgentOS提出终身多模态记忆通用机器人操作系统，DiMaS通过分布匹配控制视觉-语言-动作模型，值得重点关注。建议优先阅读精读论文，速读中小米U0世界基础模型与Hy-Embodied-VLM高效物理世界智能体也值得跟进。
-- 详情：[/202607/18/README](/202607/18/README)
+1) 今日速读10篇论文，聚焦机器人操作与物理世界智能体，精选3篇评分7.0的论文进行解读。
+2) 最值得关注的方向包括：基于像素分类的3D闭环操作策略、高效物理世界智能体框架、以及通过失败合成学习密集奖励的机器人操作方法。
+3) 建议跟进这三篇论文中的方法，它们分别涉及闭环控制、模型效率与奖励设计，对机器人学习应用有直接启发。
+- 详情：[/202607/19/README](/202607/19/README)
 
 ### 精读区论文标签
-1. [ABot-AgentOS: A General Robotic Agent OS with Lifelong Multi-modal Memory](/202607/18/2607.10350v2-abot-agentos-a-general-robotic-agent-os-with-lifelong-multi-modal-memory)  
-   标签：评分：8.0/10、query:vla-humanoid
-   evidence：通用机器人代理操作系统，支持VLM/VLA，适用于具身人工智能
-2. [DiMaS: Distribution Matching for Steering Vision-Language-Action Models](/202607/18/2607.14280v1-dimas-distribution-matching-for-steering-vision-language-action-models)  
-   标签：评分：8.0/10、query:vla-humanoid
-   evidence：针对VLA模型的分布匹配引导，实现机器人操作的细粒度行为控制
-3. [RoboTTT: Context Scaling for Robot Policies](/202607/18/2607.15275v1-robottt-context-scaling-for-robot-policies)  
-   标签：评分：8.0/10、query:vla-humanoid
-   evidence：通过测试时训练实现基于VLA的机器人策略上下文缩放
+- 本次无精读推荐。
 
 ### 速读区论文标签
-1. [Xiaomi-Robotics-U0: Unified Embodied Synthesis with World Foundation Model](/202607/18/2607.11643v1-xiaomi-robotics-u0-unified-embodied-synthesis-with-world-foundation-model)  
-   标签：评分：7.0/10、query:human-aigc
-   evidence：世界基础模型用于具身合成，与世界行动模型和AIGC相关
-2. [Hy-Embodied-VLM-1.0: Efficient Physical-World Agents](/202607/18/2607.12894v1-hy-embodied-vlm-10-efficient-physical-world-agents)  
+1. [Action Map Policy: Learning 3D Closed-loop Manipulation via Pixel Classification](/202607/19/2607.10706v1-action-map-policy-learning-3d-closed-loop-manipulation-via-pixel-classification)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：面向物理世界的具身VLM，与VLA和人形主题一致
-3. [Exploratory, Communicative, and Deployable: Vision-Driven Embodied Agents for Open-World Mobile Manipulation](/202607/18/2607.13653v1-exploratory-communicative-and-deployable-vision-driven-embodied-agents-for-open-world-mobile-manipulation)  
+   evidence：将3D闭环操作建模为像素分类问题
+2. [Hy-Embodied-VLM-1.0: Efficient Physical-World Agents](/202607/19/2607.12894v1-hy-embodied-vlm-10-efficient-physical-world-agents)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：视觉驱动的开放世界移动操作具身智能框架
-4. [RxBrain: Embodied Cognition Foundation Model with Joint Language-Visual Reasoning and Imagination](/202607/18/2607.14187v1-rxbrain-embodied-cognition-foundation-model-with-joint-language-visual-reasoning-and-imagination)  
-   标签：评分：7.0/10、query:human-aigc
-   evidence：具身认知联合语言-视觉推理与世界模型
-5. [Representation-Aligned Tactile Grounding for Contact-Rich Robotic Manipulation](/202607/18/2607.14609v1-representation-aligned-tactile-grounding-for-contact-rich-robotic-manipulation)  
+   evidence：具身VLM基础模型
+3. [DenseReward: Dense Reward Learning via Failure Synthesis for Robotic Manipulation](/202607/19/2607.13033v1-densereward-dense-reward-learning-via-failure-synthesis-for-robotic-manipulation)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：触觉接地用于接触丰富操作的VLA策略
-6. [Towards Human-like Physical Intelligence: LifelongVision-Language-Action Learning for Robotic Manipulation](/202607/18/2607.14852v1-towards-human-like-physical-intelligence-lifelongvision-language-action-learning-for-robotic-manipulation)  
+   evidence：通过失败合成学习密集奖励用于机器人操控
+4. [An Empirical Study on Stage-Information Interfaces for VLA Fine-Tuning](/202607/19/2607.13605v1-an-empirical-study-on-stage-information-interfaces-for-vla-fine-tuning)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：终身VLA学习用于机器人操作
-7. [WALA Learning Executable Latent Actions from Action-Labeled Demonstrations and Action-Free Videos](/202607/18/2607.11397v1-wala-learning-executable-latent-actions-from-action-labeled-demonstrations-and-action-free-videos)  
+   evidence：VLA微调中使用阶段信息进行操纵
+5. [EDAR: Learning Environment-Dependent Action Representations for Robotic Manipulation](/202607/19/2607.11427v1-edar-learning-environment-dependent-action-representations-for-robotic-manipulation)  
    标签：评分：6.0/10、query:vla-humanoid
-   evidence：从视频和演示中学习可执行潜在动作，实现操作技能获取
-8. [Worlds in One Demo: A Synthetic Data Engine for Learning Open-World Mobile Manipulation](/202607/18/2607.13154v1-worlds-in-one-demo-a-synthetic-data-engine-for-learning-open-world-mobile-manipulation)  
+   evidence：学习环境依赖的动作表示用于操作
+6. [Requirement-Driven Design of Whole-Body Social Tactile Sensing via Virtual Human-Robot Interaction](/202607/19/2607.11690v1-requirement-driven-design-of-whole-body-social-tactile-sensing-via-virtual-human-robot-interaction)  
    标签：评分：6.0/10、query:human-aigc
-   evidence：从单个演示重建世界基底用于合成数据生成
-9. [Open-AoE: An Open Egocentric Manipulation Dataset and Toolchain for Embodied Learning](/202607/18/2607.14183v1-open-aoe-an-open-egocentric-manipulation-dataset-and-toolchain-for-embodied-learning)  
+   evidence：针对人形机器人社交触觉传感的需求驱动设计
+7. [Analysis of Mutual and Referential Human and Robot Gazes in a Collaborative Word Association Game](/202607/19/2607.12181v1-analysis-of-mutual-and-referential-human-and-robot-gazes-in-a-collaborative-word-association-game)  
+   标签：评分：6.0/10、query:human-aigc
+   evidence：使用NAO人形机器人在协作任务中分析人与机器人凝视
+8. [ReflectVLN: Training Vision-Language Navigation Agents with Reflective Reasoning](/202607/19/2607.12680v1-reflectvln-training-vision-language-navigation-agents-with-reflective-reasoning)  
    标签：评分：6.0/10、query:vla-humanoid
-   evidence：自我中心操作数据集，支持机器人学习
+   evidence：使用VLM进行反思推理的视觉语言导航
+9. [Towards Human-like Physical Intelligence: LifelongVision-Language-Action Learning for Robotic Manipulation](/202607/19/2607.14852v1-towards-human-like-physical-intelligence-lifelongvision-language-action-learning-for-robotic-manipulation)  
+   标签：评分：6.0/10、query:vla-humanoid
+   evidence：机器人操作的终身VLA学习
+10. [Human-Robot Interaction in GenAI Architectures via the Agent-Client Protocol](/202607/19/2607.14919v1-human-robot-interaction-in-genai-architectures-via-the-agent-client-protocol)  
+   标签：评分：6.0/10、query:vla-humanoid
+   evidence：基于LLM的机器人编排
 
 
 <div class="dpr-home-promo-card">

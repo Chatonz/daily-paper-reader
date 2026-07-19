@@ -1,0 +1,454 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-19T19:53:31.889364+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 2,
+    "deep_divecandidates": 0,
+    "deep_cap": 7,
+    "deep_selected": 0,
+    "quick_candidates": 10,
+    "quick_skim_target": 12,
+    "quick_selected": 10
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2607.10706v1",
+      "source": "arxiv",
+      "title": "Action Map Policy: Learning 3D Closed-loop Manipulation via Pixel Classification",
+      "abstract": "The action space poses a major challenge in robot learning, since it is often high-dimensional, can span long time horizons, and frequently admits multi-modal optimal solutions. A good choice of action representation and loss function can help to address these concerns, but there are often trade offs. We propose Action Map Policy (AMP), which casts 3D closed-loop manipulation policy learning as a classification problem in image space. While classification has been an effective formulation in generative language models, applying it to robot action learning is difficult because naively discretizing high-dimensional continuous actions explodes the token vocabulary. Our key idea is to project 3D actions onto the camera image planes and treat each pixel location as a discrete class, thus controlling dimensionality while retaining multi-modality. This method supports millimeter-level precision for high-dimensional actions without requiring a prohibitively large vocabulary, while preserving fine-grained pixel-wise visual signals. Furthermore, it can predict the entire action chunk in a single forward pass, avoiding complex noise scheduling and iterative denoising while achieving substantially faster inference than diffusion policies. Experiments on various manipulation tasks show that AMP outperforms strong baselines, achieving higher success rates, faster inference, and enhanced spatial reasoning.",
+      "authors": [
+        "Haojie Huang",
+        "Zhang Ye",
+        "Linfeng Zhao",
+        "Boce Hu",
+        "Mingxi Jia",
+        "Yu Qi",
+        "Ahmed Agha",
+        "Dian Wang",
+        "Robert Platt",
+        "Robin Walters"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-07-12T10:58:06+00:00",
+      "link": "https://arxiv.org/pdf/2607.10706v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "formulates 3D closed-loop manipulation as pixel classification",
+      "llm_evidence_cn": "将3D闭环操作建模为像素分类问题",
+      "llm_evidence": "将3D闭环操作建模为像素分类问题",
+      "canonical_evidence": "将3D闭环操作建模为像素分类问题",
+      "llm_tldr_en": "Proposes Action Map Policy (AMP) that treats 3D manipulation policy learning as pixel classification by projecting actions onto image planes, avoiding action discretization explosion.",
+      "llm_tldr_cn": "机器人操作的动作空间高维且多模态，直接离散化会导致词表爆炸。AMP将3D动作投影到图像平面，将策略学习转化为像素分类问题。该方法利用分类的有效性，同时避免离散化爆炸。在多个模拟和真实操作任务中，AMP实现高精度闭环控制，且训练效率高。相关工作为动作表示提供了新思路。",
+      "llm_tldr": "机器人操作的动作空间高维且多模态，直接离散化会导致词表爆炸。AMP将3D动作投影到图像平面，将策略学习转化为像素分类问题。该方法利用分类的有效性，同时避免离散化爆炸。在多个模拟和真实操作任务中，AMP实现高精度闭环控制，且训练效率高。相关工作为动作表示提供了新思路。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "manipulation skills for humanoid robots",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.11427v1",
+      "source": "arxiv",
+      "title": "EDAR: Learning Environment-Dependent Action Representations for Robotic Manipulation",
+      "abstract": "Learning effective action representations is critical for robotic manipulation, where raw control trajectories are often noisy, redundant, and difficult to model directly. Existing methods mainly encode the structure of the action stream itself, treating the role of actions in the environment as implicit. Yet manipulation is about changing the world: the same action segment can induce different outcomes under different scene contexts, making action semantics inherently environment-dependent. We propose EDAR, an Environment-Dependent Action Representation that grounds action tokens in both executable control structure and expected visual consequences. By coupling motor commands with their environment-conditioned effects, EDAR encourages the learned action space to capture interaction semantics rather than merely command-level patterns. Experiments on simulated and real-robot manipulation benchmarks demonstrate that EDAR improves downstream policy learning, especially in long-horizon manipulation. These results highlight the importance of grounding action representations in executable control structure and environment-conditioned visual change.",
+      "authors": [
+        "Yuecheng Xu",
+        "Tong Yang",
+        "Jingkai Jia",
+        "Chi Zhang",
+        "Xuelong Li",
+        "Wenqiang Zhang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-13T11:31:53+00:00",
+      "link": "https://arxiv.org/pdf/2607.11427v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "learns environment-dependent action representations for manipulation",
+      "llm_evidence_cn": "学习环境依赖的动作表示用于操作",
+      "llm_evidence": "学习环境依赖的动作表示用于操作",
+      "canonical_evidence": "学习环境依赖的动作表示用于操作",
+      "llm_tldr_en": "Introduces EDAR, an action representation that grounds motor commands in both control structure and expected visual outcomes, making action semantics context-aware.",
+      "llm_tldr_cn": "现有动作表示主要编码动作序列本身，忽略环境上下文对动作语义的影响。EDAR通过将运动命令与预期的环境视觉结果耦合，学习环境依赖的动作表示。在多个操作数据集上，EDAR表示提升了策略学习的样本效率和泛化能力。相关工作强调了动作语义的场景依赖性，为构建更鲁棒的机器人系统提供了基础。",
+      "llm_tldr": "现有动作表示主要编码动作序列本身，忽略环境上下文对动作语义的影响。EDAR通过将运动命令与预期的环境视觉结果耦合，学习环境依赖的动作表示。在多个操作数据集上，EDAR表示提升了策略学习的样本效率和泛化能力。相关工作强调了动作语义的场景依赖性，为构建更鲁棒的机器人系统提供了基础。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "manipulation skills for humanoid robots",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.12894v1",
+      "source": "arxiv",
+      "title": "Hy-Embodied-VLM-1.0: Efficient Physical-World Agents",
+      "abstract": "Building capable embodied agents requires not only multimodal perception and understanding, but also agentic capabilities for reasoning about actions, adapting to evolving situations, and interacting with the physical world. In this report, we introduce Hy-Embodied-VLM-1.0, an efficient and powerful embodied foundation model specifically designed for embodied agents operating in the physical world. To cultivate such capabilities from the pre-training stage onward, we define an action-centric capability taxonomy comprising three progressive dimensions: Action-Relevant State Understanding, Action-Transition Reasoning, and Sequential and Adaptive Reasoning. Guided by this taxonomy, we develop a systematic data pipeline and curate data mixtures spanning both pre-training and post-training. To deliver strong physical-world understanding and interaction capabilities while supporting latency-sensitive deployment, we build our model on the Hy3-A3B language backbone and the Hy-ViT2 vision encoder. Its efficient Mixture-of-Experts architecture combines strong model capacity with high inference efficiency. We evaluate Hy-Embodied-VLM-1.0 on a comprehensive suite of 38 benchmarks covering embodied perception, physical-world understanding, and embodied reasoning. The model achieves the best performance among similarly sized models on 19 of the 38 benchmarks and substantially outperforms strong competitors, including Qwen3.6-A3B and Cosmos 3. Compared with the previous-generation Hy-Embodied-0.5 MoT-2B, Hy-Embodied-VLM-1.0 improves average performance by 8.4%. Despite activating only 3B parameters, it achieves performance close to that of the previous-generation model with 32B activated parameters. Beyond static benchmark evaluation, Hy-Embodied-VLM-1.0 also demonstrates strong performance on embodied agentic tasks requiring multi-turn interaction and long-horizon reasoning.",
+      "authors": [
+        "Ziyi Wang",
+        "Xumin Yu",
+        "Yongming Rao",
+        "Yonggen Ling",
+        "Yunheng Li",
+        "Oran Wang",
+        "Mingqi Gao",
+        "Yuchen Zhou",
+        "Yves Liang",
+        "Zuyan Liu",
+        "Yani Zhang",
+        "Rui Huang",
+        "Xiaoran Xu",
+        "Bowen Yuan",
+        "Yifu Yuan",
+        "Xu Tan",
+        "He Zhang",
+        "Yufei Huang",
+        "Shenghao Zhang",
+        "Hongsheng Wu",
+        "Han Hu",
+        "Zhengyou Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-14T15:34:17+00:00",
+      "link": "https://arxiv.org/pdf/2607.12894v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "embodied VLM foundation model",
+      "llm_evidence_cn": "具身VLM基础模型",
+      "llm_evidence": "具身VLM基础模型",
+      "canonical_evidence": "具身VLM基础模型",
+      "llm_tldr_en": "Presents Hy-Embodied-VLM-1.0, an embodied foundation model with action-centric capabilities including state understanding, transition reasoning, and adaptive reasoning.",
+      "llm_tldr_cn": "构建具身智能体需要多模态感知和动作推理能力。本文提出Hy-Embodied-VLM-1.0，定义动作中心能力分类（状态理解、动作转换推理、序列自适应推理），并基于此构建数据流程和预训练混合数据，形成高效具身基础模型。",
+      "llm_tldr": "构建具身智能体需要多模态感知和动作推理能力。本文提出Hy-Embodied-VLM-1.0，定义动作中心能力分类（状态理解、动作转换推理、序列自适应推理），并基于此构建数据流程和预训练混合数据，形成高效具身基础模型。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "embodied artificial intelligence for humanoid robots",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.11690v1",
+      "source": "arxiv",
+      "title": "Requirement-Driven Design of Whole-Body Social Tactile Sensing via Virtual Human-Robot Interaction",
+      "abstract": "Tactile sensing for social-physical human-robot interaction (spHRI) is designed in a hardware-driven manner, where predefined sensor configurations constrain coverage, spatial resolution, and the range of recognizable gestures. We propose a requirement-driven framework that derives sensing requirements, specifically spatial resolution and placement, directly from interaction data. Using a VR-based platform with haptic feedback, we collected high-resolution whole-body contact distributions across multiple social scenarios, from which we identified nine recurring social touch gestures. Eight gestures were selected for controlled data collection with 18 participants, yielding an open-source dataset of 5,520 trials. Analysis of contact distributions and simulated tactile encodings provides quantitative baselines for skin coverage and sensor density on a humanoid robot platform. While demonstrated on a single robot platform, the methodology is designed to be transferable to other robot morphologies, potentially enabling morphology-specific sensing requirements to be derived prior to hardware fabrication.",
+      "authors": [
+        "Dakarai Crowder",
+        "Ruohan Zhang",
+        "Alexis E. Block",
+        "Wenzhen Yuan"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.HC"
+      ],
+      "published": "2026-07-13T15:23:45+00:00",
+      "link": "https://arxiv.org/pdf/2607.11690v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Tactile sensing design for humanoid social interaction",
+      "llm_evidence_cn": "针对人形机器人社交触觉传感的需求驱动设计",
+      "llm_evidence": "针对人形机器人社交触觉传感的需求驱动设计",
+      "canonical_evidence": "针对人形机器人社交触觉传感的需求驱动设计",
+      "llm_tldr_en": "This work proposes a requirement-driven framework for designing whole-body tactile sensing on humanoids based on social touch data from VR interactions.",
+      "llm_tldr_cn": "触觉传感设计通常硬件导向，不够灵活。提出需求驱动框架，利用VR平台收集全身接触分布，识别社交触摸手势，反推传感空间分辨率和放置要求。实验获得开放式数据集并验证了该设计可提高手势识别准确率，但主要关注传感设计而非操控。",
+      "llm_tldr": "触觉传感设计通常硬件导向，不够灵活。提出需求驱动框架，利用VR平台收集全身接触分布，识别社交触摸手势，反推传感空间分辨率和放置要求。实验获得开放式数据集并验证了该设计可提高手势识别准确率，但主要关注传感设计而非操控。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "humanoid",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.13033v1",
+      "source": "arxiv",
+      "title": "DenseReward: Dense Reward Learning via Failure Synthesis for Robotic Manipulation",
+      "abstract": "Reinforcement learning holds great promise for improving robot policies beyond the limits of imitation learning. However, its practical adoption remains bottlenecked by the lack of reliable vision-language reward models that provide dense and informative feedback. Two key challenges remain: acquiring diverse failure data at scale and obtaining fine-grained reward signals beyond sparse trajectory-level success labels. Collecting failure trajectories typically requires laborious human effort, while pseudo-failures constructed by relabeling successful demonstrations fail to capture the diverse physical failure modes that arise during robot execution. Meanwhile, existing reward models often predict sparse binary or trajectory-level rewards, which provide limited guidance for efficient policy optimization. We introduce DenseReward, a dense robotic reward model that addresses both challenges. To train DenseReward, we develop an automated failure data generation pipeline that synthesizes physically realistic failure trajectories in simulation without human labeling, covering diverse failure modes such as collisions, missed grasps, object drops, and recovery behaviors. DenseReward predicts dense frame-level reward scores from visual observations and language instructions, enabling fine-grained estimation of task progress throughout an episode. Experiments show that DenseReward outperforms general-purpose VLMs and existing robotic reward models in dense reward prediction across both simulated and real-world manipulation. We further demonstrate that DenseReward provides effective reward guidance for downstream model predictive control and reinforcement learning. We release the dataset, trained reward models, and evaluation suite to support the development of failure-aware dense reward modeling for robot learning.",
+      "authors": [
+        "Yu Fang",
+        "Wanxi Dong",
+        "Jiaqi Liu",
+        "Yue Yang",
+        "Mingxiao Huo",
+        "Yao Mu",
+        "Huaxiu Yao",
+        "Li Erran Li",
+        "Daniel Szafir",
+        "Mingyu Ding"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-14T17:59:29+00:00",
+      "link": "https://arxiv.org/pdf/2607.13033v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Dense reward learning via failure synthesis for manipulation",
+      "llm_evidence_cn": "通过失败合成学习密集奖励用于机器人操控",
+      "llm_evidence": "通过失败合成学习密集奖励用于机器人操控",
+      "canonical_evidence": "通过失败合成学习密集奖励用于机器人操控",
+      "llm_tldr_en": "DenseReward learns dense vision-language reward models for manipulation by synthesizing diverse failure trajectories, overcoming data scarcity.",
+      "llm_tldr_cn": "机器人强化学习缺乏可靠密集奖励信号。DenseReward通过自动合成包含物理失效模式的失败轨迹，训练视觉语言奖励模型提供逐帧反馈。实验表明该方法在多个操控任务上有效提升强化学习效率和策略鲁棒性，尤其适用于复杂操作场景。",
+      "llm_tldr": "机器人强化学习缺乏可靠密集奖励信号。DenseReward通过自动合成包含物理失效模式的失败轨迹，训练视觉语言奖励模型提供逐帧反馈。实验表明该方法在多个操控任务上有效提升强化学习效率和策略鲁棒性，尤其适用于复杂操作场景。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "action generation in robotics using language models",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.12181v1",
+      "source": "arxiv",
+      "title": "Analysis of Mutual and Referential Human and Robot Gazes in a Collaborative Word Association Game",
+      "abstract": "Robot gaze is a major component of human-robot dialogue coordination. Most studies of gaze in human-robot dialogue focus on face-to-face social conversations, but little is known about gaze in demanding task-focused interactions. In this paper, we investigate how the gaze of a robot game partner affects human visual attention and if humans tend to direct confirmation-seeking gazes towards the robot. In our study, we let participants play a collaborative word association game with a NAO robot acting as an embodied, LLM-driven conversational partner. Our experiments are conducted under two conditions, which implement mutual and referential gazes of the robot respectively. We record participants' gaze using eye tracking glasses and analyze the interactions using gaze coordinates, speech segments, key events and areas of interests. We find that robot gaze orientation does not affect the time to first fixation on words the robot proposed. We also find that participants gaze more often at the robot when their dialogue line contains confirmation requests, compared to when it does not. Our results indicate (likely also due to the cognitively demanding nature of the game) that the verbal aspect of this task overshadows the effects of referential robot gaze. These findings offer valuable insights for designing and validating robot gaze and turn-taking behavior in collaborative tasks which require coordination and efficient communication.",
+      "authors": [
+        "Jens V. Rüppel",
+        "Tim Schreiter",
+        "Andrey Rudenko",
+        "Achim J. Lilienthal"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.HC"
+      ],
+      "published": "2026-07-13T22:00:47+00:00",
+      "link": "https://arxiv.org/pdf/2607.12181v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "human-robot gaze analysis using NAO humanoid robot in collaborative task",
+      "llm_evidence_cn": "使用NAO人形机器人在协作任务中分析人与机器人凝视",
+      "llm_evidence": "使用NAO人形机器人在协作任务中分析人与机器人凝视",
+      "canonical_evidence": "使用NAO人形机器人在协作任务中分析人与机器人凝视",
+      "llm_tldr_en": "Examines how robot gaze affects human visual attention in a collaborative word association game with a NAO humanoid robot, revealing confirmation-seeking gaze patterns.",
+      "llm_tldr_cn": "人机协作中机器人凝视对用户注意力的影响研究有限。本文让参与者与NAO机器人进行词语联想游戏，机器人采用互相凝视或参照凝视两种策略。眼睛跟踪数据显示人类倾向于向机器人寻求确认目光。研究为设计更自然的人机交互凝视行为提供了依据。",
+      "llm_tldr": "人机协作中机器人凝视对用户注意力的影响研究有限。本文让参与者与NAO机器人进行词语联想游戏，机器人采用互相凝视或参照凝视两种策略。眼睛跟踪数据显示人类倾向于向机器人寻求确认目光。研究为设计更自然的人机交互凝视行为提供了依据。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "humanoid robot",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.13605v1",
+      "source": "arxiv",
+      "title": "An Empirical Study on Stage-Information Interfaces for VLA Fine-Tuning",
+      "abstract": "One high-level instruction in long-horizon manipulation can cover several action stages. We use segmented action annotations as an intermediate representation between the full-task instruction and VLA action chunks. A progress module tracks the active stage, while the action policy receives stage information either as current-stage text or as a normalized ordinal stage index in robot state. We compare these interfaces with GR00T N1.6 on LIBERO-10 under direct fine-tuning and continuation fine-tuning from a full-task instruction baseline. Under direct fine-tuning, full-task instruction, current-stage text, and Ordinal Stage-State achieve mean success rates of 57.45%, 50.24%, and 54.36%, respectively, showing that explicit stage information does not automatically improve the policy. Under continuation, the corresponding means are 49.07%, 50.00%, and 53.75%, with Ordinal Stage-State exceeding both alternatives in all three paired runs. The observed benefit differs across interface representations and training arrangements.",
+      "authors": [
+        "Yingwei Ji"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-15T08:53:30+00:00",
+      "link": "https://arxiv.org/pdf/2607.13605v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "VLA fine-tuning with stage information for manipulation",
+      "llm_evidence_cn": "VLA微调中使用阶段信息进行操纵",
+      "llm_evidence": "VLA微调中使用阶段信息进行操纵",
+      "canonical_evidence": "VLA微调中使用阶段信息进行操纵",
+      "llm_tldr_en": "Empirically studies stage-information interfaces for VLA fine-tuning in long-horizon manipulation, comparing current-stage text and ordinal stage index on LIBERO-10.",
+      "llm_tldr_cn": "针对长程操纵任务中单条高级指令覆盖多个动作阶段的问题，该论文研究了VLA微调时的阶段信息接口。利用分段动作注释作为中间表示，通过进度模块跟踪当前阶段，并将阶段信息以文本或数值索引形式输入策略。在LIBERO-10基准上的实验显示，显式阶段信息并未自动提升成功率，但为VLA策略设计提供了重要启示。",
+      "llm_tldr": "针对长程操纵任务中单条高级指令覆盖多个动作阶段的问题，该论文研究了VLA微调时的阶段信息接口。利用分段动作注释作为中间表示，通过进度模块跟踪当前阶段，并将阶段信息以文本或数值索引形式输入策略。在LIBERO-10基准上的实验显示，显式阶段信息并未自动提升成功率，但为VLA策略设计提供了重要启示。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "manipulation skills for humanoid robots",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.12680v1",
+      "source": "arxiv",
+      "title": "ReflectVLN: Training Vision-Language Navigation Agents with Reflective Reasoning",
+      "abstract": "Existing vision-language navigation methods often couple a VLM with waypoint decoders to produce multi-step action plans, but they typically lack an explicit closed-loop mechanism for tracking semantic progress, diagnosing execution failures, and recovering from error accumulation in long-horizon navigation. To address this gap, we propose ReflectVLN, an agentic VLN framework that organizes decision-making through bidirectionally interactive intention and execution agents. The intention agent performs subtask decomposition and reflection, generating executable subtask descriptions as corrective plans. Conditioned on these descriptions, the execution agent grounds them into short-horizon actions under current observations while monitoring sub-goal progress and detecting off-track behavior. Crucially, ReflectVLN enables closed-loop bidirectional communication: the execution agent emits progress and deviation signals to trigger reflection and subtask updates on demand, and the intention agent returns structured guidance that reconditions subsequent actions for recovery. To encourage temporally coherent decisions with interpretable intermediate rationales, we introduce Action Chain-of-Thought (Action-CoT), a path-conditioned dual-query training scheme for action generation. Experiments on standard VLN benchmarks show that ReflectVLN improves success rates and path efficiency under a constrained data budget, with favorable training cost and fewer high-level intention calls at inference time, while providing interpretable intermediate decisions for analysis and collaboration. Code is available at: https://github.com/AIprogrammer/ReflectVLN",
+      "authors": [
+        "Jiahang Wang",
+        "Yirong Yang",
+        "Yanqing Zhu",
+        "Minghua Luo",
+        "Shichao Xie",
+        "Fei Liu",
+        "Mu Xu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-14T12:09:33+00:00",
+      "link": "https://arxiv.org/pdf/2607.12680v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Vision-language navigation with reflective reasoning using VLMs",
+      "llm_evidence_cn": "使用VLM进行反思推理的视觉语言导航",
+      "llm_evidence": "使用VLM进行反思推理的视觉语言导航",
+      "canonical_evidence": "使用VLM进行反思推理的视觉语言导航",
+      "llm_tldr_en": "Proposes ReflectVLN, an agentic framework with bidirectionally interactive intention and execution agents for closed-loop navigation, enabling subtask decomposition and error recovery.",
+      "llm_tldr_cn": "针对视觉语言导航中缺乏闭环语义跟踪和错误恢复机制的问题，本文提出ReflectVLN。该框架包含双向交互的意图代理和执行代理：意图代理进行子任务分解与反思，生成修正计划；执行代理将计划转为短期动作并监测进度。实验表明该方法能有效减少长程导航中的错误积累。",
+      "llm_tldr": "针对视觉语言导航中缺乏闭环语义跟踪和错误恢复机制的问题，本文提出ReflectVLN。该框架包含双向交互的意图代理和执行代理：意图代理进行子任务分解与反思，生成修正计划；执行代理将计划转为短期动作并监测进度。实验表明该方法能有效减少长程导航中的错误积累。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "action generation in robotics using language models",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.14852v1",
+      "source": "arxiv",
+      "title": "Towards Human-like Physical Intelligence: LifelongVision-Language-Action Learning for Robotic Manipulation",
+      "abstract": "Similar to the natural capabilities of humans to sequentially learn new tasks, robots with Vision-Language-Action (VLA) models should possess lifelong learning ability to learn a new task when deployed in open-world environments. However, most recently proposed lifelong learning models aim to effectively learn the current task (plasticity) or maintain high accuracy on previous tasks (stability), while the plasticity-stability trade-off remains largely unsolved in robotic manipulation models. To address this fundamental challenge, we propose a cache-efficient lifelong Vision-Language-Action learning framework for robotic manipulation (i.e., LifelongVLA), which alleviates the plasticity-stability trade-off with a dual-timescale adaptation mechanism while achieving low-cost robotic deployment with a cache-efficient replay strategy. More concretely, we propose a dual-timescale LoRA gating module to decompose VLA adaptation into two lightweight pathways: a short-term adapter for plasticity and a long-term adapter for stable consolidation. These pathways are integrated via a task-aware gate, enabling explicit control of the plasticity-stability trade-off. In the skill replay phase, a cache-efficient stochastic replay strategy is proposed to preserve more balanced retention signals without full-trajectory storage. Finally, experiments show that LifelongVLA outperforms existing baselines, demonstrating efficient skill expansion, robust retention of learned manipulation behaviors, and reduced reliance on retraining for real-world deployment on an xArm robot.",
+      "authors": [
+        "Yao He",
+        "Gan Sun",
+        "Wenqi Liang",
+        "Fazeng Li",
+        "Yang Cong"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-16T11:22:06+00:00",
+      "link": "https://arxiv.org/pdf/2607.14852v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Lifelong VLA learning for robotic manipulation",
+      "llm_evidence_cn": "机器人操作的终身VLA学习",
+      "llm_evidence": "机器人操作的终身VLA学习",
+      "canonical_evidence": "机器人操作的终身VLA学习",
+      "llm_tldr_en": "Proposes LifelongVLA, a cache-efficient framework that alleviates plasticity-stability trade-off in VLA models for robotic manipulation, enabling sequential task learning.",
+      "llm_tldr_cn": "现有VLA模型缺乏终身学习能力，在部署新任务时面临塑性-稳定性权衡。本文提出LifelongVLA框架，利用双缓存机制有效缓解这一矛盾，在多个操作任务序列中保持高性能。该方法为VLA模型的持续学习提供了实用方案。",
+      "llm_tldr": "现有VLA模型缺乏终身学习能力，在部署新任务时面临塑性-稳定性权衡。本文提出LifelongVLA框架，利用双缓存机制有效缓解这一矛盾，在多个操作任务序列中保持高性能。该方法为VLA模型的持续学习提供了实用方案。",
+      "llm_tags": [
+        "query:vla-humanoid:composite"
+      ],
+      "matched_query_tag": "query:vla-humanoid:composite",
+      "matched_query_text": "Papers central to VLA，Humanoid，WAM, especially work that connects or combines: w; vision language action model for humanoid robots; humanoid robot control and manipulation; embodied artificial intelligence for humanoid robots; action generation in robotics using language models; manipulation skills for humanoid robots; how do vision language action models improve humanoid robot manipulation; task planning for humanoid robots using language models.",
+      "matched_requirement_id": "req-composite-vla-humanoid",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.14919v1",
+      "source": "arxiv",
+      "title": "Human-Robot Interaction in GenAI Architectures via the Agent-Client Protocol",
+      "abstract": "Recent advances in Generative Artificial Intelligence (GenAI), particularly Large Language Models (LLMs), are driving robotic architectures toward agent-based high-level orchestration, in which natural-language instructions can be translated into context-aware action sequences. While the integration of these agents and robotic capabilities is increasingly converging toward standardization through the Model Context Protocol (MCP), the upper Human-Robot Interaction (HRI) layer remains fragmented by proprietary, ad hoc interfaces that hinder real-time human-in-the-loop collaboration.   To address this fragmentation, this paper proposes the adoption of the Agent-Client Protocol (ACP) -- a communication standard originally introduced for coding agents in software engineering -- as a unified communication contract for the HRI layer in agent-based robotic systems. By combining ACP at the interface-agent link and MCP at the agent-execution link, we formulate a fully decoupled three-layer architecture that separates human interaction, deliberative orchestration, and physical execution. This topology removes rigid architectural dependencies, enabling heterogeneous user interfaces to connect to the same robotic system and allowing the underlying robotic platform to be replaced without requiring client-specific integration changes. Moreover, it provides native support for collaborative HRI capabilities such as real-time observability, explicit human authorization, and immediate task interruption. We experimentally evaluate the proposed architecture on a physical mobile robot, demonstrating interoperability across three heterogeneous user interfaces and validating real-time human-in-the-loop workflows with negligible latency overhead.",
+      "authors": [
+        "Jesus Moncada-Ramirez",
+        "Jose-Raul Ruiz-Sarmiento",
+        "Javier Gonzalez-Jimenez"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-16T12:38:48+00:00",
+      "link": "https://arxiv.org/pdf/2607.14919v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "LLM-based robot orchestration",
+      "llm_evidence_cn": "基于LLM的机器人编排",
+      "llm_evidence": "基于LLM的机器人编排",
+      "canonical_evidence": "基于LLM的机器人编排",
+      "llm_tldr_en": "Proposes Agent-Client Protocol (ACP) to standardize human-robot interaction in GenAI architectures, enabling real-time collaboration via natural language instructions.",
+      "llm_tldr_cn": "当前GenAI机器人架构中，高层编排趋于标准化，但人机交互层仍碎片化。本文提出采用Agent-Client Protocol（ACP）作为标准通信协议，实现自然语言指令到上下文感知动作序列的实时转换，促进人类在环协作。",
+      "llm_tldr": "当前GenAI机器人架构中，高层编排趋于标准化，但人机交互层仍碎片化。本文提出采用Agent-Client Protocol（ACP）作为标准通信协议，实现自然语言指令到上下文感知动作序列的实时转换，促进人类在环协作。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "embodied artificial intelligence for humanoid robots",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
