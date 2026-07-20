@@ -1,0 +1,577 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-20T20:55:15.830705+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 2,
+    "deep_divecandidates": 6,
+    "deep_cap": 7,
+    "deep_selected": 6,
+    "quick_candidates": 6,
+    "quick_skim_target": 12,
+    "quick_selected": 6
+  },
+  "deep_dive": [
+    {
+      "id": "2607.14852v1",
+      "source": "arxiv",
+      "title": "Towards Human-like Physical Intelligence: LifelongVision-Language-Action Learning for Robotic Manipulation",
+      "abstract": "Similar to the natural capabilities of humans to sequentially learn new tasks, robots with Vision-Language-Action (VLA) models should possess lifelong learning ability to learn a new task when deployed in open-world environments. However, most recently proposed lifelong learning models aim to effectively learn the current task (plasticity) or maintain high accuracy on previous tasks (stability), while the plasticity-stability trade-off remains largely unsolved in robotic manipulation models. To address this fundamental challenge, we propose a cache-efficient lifelong Vision-Language-Action learning framework for robotic manipulation (i.e., LifelongVLA), which alleviates the plasticity-stability trade-off with a dual-timescale adaptation mechanism while achieving low-cost robotic deployment with a cache-efficient replay strategy. More concretely, we propose a dual-timescale LoRA gating module to decompose VLA adaptation into two lightweight pathways: a short-term adapter for plasticity and a long-term adapter for stable consolidation. These pathways are integrated via a task-aware gate, enabling explicit control of the plasticity-stability trade-off. In the skill replay phase, a cache-efficient stochastic replay strategy is proposed to preserve more balanced retention signals without full-trajectory storage. Finally, experiments show that LifelongVLA outperforms existing baselines, demonstrating efficient skill expansion, robust retention of learned manipulation behaviors, and reduced reliance on retraining for real-world deployment on an xArm robot.",
+      "authors": [
+        "Yao He",
+        "Gan Sun",
+        "Wenqi Liang",
+        "Fazeng Li",
+        "Yang Cong"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-16T11:22:06+00:00",
+      "link": "https://arxiv.org/pdf/2607.14852v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "lifelong vision-language-action learning for robotic manipulation",
+      "llm_evidence_cn": "面向机器人操作的终身视觉-语言-动作学习",
+      "llm_evidence": "面向机器人操作的终身视觉-语言-动作学习",
+      "canonical_evidence": "面向机器人操作的终身视觉-语言-动作学习",
+      "llm_tldr_en": "A lifelong vision-language-action learning framework with a dual-memory architecture to address the plasticity-stability trade-off in robotic manipulation.",
+      "llm_tldr_cn": "针对机器人操作中VLA模型在终身学习中面临的塑性-稳定性权衡问题，本文提出LifelongVLA，一种缓存高效的终身VLA学习框架。该框架采用双存储器架构，分别处理当前任务学习（塑性）和先前任务保持（稳定性）。实验表明该方法在多个连续任务上有效缓解了灾难性遗忘，同时保持对新任务的快速适应。该工作为机器人持续操作学习提供了可行方案。",
+      "llm_tldr": "针对机器人操作中VLA模型在终身学习中面临的塑性-稳定性权衡问题，本文提出LifelongVLA，一种缓存高效的终身VLA学习框架。该框架采用双存储器架构，分别处理当前任务学习（塑性）和先前任务保持（稳定性）。实验表明该方法在多个连续任务上有效缓解了灾难性遗忘，同时保持对新任务的快速适应。该工作为机器人持续操作学习提供了可行方案。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "vision language action model for humanoid robots",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.15579v1",
+      "source": "arxiv",
+      "title": "PACE: Persona Adaptation through Conversational Elicitation in Human-Robot Interaction",
+      "abstract": "Equipping humanoid robots with coherent and adaptable personas is crucial for fostering natural, engaging, and trustworthy human-robot interaction (HRI). However, existing approaches often rely on static, hard-coded identities that lack the flexibility to adapt to individual user contexts. In this paper, we present PACE (Persona Adaptation through Conversational Elicitation), a novel framework for the interactive generation and deployment of structured personas on the Ameca humanoid robot. Our system introduces an Interactive Persona Elicitation Pipeline, enabling the robot to dynamically synthesize a tailored, psychologically grounded identity through user Q&A. This elicitation process feeds into a persona prompt compilation phase, generating a structured persona prompt built upon multi-perspective dimensions. We detail the Embodied System Integration required to translate this structured specification into expressive, multimodal humanoid behaviors. Through a comprehensive empirical HRI evaluation, we assess the impact of dynamically generated personas on user trust, perceived anthropomorphism, persona consistency, personal relevance, and interaction quality compared to a generic baseline. These contributions establish a scalable pathway for deploying personalized, interactive, and reliable identities in embodied humanoid assistants. Video demo is available at: https://lipzh5.github.io/PACE/",
+      "authors": [
+        "Peizhen Li",
+        "Longbing Cao",
+        "Megani Rajendran",
+        "Timothy Liu",
+        "Aik Beng Ng",
+        "Simon See"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.HC"
+      ],
+      "published": "2026-07-17T02:45:52+00:00",
+      "link": "https://arxiv.org/pdf/2607.15579v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "persona adaptation on the Ameca humanoid robot",
+      "llm_evidence_cn": "在Ameca人形机器人上的角色适应",
+      "llm_evidence": "在Ameca人形机器人上的角色适应",
+      "canonical_evidence": "在Ameca人形机器人上的角色适应",
+      "llm_tldr_en": "PACE framework generates structured personas on a humanoid robot through conversational elicitation, enabling dynamic synthesis of psychologically grounded identities for natural HRI.",
+      "llm_tldr_cn": "现有方法通常为人类机器人配备静态硬编码身份，缺乏灵活性。本文提出PACE框架，通过对话式引导在人形机器人Ameca上交互式生成结构化角色。系统通过用户问答动态合成基于心理学的身份，并编译为角色提示，实现自然、吸引人且可信的人机交互。",
+      "llm_tldr": "现有方法通常为人类机器人配备静态硬编码身份，缺乏灵活性。本文提出PACE框架，通过对话式引导在人形机器人Ameca上交互式生成结构化角色。系统通过用户问答动态合成基于心理学的身份，并编译为角色提示，实现自然、吸引人且可信的人机交互。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "humanoid robot",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.16187v1",
+      "source": "arxiv",
+      "title": "Handroid: Bridging Dexterous Hand and Humanoid",
+      "abstract": "Dexterous hands and humanoid robots are typically developed as distinct embodiments: the former enable contact-rich manipulation at the object scale, whereas the latter provide mobility and whole-body interaction in human-centered environments. We introduce \\textbf{Handroid}, a desktop-scale dual-embodiment robot that integrates both capabilities within a single reconfigurable platform. Handroid reuses one 27-DoF electromechanical body as either a dexterous hand or a desktop humanoid, measuring 0.33 m in height and 2.05 kg in weight. In the dexterous hand embodiment, 20 DoFs form an anthropomorphic hand closely matching the kinematic structure of the human hand. In the humanoid embodiment, the same articulated modules are reconfigured into a humanoid with a head, arms, and legs, including a 12-DoF lower-limb structure for locomotion and whole-body motion. Handroid further provides a unified control and learning framework supporting hand teleoperation, dexterous grasping, in-hand manipulation, humanoid locomotion, gait generation, and interactive motion authoring. We validate the platform through real-world dexterous manipulation, reinforcement-learning-based locomotion, keyframe motion deployment, and a long-horizon task involving embodiment reconfiguration, locomotion, docking, and dexterous pick-and-place. These results position Handroid as a compact and reproducible platform for advancing morphology-reconfigurable robotics and cross-embodiment robot learning.",
+      "authors": [
+        "Ruogu Li",
+        "Chenyang Ma",
+        "Sikai Li",
+        "Zhenyu Wei",
+        "Yunchao Yao",
+        "Haochen Shi",
+        "C. Karen Liu",
+        "Shuran Song",
+        "Mingyu Ding"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-17T17:59:05+00:00",
+      "link": "https://arxiv.org/pdf/2607.16187v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "dual-embodiment robot that functions as both dexterous hand and desktop humanoid",
+      "llm_evidence_cn": "双形态机器人，可同时作为灵巧手和桌面人形机器人",
+      "llm_evidence": "双形态机器人，可同时作为灵巧手和桌面人形机器人",
+      "canonical_evidence": "双形态机器人，可同时作为灵巧手和桌面人形机器人",
+      "llm_tldr_en": "Introduces Handroid, a desktop-scale reconfigurable robot that can serve as either a dexterous hand or a humanoid, bridging the two embodiments.",
+      "llm_tldr_cn": "灵巧手与人形机器人通常作为不同形态分开发展，前者擅长精细操作，后者提供移动与全身交互。本文提出Handroid，一种桌面级双形态机器人，通过重新配置同一个27自由度机电体，可分别充当灵巧手或桌面人形机器人。灵巧手形态下20个自由度假肢模拟人手；人形形态下重构为带有头、臂和腿的人形。该平台为研究从操作到交互的统一控制提供了独特硬件。",
+      "llm_tldr": "灵巧手与人形机器人通常作为不同形态分开发展，前者擅长精细操作，后者提供移动与全身交互。本文提出Handroid，一种桌面级双形态机器人，通过重新配置同一个27自由度机电体，可分别充当灵巧手或桌面人形机器人。灵巧手形态下20个自由度假肢模拟人手；人形形态下重构为带有头、臂和腿的人形。该平台为研究从操作到交互的统一控制提供了独特硬件。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "humanoid robot",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.11643v1",
+      "source": "arxiv",
+      "title": "Xiaomi-Robotics-U0: Unified Embodied Synthesis with World Foundation Model",
+      "abstract": "Recent foundation image and video generation models offer strong generalization and controllability, but their direct application to embodied scenarios is limited by requirements for multi-view consistency, geometric coherence, and robot embodiment constraints. Existing methods typically adapt foundation models with limited robot data, often sacrificing visual knowledge acquired during large-scale pre-training. We present Xiaomi-Robotics-U0, a 38-billion-parameter multimodal autoregressive model for unified embodied synthesis. It treats embodied generation as an extension of foundation image and video generation and jointly optimizes text-to-image generation, image editing, embodied scene generation, embodied transfer, and embodied video generation. This unified framework preserves the generalization of the pre-trained world foundation model while adapting it to embodied settings. Xiaomi-Robotics-U0 is the first model to support high-quality multi-view scene generation across multiple robot embodiments and to introduce structured, controllable embodied transfer for fine-grained editing while preserving multi-view consistency and interaction dynamics. It achieves state-of-the-art results on single-step and sequential generation tasks, outperforming GPT-Image-2.0 in human evaluations of embodied scene generation and transfer, ranking first on World Arena for embodied video generation, and improving the out-of-distribution success rate of pi_0.5 from 36.9% to 63.2% on challenging real-world manipulation tasks. These results show that foundation world models can serve both as embodied world models and scalable data engines for embodied intelligence. Code and checkpoints are available at https://robotics.xiaomi.com/xiaomi-robotics-u0.html.",
+      "authors": [
+        "Xinghang Li",
+        "Jun Guo",
+        "Qiwei Li",
+        "Long Qian",
+        "Hang Lai",
+        "Yueze Wang",
+        "Hongyu Yan",
+        "Jiahang Cao",
+        "Xi Chen",
+        "Jingen Qu",
+        "Jiaxi Song",
+        "Nan Sun",
+        "Hanye Zhao",
+        "Futeng Liu",
+        "Wanli Peng",
+        "Heyun Wang",
+        "Yunhong Wang",
+        "Caoyu Xia",
+        "Jack Zhao",
+        "Diyun Xiang",
+        "Hangjun Ye",
+        "Heng Qu",
+        "Huaping Liu",
+        "Jason Li"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-07-13T14:57:58+00:00",
+      "link": "https://arxiv.org/pdf/2607.11643v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "unified embodied synthesis with world foundation model",
+      "llm_evidence_cn": "统一具身合成与世界基础模型",
+      "llm_evidence": "统一具身合成与世界基础模型",
+      "canonical_evidence": "统一具身合成与世界基础模型",
+      "llm_tldr_en": "Xiaomi-Robotics-U0 is a 38B multimodal autoregressive model for unified embodied synthesis, treating generation as extension of image/video foundation models, achieving multi-view consistent and robot-constrained outputs.",
+      "llm_tldr_cn": "现有图像/视频生成模型在具身场景中面临多视图一致性和机器人约束等限制。本文提出Xiaomi-Robotics-U0，一个380亿参数的多模态自回归模型，将具身生成视为基础图像/视频生成的扩展。它联合优化文本到图像生成、图像编辑、具身场景生成、具身迁移和具身视频生成，实现了符合机器人约束的高质量生成。",
+      "llm_tldr": "现有图像/视频生成模型在具身场景中面临多视图一致性和机器人约束等限制。本文提出Xiaomi-Robotics-U0，一个380亿参数的多模态自回归模型，将具身生成视为基础图像/视频生成的扩展。它联合优化文本到图像生成、图像编辑、具身场景生成、具身迁移和具身视频生成，实现了符合机器人约束的高质量生成。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.15330v1",
+      "source": "arxiv",
+      "title": "Xiaomi-Robotics-1: Scaling Vision-Language-Action Models with over 100K Hours of Real-World Trajectories",
+      "abstract": "We present Xiaomi-Robotics-1, a foundational vision-language-action (VLA) model capable of (1) following diverse language instructions to perform a wide range of mobile manipulation tasks in unseen environments out-of-the-box, and (2) efficiently adapting to novel downstream tasks with minimal fine-tuning data. We propose a two-stage training recipe consisting of pre-training and post-training. During pre-training, we imbue the model with broad and generalizable action-generation capabilities by training on over 100k hours of real-world manipulation trajectories collected via UMI devices. Crucially, we develop a scalable auto-labeling pipeline that annotates trajectory clips with natural languages describing scene state transitions, providing rich and precise conditioning for action learning. During post-training, we aim to align these capabilities with robot embodiments and imperative instructions that humans naturally use to prompt robots. Extensive experiments demonstrate strong scaling behavior. Xiaomi-Robotics-1 consistently improves with increased data scales and model sizes during pre-training. This scaling behavior directly transfers to post-training, where a stronger pre-training model yields better out-of-the-box real-robot performance in unseen environments. Furthermore, Xiaomi-Robotics-1 serves as a strong robot foundation policy that can be efficiently fine-tuned on complex, dexterous tasks with high data efficiency. Across multiple simulation benchmarks, Xiaomi-Robotics-1 outperforms state-of-the-art methods. Notably, it establishes a new state-of-the-art with a 57.6% success rate on RoboCasa365, surpassing the previous best of 46.6%. Furthermore, it achieves an average score of 20.07 on RoboDojo, significantly outperforming the prior state-of-the-art (13.07). Code and model checkpoints will be released. Project page: https://robotics.xiaomi.com/xiaomi-robotics-1.html",
+      "authors": [
+        "Xiaomi Robotics Team",
+        "Jun Guo",
+        "Piaopiao Jin",
+        "Jason Li",
+        "Peiyan Li",
+        "Yingyan Li",
+        "Futeng Liu",
+        "Wanli Peng",
+        "Optimus Qin",
+        "Yifei Su",
+        "Nan Sun",
+        "Qiao Sun",
+        "Runze Suo",
+        "Heyun Wang",
+        "Yunhong Wang",
+        "Rujie Wu",
+        "Caoyu Xia",
+        "Lina Zhang",
+        "Jack Zhao",
+        "Guoliang Chen",
+        "Wenlong Chen",
+        "Xinze He",
+        "Bin Li",
+        "Qing Li",
+        "Zhuorong Li",
+        "Heng Qu",
+        "Wenxuan Song",
+        "Diyun Xiang",
+        "Yifan Xie",
+        "Peiran Xu",
+        "Hangjun Ye",
+        "Wen Ye",
+        "Han Zhao",
+        "Quanyun Zhou"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-07-16T16:02:25+00:00",
+      "link": "https://arxiv.org/pdf/2607.15330v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "foundational VLA model scaled with 100k hours of real-world trajectories",
+      "llm_evidence_cn": "利用10万小时真实轨迹扩展的基础VLA模型",
+      "llm_evidence": "利用10万小时真实轨迹扩展的基础VLA模型",
+      "canonical_evidence": "利用10万小时真实轨迹扩展的基础VLA模型",
+      "llm_tldr_en": "Presents a foundational VLA model trained on 100k+ hours of real-world manipulation trajectories, enabling generalizable instruction-following and efficient fine-tuning.",
+      "llm_tldr_cn": "提出Xiaomi-Robotics-1，一个基础视觉-语言-行动（VLA）模型。通过两阶段训练（预训练和后训练），利用超过10万小时的真实世界操作轨迹，使模型能够遵循多种语言指令在未知环境中执行移动操作任务，并高效适应新任务。开发了可扩展的自动标注流程，用自然语言注释轨迹。该工作展示了大规模VLA模型的潜力。",
+      "llm_tldr": "提出Xiaomi-Robotics-1，一个基础视觉-语言-行动（VLA）模型。通过两阶段训练（预训练和后训练），利用超过10万小时的真实世界操作轨迹，使模型能够遵循多种语言指令在未知环境中执行移动操作任务，并高效适应新任务。开发了可扩展的自动标注流程，用自然语言注释轨迹。该工作展示了大规模VLA模型的潜力。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "vision language action model for humanoid robots",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.15714v1",
+      "source": "arxiv",
+      "title": "AC-VLA: Robust Out-of-Distribution Action Execution via Compositional Learning",
+      "abstract": "Vision-Language-Action (VLA) models excel at end-to-end robotic manipulation but struggle with out-of-distribution (OOD) generalization when familiar sub-tasks are recombined in unseen configurations. We identify two mutually reinforcing failure modes: \\emph{trajectory overfitting}, where models overfit to holistic trajectory patterns rather than compositional sub-skill semantics; and \\emph{perceptual shortcut}, where action tokens over-rely on wrist-view textures at the expense of global spatial grounding. To address both, we introduce \\textbf{AC-VLA}, a plug-and-play Action Compositional learning framework comprising two architecture-agnostic components: \\textbf{(i)} a compositional learning module that uses an LLM-driven instruction decomposer and a proprioceptive trajectory aligner to generate dense sub-task supervision, followed by mixed training on complete demonstrations and decomposed data to endow the model with compositional generalization; and \\textbf{(ii)} a state-conditioned asymmetric masking strategy that suppresses wrist-view inputs during closed-gripper phases, enforcing global semantic grounding. All components are architectural modification-free and directly integrable into any VLA backbone. Instantiated on $π_{0.5}$ and evaluated on LIBERO and LIBERO-OOD benchmarks, AC-VLA achieves a ~28% absolute improvement on compositional OOD tasks while maintaining near-perfect in-distribution performance.",
+      "authors": [
+        "Xiaojiang Peng",
+        "Kai Peng",
+        "Jie Lu",
+        "Zheng Lian",
+        "Zitong YU",
+        "Xiaobo Wang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-17T07:51:03+00:00",
+      "link": "https://arxiv.org/pdf/2607.15714v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "VLA model with compositional learning for OOD generalization",
+      "llm_evidence_cn": "面向分布外泛化的组合学习VLA模型",
+      "llm_evidence": "面向分布外泛化的组合学习VLA模型",
+      "canonical_evidence": "面向分布外泛化的组合学习VLA模型",
+      "llm_tldr_en": "AC-VLA addresses OOD generalization in VLA models by decomposing instructions and mitigating perceptual shortcuts, improving robustness.",
+      "llm_tldr_cn": "视觉-语言-行动（VLA）模型在子任务重新组合时面临分布外泛化问题。该论文分析出轨迹过拟合和感知捷径两种失败模式，提出AC-VLA框架，通过LLM驱动指令分解和全局空间对齐等组合学习模块，增强VLA对未见组合的泛化能力。实验证明AC-VLA在多种OOD场景下显著提升操作鲁棒性，是一种即插即用的有效方案。",
+      "llm_tldr": "视觉-语言-行动（VLA）模型在子任务重新组合时面临分布外泛化问题。该论文分析出轨迹过拟合和感知捷径两种失败模式，提出AC-VLA框架，通过LLM驱动指令分解和全局空间对齐等组合学习模块，增强VLA对未见组合的泛化能力。实验证明AC-VLA在多种OOD场景下显著提升操作鲁棒性，是一种即插即用的有效方案。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "vision language action model for humanoid robots",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.14252v1",
+      "source": "arxiv",
+      "title": "MEMORA: Embodied Action Memory from Egocentric Videos for Reasoning and Planning",
+      "abstract": "Long-horizon robot planning requires more than predicting what actions will do next; it also requires memory of the embodied experience that makes future goals interpretable. People do not plan from the present scene alone: they draw on remembered places, object-state changes, prior procedures, and regularities revealed through repeated action. We formulate Embodied Action Memory (EAM) as the capability to form, maintain, and use such experience as a persistent memory state for later decisions. MEMORA realizes EAM with a formation-consolidation-retrieval lifecycle and four typed stores: Environment Memory, Entity Memory, Activity Memory, and Inferred Knowledge. Online editing maintains object identities and state histories as new observations arrive; offline consolidation abstracts repeated experience into reusable procedures and participant-specific regularities. MEMORA-Bench evaluates this lifecycle on 45 hours of EPIC-KITCHENS-100 extension video across 18 participants through memory-grounded planning, including previously unseen goals, and a complementary memory-assessment task. Across four open-weight language models, full MEMORA--combining editing, typed stores, and consolidation--achieves the strongest aggregate results among the evaluated memory conditions. It improves memory-assessment accuracy by up to 20.5 points over the strongest controlled baseline and improves out-of-distribution Robot-Grounded Plan score by up to 16.6% relative. A qualitative two-task robot deployment study further illustrates how memory-grounded language plans can interface with downstream control, while the overall results show that editable, consolidated memory can supply remembered context for robot planning. Project page: https://yuzihaowashu.github.io/MEMORA/",
+      "authors": [
+        "Zihao Yu",
+        "Xiu Yuan",
+        "Chongjie Zhang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-07-15T18:12:28+00:00",
+      "link": "https://arxiv.org/pdf/2607.14252v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "embodied action memory for long-horizon planning",
+      "llm_evidence_cn": "用于长时程规划的具身动作记忆",
+      "llm_evidence": "用于长时程规划的具身动作记忆",
+      "canonical_evidence": "用于长时程规划的具身动作记忆",
+      "llm_tldr_en": "A framework that forms, maintains, and uses embodied action memory from egocentric videos for long-horizon robot planning and reasoning.",
+      "llm_tldr_cn": "针对机器人长时程规划需要超越当前场景的记忆问题，本文提出具身动作记忆(EAM)概念，并实现MEMORA系统。该系统通过形成-巩固-检索生命周期，维护环境、实体、活动及推理知识四种记忆存储。在线编辑维护对象身份和状态历史。实验表明MEMORA能有效利用过往经验提升规划性能。该工作为机器人长期自主决策提供了新的记忆机制。",
+      "llm_tldr": "针对机器人长时程规划需要超越当前场景的记忆问题，本文提出具身动作记忆(EAM)概念，并实现MEMORA系统。该系统通过形成-巩固-检索生命周期，维护环境、实体、活动及推理知识四种记忆存储。在线编辑维护对象身份和状态历史。实验表明MEMORA能有效利用过往经验提升规划性能。该工作为机器人长期自主决策提供了新的记忆机制。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.14675v1",
+      "source": "arxiv",
+      "title": "An Intelligent-Cloud Edge Multimodal Interaction System for Robots",
+      "abstract": "Robust human-robot interaction in complex environments requires accurate gesture perception, semantic scene understanding, and reliable task planning under limited onboard computing resources. This paper presents a cloud-edge multimodal interaction framework that integrates an enhanced YOLO-based gesture detector with coordinated large language model (LLM) and vision-language model (VLM) agents. The proposed detector, incorporates the Convolutional Block Attention Module (CBAM) into the neck and replaces the baseline bounding-box regression objective with Distance-IoU (DIoU) loss. These modifications improve feature discrimination and localization for small or partially occluded gestures in complex backgrounds. The cloud layer performs gesture detection, scene understanding, multimodal fusion, and action planning, whereas the TonyPi robot locally handles data acquisition, communication, action execution, and feedback. Experiments on a public gesture dataset and a custom dataset show that YOLO-DC achieves precision values of 98.9% and 95.0%, with mAP@0.5 values of 90.7% and 92.7%, respectively. System-level evaluation yields success rates of 95%, 88%, and 82% for single-action, composite-action, and vision-dependent tasks. A 30 participant evaluation yields an overall mean satisfaction score of 3.69 out of 5. These results demonstrate the feasibility of combining refined gesture detection with multimodal agents for resource-constrained robotic interaction.",
+      "authors": [
+        "Zihan Guo",
+        "Xiaoqi Li"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-07-16T07:39:18+00:00",
+      "link": "https://arxiv.org/pdf/2607.14675v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "cloud-edge system with LLM/VLM agents for task planning",
+      "llm_evidence_cn": "使用LLM/VLM智能体的云边系统用于任务规划",
+      "llm_evidence": "使用LLM/VLM智能体的云边系统用于任务规划",
+      "canonical_evidence": "使用LLM/VLM智能体的云边系统用于任务规划",
+      "llm_tldr_en": "Proposes a cloud-edge multimodal framework combining enhanced gesture detection with LLM/VLM agents for task planning in human-robot interaction.",
+      "llm_tldr_cn": "针对机器人复杂环境交互中计算资源有限的问题，提出云边多模态交互框架。集成改进的YOLO手势检测器（加入CBAM和使用DIoU损失）以及LLM/VLM智能体进行语义理解和任务规划。云层负责手势检测和场景理解，边缘层执行本地响应。该框架提升了人机交互的鲁棒性和任务规划能力。",
+      "llm_tldr": "针对机器人复杂环境交互中计算资源有限的问题，提出云边多模态交互框架。集成改进的YOLO手势检测器（加入CBAM和使用DIoU损失）以及LLM/VLM智能体进行语义理解和任务规划。云层负责手势检测和场景理解，边缘层执行本地响应。该框架提升了人机交互的鲁棒性和任务规划能力。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "task planning for humanoid robots using language models",
+      "matched_requirement_id": "req-12",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.15701v1",
+      "source": "arxiv",
+      "title": "RAVEN: Reinforcement-Adaptive Visibility-Graph Planning for Robust Humanoid Navigation with Collision-Free MPC",
+      "abstract": "Humanoid navigation in dynamic environments requires long-horizon planning while respecting short-horizon dynamic and safety constraints. Classical visibility-graph planners combined with model predictive control (MPC) can efficiently generate collision-free trajectories, but their performance depends on manually tuned parameters and accurate system modeling. In real robotic systems, control delays, state-estimation noise, and locomotion uncertainties can cause overshoot and constraint violations even when the nominal path is geometrically optimal. We propose RAVEN, a hierarchical reinforcement learning (RL)-MPC framework for robust humanoid navigation. Unlike prior approaches that use learning to tune cost weights or replace planning entirely, RAVEN employs RL to adapt the geometric construction of a visibility-graph planner by modifying obstacle inflation and related graph parameters. By directly reshaping the free-space geometry, the learned planner alters the topology of the global path to compensate for delay and tracking imperfections. A collision-free MPC layer then tracks the planned trajectory while explicitly enforcing velocity bounds and obstacle-avoidance constraints. By training under realistic delays and observation noise, RAVEN learns planning adaptations that improve robustness while retaining explicit long-horizon geometric planning and constrained optimization, in contrast to end-to-end learning approaches. We evaluate RAVEN against a manually tuned visibility-graph MPC baseline and a pure RL navigation policy. Results demonstrate reduced overshoot near obstacles, improved robustness in narrow passages, and more reliable navigation under delay and noise. These findings indicate that reinforcement-adaptive graph construction combined with constrained MPC provides an effective and interpretable alternative to end-to-end learning for robust humanoid navigation.",
+      "authors": [
+        "Ruochen Hou",
+        "Shiqi Wang",
+        "Beom Jun Kim",
+        "Hanzhang Fang",
+        "Mehak Singal",
+        "Dennis W. Hong"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-17T07:23:54+00:00",
+      "link": "https://arxiv.org/pdf/2607.15701v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "reinforcement learning based navigation planning for humanoid robots",
+      "llm_evidence_cn": "基于强化学习的导航规划用于人形机器人",
+      "llm_evidence": "基于强化学习的导航规划用于人形机器人",
+      "canonical_evidence": "基于强化学习的导航规划用于人形机器人",
+      "llm_tldr_en": "RAVEN proposes a hierarchical RL-MPC framework for robust humanoid navigation in dynamic environments with collision-free trajectories.",
+      "llm_tldr_cn": "人形机器人在动态环境中导航需兼顾长程规划和短时安全约束。本文提出RAVEN框架，结合强化学习和模型预测控制，实现自适应参数调优和碰撞避免。实验证明该方法在多种场景下鲁棒性显著优于传统方法。",
+      "llm_tldr": "人形机器人在动态环境中导航需兼顾长程规划和短时安全约束。本文提出RAVEN框架，结合强化学习和模型预测控制，实现自适应参数调优和碰撞避免。实验证明该方法在多种场景下鲁棒性显著优于传统方法。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "humanoid robot",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.15674v1",
+      "source": "arxiv",
+      "title": "A Generative Partially Specified Finite State Machine Approach to Complex Behaviour Planning",
+      "abstract": "Autonomous robots operating in dynamic environments require behaviour planning systems that combine reactivity, interpretability, and adaptability. While Large Language Models have been successfully integrated with Behaviour Trees for dynamic replanning, Finite State Machines, despite their widespread adoption and computational efficiency, remain unexplored for generative approaches. We propose a Generative Partially Specified Finite State Machine (GPSFSM) neurosymbolic architecture that utilises the symbolic and semantic structure of FSMs, including states and event-triggered transitions, to implement Behaviour Planning. This paper introduces the first GPSFSM framework for robotics, featuring Fabric, an FSM engine that parses, validates, and executes behaviour plans that contain Sequential, Recovery, Parallel-Any, and Parallel-All control structures. We extend the Capabilities2 package in ROS2 with an asynchronous event system for behaviour chaining and runtime parameter injection for configurable execution, addressing the ad-hoc function representations that limit current generative systems. PromptTools provides a unified ROS 2 interface to local and cloud LLMs, with prompt buffering, enabling dynamic asynchronous composition of task and context information. Together, these components enable standardised semantic capability descriptions for robot-agnostic development. Experimental evaluation on navigation tasks demonstrates that our GPSFSM approach achieves consistently higher plan-generation success rates than the state-of-the-art BTGenBot system, particularly excelling in zero-shot scenarios where BTs typically struggle, while maintaining comparable or lower planning latency to frontier LLMs. We also demonstrate that our system can generate complex behaviours. We release an open-source ROS2 stack that makes generative FSM planning practical and reproducible for robotic systems.",
+      "authors": [
+        "Kalana Ratnayake",
+        "Michael Pritchard",
+        "David Hinwood",
+        "Maleen Jayasuriya",
+        "Damith Herath"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-17T06:33:31+00:00",
+      "link": "https://arxiv.org/pdf/2607.15674v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "behaviour planning using language models for robots",
+      "llm_evidence_cn": "利用语言模型进行机器人行为规划",
+      "llm_evidence": "利用语言模型进行机器人行为规划",
+      "canonical_evidence": "利用语言模型进行机器人行为规划",
+      "llm_tldr_en": "Proposes a generative FSM architecture that leverages LLMs for complex behaviour planning in robots, balancing reactivity and adaptability.",
+      "llm_tldr_cn": "为解决机器人行为规划中反应性、可解释性与适应性的平衡问题，提出生成式部分指定有限状态机（GPSFSM）神经符号架构，利用大语言模型的符号与语义结构动态生成状态与转移，在复杂环境中实现了灵活高效的行为规划。",
+      "llm_tldr": "为解决机器人行为规划中反应性、可解释性与适应性的平衡问题，提出生成式部分指定有限状态机（GPSFSM）神经符号架构，利用大语言模型的符号与语义结构动态生成状态与转移，在复杂环境中实现了灵活高效的行为规划。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "task planning for humanoid robots using language models",
+      "matched_requirement_id": "req-12",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.16074v1",
+      "source": "arxiv",
+      "title": "JoyNexus: Service-Oriented Multi-Tenant Post-Training for VLA Models",
+      "abstract": "The post-training of Vision-Language-Action (VLA) models is essential due to the diversity of simulators, robot embodiments, and task objectives. Existing compute services, whether offered as direct accelerator rental or batch-workload submission, typically allocate an exclusive set of GPU and CPU resources to a single tenant. While this paradigm maximizes client flexibility, it burdens users with infrastructure adaptation, and the fixed card-hour accounting model renders short or bursty workloads both expensive for tenants and inefficient for the service provider. To address these challenges, we present JoyNexus, a unified service for multi-tenant VLA supervised fine-tuning, reinforcement learning, and evaluation. JoyNexus decouples the Training Model Service, Inference Model Service, and Environment Service, each accessed through APIs and backed by resident shared base models with tenant-specific slots. Tenants can directly invoke high-level semantic APIs for training, rollout, and evaluation, or compose custom algorithms using lower-level APIs and their assigned endpoints. Multiple tenants submit workloads concurrently; their action modules, optimizers, rollout records, and policy versions remain isolated, and the service is scheduled by the global Training Queue and Inference Queue. To further improve multi-tenant training efficiency, JoyNexus introduces group batching for heterogeneous VLA data schemas that share a compatible model-facing prefix, enabling a single shared backbone forward pass over grouped samples. Finally, we evaluate JoyNexus through workload simulation and a group-batching pipeline in a realistic embodied scenario. Results show that, compared with isolated single-tenant execution, JoyNexus reduces aggregate GPU time and improves service utilization via cross-tenant scheduling on shared resources.",
+      "authors": [
+        "Haoran Sun",
+        "Wentao Zhang",
+        "Junyang Hua",
+        "Hedan Yang",
+        "Yongjian Guo",
+        "Yifei Zhang",
+        "Xiaolong Xiang",
+        "Mingxi Luo",
+        "Jing Long",
+        "Chen Zhao",
+        "Chen Zhou",
+        "Wanting Xu",
+        "Qiming Yang",
+        "Hui Zhang",
+        "Song Wang",
+        "Xiaodong Bai",
+        "Shuai Di",
+        "Xu Chu",
+        "Xiaotie Deng",
+        "Yicheng Gong",
+        "Junwu Xiong"
+      ],
+      "primary_category": "cs.DC",
+      "categories": [
+        "cs.DC",
+        "cs.AI",
+        "cs.SE"
+      ],
+      "published": "2026-07-17T15:58:20+00:00",
+      "link": "https://arxiv.org/pdf/2607.16074v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "multi-tenant post-training service for VLA models",
+      "llm_evidence_cn": "面向VLA模型的多租户后训练服务",
+      "llm_evidence": "面向VLA模型的多租户后训练服务",
+      "canonical_evidence": "面向VLA模型的多租户后训练服务",
+      "llm_tldr_en": "Presents JoyNexus, a unified service for multi-tenant VLA supervised fine-tuning, RL, and evaluation, decoupling training model serving from compute resources.",
+      "llm_tldr_cn": "VLA模型的后训练因仿真器、机器人形态和任务目标的多样性而不可或缺，但现有计算服务在多租户场景下存在资源浪费和适配负担。本文提出JoyNexus，一个统一的多租户VLA后训练服务，支持监督微调、强化学习和评估。它解耦训练模型服务与计算资源，通过服务化方式提高效率。实验表明JoyNexus能够有效支持多种VLA后训练任务并降低租户成本。",
+      "llm_tldr": "VLA模型的后训练因仿真器、机器人形态和任务目标的多样性而不可或缺，但现有计算服务在多租户场景下存在资源浪费和适配负担。本文提出JoyNexus，一个统一的多租户VLA后训练服务，支持监督微调、强化学习和评估。它解耦训练模型服务与计算资源，通过服务化方式提高效率。实验表明JoyNexus能够有效支持多种VLA后训练任务并降低租户成本。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "vision language action model for humanoid robots",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.15890v1",
+      "source": "arxiv",
+      "title": "Exo2EgoPose: Leveraging Exocentric Demonstrations for Vision-Language guided Egocentric 3D Hand Pose Forecasting",
+      "abstract": "Perceiving multimodal cues and forecasting fine-grained actions from an egocentric (Ego) perspective is vital for applications like robot manipulation. However, previous studies either rely mainly on under-informed visual inputs to predict coarse human motions or follow the VRM/VLA paradigm, which suffers from insufficient robot data and the gap between human and robot embodiments. We observe that 3D hand pose naturally serves as a unified representation to bridge human-robot actions. Hence, we investigate an under-explored Vision-Language guided Egocentric 3D Hand Pose Forecasting (VL-EHPF) task, which aims to predict future Ego 3D hand poses from visual observations, a language instruction, and pose states. To overcome the limited field-of-view and highly dynamic motions in the Ego view, we propose a framework dubbed Exo2EgoPose, which innovatively leverages holistic and stable exocentric (Exo) demonstrations as guidance to compensate for partial and dynamic Ego-view cues. Specifically, we introduce a Dual-level Exocentric Reconstruction Module (DERM), which incorporates the paired Exo videos as supervision to reconstruct their video-level and chunked frame-level representations, thereby modeling spatial contexts and temporal dynamics. Then, the Global-to-Local Modulation Module (GLMM) utilizes the reconstructed hierarchical Exo representations for progressive feature refinement via attention mechanisms and adaptive modulation, enabling comprehensive Exo guidance for accurate Ego hand pose forecasting. Extensive experiments on \\textit{AssemblyHands}, \\textit{Ego-Exo4D}, and our newly constructed \\textit{EgoMe-pose} benchmarks show the superiority of our method, which outperforms state-of-the-art methods by a large margin. Moreover, it demonstrates an effective human-to-robot transfer capability and yields improvements on the \\textit{CALVIN} dataset. Code will be released.",
+      "authors": [
+        "Zhaofeng Shi",
+        "Heqian Qiu",
+        "Lanxiao Wang",
+        "Xiang Li",
+        "Hongliang Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-17T12:05:07+00:00",
+      "link": "https://arxiv.org/pdf/2607.15890v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "vision-language guided egocentric hand pose forecasting for robot manipulation",
+      "llm_evidence_cn": "视觉语言引导的自我中心手部姿态预测用于机器人操作",
+      "llm_evidence": "视觉语言引导的自我中心手部姿态预测用于机器人操作",
+      "canonical_evidence": "视觉语言引导的自我中心手部姿态预测用于机器人操作",
+      "llm_tldr_en": "Exo2EgoPose proposes a vision-language guided egocentric hand pose forecasting method that bridges human-robot action via 3D hand pose, relevant to improving humanoid robot manipulation through language models.",
+      "llm_tldr_cn": "针对机器人操作中现有方法依赖粗略视觉预测或数据不足的问题，本文提出Exo2EgoPose，利用外部演示进行视觉语言引导的自我中心3D手部姿态预测。该方法以3D手部姿态作为统一表示桥接人-机动作。实验表明其有效预测未来手部姿态，为提升人形机器人灵巧操作提供新思路。",
+      "llm_tldr": "针对机器人操作中现有方法依赖粗略视觉预测或数据不足的问题，本文提出Exo2EgoPose，利用外部演示进行视觉语言引导的自我中心3D手部姿态预测。该方法以3D手部姿态作为统一表示桥接人-机动作。实验表明其有效预测未来手部姿态，为提升人形机器人灵巧操作提供新思路。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "how do vision language action models improve humanoid robot manipulation",
+      "matched_requirement_id": "req-11",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
