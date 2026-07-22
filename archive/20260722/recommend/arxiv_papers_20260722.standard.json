@@ -1,0 +1,512 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-22T21:25:06.428034+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 2,
+    "deep_divecandidates": 8,
+    "deep_cap": 7,
+    "deep_selected": 7,
+    "quick_candidates": 4,
+    "quick_skim_target": 12,
+    "quick_selected": 4
+  },
+  "deep_dive": [
+    {
+      "id": "2607.18715v1",
+      "source": "arxiv",
+      "title": "DWM: Separating World Effects from Actions in Latent World Models",
+      "abstract": "Latent world models underpin much of modern model-based control, yet current action-conditioned formulations supervise   the next-latent transition with a single, undifferentiated target, forcing a monolithic learning signal to absorb every   source of state change. In real world, however, transitions arise from two heterogeneous sources: an action-driven   component induced by the agent, and an action-invariant world effect -- the change that would still occur under a null   action, dictated by the environment's intrinsic dynamics (e.g., gravity-driven sliding, inertia, contact rebound, and   persistent drift). Fusing them into a single target entangles the two inside the latent transition, prevents the model   from attributing observed changes to their underlying causes, and undermines the transferability of the learned   dynamics. We introduce DWM (Decomposed World Model), a supervision-level framework that operationalizes this   decomposition. DWM augments the predictor of a latent world model with an auxiliary world head, regularized by a   normalized world-contrastive objective to be action-invariant, while the original pred head is coupled to it via an   orthogonality constraint; together, the two signals induce an explicit additive decomposition of the predicted   transition into an action-invariant and a complementary action-driven component, without altering the underlying   architecture or inference pipeline. To evaluate DWM under persistent world effects, we construct W-variants of three   standard control benchmarks -- PushT-W, Reacher-W, and TwoRoom-W -- each instantiating a distinct action-invariant   dynamic. DWM matches strong baselines on the flat counterparts and delivers a mean absolute improvement of 13.1% in CEM   planning success across the W-variants.",
+      "authors": [
+        "Yi-Ge Zhang",
+        "Tianqi Du",
+        "Qi Zhang",
+        "Yisen Wang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-21T05:13:26+00:00",
+      "link": "https://arxiv.org/pdf/2607.18715v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:human-aigc"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "world action model separation",
+      "llm_evidence_cn": "世界动作模型分离",
+      "llm_evidence": "世界动作模型分离",
+      "canonical_evidence": "世界动作模型分离",
+      "llm_tldr_en": "DWM separates action-driven and world-effect components in latent world models, improving credit attribution and model-based control.",
+      "llm_tldr_cn": "当前潜在世界模型将动作驱动和环境固有变化合并为一个学习信号，导致归因模糊。本文提出DWM，显式分离动作效应和世界效应（如重力、惯性），使模型能正确归因状态变化。在多个控制环境中验证了其提升模型预测和规划质量。",
+      "llm_tldr": "当前潜在世界模型将动作驱动和环境固有变化合并为一个学习信号，导致归因模糊。本文提出DWM，显式分离动作效应和世界效应（如重力、惯性），使模型能正确归因状态变化。在多个控制环境中验证了其提升模型预测和规划质量。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.18840v1",
+      "source": "arxiv",
+      "title": "WorldScape Policy 2.0: Empowering Steerable World Action Modeling with Reasoning-Augmented Memory",
+      "abstract": "World Action Models (WAMs) offer a promising paradigm for robotic manipulation by jointly modeling visual state transitions and robot actions. However, existing WAMs are constrained by limited temporal context, coarse episode-level language supervision, and predominantly text-only conditioning, which hinder task-progress tracking and fine-grained language-video-action grounding while limiting visual-context reasoning and cross-embodiment transfer. In this paper, we introduce WorldScape Policy 2.0, a controllable WAM with reasoning-augmented long short-term memory. Its causal short-term visual memory supplies recent observations as DiT prefill to preserve local interaction dynamics, while its long short-term event memory organizes historical VLM outputs into global-history, local-active, and event-boundary representations for progress-aware retrieval. The retrieved history augments perception and autoregressively generated planning tokens, yielding an implicit subgoal condition for autonomous planning; semantic forcing further transfers event-level instruction semantics into this latent planning pathway. To establish fine-grained multimodal controllability, we construct ManipEvent-5M, an event-grounded embodied pretraining dataset containing nearly 5 million event segments with aligned action trajectories, episode-level task instructions, segment-level subtask captions, goal images, and video demonstrations. These designs provide a unified interface for autonomous planning from high-level instructions and controllable execution from fine-grained text, goal-image, or video-context prompts. Experiments in both simulation and real-world platforms demonstrate superior capabilities in long-horizon autonomous planning, fine-grained instruction following and in-context adaptation.",
+      "authors": [
+        "Haisheng Su",
+        "Zongdai Liu",
+        "Xin Jin",
+        "Haoxuan Dou",
+        "Chengming Hu",
+        "Baorun Li",
+        "Zhanwang Liu",
+        "Ruiyan Xu",
+        "Jianjie Fang",
+        "Xin Zhang",
+        "Zhenjie Yang",
+        "Xue Yang",
+        "Chen Gao",
+        "Junchi Yan",
+        "Yong Li",
+        "Wei Wu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-21T08:25:37+00:00",
+      "link": "https://arxiv.org/pdf/2607.18840v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "World Action Model with steerable reasoning-augmented memory",
+      "llm_evidence_cn": "世界动作模型，具有可操纵的增强推理记忆",
+      "llm_evidence": "世界动作模型，具有可操纵的增强推理记忆",
+      "canonical_evidence": "世界动作模型，具有可操纵的增强推理记忆",
+      "llm_tldr_en": "WorldScape Policy 2.0 enhances WAMs with reasoning-augmented long short-term memory for steerable world action modeling.",
+      "llm_tldr_cn": "现有世界动作模型（WAM）受限于有限时间上下文和粗粒度语言监督，难以跟踪任务进度和进行细粒度语言-视频-动作对齐。WorldScape Policy 2.0通过引入增强推理的长短期记忆架构，利用因果短期视觉记忆保持局部交互动态，并组织长期事件记忆实现跨阶段推理。实验表明，该方法在多个机器人操作基准上显著提升了任务完成率和泛化能力，实现了可控的世界动作建模。",
+      "llm_tldr": "现有世界动作模型（WAM）受限于有限时间上下文和粗粒度语言监督，难以跟踪任务进度和进行细粒度语言-视频-动作对齐。WorldScape Policy 2.0通过引入增强推理的长短期记忆架构，利用因果短期视觉记忆保持局部交互动态，并组织长期事件记忆实现跨阶段推理。实验表明，该方法在多个机器人操作基准上显著提升了任务完成率和泛化能力，实现了可控的世界动作建模。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.18709v1",
+      "source": "arxiv",
+      "title": "RoboInter1.5: A Holistic Intermediate Representation Suite for Embodied World Modeling and Robotic Manipulation",
+      "abstract": "Existing robot datasets remain expensive to curate, embodiment-specific, and insufficiently annotated with the fine-grained structure required for generalizable reasoning, execution, or long-horizon environment dynamics simulation. Building on our prior work, RoboInter1.0, we present RoboInter1.5, an extended and holistic suite of intermediate representations for both robotic manipulation and embodied world modeling. RoboInter1.5 provides a unified resource of data, benchmarks, and models centered on dense manipulation-oriented intermediate representations. Specifically, RoboInter-Data contains over 230k manipulation episodes across 571 scenes with dense per-frame annotations covering more than ten types of intermediate representations, including subtasks, primitive skills, object and gripper grounding, segmentation, affordance, grasp poses, contact points, motion traces, etc. Built upon these annotations, RoboInter-VQA introduces spatial and temporal embodied VQA tasks to benchmark and improve the intermediate-representation reasoning capabilities of our RoboInter-VLM. RoboInter-VLA further studies how such representations benefit action execution through implicit, explicit, and modular plan-then-execute paradigms. To better model the physical world, we further introduce RoboInter-World, which leverages intermediate representations as structured conditioning signals for controllable prediction of future world states. Extensive evaluations demonstrate that RoboInter1.5 provides a unified spatiotemporal scaffolding for intermediate representations. Rather than treating intermediate representations merely as interpretable signals, RoboInter1.5 conceptualizes them as a bidirectional interface that both regularizes low-level action spaces and constrains the latent rollouts of open-world physical simulators.",
+      "authors": [
+        "Ziqin Wang",
+        "Hao Li",
+        "Weijun Wang",
+        "Junhao Cai",
+        "Jia Zeng",
+        "Yilun Chen",
+        "Jiangmiao Pang",
+        "Si Liu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-21T05:05:01+00:00",
+      "link": "https://arxiv.org/pdf/2607.18709v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "intermediate representations for embodied world modeling and robotic manipulation",
+      "llm_evidence_cn": "具身世界建模与机器人操作的中间表示套件",
+      "llm_evidence": "具身世界建模与机器人操作的中间表示套件",
+      "canonical_evidence": "具身世界建模与机器人操作的中间表示套件",
+      "llm_tldr_en": "RoboInter1.5 provides a holistic suite of dense manipulation-oriented intermediate representations with over 230k episodes across 571 scenes, enabling generalizable reasoning, execution, and long-horizon environment dynamics simulation.",
+      "llm_tldr_cn": "现有机器人数据集昂贵、具身特定且缺乏细粒度标注，限制了通用推理与执行。RoboInter1.5扩展了中间表示套件，包含超过23万个操作片段、571个场景和十多种密集标注类型，为具身世界建模和机器人操作提供了统一的数据、基准和模型资源。",
+      "llm_tldr": "现有机器人数据集昂贵、具身特定且缺乏细粒度标注，限制了通用推理与执行。RoboInter1.5扩展了中间表示套件，包含超过23万个操作片段、571个场景和十多种密集标注类型，为具身世界建模和机器人操作提供了统一的数据、基准和模型资源。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.18362v1",
+      "source": "arxiv",
+      "title": "FARO: Feasibility-Aware Robot Motion Optimization",
+      "abstract": "Fast planning of novel behaviors in unseen scenarios remains a fundamental challenge in robotics. The high-dimensional, hybrid, and underactuated nature of humanoid loco-manipulation continues to hinder the realization of this goal. In this paper, we address this challenge by proposing a nested kino-dynamic framework for rapid feasibility checking and dynamically consistent trajectory generation given a candidate contact sequence. By integrating this module with a feasibility-guided tree search and a Large Language Model (LLM)-based contact plan sampling strategy, we demonstrate that the proposed framework can substantially improve the search process. Furthermore, we show that the generated trajectories can be tracked using a reinforcement learning (RL)-based controller and show that the resulting trajectories are of sufficiently high quality for execution in real-world loco-manipulation scenarios. A supplementary video is available at: https://youtu.be/R6qCHoCormQ.",
+      "authors": [
+        "Michal Ciebielski",
+        "Shafeef Omar",
+        "Aaron Johnson",
+        "Majid Khadiv"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-20T14:22:41+00:00",
+      "link": "https://arxiv.org/pdf/2607.18362v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "humanoid loco-manipulation motion optimization using LLM-based contact planning",
+      "llm_evidence_cn": "使用基于大语言模型接触规划的人形机器人全身操作运动优化",
+      "llm_evidence": "使用基于大语言模型接触规划的人形机器人全身操作运动优化",
+      "canonical_evidence": "使用基于大语言模型接触规划的人形机器人全身操作运动优化",
+      "llm_tldr_en": "Proposes FARO framework integrating kino-dynamic feasibility checking, tree search, and LLM-based contact plan sampling for humanoid loco-manipulation motion planning.",
+      "llm_tldr_cn": "该论文针对人形机器人全身操作规划的高维、混合和欠驱动挑战，提出FARO框架。该框架嵌套运动动力学可行性检查，结合基于大语言模型(LLM)的接触序列采样和树搜索优化。在全尺寸人形机器人仿真中，该方法生成了可跟踪的运动轨迹。贡献在于将LLM用于接触规划，提升了人形机器人复杂操作规划效率。",
+      "llm_tldr": "该论文针对人形机器人全身操作规划的高维、混合和欠驱动挑战，提出FARO框架。该框架嵌套运动动力学可行性检查，结合基于大语言模型(LLM)的接触序列采样和树搜索优化。在全尺寸人形机器人仿真中，该方法生成了可跟踪的运动轨迹。贡献在于将LLM用于接触规划，提升了人形机器人复杂操作规划效率。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "humanoid robot control and manipulation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.19190v1",
+      "source": "arxiv",
+      "title": "Agentic Real2Sim: Physics-based World Modeling with Vision-Language Agents",
+      "abstract": "Real-to-sim conversion for robotic interaction with objects remains labor-intensive because it requires more than visual reconstruction: a streamlined real2sim process must recover scene geometries and object states, infer physical parameters, and assemble actors, objects, cameras, poses, and trajectories into a runnable physical simulation. Today this process still depends on manual tuning of visual foundation models, mesh cleanup, coordinate-frame alignment, and brittle workflow glue across visual perception tools and simulators. We introduce \\textit{Agentic Real2Sim}, a framework for generalized physical world modeling with vision-language agents, converting a real-world recording of object-robot interaction into a simulatable episodic twin which preserves observations, geometries, robot interactions, and object states. We evaluate Agentic Real2Sim on rigid-object manipulation, deformable-object interaction, and humanoid motion scenes, spanning domains that are usually handled by separate Real2Sim pipelines, marking a first step toward scalable conversion. The framework's agentic decisions can be driven by an open-weight VLM backend at a small fraction of the cost of frontier models, while attaining comparable conversion success rate. We aim to use the resulting real-world-aligned twins for downstream robotics tasks, specifically policy learning and evaluation. The project site is available at https://ericchen321.github.io/agentic_real2sim.github.io/.",
+      "authors": [
+        "Guanxiong Chen",
+        "Qianjun Xia",
+        "Jiawei Peng",
+        "Heng Zhang",
+        "Bole Ma",
+        "Justin Qian",
+        "Ziyi Jiao",
+        "Bingyang Zhou",
+        "Luoxin Ye",
+        "Kaifeng Zhang",
+        "Kunyi Wang",
+        "Weijia Zeng",
+        "Yunuo Chen",
+        "Pengzhi Yang",
+        "Ziqiu Zeng",
+        "Huamin Wang",
+        "Chao Liu",
+        "Alan Yuille",
+        "Fan Shi",
+        "Changxi Zheng",
+        "Yunzhu Li",
+        "Chenfanfu Jiang",
+        "Peter Yichen Chen"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-07-21T15:23:38+00:00",
+      "link": "https://arxiv.org/pdf/2607.19190v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "physical world modeling with vision-language agents",
+      "llm_evidence_cn": "基于视觉语言智能体的物理世界建模",
+      "llm_evidence": "基于视觉语言智能体的物理世界建模",
+      "canonical_evidence": "基于视觉语言智能体的物理世界建模",
+      "llm_tldr_en": "Agentic Real2Sim uses vision-language agents to automate real-to-sim conversion for physical world modeling.",
+      "llm_tldr_cn": "该论文针对真实到仿真（Real2Sim）转换过程劳动密集的问题，提出Agentic Real2Sim框架，利用视觉语言智能体自动化恢复场景几何、物体状态、物理参数等，并组装为可运行的物理仿真。系统通过语言指令协调多个视觉工具，无需手动调参。实验证明该方法能高效生成逼真的交互仿真环境，为世界模型学习提供支持。",
+      "llm_tldr": "该论文针对真实到仿真（Real2Sim）转换过程劳动密集的问题，提出Agentic Real2Sim框架，利用视觉语言智能体自动化恢复场景几何、物体状态、物理参数等，并组装为可运行的物理仿真。系统通过语言指令协调多个视觉工具，无需手动调参。实验证明该方法能高效生成逼真的交互仿真环境，为世界模型学习提供支持。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.18580v1",
+      "source": "arxiv",
+      "title": "STeP: Signal Temporal Logic for Precise Specifications for Action Generation with Vision Language Models",
+      "abstract": "Vision-language-action (VLA) models have shown impressive generalization, but often lack interpretability and can struggle to follow precise natural language instructions that encode spatial, temporal, and logical requirements. We propose a hierarchical framework that uses Signal Temporal Logic (STL) as a shared representation connecting high-level language understanding with low-level robot execution. A high-level policy leverages a VLM to decompose language instructions into high-level subtasks, generate STL specifications for each subtask, and choose a low-level policy for executing each subtask. The STL specifications translate language-derived intent into precise constraints, and the low-level policy selection determines whether those constraints are enforced directly through STL-guided model-predictive control or monitored during execution of a learned policy for perceptually complex, or contact-rich behaviors. By integrating STL into plan validation, low-level policy, subtask monitoring, and replanning, our framework enables language-derived plans to be checked, optimized, and revised at runtime using a common formal structure. We evaluate the approach on a real-world tabletop domain, demonstrating how formal specifications can improve the precision, reliability, and interpretability of language-conditioned robot planning.",
+      "authors": [
+        "Kasra Torshizi",
+        "Anukriti Singh",
+        "Sidharth Mathur",
+        "Khuzema Habib",
+        "Leo Du",
+        "Pratap Tokekar"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-20T23:26:32+00:00",
+      "link": "https://arxiv.org/pdf/2607.18580v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "action generation with VLMs using Signal Temporal Logic for precise specifications",
+      "llm_evidence_cn": "使用信号时序逻辑进行精确规范的动作生成与视觉语言模型",
+      "llm_evidence": "使用信号时序逻辑进行精确规范的动作生成与视觉语言模型",
+      "canonical_evidence": "使用信号时序逻辑进行精确规范的动作生成与视觉语言模型",
+      "llm_tldr_en": "Proposes STeP framework that uses STL to connect language understanding with robot execution, enabling VLA models to follow precise temporal and spatial constraints.",
+      "llm_tldr_cn": "该论文针对VLA模型难以遵循精确时空逻辑指令的问题，提出STeP分层框架。高层策略使用VLM将语言指令分解为子任务并生成信号时序逻辑(STL)规范，低层策略执行。STL规范将语言意图转化为精确约束。实验表明该方法在需要精确约束的操作任务上优于纯VLM方法。贡献在于提升了VLA模型的指令遵循能力和可解释性。",
+      "llm_tldr": "该论文针对VLA模型难以遵循精确时空逻辑指令的问题，提出STeP分层框架。高层策略使用VLM将语言指令分解为子任务并生成信号时序逻辑(STL)规范，低层策略执行。STL规范将语言意图转化为精确约束。实验表明该方法在需要精确约束的操作任务上优于纯VLM方法。贡献在于提升了VLA模型的指令遵循能力和可解释性。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "action generation in robotics using language models",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.18737v1",
+      "source": "arxiv",
+      "title": "Motion Primitive Discovery in a Humanoid Robot via Self-Organising Maps for Phase Recognition",
+      "abstract": "Understanding the computational basis of action recognition is a central challenge in social cognition as well as in human-robot interaction. Inspired by the Mirror Neuron System (MNS), we propose a two-level architecture for motor primitive discovery and online phase recognition applied to the NICO humanoid robot. At the first level, two Self-Organising Maps (SOMs) learn topographic representations of arm kinematics (A-SOM) and hand kinematics (H-SOM) from simulated trials covering seven motor actions. The maps are trained on non-redundant features identified through hierarchical correlation analysis of motion trajectories. The results show that the two SOMs encode complementary aspects of motor behaviour. At the second level, an Echo State Network (ESN) evaluates whether temporal trajectories of SOM activations, represented by consecutive best-matching units, are sufficient for online recognition of the currently executed movement phase. The results show that SOM-based trajectories preserve the dominant phase-discriminative structure of the movement, while contextual information provides only a secondary refinement. Our contribution is the integration of established SOM and ESN methods within an MNS-inspired architecture for motor primitive representation and online phase recognition. The results are compatible with the computational hypothesis that self-organised motor representations, when temporally integrated, can support accurate online recognition of ongoing movement phases.",
+      "authors": [
+        "Radovan Gregor",
+        "Igor Farkaš"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-21T05:53:29+00:00",
+      "link": "https://arxiv.org/pdf/2607.18737v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "humanoid robot motor primitive discovery and phase recognition for control",
+      "llm_evidence_cn": "人形机器人运动基元发现和相位识别用于控制",
+      "llm_evidence": "人形机器人运动基元发现和相位识别用于控制",
+      "canonical_evidence": "人形机器人运动基元发现和相位识别用于控制",
+      "llm_tldr_en": "Proposes a two-level architecture using SOMs to discover motor primitives and recognize phases in a humanoid robot, inspired by the mirror neuron system.",
+      "llm_tldr_cn": "该论文受镜像神经元系统启发，提出一种两层架构用于人形机器人运动基元发现和在线相位识别。第一层使用自组织映射(SOM)学习手臂和手部运动学表征；第二层进行相位识别。在NICO人形机器人模拟实验中，该方法成功编码了七种运动动作。贡献在于为人形机器人动作识别和生成提供了启发性计算框架。",
+      "llm_tldr": "该论文受镜像神经元系统启发，提出一种两层架构用于人形机器人运动基元发现和在线相位识别。第一层使用自组织映射(SOM)学习手臂和手部运动学表征；第二层进行相位识别。在NICO人形机器人模拟实验中，该方法成功编码了七种运动动作。贡献在于为人形机器人动作识别和生成提供了启发性计算框架。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "humanoid robot control and manipulation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.18985v1",
+      "source": "arxiv",
+      "title": "Athena-Brain Technical Report: An Efficient Robot Brain for General Intelligence and Embodied Interactio",
+      "abstract": "Large language models (LLMs) have demonstrated remarkable capabilities in language understanding, reasoning, and world knowledge. As embodied agents become increasingly capable, there is a growing demand for compact models that can serve as an on-device brain, preserving the broad general intelligence of LLMs while enabling effective high-level interaction with embodied environments. Existing approaches, however, often prioritize either general-purpose intelligence or specialized embodied capabilities, making it challenging to satisfy both requirements within a single model. We present \\textbf{Athena-Brain-8B}, an 8B LLM designed to serve as an on-device brain for embodied intelligence for embodied intelligence. Through a multi-stage post-training pipeline consisting of General Supervised Fine-Tuning, General Reinforcement Learning, Embodied Expert training, and Model Merge, Athena-Brain-8B maintains strong general capabilities while acquiring strong high-level embodied interaction capabilities and generating concise responses for efficient embodied interaction. Experimental results demonstrate the effectiveness of Athena across both general and embodied evaluations. Compared with the corresponding Qwen3-8B thinking model, Athena-Brain-8B achieves comparable performance on general language and reasoning benchmarks while generating substantially shorter responses. On in-domain embodied benchmarks, Athena-Brain-8B consistently outperforms models of similar scale and surpasses several substantially larger frontier models evaluated zero-shot, demonstrating that compact language models can effectively integrate strong general intelligence with embodied capabilities.",
+      "authors": [
+        "Jialian Li",
+        "Junhong Liu",
+        "Yuchen Cao",
+        "Weiran Guo",
+        "Jiaming Song",
+        "Xutao Wang",
+        "Yi Zhao",
+        "Jiangpin Liu",
+        "Jie Chen"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-07-21T11:19:21+00:00",
+      "link": "https://arxiv.org/pdf/2607.18985v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "embodied AI for humanoid robots",
+      "llm_evidence_cn": "人形机器人的具身智能",
+      "llm_evidence": "人形机器人的具身智能",
+      "canonical_evidence": "人形机器人的具身智能",
+      "llm_tldr_en": "Athena-Brain is an 8B LLM designed as an on-device brain for embodied intelligence, balancing general intelligence and embodied capabilities.",
+      "llm_tldr_cn": "该论文提出了Athena-Brain-8B，一个紧凑的大语言模型，旨在作为人形机器人的机载大脑，兼具通用智能与具身交互能力。现有方法难以同时满足通用智能与具身专业能力，Athena-Brain通过专门的训练策略和架构设计，在保持广泛语言理解的同时，有效支持高层次的具身环境交互。实验显示其在多种具身任务上表现优异。",
+      "llm_tldr": "该论文提出了Athena-Brain-8B，一个紧凑的大语言模型，旨在作为人形机器人的机载大脑，兼具通用智能与具身交互能力。现有方法难以同时满足通用智能与具身专业能力，Athena-Brain通过专门的训练策略和架构设计，在保持广泛语言理解的同时，有效支持高层次的具身环境交互。实验显示其在多种具身任务上表现优异。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "embodied artificial intelligence for humanoid robots",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.16636v1",
+      "source": "arxiv",
+      "title": "PhyAgentOS: A Self-Evolving Operating System for Embodied Agents with Decoupled Cognitive Planning and Physical Execution",
+      "abstract": "Vision-language-action models, world models, and agentic planners each advance physical intelligence, yet their composition lacks a common execution abstraction, shared state, semantic verification, and persistent experience across heterogeneous embodiments. We present PhyAgentOS, a runtime foundation delivering scheduling, verification, memory, benchmarking, and safety as system-level services. Its Session-Centered Runtime treats a session, not an action, as the minimum unit of scheduling, compatibility preflight, supervised execution, evidence collection, and acceptance. To decouple cognition from physical execution, the cognition-physics boundary is a file system: the State-as-a-File protocol materializes cross-layer state as Markdown with YAML, yielding inspectable, versionable records without code dependencies between Agent and Runtime layers. These views form a unified cognitive state space aligning intent, capabilities, environment, execution, and experience. The SessionVerifier distinguishes execution termination from semantic task completion via evidence-grounded verdicts of success, failure, or replan. Verified outcomes are consolidated through epistemic memory into reusable knowledge and corrective lessons, closing a trial-and-error loop without retraining. Benchmarking reuses the deployment session and verification path, so results trace to real execution. Layered safety constrains both policy-driven and agent-driven execution: preflight, action bridges, SafetyGuard, heartbeat monitoring, and target-local constraints. Validation is progressive: games test cognitive planning, simulation adds dynamics and control, real robots add hardware noise, with the cognitive layer held constant. PhyAgentOS is benchmarked on Optimus-67, StarDojo, and DST-Dojo, validated on 19+ simulated and physical embodiments, and gains on LIBERO, Calvin, and RoboCasa365 across multiple VLA models.",
+      "authors": [
+        "Yang Liu",
+        "Weixing Chen",
+        "Xinshuai Song",
+        "Tao Pu",
+        "Siwen Mo",
+        "Yongjie Bai",
+        "Zihao Chen",
+        "Qianran Sun",
+        "Liruo Zhong",
+        "Ying Shen",
+        "Liang Lin"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-18T04:46:53+00:00",
+      "link": "https://arxiv.org/pdf/2607.16636v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "world models, VLA, agentic planners integrated",
+      "llm_evidence_cn": "世界模型、VLA、规划器集成",
+      "llm_evidence": "世界模型、VLA、规划器集成",
+      "canonical_evidence": "世界模型、VLA、规划器集成",
+      "llm_tldr_en": "Presents PhyAgentOS, a runtime OS for embodied agents integrating VLA models, world models, and planners with scheduling, verification, and memory services.",
+      "llm_tldr_cn": "现有VLA模型、世界模型和规划器缺乏统一执行抽象和共享状态。本文提出PhyAgentOS运行时基础，提供调度、验证、记忆、基准测试和安全作为系统服务。采用会话为中心的运行时和状态即文件协议，解耦认知与物理执行。实验证明其支持异构具身智能体的高效组成和持久体验。",
+      "llm_tldr": "现有VLA模型、世界模型和规划器缺乏统一执行抽象和共享状态。本文提出PhyAgentOS运行时基础，提供调度、验证、记忆、基准测试和安全作为系统服务。采用会话为中心的运行时和状态即文件协议，解耦认知与物理执行。实验证明其支持异构具身智能体的高效组成和持久体验。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.16806v1",
+      "source": "arxiv",
+      "title": "Token-Wise Latent Streaming from Slow Reasoners to Fast Planners for Dynamic Vision Language Navigation",
+      "abstract": "Vision-Language Navigation in dynamic, human-centric environments exposes a fundamental tension: linguistic reasoning is slow and deliberative, whereas safe, socially compliant planning should be instant and reactive. The resulting observation staleness is safety-critical: a maneuver chosen during inference can already be unsafe by the time it executes. We observe that, long before a VLM finishes its inference, its intermediate hidden states already encode action-relevant intent. We propose SPARK-VLN, a dual-system framework for dynamic social VLN that streams the slow VLM reasoner's knowledge to a fast flow-matching expert planner throughout token generation, providing fresh and evolving guidance during inference. This design is realized by three modules: a Token-Wise Hidden Streamer that extracts intermediate hidden states along the token generation process, a Sequence-to-Slot Latent Bridge that projects them into fixed-size latent slots, and an Evolving Latent Conditioner that infuses them into the expert planner. We also introduce a human-centric benchmark suite for dynamic social vision-language navigation that keeps pedestrians and the robot active throughout inference and reports navigation success, social compliance, human collisions, and explicit staleness statistics. Across these settings, SPARK-VLN mproves navigation success and social compliance while sustaining inference efficiency. Webpage: https://hutslib.github.io/SPARK-VLN/.",
+      "authors": [
+        "Tianshuai Hu",
+        "Yangyi Zhong",
+        "Zeying Gong",
+        "Lingdong Kong",
+        "Xiaodong Mei",
+        "Guoyang Zhao",
+        "Xiaolu Liu",
+        "Song Wang",
+        "Rong Li",
+        "Junwei Liang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-18T12:55:40+00:00",
+      "link": "https://arxiv.org/pdf/2607.16806v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "uses VLM for action planning in navigation",
+      "llm_evidence_cn": "利用视觉语言模型进行导航动作规划",
+      "llm_evidence": "利用视觉语言模型进行导航动作规划",
+      "canonical_evidence": "利用视觉语言模型进行导航动作规划",
+      "llm_tldr_en": "Proposes SPARK-VLN, a dual-system framework that streams VLM hidden states to a fast planner for real-time navigation.",
+      "llm_tldr_cn": "针对动态视觉语言导航中推理慢与规划需要即时响应的矛盾，提出SPARK-VLN双系统框架。通过将慢速VLM推理器的中间隐藏状态流式传输给快速流匹配专家规划器，在token生成过程中提供持续更新的引导。实验表明该方法有效解决了观察过时问题，提升了动态环境下导航的安全性和社会合规性。",
+      "llm_tldr": "针对动态视觉语言导航中推理慢与规划需要即时响应的矛盾，提出SPARK-VLN双系统框架。通过将慢速VLM推理器的中间隐藏状态流式传输给快速流匹配专家规划器，在token生成过程中提供持续更新的引导。实验表明该方法有效解决了观察过时问题，提升了动态环境下导航的安全性和社会合规性。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "action generation in robotics using language models",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.19343v1",
+      "source": "arxiv",
+      "title": "Masked Visual Actions for Unified World Modeling",
+      "abstract": "Video models absorb rich priors over how the visual world moves, interacts, and responds to contact, making them promising substrates for robotic world modeling. The central challenge is how to communicate action to such models in a form aligned with the visual space in which they learned these interaction priors, yet still grounded in physical manipulation. We introduce Masked Visual Actions, a pixel-space control interface that expresses action as a partially revealed trajectory of an arbitrary entity in a video. Revealing robot motion makes the model act as a forward dynamics model that predicts the scene's response to low-level robot actions, while revealing desired object motion makes the same model recover robot behavior consistent with that outcome. Finetuned with only 15 hours of masked examples from real videos and simulation, a single checkpoint achieves strong visual fidelity and controllability across diverse scenes and multiple embodiments. In downstream manipulation settings, the model produces imagined rollouts whose outcomes correlate with real-world execution for policy evaluation, improves decision making by ranking candidate futures in model-based planning, and supports inverse modeling by synthesizing robot motion from desired object motion.",
+      "authors": [
+        "Hadi Alzayer",
+        "Wenlong Huang",
+        "Haonan Chen",
+        "Christopher Luey",
+        "Lvmin Zhang",
+        "Maneesh Agrawala",
+        "Gordon Wetzstein",
+        "Li Fei-Fei",
+        "Yilun Du",
+        "Jiajun Wu",
+        "Jia-Bin Huang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-07-21T17:59:11+00:00",
+      "link": "https://arxiv.org/pdf/2607.19343v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Masked Visual Actions for world modeling",
+      "llm_evidence_cn": "掩码视觉动作用于世界建模",
+      "llm_evidence": "掩码视觉动作用于世界建模",
+      "canonical_evidence": "掩码视觉动作用于世界建模",
+      "llm_tldr_en": "Introduces Masked Visual Actions, a pixel-space control interface that expresses action as a partially revealed trajectory for forward dynamics prediction and robot behavior recovery.",
+      "llm_tldr_cn": "本文提出掩码视觉动作，一种像素空间控制接口，将动作表示为部分揭示的轨迹。通过揭示机器人运动实现前向动力学预测，揭示物体运动恢复机器人行为。微调后在下游任务中表现优异，为视频模型在机器人世界建模中的应用提供了新范式。",
+      "llm_tldr": "本文提出掩码视觉动作，一种像素空间控制接口，将动作表示为部分揭示的轨迹。通过揭示机器人运动实现前向动力学预测，揭示物体运动恢复机器人行为。微调后在下游任务中表现优异，为视频模型在机器人世界建模中的应用提供了新范式。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
