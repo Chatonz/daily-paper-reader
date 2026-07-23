@@ -1,0 +1,340 @@
+Title: What Matters in Humanoid General Motion Tracking? An Empirical Study
+
+URL Source: https://arxiv.org/pdf/2607.19903v1
+
+Published Time: Thu, 23 Jul 2026 00:37:05 GMT
+
+Number of Pages: 8
+
+Markdown Content:
+# What Matters in Humanoid General Motion Tracking? An Empirical Study 
+
+Fabio Amadio and Enrico Mingo Hoffman 
+
+Abstract —Humanoid general motion tracking requires policies that can follow diverse whole-body references while maintaining balance. Building such policies involves many practical design choices, and their individual effects are often hard to assess. We address this issue with an empirical study of common modeling and training factors used in recent humanoid motion-imitation pipelines. To make the study controlled and reproducible, we developed YAHMP, an open-source modular framework for training, evaluating, and deploying whole-body motion tracking policies on the Unitree G1. Within YAHMP, we define a nominal configuration and compare variants that differ in motion-command representation, observation history, action representation, actuation profile, hand-force randomization during training, and training approach. We evaluate the resulting policies on a test set of retargeted human motions and compare the nominal policy with TWIST2 as an external baseline trained on the same motion set. The results distinguish choices with clear tracking effects from choices that mainly change actuation effort, training complexity, or physical interaction capability. Finally, we deploy YAHMP policies zero-shot on the real Unitree G1, demonstrating diverse whole-body motion tracking, balance under external perturbations, and forceful interaction. 
+
+I. I NTRODUCTION 
+
+Example-guided reinforcement learning (RL) uses reference motions as a practical training signal for complex motor skills. Instead of hand-designing a reward for each behavior, the policy is encouraged to reproduce a demonstrated motion while remaining physically plausible. DeepMimic first showed this idea on simulated characters [1], and later humanoid and legged-robot works used human or animal references to learn specific locomotion behaviors [2], [3]. These results estab-lished motion imitation as a powerful tool for robot control, but imitating one reference motion, or a small set of related motions, is different from training a deployable controller that can follow a broad distribution of whole-body references. This setting is often referred to as general motion tracking [4]. For humanoid robots, recent work uses this term for policies that track references spanning locomotion, turns, gestures, dancing, crouching, and whole-body interaction with objects and the environment [5], rather than specializing to a single clip. In parallel, whole-body imitation has also been used as the tracking layer of teleoperation architectures [6], [7]. Training such motion tracking systems relies on large-scale human mo-tion and interaction datasets [8], [9], together with retargeting methods that map human motion to the robot morphology [10]. 
+
+The authors are with Inria, Université de Lorraine, CNRS, Nancy, France. Emails: { fabio.amadio ,enrico.mingo-hoffman }@inria.fr . This work was supported by the ANR project MeRLin (ANR-24-CE33-0753-01). sim-to-real General Motion Tracking Env   
+
+> Actions
+> direct / residual
+> Obs. history
+> 0 / 10 / 20 steps
+> Actuation profile
+> -Mechanics-based - Fixed-scale stiffer
+> Motion cmd
+> -pos + vel + base - pos + base
+> Hand-force randomization
+> MoCap
+> Retargeting
+> Training
+> - Standard PPO - Teacher-Student ref
+
+Figure 1: Overview of the YAHMP experimental pipeline: retargeted motions are used to train controlled policy variants, which are evaluated in simulation and on the Unitree G1. The current literature provides several complete pipelines, each with its own set of design choices. However, it gives limited practical guidance on how individual factors affect general tracking performance. Existing ablations are usually tied to a specific method, while comparisons between methods evaluate complete systems rather than individual design choices. This makes it difficult to identify which settings are useful across implementations and which mainly reflect the details of a specific pipeline. We therefore organize the study around factors that recur across recent whole-body tracking pipelines but are rarely analyzed systematically within the same controlled setup. 
+
+(i) Motion-command representation controls which refer-ence quantities are passed to the actor. Recent systems com-monly expose reference joint positions, base velocities, and key-body targets [4]–[6], while explicit reference joint veloci-ties are less standard. (ii) Observation history captures recent state and command evolution, which can help with partial observability and short-term dynamics [7], [11]. (iii) Action representation determines how policy outputs are converted into motor commands, either as offsets around a fixed de-fault posture or as residual offsets around the reference joint positions [12]. (iv) Actuation profile , defined by PD gains and action scales, then determines how these joint targets are converted into torques [13]. (v) Hand-force randomization :a policy can follow motions accurately while still failing to arXiv:2607.19903v1 [cs.RO] 22 Jul 2026 sustain meaningful interaction forces [14]. By applying ran-dom external forces to the hands during training, the policy is exposed to interaction conditions that are not captured by un-perturbed free-space tracking. (vi) Teacher-student training :a policy can be trained directly with a single-stage PPO [15], or with a teacher-student approach in which a privileged teacher guides a deployable student policy [5], [6], [16]. To evaluate these factors under a common protocol, we developed YAHMP ( Yet Another Humanoid Motion tracking Policy ), an open-source modular framework for training, eval-uating, and deploying whole-body motion tracking policies on the Unitree G1, built on top of mjlab [17]. Within YAHMP, we define a nominal configuration and instantiate controlled variants by changing one modeling or training component at a time. Fig. 1 summarizes the experimental pipeline. We evaluate the variants in simulation on test motions not used for training. To put these results in context, we also re-train TWIST2 on the same training set and evaluate it with the same metrics. We then deploy selected policies zero-shot on the real Unitree G1 to test dynamic motion tracking, tolerance to external perturbations, and meaningful interaction forces. To summarize, the main contributions of this work are:  
+
+> •
+
+a controlled empirical study of modeling and training factors for humanoid general motion tracking;  
+
+> •
+
+YAHMP, an open-source framework for training, evaluating, and deploying whole-body motion tracking policies for the Unitree G1 robot, with code publicly available at https://github.com/hucebot/yahmp ; 
+
+> •
+
+a zero-shot sim-to-real evaluation of the nominal policy, together with hardware studies of hand-force randomization and actuation-profile effects. The remainder of the paper is organized as follows. Sec. II describes the YAHMP experimental framework and the design choices considered in the study. Sec. III reports the simulation evaluation, including the internal ablations and the comparison with TWIST2. Sec. IV presents the real-robot deployment and the hardware experiments on hand-force randomization and actuation profile effects. Finally, Sec. V discusses the results and draws conclusions. II. YAHMP E XPERIMENTAL FRAMEWORK 
+
+YAHMP is a configurable framework for training humanoid general motion tracking policies for the Unitree G1 robot. It allows individual design choices to be varied within a common training and evaluation setup. This section describes the nominal configuration first, and introduces the alternative settings that will be evaluated in Secs. III and IV. 
+
+A. General Motion Tracking Problem 
+
+We formulate whole-body motion tracking as a goal-conditioned RL problem. At time t, the policy receives an observation ot containing the current robot state and a motion reference, and outputs an action at that is converted into joint-position targets for the low-level PD controllers. Let 
+
+qt, ˙qt ∈ Rn be the robot joint positions and velocities ( n = 29 
+
+in the case of the Unitree G1), and let the floating-base state include the base orientation, linear velocity, and angular velocity. Reference motions are obtained by retargeting human motion-capture data to the G1 morphology [10]. The policy is trained to maximize the expected return, with rewards that encourage tracking of the reference motion while regularizing contacts, actions, and joint-limit violations. 
+
+B. Observations 
+
+Within YAHMP, observations are built by combining a small set of configurable components. The two components used by all deployable policies in this study are proprioception 
+
+and a motion command . A history buffer can then be added to provide short-term context. Privileged observations are available when required by the training pipeline. The proprioception vector contains deployable robot-state terms and the previous policy action. 
+
+pt = [ bωt, bgt, qt −qnom , ˙qt, at−1], (1) where bωt is base angular velocity, bgt is the unit gravity direction expressed in the base frame, qnom is the default joint configuration, and at−1 is the previous action. The motion command exposes a compact representation of the reference motion for the robot to track. The nominal motion command is defined as 
+
+ct = [ˆ qt, ˙ˆqt, b ˆvxy,t , b ˆωz,t , w ˆht, b ˆϕt, b ˆθt], (2) where b ˆvxy,t is reference planar base velocity in the base frame, b ˆωz,t is reference yaw rate, w ˆht is base height in the world frame, and b ˆϕt, b ˆθt are reference roll and pitch. We also consider a Pos-ref-only variant that removes ˙ˆqt from the command, keeping the other components unchanged. The history buffer concatenates past proprioception and 
+
+motion command vectors: 
+
+Ht = {[ct−H ,pt−H ],..., [ct−1,pt−1]}. (3) The nominal setting uses H = 10 (History-10 ); we also test 
+
+H = 20 (History-20 ) and a No history variant. Finally, privileged observations include proprioceptive measurements without noise and additional simulation terms: base linear velocity, reference-relative base pose, robot body poses and orientations expressed in the world frame, foot contact state, and ground-friction coefficients. 
+
+C. Actions 
+
+Actions are interpreted as offsets applied to joint-position targets. Inspired by ResMimic [12], the nominal policy uses 
+
+Residual actions around the reference joint configuration: 
+
+qtarget  
+
+> t
+
+= ˆ qt +α⊙at, (4) where α is a vector of joint-wise action scales and ⊙ denotes element-wise multiplication. We also test the No residual 
+
+variant, where actions are instead applied around the fixed default posture: 
+
+qtarget  
+
+> t
+
+= qnom +α⊙at. (5) Table I: Nominal configuration and considered variants.               
+
+> Design axis Nominal Alternatives Motion command Pos. and vel. ref. Pos-ref-only Observation history History-10 No history; History-20 Action representation Residual actions No residual Actuation profile Mechanics-based Stiffer fixed-scale Hand-force randomization Disabled Enabled Policy training PPO Teacher-student
+
+PD controllers track joint targets with zero desired velocity: 
+
+τ t = Kp(qtarget  
+
+> t
+
+−qt)−Kd ˙qt, (6) with Kp and Kd diagonal positive-definite gain matrices. Torques are saturated at the actuator effort limits. 
+
+D. Actuation Profile 
+
+We use the term actuation profile to denote the combined choice of joint PD gains and action scales. The PD gains determine how strongly the low-level controller tracks the joint targets, while the action scales map the policy outputs to joint-position offsets. The nominal actuation profile is Mechanics-based .Following BeyondMimic [13], the PD gains are selected from the reflected actuator inertia Ij :
+
+kp,j = Ij ω20 , kd,j = 2 ζI j ω0, (7) where ω0 = 2 π · 10rads −1 and ζ = 2 . The joint-wise action scale is set from the actuator effort limit: 
+
+αj = 0 .25 τj, max 
+
+kp,j 
+
+. (8) With this scaling, equal policy outputs correspond to equal fractions of the torque limit across joints. We denote the alternative profile as Stiffer fixed-scale .It follows settings used in recent humanoid motion tracking implementations [6], [7], [14]. It replaces the mechanics-based gains with manually specified, generally higher PD gains and uses a constant action scale for all joints. The numerical values used for both profiles are reported in Table VI of Appendix A. 
+
+E. Actor-Critic Architecture 
+
+The actor and critic networks use an MLP core with hidden dimensions (512 , 512 , 256 , 128) , running observation normalization, layer normalization in the last hidden layer, and ELU activations. When a history buffer is used, it is encoded by a 1D temporal convolutional network, as commonly done in robust legged RL policies [11]. The history encoder has two temporal convolution layers with 48 and 24 channels, kernel sizes 6 and 4, strides 2 and 2, and a linear projection to a 64-dimensional history embedding. The resulting history embedding is concatenated with the current proprioception and motion command before the MLP. When privileged observations are enabled, they are provided only to training-time networks, such as the critic or the teacher policy. 
+
+F. Domain Randomization 
+
+The nominal domain randomization includes foot-ground friction, torso center of mass, uniform additive proprioceptive noise, and intermittent base-velocity pushes. To study interaction capability, YAHMP also supports 
+
+Hand-force randomization , a training setting with external forces applied at the hands. This is inspired by the torque-limit-aware end-effector force sampling used in FAL-CON [14]. For each force event, YAHMP samples the side, application point, duration, and cooldown. The application point is sampled around the wrist link to approximate contacts applied at different points on the hand. The force is then scaled to remain feasible with respect to the joint-torque limits. The randomization ranges are reported in Table VII of Appendix A. 
+
+G. Reward, Reset, and Motion References 
+
+All variants use the same reward, which combines tracking terms for base pose, body pose, body velocity, joint position, and joint velocity with regularizers on foot contact forces, foot slip, action rate, and joint-limit violations. The complete set of reward terms and coefficients is reported in Table VIII of Appendix A. Episodes terminate when the reference motion expires or when selected bodies deviate too far from the reference. At reset, YAHMP samples both a motion clip and an initial phase within the clip. The sampling distribution is updated from tracking statistics, so poorly tracked clips and phases are replayed more often while a uniform component preserves coverage. 
+
+H. Policy Training and Dataset 
+
+We train on retargeted AMASS [8] and OMOMO [9] motions. After filtering unsuitable clips, the dataset contains 12,175 motions. We use 11,151 motions for training and reserve 1,024 motions for testing. The test set is selected from the filtered motion collection to cover a broad range of motion types and styles, including walking, dancing, gestures, stretching, object interaction, static poses, and quasi-static transitions. The split was fixed before running the ablations and was not selected based on policy performance. Train and test motions can originate from the same source datasets and subjects, but the retargeted motions used for evaluation are not used during training. The nominal training pipeline uses PPO with an asymmetric actor-critic setup. The actor receives only deployable observations: proprioception , motion command , and, when enabled, the history buffer . The critic can also receive 
+
+privileged observations .YAHMP also includes a Teacher-student variant based on a teacher-guided RL pipeline [6]. In this case, we first train a teacher actor with PPO, using privileged information available only in simulation. The teacher is then frozen, and the student receives only deployable observations and is trained with PPO while being regularized toward the teacher distribution by penalizing the Kullback–Leibler (KL) divergence: 
+
+Lstudent = LPPO + λD KL (πstudent ∥ πteacher ). (9) Nominal 
+
+> Pos-ref
+> No hist.
+> Hist-20
+> No res.
+> Stiff fix.-sc.
+> Hand rand.
+> Teach.-stud.
+> TWIST2
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> Base pos. [m]
+> Nominal
+> Pos-ref
+> No hist.
+> Hist-20
+> No res.
+> Stiff fix.-sc.
+> Hand rand.
+> Teach.-stud.
+> TWIST2
+> 0.1
+> 0.2
+> 0.3
+> Base rot. [rad]
+> Nominal
+> Pos-ref
+> No hist.
+> Hist-20
+> No res.
+> Stiff fix.-sc.
+> Hand rand.
+> Teach.-stud.
+> TWIST2
+> 0.02
+> 0.04
+> 0.06
+> 0.08
+> Key-body pos. [m]
+> Nominal
+> Pos-ref
+> No hist.
+> Hist-20
+> No res.
+> Stiff fix.-sc.
+> Hand rand.
+> Teach.-stud.
+> TWIST2
+> 0.05
+> 0.10
+> 0.15
+> 0.20
+> 0.25
+> Key-body rot. [rad]
+> Nominal
+> Pos-ref
+> No hist.
+> Hist-20
+> No res.
+> Stiff fix.-sc.
+> Hand rand.
+> Teach.-stud.
+> TWIST2
+> 0.2
+> 0.4
+> 0.6
+> Joint pos. [rad]
+> Nominal
+> Pos-ref
+> No hist.
+> Hist-20
+> No res.
+> Stiff fix.-sc.
+> Hand rand.
+> Teach.-stud.
+> TWIST2
+> 2
+> 4
+> 6
+> Joint vel. [rad/s]
+
+Figure 2: Tracking-error distributions over 1,024 test motions. Boxes show median, interquartile range, and 1.5-IQR whiskers. The dotted line marks the nominal policy median; translucent points show errors for a random subset of motions, while outliers are hidden. Both teacher and student are trained for 20,000 iterations, with the KL coefficient λ linearly annealed from 0.1 to 0.07 during student training. All YAHMP variants are trained with 8,192 parallel environments for 20,000 PPO iterations. Training runs use a single NVIDIA GeForce RTX 4090, and each run required approximately 25 hours to complete. The PPO hyperparameters are reported in Table V of Appendix A. Table I summarizes the characteristics of the nominal configuration and the variants considered in the study. III. S IMULATION EVALUATION 
+
+In this section, we evaluate the different YAHMP variants in simulation and compare the nominal policy with TWIST2 [7]. All policies use the same Unitree G1 model and are evaluated on the same 1,024 test motions in MuJoCo [18], with a simulation time step of 0.005 s and a control frequency of 50 Hz. Each rollout starts from the first frame of the reference motion and runs without external perturbations. A rollout is successful if the robot completes the motion without falling, defined as contact between the torso and the ground. All policies complete the full test set without falling, so the evaluation focuses on tracking accuracy. We measure the base-position error ( ep
+
+> base
+
+), base-orientation error ( eR
+
+> base
+
+), mean key-body position and orientation errors (ep 
+
+> bodies
+
+and eR
+
+> bodies
+
+) over nine bodies (torso, knees, ankles, elbows, and wrists), and joint-position and joint-velocity errors ( eq and e ˙q ). For each policy, tracking errors are first averaged over time for each motion and then aggregated over the 1,024 test motions. Fig. 2 shows their distributions, while Table II reports the corresponding means, standard deviations, and relative changes with respect to the nominal policy. 
+
+A. Ablation Study 
+
+For the YAHMP ablations, we change one design choice at a time from the nominal configuration. We also repeated the ablation study with an additional training seed and obtained trends consistent with those reported below. 
+
+1) Motion-Command Representation: Removing the reference joint velocity from the motion command degrades all reported tracking metrics. With the Pos-ref-only command, base errors increase by 7–14%, key-body errors by about 9%, joint-position error by 8%, and joint-velocity error by 15%. Fig. 2 shows the same effect beyond the mean values, especially for base orientation and joint-velocity tracking. The degradation remains visible even though the policy still receives observation history. This suggests that the history encoder does not fully recover the phase and velocity information carried by ˙ˆqt. These results indicate that including reference joint velocities alongside reference joint positions improves tracking performance. 
+
+2) Observation History: Without history, all tracking errors increase with respect to the nominal policy: base errors rise by 38–50%, key-body errors by 10–11%, joint-position error by 10%, and joint-velocity error by 17%. Fig. 2 shows the same trend at the distribution level, with the No history distributions shifted upward across all reported metrics. This supports the importance of providing the policy with temporal context. Increasing the history length from 10 to 20 steps does not give a consistent improvement. History-20 reduces the two base errors by 6–7%, but slightly worsens key-body and joint-space tracking. In particular, key-body orientation, joint-position, and joint-velocity errors increase by about 4%. Hence, History-20 does not provide a clear advantage over Table II: Tracking performance over 1,024 test motions. Entries report mean ± standard deviation across motions; parentheses show the mean change relative to the nominal policy. Positive changes mean larger error. Bold marks the lowest mean error per metric. All policies achieve 100% success; TWIST2 is retrained on the same training motion set.                                                                                                                    
+
+> Variant ep
+> base [m] eR
+> base [rad] ep
+> bodies [m] eR
+> bodies [rad] eq[rad] e˙q[rad/s] Nominal 0.197 ±0.233 0.121 ±0.125 0.044 ±0.020 0.123 ±0.047 0.377 ±0.093 1.69 ±1.11
+> Pos-ref-only 0.211 ±0.248 (+7%) 0.138 ±0.158 (+14%) 0.048 ±0.021 (+9%) 0.134 ±0.052 (+9%) 0.408 ±0.090 (+8%) 1.95 ±1.31 (+15%) No history 0.273 ±0.264 (+38%) 0.181 ±0.192 (+50%) 0.048 ±0.017 (+10%) 0.136 ±0.042 (+11%) 0.415 ±0.089 (+10%) 1.98 ±1.25 (+17%) History-20 0.186 ±0.195 (-6%) 0.112 ±0.102 (-7%) 0.044 ±0.020 (+1%) 0.128 ±0.051 (+4%) 0.393 ±0.094 (+4%) 1.75 ±1.15 (+4%) No residual 0.199 ±0.212 (+1%) 0.115 ±0.101 (-5%) 0.046 ±0.018 (+5%) 0.130 ±0.045 (+6%) 0.395 ±0.108 (+5%) 1.69 ±1.07 (0%) Stiffer fixed-scale 0.204 ±0.227 (+4%) 0.130 ±0.139 (+8%) 0.043 ±0.015 (-2%) 0.114 ±0.035 (-7%) 0.364 ±0.084 (-3%) 1.73 ±1.14 (+2%) Hand-force rand. 0.204 ±0.201 (+4%) 0.125 ±0.110 (+4%) 0.046 ±0.018 (+5%) 0.122 ±0.043 (-1%) 0.379 ±0.090 (+1%) 1.68 ±1.08 (-1%) Teacher-student 0.181 ±0.196 (-8%) 0.130 ±0.112 (+8%) 0.044 ±0.015 (0%) 0.113 ±0.036 (-8%) 0.353 ±0.091 (-6%) 1.65 ±1.10 (-3%)
+> TWIST2 0.260 ±0.289 (+32%) 0.165 ±0.184 (+36%) 0.039 ±0.031 (-10%) 0.186 ±0.083 (+51%) 0.521 ±0.142 (+38%) 3.06 ±2.12 (+81%)
+
+Table III: Torque comparison for the actuation-profile variants over 1,024 test motions. Entries report mean ± standard deviation in N m across motions; maximum torques are first computed over each rollout and then aggregated across motions.                         
+
+> Actuation profile Mean all Max all Mean upper Max upper Mean lower Max lower Mechanics-based 3.56 ±0.89 51 .2±21 .01.52 ±0.51 22 .8±11 .16.46 ±1.61 51 .2±21 .0
+> Stiffer fixed-scale 3.63 ±0.94 (+2%) 57 .7±24 .4(+13%) 1.58 ±0.54 (+4%) 32 .2±17 .3(+41%) 6.53 ±1.69 (+1%) 57 .4±24 .5(+12%)
+
+History-10, which provides a good balance between temporal context and input compactness. 
+
+3) Action Representation: When actions are applied around the fixed default posture instead of the reference joint positions (No residual), key-body pose errors increase by 5–6%, and joint-position error increases by 5%. The effect on base tracking is less clear: base-position error increases by 1%, while base-orientation error decreases by 5% for the non-residual policy. Overall, residual actions provide a modest improvement in key-body and joint-position tracking, while their effect on base tracking remains mixed. 
+
+4) Actuation Profile: For this ablation, tracking errors alone do not capture the relevant trade-off. We therefore also report torque metrics in Table III, using mean and maximum absolute joint torques over all joints and over the upper and lower body separately. Stiffer fixed-scale does not provide a clear tracking improvement. It reduces key-body position and orientation errors and joint-position error, but increases both base errors and joint-velocity error. The torque metrics show a clearer trend: Stiffer fixed-scale increases maximum torque by 13% over all joints and by 41% on the upper body. Mean torques change less, but they also increase in all reported groups. Thus the mechanics-based profile achieves comparable tracking performance while avoiding the larger torque peaks of Stiffer fixed-scale. 
+
+5) Hand-Force Randomization: In unperturbed simulation, hand-force randomization only mildly affects tracking, so we analyze its main effect on the real robot in Sec. IV. 
+
+6) Teacher-Student Training: Compared with the nominal PPO policy, Teacher-student reduces base-position and key-body orientation errors by 8%, joint-position error by 6%, and joint-velocity error by 3%. Key-body position error remains unchanged, while base-orientation error increases by 8%. Overall, these mixed changes amount to only minor improvements despite the additional training complexity. 
+
+B. Comparison with TWIST2 
+
+We use TWIST2 as an external complete-pipeline baseline. Although it is presented as part of a teleoperation stack, its low-level controller addresses the same general motion tracking problem considered here. We retrain it with its original code on the same 11,151 training motions and for the same number of PPO iterations used for YAHMP. Both pipelines optimize base, body, and joint tracking, allowing the metrics defined above to provide a common evaluation of task-level tracking performance. TWIST2 obtains the lowest key-body position error, reducing it by 10% with respect to the nominal policy. The remaining tracking errors are higher: base errors increase by 32–36%, key-body orientation error by 51%, joint-position error by 38%, and joint-velocity error by 81%. TWIST2 therefore tracks key-body positions accurately on this test set, but shows poorer orientation and joint-space tracking under the common evaluation protocol. IV. R EAL -R OBOT EVALUATION 
+
+We use the real-robot experiments to test whether policies trained in simulation can be deployed on the Unitree G1 and to study the design choices whose effects are most relevant on hardware. We first deploy the nominal policy for general motion tracking, then evaluate hand-force randomization under external loads and the effects of different actuation profiles. The supplementary video, available at https://youtu.be/BH6FpQzwm8M , shows all real-robot experiments reported in this section. Policy inference runs on an Intel Core Ultra 7 165H laptop with a direct cable connection to the robot. At each step, the robot state is read through ROS 2 and combined with the refer-ence motion; the resulting observation is passed to the policy, and joint-position targets are sent back to the robot within a 50 Hz control loop (the same frequency used in simulation). A. Sim-to-Real Deployment 
+
+We first deploy the nominal policy on the Unitree G1 and use it to track different whole-body motions. The same checkpoint trained in simulation runs directly on the robot, without real-robot fine-tuning, a dedicated sim-to-real pipeline, or additional filtering/smoothing of the policy commands. The robot tracks references spanning locomotion, crouching, dancing, and loco-manipulation-style motions. Motions can also be repeated or concatenated without resetting the controller. Fig. 4 shows representative examples. Beyond motion tracking, balance and robustness are also important for real-robot deployment. We tested these aspects empirically by manually pushing and dragging the robot while it replayed reference motions. The robot maintained or recovered its balance without resetting the policy. We also tested how the controller reacts to unseen environmental conditions. We placed the robot on a soft mattress, a ground condition never seen during training. The robot was still able to track double-support motions, such as crouches and manipulation-like motions, while keeping balance (Fig. 3), although dedicated training would still be necessary to achieve stable locomotion. 
+
+Figure 3: Execution of the squat motion on a soft mattress by the nominal policy without terrain-specific training. 
+
+B. Forceful Interactions via Hand-Force Randomization 
+
+Good free-space tracking does not necessarily imply that a policy can sustain an external load with its hands. We study this distinction using two otherwise matched policies, trained with and without hand-force randomization. On the robot, the right arm tracks the same fixed configuration for both policies while loads are progressively attached to the hand. For each policy, loads were increased until the arm no longer reached a steady hold. We measure the right-elbow deviation from the unloaded stable position at each load. Table IV reports one controlled execution per policy, using the mean displacement over the steady window after each load is attached, while Fig. 5 shows representative configurations at 3 and 4 kg. The policy trained with hand-force randomization maintains the commanded posture under larger loads, whereas the policy trained without it exhibits substantially larger displacement. At the largest load tested for both policies, 4 kg, hand-force randomization reduces the elbow displacement from 15.5 ◦ to 6.6 ◦. The hand-force-randomized policy also sustained loads of 5 and 6 kg. In unperturbed simulation, the same training setting keeps tracking close to the nominal policy, with only 
+
+> (a) Squat-like motion.
+> (b) Loco-manipulation-style motion.
+
+Figure 4: Motion tracking examples in simulation and on the Unitree G1. The green ghost shows the reference motion. small changes across the reported metrics. This indicates that hand-force randomization mainly affects the ability to exert meaningful forces with the hands, rather than nominal free-space tracking. As a qualitative demonstration, we use the hand-force-randomized policy to replay a full-body lifting motion (Fig. 6). The robot starts crouched with a 1.5 kg box held between its hands and stands while lifting the box. This is not autonomous manipulation: the box state is not observed, and the reference is neither adapted nor replanned. The experiment instead illustrates how the added force capacity can support a simple whole-body manipulation replay. Table IV: Right-elbow displacement from the unloaded stable posture during the hand-load experiment. Values are means over steady hold windows, in degrees.                         
+
+> Hand-force rand. 1 kg 2 kg 3 kg 4 kg 5 kg 6 kg Disabled 3.2 ◦8.3 ◦13.3 ◦15.5 ◦––Enabled 1.5 ◦3.0 ◦3.0 ◦6.6 ◦7.9 ◦9.4 ◦(a) No force rand., 3 kg.
+> (b) Hand-force rand., 3 kg.
+> (c) No force rand., 4 kg.
+> (d) Hand-force rand., 4 kg.
+
+Figure 5: Representative frames from the hand-load experiment. Training with hand-force randomization improves the arm’s ability to sustain external loads. 
+
+Figure 6: Frames from the full-body box-lifting replay. 
+
+C. Actuation Profile Effects in Sim-to-Real 
+
+Finally, we deploy the Stiffer fixed-scale policy to determine whether the actuation trends observed in simulation persist on hardware. The policy deploys successfully and completes the tested motions, but the crouching example shows a small increase in oscillation compared with the Mechanics-based policy, particularly at the ankles. Fig. 7 shows the right ankle pitch angle as a representative example from a matched crouching motion. The Stiffer fixed-scale policy tracks the same overall motion but introduces visibly larger oscillations after the main crouch transition. Smaller oscillations are also visible in other ankle and waist joints in this deployment. Over the same motion phase, the mean absolute torque over all joints remains almost unchanged (4.52 N m for the Mechanics-based policy and 4.53 N m for Stiffer fixed-scale), but the maximum absolute torque increases from 54.5 N m to 75.2 N m. On the plotted right ankle pitch joint, the mean absolute torque increases from 7.60 N m to 10.38 N m. The main effects of the stiffer profile are larger torque peaks and more oscillatory behavior, while the average torque over all joints changes little. V. C ONCLUSION 
+
+In this paper, we presented an empirical analysis of common design choices in humanoid general motion tracking pipelines. To make the comparison controlled 0 1 2 3 4 5
+
+> Motion time [s]
+> 0.75
+> 0.50
+> 0.25
+> r. ankle pitch [rad]
+> Mechanics-based
+> Stiffer fixed-scale
+
+Figure 7: Measured right ankle pitch angle during a crouching deployment. The Stiffer fixed-scale policy exhibits larger os-cillations than the Mechanics-based policy after the transition. and reproducible, we introduced YAHMP, an open-source framework for training, evaluating, and deploying whole-body motion tracking policies on the Unitree G1. We used this framework to evaluate different variants of the same motion tracking pipeline, both in simulation and on the real robot. The results show that including reference joint velocities in the motion command improves tracking performance, although this information is not always included explicitly in recent motion tracking pipelines. A short history buffer also provides useful temporal information to the controller and likely helps the policy infer recent motion trends and compensate for partial observability in the deployable state. The action-representation ablation is less decisive: residual actions provide a modest improvement in key-body and joint-position tracking, but no consistent advantage in base tracking. The mechanics-based selection of PD gains and action scales also helps limit torque peaks while still tracking the desired motions accurately. Regarding the training approach, standard PPO with deployable observations from the start already provides a strong nominal policy in our setup, while the more involved teacher-student pipeline gives only minor gains despite the added training complexity. The real-robot experiments show that YAHMP policies transfer zero-shot to the Unitree G1, track diverse whole-body motions, and maintain balance under external perturbations. They also show that hand-force randomization during training is important for enabling the policy to exert meaningful forces, rather than only tracking motions in free space. The study focuses on one robot platform and varies one design choice at a time around a single nominal configuration, leaving interactions between choices and their effects on other humanoid platforms outside the current evaluation. Future work will focus on integrating YAHMP with tele-operation and learning-from-demonstration systems, using the policy as the low-level whole-body tracking layer. Teleopera-tion can provide structured demonstrations for coordinated ma-nipulation skills [19]; the resulting skills can then be integrated into autonomous robot stacks driven by user instructions [20]. REFERENCES [1] X. B. Peng, P. Abbeel, S. Levine, and M. van de Panne, “Deepmimic: example-guided deep reinforcement learning of physics-based character skills,” ACM Trans. Graph. , vol. 37, no. 4, 2018. [2] X. B. Peng, E. Coumans, T. Zhang, T.-W. Lee, J. Tan, and S. Levine, “Learning agile robotic locomotion skills by imitating animals,” arXiv preprint arXiv:2004.00784 , 2020. [3] Q. Zhang, P. Cui, D. Yan, J. Sun, Y. Duan, G. Han, W. Zhao, W. Zhang, Y. Guo, A. Zhang, and R. Xu, “Whole-body humanoid robot locomotion with human reference,” arXiv preprint arXiv:2402.18294 , 2024. [4] Z. Chen, M. Ji, X. Cheng, X. Peng, X. B. Peng, and X. Wang, “Gmt: General motion tracking for humanoid whole-body control,” arXiv preprint arXiv:2506.14770 , 2025. [5] M. Ji, X. Peng, F. Liu, J. Li, G. Yang, X. Cheng, and X. Wang, “Exbody2: Advanced expressive humanoid whole-body control,” arXiv preprint arXiv:2412.13196 , 2024. [6] Y. Ze, Z. Chen, J. P. Araújo, Z. Cao, X. B. Peng, J. Wu, and C. K. Liu, “Twist: Teleoperated whole-body imitation system,” arXiv preprint arXiv:2505.02833 , 2025. [7] Y. Ze, S. Zhao, W. Wang, A. Kanazawa, R. Duan, P. Abbeel, G. Shi, J. Wu, and C. K. Liu, “Twist2: Scalable, portable, and holistic humanoid data collection system,” arXiv preprint arXiv:2511.02832 , 2025. [8] N. Mahmood, N. Ghorbani, N. F. Troje, G. Pons-Moll, and M. J. Black, “AMASS: Archive of motion capture as surface shapes,” in International Conference on Computer Vision , Oct. 2019, pp. 5442–5451. [9] J. Li, J. Wu, and C. K. Liu, “Object motion guided human motion synthesis,” ACM Trans. Graph. , vol. 42, no. 6, 2023. [10] J. P. Araujo, Y. Ze, P. Xu, J. Wu, and C. K. Liu, “Retargeting matters: General motion retargeting for humanoid motion tracking,” arXiv preprint arXiv:2510.02252 , 2025. [11] Z. Li, X. B. Peng, P. Abbeel, S. Levine, G. Berseth, and K. Sreenath, “Reinforcement learning for versatile, dynamic, and robust bipedal locomotion control,” The International Journal of Robotics Research ,vol. 44, no. 5, pp. 840–888, 2025. [12] S. Zhao, Y. Ze, Y. Wang, C. K. Liu, P. Abbeel, G. Shi, and R. Duan, “Resmimic: From general motion tracking to humanoid whole-body loco-manipulation via residual learning,” arXiv preprint arXiv:2510.05070 , 2025. [13] Q. Liao, T. E. Truong, X. Huang, Y. Gao, G. Tevet, K. Sreenath, and C. K. Liu, “Beyondmimic: From motion tracking to versatile humanoid control via guided diffusion,” arXiv preprint arXiv:2508.08241 , 2025. [14] Y. Zhang, Y. Yuan, P. Gurunath, I. Gupta, S. Omidshafiei, A.-a. Agha-mohammadi, M. Vazquez-Chanlatte, L. Pedersen, T. He, and G. Shi, “Falcon: Learning force-adaptive humanoid loco-manipulation,” 
+
+arXiv preprint arXiv:2505.06776 , 2025. [15] J. Schulman, F. Wolski, P. Dhariwal, A. Radford, and O. Klimov, “Proximal policy optimization algorithms,” CoRR , vol. abs/1707.06347, 2017. [Online]. Available: http://arxiv.org/abs/1707.06347 [16] T. He, Z. Luo, X. He, W. Xiao, C. Zhang, W. Zhang, K. Kitani, C. Liu, and G. Shi, “Omnih2o: Universal and dexterous human-to-humanoid whole-body teleoperation and learning,” arXiv preprint arXiv:2406.08858 , 2024. [17] K. Zakka, Q. Liao, B. Yi, L. L. Lay, K. Sreenath, and P. Abbeel, “mjlab: A lightweight framework for gpu-accelerated robot learning,” 2026. [18] E. Todorov, T. Erez, and Y. Tassa, “Mujoco: A physics engine for model-based control,” in 2012 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS) . IEEE, 2012, pp. 5026–5033. [19] F. Amadio, M. Laghi, L. Raiano, F. Rollo, A. Zunino, G. Raiola, and A. Ajoudani, “Target-referred dmps for learning bimanual tasks from shared-autonomy telemanipulation,” in 2022 IEEE-RAS 21st International Conference on Humanoid Robots (Humanoids) , 2022, pp. 496–503. [20] F. Amadio, C. Donoso, D. Totsila, R. Lorenzo, Q. Rouxel, O. Rochel, E. M. Hoffman, J.-B. Mouret, and S. Ivaldi, “From vocal instructions to household tasks: The inria tiago++ in the eurobin service robots coopetition,” IEEE Robotics and Automation Practice , 2026. 
+
+APPENDIX AIMPLEMENTATION DETAILS 
+
+The following tables summarize the PPO hyperparameters, actuation profiles, domain-randomization ranges, and reward terms used in the experiments. Unless indicated otherwise, these settings are shared across all YAHMP variants. Table V: PPO hyperparameters used in YAHMP.                                   
+
+> Parameter PPO Teacher-student Rollout steps/env 24 24 Learning epochs 55Mini-batches 44Learning rate 10 −33·10 −4
+> LR schedule adaptive adaptive Discount γ0.99 0.99 GAE λ0.95 0.95 Clip parameter 0.2 0.2 Entropy coefficient 0.005 0.005 Value-loss coefficient 1.0 1.0 Desired KL 0.01 0.008 Max gradient norm 1.0 1.0 Initial policy std. 1.0 0.4 Teacher KL coefficient –0.1→0.07
+
+Table VI: PD gains and action scales considered. Values are shared across left and right sides when applicable. 
+
+Mechanics-based Stiffer fixed-scale Joint group kp kd α kp kd α
+
+Hip pitch/yaw 40.18 2.56 0.548 100 2.0 0.5 Hip roll 99.10 6.31 0.351 100 2.0 0.5 Knee 99.10 6.31 0.351 150 4.0 0.5 Ankle pitch/roll 28.50 1.81 0.439 40 2.0 0.5 Waist yaw 40.18 2.56 0.548 150 4.0 0.5 Waist roll/pitch 28.50 1.81 0.439 150 4.0 0.5 Shoulder/elbow 14.25 0.91 0.439 40 5.0 0.5 Wrist roll 14.25 0.91 0.439 4 0.2 0.5 Wrist pitch/yaw 16.78 1.07 0.075 4 0.2 0.5 
+
+Table VII: Domain-randomization ranges used during training.                                    
+
+> Quantity Range Foot-ground friction [0 .3,1.2]
+> Torso COM offset x:±0.025 m, y,z :±0.05 mBase angular velocity noise ±0.2rad/s Projected gravity noise ±0.05
+> Joint position noise ±0.01 rad Joint velocity noise ±1.5rad/s Base push interval [1 ,3] sBase push velocity vx,v y:±0.5m/s, vz:±0.2m/s Base push angular velocity roll,pitch: ±0.52 rad/s, yaw: ±0.78 rad/s Hand-force randomization duration [0 .5,2.0] s, capped at 20 N
+
+Table VIII: Reward terms used by all YAHMP variants. Tracking rewards use exp( −e/σ 2); Fz,f and vf,xy are the vertical force and horizontal velocity of foot f .
