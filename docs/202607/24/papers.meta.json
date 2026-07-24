@@ -1,0 +1,69 @@
+{
+  "label": "2026-07-24",
+  "date": "2026-07-24",
+  "generated_at": "2026-07-24T21:35:13",
+  "count": 4,
+  "papers": [
+    {
+      "paper_id": "202607/24/2607.20110v1-extreme-rgmt-continual-learning-of-highly-dynamic-skills-for-robust-generalist-humanoid-control",
+      "section": "deep",
+      "title_en": "Extreme-RGMT: Continual Learning of Highly Dynamic Skills for Robust Generalist Humanoid Control",
+      "authors": "Yubiao Ma, Han Yu, Kai Guo, Changtai Lv, Zhengquan Mao, Boyang Xing, Xuemei Ren, Dongdong Zheng",
+      "date": "2026-07-22",
+      "pdf": "https://arxiv.org/pdf/2607.20110v1",
+      "score": "10.0",
+      "evidence": "连续学习实现通用人形机器人控制",
+      "tldr": "现有的人形控制器在通用性和专长性之间存在权衡，难以同时兼顾日常平稳运动与罕见高动态技能。本文提出Extreme-RGMT两阶段持续学习框架：先基于多源数据学习通用运动跟踪基策略，再通过非对称技能获取与能力巩固机制约束已掌握动作的策略漂移，并利用难度感知采样和优势优先轨迹重采样强化困难动态片段。实验表明，该方法在通用全身运动跟踪上达到SOTA，显著提升高动态运动完成率，使控制器能直接执行未见过的复杂动态动作，向人类专家级运动能力迈进。",
+      "tags": "query:vla-humanoid",
+      "abstract_en": "Humans can progressively acquire highly dynamic motor skills while preserving reliable everyday motor abilities. In contrast, existing humanoid controllers face a trade-off between generalist and specialist capabilities: generalist motion tracking policies struggle to reliably execute rare highly dynamic motions, whereas specialist training can degrade previously acquired behaviors. We introduce Extreme-RGMT, a two-stage continual learning framework for robust generalist humanoid control. The method first learns a generalist motion-tracking base policy from diverse multi-source motion data, then employs an asymmetric skill acquisition and capability consolidation mechanism to constrain policy drift on mastered motions while emphasizing difficult dynamic segments. To address the scarcity of highly dynamic motions, their high failure rates, and the resulting shortage of informative samples, Extreme-RGMT combines difficulty-aware sampling with advantage-prioritized trajectory resampling to emphasize critical segments. Experiments show that Extreme-RGMT achieves state-of-the-art generalist whole-body motion-tracking performance, including substantially improved completion of challenging highly dynamic motions. The resulting controller directly executes diverse unseen highly dynamic motions under fixed references and online inertial motion-capture inputs, advancing generalist whole-body motion-tracking controllers toward highly dynamic motor capabilities at the human-expert level.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/24/2607.20988v1-hyworldvla-a-vision-language-action-model-with-hybrid-world-modeling-for-autonomous-driving",
+      "section": "quick",
+      "title_en": "HyWorldVLA: A Vision-Language-Action Model with Hybrid World Modeling for Autonomous Driving",
+      "authors": "Quanfu Yu, Xian Wu, Hao Xu, Liulong Ma",
+      "date": "2026-07-23",
+      "pdf": "https://arxiv.org/pdf/2607.20988v1",
+      "score": "7.0",
+      "evidence": "结合混合世界建模的视觉-语言-动作模型",
+      "tldr": "端到端自动驾驶中，像素级世界模型在高噪声场景下鲁棒性差，而隐式世界模型缺乏像素级可解释性且表征退化。为此提出HyWorldVLA，混合世界建模框架，在预训练阶段联合预测视频VAE隐变量和重建像素帧，实现双重监督，微调时仅用隐特征生成轨迹。在NAVSIM v1/v2上显著优于纯像素或纯隐式基线。首次对世界模型噪声鲁棒性进行系统分析，为未来架构评估提供新基准。",
+      "tags": "query:human-aigc",
+      "abstract_en": "Vision-Language-Action (VLA) models augmented with world modeling represent a promising paradigm for end-to-end autonomous driving. While pixel-level future prediction enables fine-grained spatiotemporal reasoning, it compromises robustness in noisy driving scenarios. Conversely, latent-based world models alleviate this sensitivity but often incur limited interpretability and representational degradation due to absent pixel-level grounding. To reconcile this trade-off, we propose HyWorldVLA, a hybrid world-VLA framework that unifies pixel-level supervision and latent representation learning. In the pre-training stage, HyWorldVLA predicts video latents encoded by a pre-trained video VAE, while simultaneously reconstructing video frames to provide precise pixel-level grounding. During the subsequent co-fine-tuning phase, the model exclusively predicts latent features, which are fed into an action expert to generate trajectories. Extensive experiments on NAVSIM v1 and v2 benchmarks demonstrate that HyWorldVLA significantly outperforms both pixel-based and latent-based world model baselines. Notably, we present the first comprehensive qualitative and quantitative analysis of world model noise robustness in autonomous driving, establishing a new benchmark for evaluating future architectures.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/24/2607.14586v1-softnav-injecting-3d-scene-tokens-into-vlms-for-embodied-navigation",
+      "section": "quick",
+      "title_en": "SoftNav: Injecting 3D Scene Tokens into VLMs for Embodied Navigation",
+      "authors": "Yi Wu, Junjie An, Xiao Liu, Yiqun Zhou, Yuechen Wu, Xiaoqing Guan, Shuyang Yu, You Wang, Guang Li",
+      "date": "2026-07-16",
+      "pdf": "https://arxiv.org/pdf/2607.14586v1",
+      "score": "6.0",
+      "evidence": "使用VLM软标记的具身导航",
+      "tldr": "针对用文本传递3D场景信息到VLM存在的表征差距，SoftNav将每个检测到的物体或前沿作为一个软token注入VLM隐空间。仅需1,200样本和17M参数微调，在HM3D-OVON上达到74.2% SR，超越所有先前方法。该策略零样本迁移到GOAT-Bench、SG3D和真实机器人，无需重新训练。",
+      "tags": "query:vla-humanoid",
+      "abstract_en": "In goal-directed embodied navigation, where an agent must locate a specified target in an unseen environment, 3D scene understanding and navigation reasoning must work in concert. Current approaches transmit 3D scene information to vision-language models (VLMs) through text, suggesting a representation gap in our tested configurations; a controlled ablation confirms that direct embedding-level transfer significantly outperforms the evaluated text serialization formats. We introduce SoftNav, which injects entity-level 3D continuous representations -- one token per detected object or frontier -- into a VLM's hidden space as soft tokens through a lightweight projector. With the 3D encoder and VLM frozen, only ~1,200 samples and ~17M trainable parameters are needed. On HM3D-OVON, SoftNav achieves 74.2%/68.3%/66.7% SR across three splits, surpassing all prior methods in both SR and SPL; the same navigation policy transfers zero-shot to GOAT-Bench (67.2% SR), SG3D (47.2% s-SR), and real-world robot deployment without retraining or architectural modification. Injecting 3D scene tokens directly into VLMs bridges the representation gap, enabling transferable navigation with minimal training.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/24/2607.19850v1-sopd-socialnav-selective-on-policy-distillation-for-vision-language-social-navigation",
+      "section": "quick",
+      "title_en": "SOPD-SocialNav: Selective On-Policy Distillation for Vision-Language Social Navigation",
+      "authors": "Xinyu Zhang, Zishuo Wang, Ling Xiao",
+      "date": "2026-07-22",
+      "pdf": "https://arxiv.org/pdf/2607.19850v1",
+      "score": "6.0",
+      "evidence": "面向社交导航动作生成的VLM在线策略蒸馏",
+      "tldr": "视觉语言模型在社交导航中表现优异，但大规模模型难以部署于资源受限平台，轻量模型则社交推理不足。为此提出SOPD方法，通过熵令牌选择机制识别社交关键决策，结合温度控制Jensen-Shannon散度进行策略蒸馏。在SNEI和MUSON基准上，SOPD在动作预测、感知与推理一致性上均超越多种基线方法。真实机器人测试也验证了模型在对话和排队场景中生成更适当的社交行为。",
+      "tags": "query:vla-humanoid",
+      "abstract_en": "Vision-language models have shown strong potential for social robot navigation by leveraging rich semantic understanding of complex environments and human behaviors. However, large scale VLMs are difficult to deploy on resource-constrained robotic platforms, while lightweight VLMs often lack sufficient social reasoning capability. To address this problem, we propose SOPD-SocialNav, a selective on-policy distillation (SOPD) method that transfers social navigation knowledge from a large teacher VLM to a lightweight student VLM. SOPD introduces an entropy-based token selection mechanism that uses teacher uncertainty to identify socially informative decision tokens, while suppressing gradients from low-entropy tokens corresponding to trivial navigation states. A temperature-controlled Jensen-Shannon divergence objective is then used to align the student and teacher distributions on the selected tokens. Experiments on the SNEI and MUSON benchmarks demonstrate that SOPD consistently outperforms supervised fine-tuning, off-policy distillation, and standard on-policy distillation baselines in action prediction, perception consistency, and reasoning consistency. Real-world deployment on a Scout Mini robot further shows that the distilled model can generate more socially appropriate navigation behaviors in conversational and queuing scenarios. These results suggest that SOPD is an effective strategy for building lightweight yet socially aware VLM-based navigation systems.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
