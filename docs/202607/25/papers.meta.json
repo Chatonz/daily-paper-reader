@@ -1,0 +1,69 @@
+{
+  "label": "2026-07-25",
+  "date": "2026-07-25",
+  "generated_at": "2026-07-25T21:21:28",
+  "count": 4,
+  "papers": [
+    {
+      "paper_id": "202607/25/2607.19719v1-koopman-dreamer-spectrally-constrained-latent-dynamics-for-stable-world-model-imagination",
+      "section": "deep",
+      "title_en": "Koopman Dreamer: Spectrally Constrained Latent Dynamics for Stable World-Model Imagination",
+      "authors": "Jiaqi Li, Xinglong Zhang, Haibin Xie, Yixing Lan, Wei Pan, Xin Xu",
+      "date": "2026-07-22",
+      "pdf": "https://arxiv.org/pdf/2607.19719v1",
+      "score": "9.0",
+      "evidence": "谱约束的世界模型用于控制",
+      "tldr": "潜在世界模型通过想象轨迹提升样本效率，但神经转移对模态持久性与长展开误差控制有限。本文提出Koopman Dreamer，其Dreamer式世界模型采用谱约束的潜在动态核心，基于Koopman理论用旋转-缩放块表示阻尼、旋转及近周期模态，结合线性/双线性动作项与随机调制。通过后验条件EMA教师目标联合多步一致性、展开及开环预测损失训练，并推导多步滚动误差界。在DeepMind Control Suite与UAV-LiDAR自主导航任务上，该方法改善了长期展开稳定性，取得更强闭环控制性能。",
+      "tags": "query:human-aigc",
+      "abstract_en": "Latent world models improve sample efficiency in continuous control by optimizing policies over imagined latent trajectories, but common neural transitions offer limited direct control over modal persistence and error accumulation in long rollouts. We propose Koopman Dreamer, a Dreamer-style world model with a spectrally constrained deterministic latent dynamics core. Its Koopman-inspired backbone uses two-dimensional rotation--scaling blocks with bounded radii to represent damping, rotation, and near-periodic modes. Linear and low-rank bilinear action terms capture global and state-dependent control effects, while stochastic-state modulation supplies local correction information. To reduce the mismatch between posterior-conditioned training and prior-only imagination, the model combines posterior-conditioned EMA teacher targets with one-step consistency, multi-step rollout, and open-loop observation-prediction objectives. We further derive a multi-step rollout-error bound that separates amplification by the spectral backbone and bilinear interaction from the additive effects of stochastic-state mismatch and modeling residuals, clarifying the trade-off between error attenuation and long-term information retention. Experimental results on proprioceptive continuous-control tasks from the DeepMind Control Suite and UAV-LiDAR autonomous navigation demonstrate that Koopman Dreamer improves the stability of long-horizon latent rollouts and achieves stronger closed-loop control performance on tasks that rely on high-quality multi-step imagination.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/25/2607.15641v1-imbench-a-benchmark-for-intuitive-robotic-manipulation",
+      "section": "quick",
+      "title_en": "IMBench: A Benchmark for Intuitive Robotic Manipulation",
+      "authors": "Anurag Maurya, Sukhvansh Jain, Prajwal Avhad, Gautham Balachandran, Ziyi Zhou, Atharva Kshirsagar, Satyam Singh, Bowen Li. Rishabh Mukund, Ritul Singh, Jatin Vira, Suvonil Chatterjee, Devesh K. Jha",
+      "date": "2026-07-17",
+      "pdf": "https://arxiv.org/pdf/2607.15641v1",
+      "score": "6.0",
+      "evidence": "综合感知和动作的操控技能基准",
+      "tldr": "现有机器人操作基准难以评估人类将推理与动作结合的“直觉操作”能力，要么孤立测试物理推理，要么测量策略性能而不要求显式推理。本文提出IMBENCH基准，包含35个任务和14K轨迹，要求模型在接触操作、工具使用等多阶段约束下完成感知、推理、动作生成与执行。实验发现VLM能部分推理但无法执行，VLA模型难以满足约束和泛化。IMBENCH揭示了直觉操作是当前基础模型缺失的关键能力，为开发更集成自适应的物理智能提供了评估平台。",
+      "tags": "query:vla-humanoid",
+      "abstract_en": "Humans combine reasoning and motor control to solve complex manipulation tasks under diverse constraints. They build an understanding of the physical world that helps them convert reasoning into actions and quickly adapt to new scenes, tasks, and rules. We refer to this capability as intuitive manipulation. Existing benchmarks fail to capture this integration: they evaluate physical reasoning in isolation from execution, or measure policy performance without requiring explicit reasoning. We introduce IMBENCH, a benchmark designed to evaluate intuitive manipulation as an integrated capability spanning perception, physical reasoning, action generation, and iterative execution. Our tasks require models to infer task-relevant physical structure and generate feasible action sequences under explicit constraints, including contact-rich manipulation, tool use, and multi-stage dependencies. We introduce a benchmark of 35 tasks, 14K filtered trajectories, and scalable tools for generating diverse scenarios. Experiments reveal a consistent gap: vision language models show partial physical reasoning ability but fail to produce executable plans, while state-of-the-art vision-language-action models struggle to satisfy task constraints and generalize across scenarios. These results identify intuitive manipulation as a missing axis in current foundation models and generalist robot policies, and position IMBENCH as a step toward evaluating and enabling more integrated, adaptive physical intelligence.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/25/2607.17806v1-pgn-design-and-implementation-of-a-vision-language-navigation-system-based-on-pangu-multimodal-foundation-model",
+      "section": "quick",
+      "title_en": "PGN: Design and Implementation of a Vision-Language Navigation System Based on Pangu Multimodal Foundation Model",
+      "authors": "Li Xian, Mingxi Li, Yizheng Wang, Yiming Shen, Qi Chen, Zhuoling Xiao",
+      "date": "2026-07-20",
+      "pdf": "https://arxiv.org/pdf/2607.17806v1",
+      "score": "6.0",
+      "evidence": "视觉语言动作预测导航",
+      "tldr": "视觉语言导航（VLN）要求智能体根据自然语言指令从时序视觉观察中预测动作。为使多模态大模型适配VLN，需解决视觉-语言对齐、紧凑时间输入和动作空间接地问题。本文提出PGN系统，基于OpenPangu-7B，分两阶段训练：先通过Q-Former和MLP投影器对齐视觉编码器与语言骨干，再冻结视觉通路并引入LoRA和结构token嵌入，采用五个观测窗口和推理-动作输出格式。在500条专家轨迹上的开环评估中，V9模型达到62.29%的归一化动作匹配率和100%的非空率，证明了离线动作预测的有效性。",
+      "tags": "query:vla-humanoid",
+      "abstract_en": "Vision-Language Navigation (VLN) requires an embodied agent to interpret a natural-language instruction and predict actions from temporally ordered visual observations. Adapting a multimodal large language model to VLN requires visual-language alignment, compact temporal inputs, action-space grounding, and stable training on the target hardware. This technical report presents PGN (Pangu Navigator), an offline VLN action-prediction system built on OpenPangu-7B. Training proceeds in two stages. First, PGMM aligns a frozen EVA-ViT-G/14 vision encoder with the frozen language backbone by training a Q-Former and a two-layer MLP projector. Second, PGN adapts the aligned model to expert navigation trajectories using five-observation windows, epoch-dependent temporal sampling, and a reasoning-then-action output format; this stage freezes the aligned visual pathway and updates three structural-token embeddings and LoRA adapters. The implementation combines mixed-precision computation, selective FP32 computation, and DeepSpeed ZeRO-2 on eight Ascend 910B NPUs. Under teacher-forced, open-loop evaluation on 500 held-out expert trajectories, V9 reports a 62.29% Normalized Action Match (NAM) and a 100.00% Non-empty Rate (NER). These metrics quantify offline expert-action alignment rather than closed-loop navigation success; evaluating error accumulation, path efficiency, and goal completion remains future work.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/25/2607.18062v1-unietp-unifying-environments-for-generalizable-embodied-task-planning",
+      "section": "quick",
+      "title_en": "UniETP: Unifying Environments for Generalizable Embodied Task Planning",
+      "authors": "Peiran Xu, Jiaqi Zheng, Ziyou Wang, Yadong Mu",
+      "date": "2026-07-20",
+      "pdf": "https://arxiv.org/pdf/2607.18062v1",
+      "score": "6.0",
+      "evidence": "跨模拟器的统一具身任务规划接口",
+      "tldr": "当前具身任务规划研究因模拟器和数据集孤立而难以泛化。本文提出UniETP，统一AI2-THOR、VirtualHome、Habitat、BEHAVIOR四种模拟器的观察与动作空间，并构建标准化评估系统。同时自动生成涵盖多难度等级的新数据集。实验分析了近期模型的规划性能瓶颈。该工作为可泛化具身规划提供了统一平台和基准。",
+      "tags": "query:vla-humanoid",
+      "abstract_en": "This paper focuses on the problem of Embodied Task Planning, where an agent is required to execute a sequence of atomic actions within an interactive environment to complete a user-specified task. Though a variety of simulators and datasets have previously been built for this task, these efforts are largely isolated, with each using its own observation format, action type, and task domain. This fragmentation complicates comprehensive model evaluation and hinders the scalability of training data. As an effort towards generalizable embodied planning, we propose UniETP, a unified interface integrating four commonly-used simulators (AI2-THOR, VirtualHome, Habitat, BEHAVIOR). UniETP is characterized by both standardization and diversity. On one hand, it formalizes all the simulators into a consistent observation and action space, and builds an evaluation system to support complicated task goal. On the other hand, it enhances task diversity and complexity across dimensions like task logic, instance grounding, and instruction understanding, constructing a new dataset with varied levels of difficulty in an automatic manner. Extensive experiments on the proposed benchmark are conducted to evaluate the embodied planning capabilities of recent models and analyze the performance bottlenecks. Codes and data will be available at https://github.com/woyut/UniETP .",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
