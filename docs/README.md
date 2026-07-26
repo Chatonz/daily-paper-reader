@@ -6,32 +6,33 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-25
-- 运行时间：2026-07-25 21:21:23 UTC
+- 最新运行日期：2026-07-26
+- 运行时间：2026-07-26 20:40:54 UTC
 - 运行状态：成功
 - 本次总论文数：4
-- 精读区：1
-- 速读区：3
+- 精读区：0
+- 速读区：4
 
 ### 今日简报（AI）
-今天精读一篇高分论文，速读三篇相关工作。最值得关注的是《Koopman Dreamer》，它通过谱约束潜在动力学实现了稳定的世界模型想象。建议关注《IMBench》和《UniETP》以了解具身智能基准与任务规划进展。
-- 详情：[/202607/25/README](/202607/25/README)
+今日速读4篇论文，聚焦机器人手物交接、潜世界模型规划与视觉语言导航三大方向。最值得关注的是得分最高（7.0）的《Receiver-Centered Robot-to-Human Handover with Grasp-Aware Object Orientation》，其以接收者为中心并考虑抓取姿态的物体定向方法。建议优先阅读该文，理解人机交互中物体定向对交接成功率的提升逻辑。
+- 详情：[/202607/26/README](/202607/26/README)
 
 ### 精读区论文标签
-1. [Koopman Dreamer: Spectrally Constrained Latent Dynamics for Stable World-Model Imagination](/202607/25/2607.19719v1-koopman-dreamer-spectrally-constrained-latent-dynamics-for-stable-world-model-imagination)  
-   标签：评分：9.0/10、query:human-aigc
-   evidence：谱约束的世界模型用于控制
+- 本次无精读推荐。
 
 ### 速读区论文标签
-1. [IMBench: A Benchmark for Intuitive Robotic Manipulation](/202607/25/2607.15641v1-imbench-a-benchmark-for-intuitive-robotic-manipulation)  
+1. [Receiver-Centered Robot-to-Human Handover with Grasp-Aware Object Orientation](/202607/26/2607.17839v1-receiver-centered-robot-to-human-handover-with-grasp-aware-object-orientation)  
+   标签：评分：7.0/10、query:vla-humanoid
+   evidence：基于语言模型的机器人交接动作生成
+2. [SAGE: Subgoal-Conditioned Action Generation for Latent World Model Planning](/202607/26/2607.17973v1-sage-subgoal-conditioned-action-generation-for-latent-world-model-planning)  
    标签：评分：6.0/10、query:vla-humanoid
-   evidence：综合感知和动作的操控技能基准
-2. [PGN: Design and Implementation of a Vision-Language Navigation System Based on Pangu Multimodal Foundation Model](/202607/25/2607.17806v1-pgn-design-and-implementation-of-a-vision-language-navigation-system-based-on-pangu-multimodal-foundation-model)  
+   evidence：面向潜在世界模型规划的子目标条件动作生成
+3. [Anticipate Before Acting: Future-State-Conditioned Vision-Language Navigation](/202607/26/2607.18042v2-anticipate-before-acting-future-state-conditioned-vision-language-navigation)  
    标签：评分：6.0/10、query:vla-humanoid
-   evidence：视觉语言动作预测导航
-3. [UniETP: Unifying Environments for Generalizable Embodied Task Planning](/202607/25/2607.18062v1-unietp-unifying-environments-for-generalizable-embodied-task-planning)  
+   evidence：使用未来状态条件改进基于VLM的导航动作生成
+4. [LENS: LLM-guided Environment Simplification for Planning and Control in Clutter](/202607/26/2607.19633v1-lens-llm-guided-environment-simplification-for-planning-and-control-in-clutter)  
    标签：评分：6.0/10、query:vla-humanoid
-   evidence：跨模拟器的统一具身任务规划接口
+   evidence：LLM引导的场景抽象用于规划与控制
 
 
 <div class="dpr-home-promo-card">
