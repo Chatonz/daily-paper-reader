@@ -1,0 +1,529 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-27T21:37:46.381922+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 2,
+    "deep_divecandidates": 6,
+    "deep_cap": 7,
+    "deep_selected": 6,
+    "quick_candidates": 6,
+    "quick_skim_target": 12,
+    "quick_selected": 6
+  },
+  "deep_dive": [
+    {
+      "id": "2607.20771v1",
+      "source": "arxiv",
+      "title": "Emergent Compositional Skills in Mixture-of-Experts VLAs",
+      "abstract": "We consider the problem of learning compositional robot policies end-to-end from expert demonstrations, without any pre-specified notion of task decomposition or hierarchy. We ask whether a VLA trained with a simplified Mixture-of-Experts (MoE) action head can emergently learn to decompose tasks into reusable, interpretable primitives. We find that learned experts are heavily reused across tasks and consistently correspond to qualitatively distinct low-level behaviors, suggesting that the router implicitly learns to perform high-level sequencing while experts serve as compositional primitives. Our MoE matches the task performance of a monolithic baseline while demonstrating meaningful expert specialization, a step toward modular, interpretable robot policies that emerge from data alone.",
+      "authors": [
+        "Shlok Shah",
+        "Rhiaan Jhaveri",
+        "Tharun Kumar Tiruppali Kalidoss",
+        "Chirayu Nimonkar",
+        "Ishaan Javali"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-07-22T22:36:52+00:00",
+      "link": "https://arxiv.org/pdf/2607.20771v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "VLA with mixture-of-experts for compositional robot policies",
+      "llm_evidence_cn": "混合专家VLA用于组合式机器人策略",
+      "llm_evidence": "混合专家VLA用于组合式机器人策略",
+      "canonical_evidence": "混合专家VLA用于组合式机器人策略",
+      "llm_tldr_en": "This paper shows that a VLA with Mixture-of-Experts action head can emergently learn to decompose tasks into reusable primitives, matching monolithic baseline performance while achieving expert specialization.",
+      "llm_tldr_cn": "本文研究从专家示教中端到端学习组合式机器人策略，提出一种简化混合专家（MoE）动作头的VLA。实验发现，学到的专家在不同任务间复用，并对应不同的低层行为，路由器隐式学习高层排序。MoE在保持任务性能的同时实现了专家专业化，向模块化、可解释的机器人策略迈进一步。",
+      "llm_tldr": "本文研究从专家示教中端到端学习组合式机器人策略，提出一种简化混合专家（MoE）动作头的VLA。实验发现，学到的专家在不同任务间复用，并对应不同的低层行为，路由器隐式学习高层排序。MoE在保持任务性能的同时实现了专家专业化，向模块化、可解释的机器人策略迈进一步。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "vision language action model for humanoid robots",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.21648v1",
+      "source": "arxiv",
+      "title": "Learning Diverse Humanoid Tasks via Synthetic Video Scenarios without Real World Data",
+      "abstract": "The human-like morphology of humanoid robots grants them exceptional potential for agile and versatile motor capabilities, but it also introduces significant challenges in acquiring complex skills. Traditional Learning-from-Demonstrations methods are often constrained by the high cost of collecting real-world data, the difficulty of capturing motion-specific behaviors, and the limited diversity of demonstrations across individuals. Moreover, even for the same task, humans may execute the motion in multiple distinct ways. In this paper, we propose a new framework that leverages the power of Generative AI to convert textual prompts into realistic and diverse sequences of human body movements, enabling the robot to observe multiple variations of how a single task can be performed. These synthetic demonstrations are then used as a training resource, allowing the robot to learn a broad range of task-execution styles without requiring direct human intervention. We evaluate the proposed method across four simulation scenarios. Experimental results show that the robot not only completes the tasks successfully but also demonstrates strong adaptability to complex variations in motion.",
+      "authors": [
+        "Yun-Hao Tsai",
+        "Cong-Thanh Vu",
+        "Yen-Chen Liu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-22T05:36:55+00:00",
+      "link": "https://arxiv.org/pdf/2607.21648v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "learning diverse humanoid tasks via synthetic video from generative AI",
+      "llm_evidence_cn": "通过生成AI合成视频学习多样化人形任务",
+      "llm_evidence": "通过生成AI合成视频学习多样化人形任务",
+      "canonical_evidence": "通过生成AI合成视频学习多样化人形任务",
+      "llm_tldr_en": "A framework using generative AI to convert text prompts into realistic human motion sequences for humanoid robot learning without real-world data.",
+      "llm_tldr_cn": "人形机器人技能获取受限于真实数据成本高和演示多样性不足。本文提出利用生成AI将文本提示转化为逼真且多样化的人体运动序列视频，使人形机器人通过观察多种动作变异来学习任务。该方法无需任何真实世界数据，即可实现多样化的技能学习，为人形机器人训练提供了可扩展的合成数据途径。",
+      "llm_tldr": "人形机器人技能获取受限于真实数据成本高和演示多样性不足。本文提出利用生成AI将文本提示转化为逼真且多样化的人体运动序列视频，使人形机器人通过观察多种动作变异来学习任务。该方法无需任何真实世界数据，即可实现多样化的技能学习，为人形机器人训练提供了可扩展的合成数据途径。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "humanoid robot",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.22530v1",
+      "source": "arxiv",
+      "title": "ViTacWorld: Scaling Visuo-Tactile World Models for Contact-Rich Robot Manipulation",
+      "abstract": "Contact-rich robot manipulation requires physical interaction cues that are often invisible to cameras, making tactile sensing essential for robust control. However, scaling visuo-tactile robot learning remains difficult because real tactile interaction data are expensive to collect, hardware-dependent, and limited in task and scene diversity. We present ViTacWorld, an action-conditioned visuo-tactile world model for scalable contact-rich robot manipulation. ViTacWorld leverages public real tactile datasets and a constructed simulation environment to scale visuo-tactile-action data, exploiting the fact that tactile signals are directly grounded in physical contact and can exhibit a smaller simulation-to-real gap than purely visual observations. The model is first pretrained with large-scale real and simulated visuo-tactile trajectories, and then finetuned with real-world policy rollouts to better match downstream manipulation behaviors. Given robot actions, ViTacWorld predicts temporally aligned visual observations and tactile feedback, enabling visuo-tactile-action rollout generation. To the best of our knowledge, ViTacWorld is the first framework that uses a world model for robot visuo-tactile-action trajectory generation and policy evaluation. It serves two roles: synthesizing rollouts to improve downstream tactile policies, and evaluating policies by predicting action-conditioned visuo-tactile outcomes under controlled action sequences. Experiments on contact-rich manipulation tasks show that ViTacWorld generates physically meaningful rollouts, improves policy performance through scalable data augmentation, and enables action-conditioned policy evaluation. Project page: https://vitacworld.github.io/",
+      "authors": [
+        "Yunao Huang",
+        "Shiyu Sang",
+        "Haotao Lu",
+        "Suting Ni",
+        "Shijie Wu",
+        "Ziyang Guo",
+        "Ye Shi",
+        "Jingya Wang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-24T17:59:33+00:00",
+      "link": "https://arxiv.org/pdf/2607.22530v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "action-conditioned visuo-tactile world model",
+      "llm_evidence_cn": "动作条件的视觉触觉世界模型",
+      "llm_evidence": "动作条件的视觉触觉世界模型",
+      "canonical_evidence": "动作条件的视觉触觉世界模型",
+      "llm_tldr_en": "ViTacWorld is an action-conditioned visuo-tactile world model that leverages public tactile datasets and simulation to scale contact-rich robot manipulation.",
+      "llm_tldr_cn": "针对接触密集机器人操作中触觉数据稀缺且难以扩展的问题，本文提出ViTacWorld，一个基于动作条件的视觉触觉世界模型。该方法利用公开真实触觉数据集和仿真环境大规模生成视觉触觉动作数据，并利用触觉信号仿真到现实差距较小的特性实现高效训练。实验证明该模型在多种操作任务中具有鲁棒性和泛化能力。",
+      "llm_tldr": "针对接触密集机器人操作中触觉数据稀缺且难以扩展的问题，本文提出ViTacWorld，一个基于动作条件的视觉触觉世界模型。该方法利用公开真实触觉数据集和仿真环境大规模生成视觉触觉动作数据，并利用触觉信号仿真到现实差距较小的特性实现高效训练。实验证明该模型在多种操作任务中具有鲁棒性和泛化能力。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.22535v1",
+      "source": "arxiv",
+      "title": "Robot-Factored World Models via Robot Rendering",
+      "abstract": "Action-conditioned video world models predict future observations from an initial observation and an action signal. In robotics, actions influence future observations through two distinct processes: they are first realized into robot motion by the robot body and controller, and the scene then responds through contact and object motion. Conditioning directly on action commands asks the world model to learn the realization process itself, while conditioning on logged future states leaks the interaction outcomes it is meant to predict. We propose robot-factored world models, which move two robot-specific factors outside the world model. First, action realization: each command is rolled through the robot's own controller and kinematics into a deployment-available nominal trajectory, a middle signal that avoids both action-realization learning and future-state leakage. Second, robot rendering: this nominal trajectory is rendered through the robot URDF, factoring the robot's geometry, kinematics, and appearance out of the model and into explicit rendered robot geometry. To resolve depth ambiguity, we pair end-effector depth with scene depth, giving geometric cues for contact and occlusion beyond image-plane overlap. Together, camera-aware static RGB/depth context and rendered robot geometry form a shared visual world-model interface that stays consistent across viewpoints and robot embodiments, so the model sees the action only as visible robot geometry and learns how objects respond to it. Our experiments show that the rendered interface outperforms vector-conditioned baselines and generalizes to unseen robot embodiments at inference. We further demonstrate that our model generates robot manipulation videos from human demonstrations by retargeting and rendering the hand motion as robot geometry.",
+      "authors": [
+        "Byungjun Kim",
+        "Taeksoo Kim",
+        "Hyunsoo Cha",
+        "Hanbyul Joo"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-07-24T17:59:57+00:00",
+      "link": "https://arxiv.org/pdf/2607.22535v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Proposes robot-factored world models for action-conditioned video prediction",
+      "llm_evidence_cn": "提出机器人分解的世界模型用于动作条件视频预测",
+      "llm_evidence": "提出机器人分解的世界模型用于动作条件视频预测",
+      "canonical_evidence": "提出机器人分解的世界模型用于动作条件视频预测",
+      "llm_tldr_en": "Introduces robot-factored world models that separate action realization from scene dynamics to improve prediction accuracy.",
+      "llm_tldr_cn": "针对传统世界模型直接学习动作到未来帧映射的局限，本文提出机器人分解的世界模型，将动作实现过程（控制器与运动学）与世界动态分离。仅利用部署可用名义轨迹作为输入，模型专注于预测场景响应，在仿真和真实机器人数据集上提高了视频预测质量。",
+      "llm_tldr": "针对传统世界模型直接学习动作到未来帧映射的局限，本文提出机器人分解的世界模型，将动作实现过程（控制器与运动学）与世界动态分离。仅利用部署可用名义轨迹作为输入，模型专注于预测场景响应，在仿真和真实机器人数据集上提高了视频预测质量。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.20785v1",
+      "source": "arxiv",
+      "title": "Robostral Navigate",
+      "abstract": "Deploying navigation systems at scale requires a recipe that minimizes sensor assumptions, generalizes across robot embodiments, and trains efficiently. Yet, today's best systems depend on depth sensors, multi-camera rigs, or pre-built maps, limiting the hardware they support and increasing deployment cost. We introduce Robostral Navigate, an 8B vision-language model built around this scalability objective. The model consumes only a stream of monocular RGB images - the most ubiquitous sensor across robotic platforms and predicts waypoints by pointing to the next target location in the current camera view. Operating purely in image space, rather than robot-specific coordinates, makes the policy naturally robust to changes in camera intrinsics and scene scale, enabling deployment across wheeled, legged, and aerial robots without recalibration. We generate 2.4 million trajectories across 350k simulated scenes to reduce the reliance on real-world data collection and scale easily. We further introduce a prefix-caching training recipe that packs entire episodes into single training sequences, reducing training tokens by 22x and cutting training time from months to days. A tree-based attention mask prevents conditioning on previous ground-truth actions, encouraging visually grounded action prediction, and reinforcement learning is used to further improve exploration and recovery capabilities. On the Room-to-Room and Room-Across-Room in Continuous Environments (R2R-CE and RxR-CE) benchmarks, Robostral Navigate sets a new state of the art. On R2R-CE, it achieves a 77.4% success rate, surpassing the best monocular method by 10.5 points and the strongest depth- or multi-camera system by 5.3 points despite using only a single RGB camera. On RxR-CE, it reaches 75.1% success rate, outperforming all monocular baselines.",
+      "authors": [
+        "Arjun Majumdar",
+        "Avinash Sooriyarachchi",
+        "Benjamin Tibi",
+        "Chris Bamford",
+        "Elliot Chane-Sane",
+        "Guillaume Lample",
+        "Khyathi Raghavi Chandu",
+        "Ludovic Ho Fuh",
+        "Mathieu Poiree",
+        "Olivier Duchenne",
+        "Rosalie Millner",
+        "Srijan Mishra",
+        "Theo Cachet",
+        "Thomas Chabal"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-07-22T23:13:05+00:00",
+      "link": "https://arxiv.org/pdf/2607.20785v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "vision-language model for waypoint prediction in navigation",
+      "llm_evidence_cn": "用于导航航路点预测的视觉语言模型",
+      "llm_evidence": "用于导航航路点预测的视觉语言模型",
+      "canonical_evidence": "用于导航航路点预测的视觉语言模型",
+      "llm_tldr_en": "Introduces Robostral Navigate, an 8B vision-language model that predicts waypoints from monocular RGB images for robot navigation across embodiments.",
+      "llm_tldr_cn": "本文针对大规模部署导航系统对传感器依赖强、跨本体泛化难的问题，提出Robostral Navigate，一个8B参数视觉语言模型，仅通过单目RGB图像预测航路点，在图像空间操作，无需深度传感器或多相机系统，从而在轮式、腿式等多种机器人平台上实现高效导航。",
+      "llm_tldr": "本文针对大规模部署导航系统对传感器依赖强、跨本体泛化难的问题，提出Robostral Navigate，一个8B参数视觉语言模型，仅通过单目RGB图像预测航路点，在图像空间操作，无需深度传感器或多相机系统，从而在轮式、腿式等多种机器人平台上实现高效导航。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "action generation in robotics using language models",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.21725v1",
+      "source": "arxiv",
+      "title": "Addressing the Orchestration Gap in Generalist Robots via Physical Agency",
+      "abstract": "General-purpose robots need to reason about their actions, combining perception, world knowledge, planning, success detection, recovery, and low-level control. Today's state-of-the-art models attempt to combine all these capabilities into the learned policy via large-scale pre-training. Instead, we show that these capabilities can be decomposed into a general language-conditioned policy/control agent and a high-level agent manager/orchestrator. Rather than training policies to reason via pre-training, we build a closed-loop physical agent orchestrator that can do high-level planning, decompose the goal into achievable subgoals, command low-level motor commands, track and verify the outcome from low-level observations, and recover from failures. Our Physical Agency orchestrator (Pigey) can control existing vision-language-action (VLA) policies as well as parametrized skills to solve complex reasoning tasks in the real world, without any additional data collection or post-training. We evaluate Pigey extensively across simulation benchmarks and challenging real-world robotic manipulation tasks, and demonstrate significant performance improvements over existing generalist policies. On LIBERO-PRO, Pigey advances the state-of-the-art by over 4x (12.8% -> 53.3%) with no task-specific fine-tuning. On a real robot, Pigey lifts the frozen policy from near-zero to over 90% on reasoning-limited tasks. We call the difference between what frozen motor skills achieve alone and inside the agentic loop the orchestration gap.",
+      "authors": [
+        "Liane Galanti",
+        "Dhruv Shah",
+        "Tri Dao"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-23T18:18:32+00:00",
+      "link": "https://arxiv.org/pdf/2607.21725v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "generalist robot orchestration with language-conditioned policy and world knowledge, enabling humanoid-like task decomposition and recovery",
+      "llm_evidence_cn": "通用机器人协调，结合语言条件策略与世界知识，支持类人任务分解与恢复",
+      "llm_evidence": "通用机器人协调，结合语言条件策略与世界知识，支持类人任务分解与恢复",
+      "canonical_evidence": "通用机器人协调，结合语言条件策略与世界知识，支持类人任务分解与恢复",
+      "llm_tldr_en": "Proposes a closed-loop physical agent orchestrator that decomposes tasks into subgoals and recovers from failures, complementing pre-trained policies.",
+      "llm_tldr_cn": "现有方法试图通过大规模预训练将所有能力融合到策略中。本文提出将通用机器人能力分解为语言条件策略和高级协调器，构建闭环物理代理协调器，能够进行高层规划、子目标分解、低层命令、结果验证和故障恢复。实验表明该分解方法显著提升了泛化性和稳健性。",
+      "llm_tldr": "现有方法试图通过大规模预训练将所有能力融合到策略中。本文提出将通用机器人能力分解为语言条件策略和高级协调器，构建闭环物理代理协调器，能够进行高层规划、子目标分解、低层命令、结果验证和故障恢复。实验表明该分解方法显著提升了泛化性和稳健性。",
+      "llm_tags": [
+        "query:vla-humanoid:composite"
+      ],
+      "matched_query_tag": "query:vla-humanoid:composite",
+      "matched_query_text": "Papers central to VLA，Humanoid，WAM, especially work that connects or combines: w; vision language action model for humanoid robots; humanoid robot control and manipulation; embodied artificial intelligence for humanoid robots; action generation in robotics using language models; manipulation skills for humanoid robots; how do vision language action models improve humanoid robot manipulation; task planning for humanoid robots using language models.",
+      "matched_requirement_id": "req-composite-vla-humanoid",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.21049v1",
+      "source": "arxiv",
+      "title": "GuidedAttention: Interpretable and Correctable Visual Attention for OOD-Robust Robot Manipulation via Imitation Learning",
+      "abstract": "End-to-end visuomotor policies provide little opportunity for humans to understand or correct the policy's visual attention. We propose GuidedAttention, a visuomotor imitation learning framework that introduces interpretable and correctable visual attention as an explicit intermediate representation. Task-relevant attention keypoints are predicted from camera images and condition a diffusion-based action policy. Users can inspect and optionally correct selected keypoints once at rollout initialization, after which the corrected attention is automatically propagated throughout execution by a tracking module. Experiments in simulation and the real world demonstrate that GuidedAttention consistently improves robot manipulation performance, particularly under positional and appearance out-of-distribution (OOD) conditions.",
+      "authors": [
+        "Masaki Murooka",
+        "Ryoichi Nakajo",
+        "Keisuke Shirai",
+        "Tomohiro Motoda",
+        "Hanbit Oh",
+        "Ryo Hanai",
+        "Yukiyasu Domae"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-23T08:33:40+00:00",
+      "link": "https://arxiv.org/pdf/2607.21049v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "robot manipulation with interpretable attention applicable to humanoid",
+      "llm_evidence_cn": "可应用于人形机器人的可解释注意力机器人操作",
+      "llm_evidence": "可应用于人形机器人的可解释注意力机器人操作",
+      "canonical_evidence": "可应用于人形机器人的可解释注意力机器人操作",
+      "llm_tldr_en": "GuidedAttention introduces interpretable and correctable visual attention keypoints as intermediate representation for visuomotor imitation learning, improving OOD robustness and user correction.",
+      "llm_tldr_cn": "针对端到端视觉运动策略缺乏可解释性的问题，本文提出GuidedAttention框架，将可解释且可修正的视觉注意力关键点作为显式中间表示。该方法从图像中预测任务相关的注意力关键点，并以此条件化扩散动作策略，用户可在初始化时检查并修正关键点。在仿真和真实实验中，GuidedAttention一致提升了分布外鲁棒性，为机器人操作提供了可人机协作的注意力机制。",
+      "llm_tldr": "针对端到端视觉运动策略缺乏可解释性的问题，本文提出GuidedAttention框架，将可解释且可修正的视觉注意力关键点作为显式中间表示。该方法从图像中预测任务相关的注意力关键点，并以此条件化扩散动作策略，用户可在初始化时检查并修正关键点。在仿真和真实实验中，GuidedAttention一致提升了分布外鲁棒性，为机器人操作提供了可人机协作的注意力机制。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "humanoid robot control and manipulation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.17861v1",
+      "source": "arxiv",
+      "title": "ConceptTree: Bringing Semantic Transparency to Black-Box Decision Making for Robotic Manipulation",
+      "abstract": "Establishing interpretable decision-making processes in long-horizon robotic manipulation is critical for enabling reliable human oversight and intervention. However, existing approaches to robotic manipulation largely treat skill selection as opaque mappings from observations to actions, offering limited transparency into how decisions are formed. In this work, we propose ConceptTree, a framework that reframes high-level manipulation skill selection as reasoning over human-interpretable concepts, representing high-level policies as a sequence of concept-level predicates over visual observations. Rather than relying on implicit latent representations, our method learns a normalized concept space grounded in visual inputs, over which a decision tree is trained to predict high-level skills. This formulation yields a transparent decision process that is both traceable and intervenable, enabling direct inspection and modification of policy behavior. We evaluate our approach on a set of real-world robotic manipulation tasks with increasing complexity. Experimental results show that ConceptTree consistently outperforms existing concept-based baselines, particularly in complex, long-horizon scenarios. Furthermore, we provide qualitative case studies showing that our model supports fine-grained intervention by modifying individual concepts, enabling targeted correction of decision errors without retraining.",
+      "authors": [
+        "Yongyan Wen",
+        "Feifan Liu",
+        "Jinyi Chen",
+        "Bo An",
+        "Peng Liu",
+        "Siyuan Li"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-07-20T12:02:30+00:00",
+      "link": "https://arxiv.org/pdf/2607.17861v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "interpretable decision-making for robotic manipulation",
+      "llm_evidence_cn": "机器人操作中的可解释决策",
+      "llm_evidence": "机器人操作中的可解释决策",
+      "canonical_evidence": "机器人操作中的可解释决策",
+      "llm_tldr_en": "ConceptTree frames manipulation skill selection as reasoning over human-interpretable concepts, enhancing transparency in long-horizon tasks.",
+      "llm_tldr_cn": "现有机器人操作中技能选择是黑箱映射，缺乏透明性。ConceptTree提出将高层技能选择重构为对可解释概念进行推理，学习归一化的概念空间。该方法使得操作决策过程可被人类理解和干预，在面对新任务时也能提供清晰的决策依据。",
+      "llm_tldr": "现有机器人操作中技能选择是黑箱映射，缺乏透明性。ConceptTree提出将高层技能选择重构为对可解释概念进行推理，学习归一化的概念空间。该方法使得操作决策过程可被人类理解和干预，在面对新任务时也能提供清晰的决策依据。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "humanoid robot control and manipulation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.21582v1",
+      "source": "arxiv",
+      "title": "Scale Up Strategically: Learning Compositional Generalization via Bias-Aware Evaluation and Data Collection for Robotic Manipulation",
+      "abstract": "Compositional generalization is essential for robot to follow diverse instructions. However, pretrained policies are known to take shortcuts, deferring to salient cues rather than grounding language. We introduce a diagnostic framework that localizes this failure to individual \\textit{instruction factors}, \\textit{e.g.,} reusable semantic components such as color, verb, object, size, and spatial attribute. Our framework formalizes instruction factor bias, the tendency of fine-tuned policies to over-rely on dominant factors as shortcuts, and quantifies it through two metrics: Factor Dominance Rate (FDR), capturing pairwise bias between factors, and Factor Dominance Hierarchy (FDH), aggregating these into a global ranking. Evaluation on six foundation policies reveals broadly consistent ordering, \\textit{i.e.}, color $\\geq$ object $\\geq$ spatial $\\geq$ verb $\\geq$ size, with color dominant, and verb and size most under-grounded. We further show the diagnosis is actionable: a bias-aware data collection strategy that reallocates a fixed budget toward under-grounded factors outperforms baselines in simulation and on a real robot using half the demonstrations, thereby enabling more sample-efficient and generalizable policy learning.",
+      "authors": [
+        "Yu Qi",
+        "Zhang Ye",
+        "Xinyi Xu",
+        "Yuxuan Lu",
+        "Amitoj Sandhu",
+        "Boce Hu",
+        "Haojie Huang",
+        "Jonathan Tremblay",
+        "Lawson L. S. Wong"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-07-23T17:57:09+00:00",
+      "link": "https://arxiv.org/pdf/2607.21582v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "compositional generalization for robotic manipulation with bias-aware evaluation and data collection",
+      "llm_evidence_cn": "机器人操作的组合泛化，通过偏差感知评估和数据收集提升操作技能",
+      "llm_evidence": "机器人操作的组合泛化，通过偏差感知评估和数据收集提升操作技能",
+      "canonical_evidence": "机器人操作的组合泛化，通过偏差感知评估和数据收集提升操作技能",
+      "llm_tldr_en": "Introduces a diagnostic framework to localize instruction factor bias in robotic manipulation policies, enabling targeted data collection for compositional generalization.",
+      "llm_tldr_cn": "预训练的策略在遵循多样化指令时容易利用显著线索而忽略语言引用。本文提出诊断框架，定位单个指令因素（如颜色、动词、对象）的偏差，通过因子主导率等指标量化偏差，并指导数据收集以平衡偏差，从而提升机器人操作的组合泛化能力。",
+      "llm_tldr": "预训练的策略在遵循多样化指令时容易利用显著线索而忽略语言引用。本文提出诊断框架，定位单个指令因素（如颜色、动词、对象）的偏差，通过因子主导率等指标量化偏差，并指导数据收集以平衡偏差，从而提升机器人操作的组合泛化能力。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "manipulation skills for humanoid robots",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.21918v1",
+      "source": "arxiv",
+      "title": "Action-Conditioned World Model for Goal Plane Probe Guidance in Robotic Ultrasound",
+      "abstract": "We present an action-conditioned world model framework for goal plane probe guidance in robotic ultrasound, with a focus on neck ultrasound scanning. Autonomous ultrasound tasks often require large numbers of probe-motion trajectories for training, but collecting high-quality demonstrations is labor-intensive and explicit simulators are difficult to build because ultrasound appearance depends on contact, tissue deformation, and view-dependent acoustic artifacts. We address this problem with a two-stage model-based learning pipeline. First, a latent conditional diffusion world model predicts future ultrasound observations from recent context frames, probe motions and temporal offset. Second, a goal-conditioned temporal transformer predicts ordered probe motions and is fine-tuned using rewards from the frozen world model. Experiments on the self-collected dataset show that the world model preserves action-dependent anatomical structure on target-directed scans. In real-world closed loop experiments, the framework achieves success rates of 70.0\\% for carotid guidance and 65.0\\% for thyroid guidance. These results demonstrate the potential of learned ultrasound dynamics for training goal-directed robotic probe navigation.",
+      "authors": [
+        "Siqi Fan",
+        "Mingcong Chen",
+        "Ran Liu",
+        "Zixuan Yang",
+        "Xiaoyu Fu",
+        "Xiaoqing Gao",
+        "Yunhui Liu",
+        "Hongbin Liu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-24T02:48:13+00:00",
+      "link": "https://arxiv.org/pdf/2607.21918v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "action-conditioned world model for robotic ultrasound guidance",
+      "llm_evidence_cn": "用于机器人超声引导的动作条件世界模型",
+      "llm_evidence": "用于机器人超声引导的动作条件世界模型",
+      "canonical_evidence": "用于机器人超声引导的动作条件世界模型",
+      "llm_tldr_en": "An action-conditioned world model framework for goal plane probe guidance in robotic ultrasound, using a latent conditional diffusion model to predict future observations.",
+      "llm_tldr_cn": "机器人超声自主扫描需要大量轨迹数据，但真实演示昂贵且显式模拟器难以构建。本文提出动作条件世界模型框架，首先用潜在条件扩散模型预测未来超声图像，然后通过目标条件时间变换器规划探头运动。该方法减少了对真实数据的需求，提高了超声引导的样本效率。",
+      "llm_tldr": "机器人超声自主扫描需要大量轨迹数据，但真实演示昂贵且显式模拟器难以构建。本文提出动作条件世界模型框架，首先用潜在条件扩散模型预测未来超声图像，然后通过目标条件时间变换器规划探头运动。该方法减少了对真实数据的需求，提高了超声引导的样本效率。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.21670v1",
+      "source": "arxiv",
+      "title": "Ordered Action Tokens for Visuomotor Policy Learning",
+      "abstract": "Action tokenization maps continuous robot action chunks to discrete tokens and has become an important interface for modern visuomotor policies. Existing approaches either rely on analytical discretization methods that produce prohibitively long token sequences or learned latent tokenizers that lack structure, limiting their compatibility with downstream policies. In this work, we identify three desiderata for action tokenization - high compression, total decodability, and an ordered token space - and introduce Ordered Action Tokenization (OAT), a learned action tokenizer that satisfies all three. OAT discretizes action chunks into an ordered sequence of tokens using a transformer with registers, finite scalar quantization, and ordering-inducing training mechanisms. By training each token prefix to decode into a valid action chunk, OAT places coarse control information in early tokens and uses later tokens to refine residual detail, yielding an anytime tradeoff between inference cost and action fidelity. We validate OAT in two prevailing uses of action tokens: autoregressive policies that generate tokens for control, and token co-training policies that use token losses to shape the vision-language model context consumed by a flow-based action expert. Across three policy backbones and more than 60 tasks spanning five simulation benchmarks and real-world settings, OAT consistently delivers strong policy performance while offering significantly greater flexibility at inference time.",
+      "authors": [
+        "Chaoqi Liu",
+        "Yue Zhao",
+        "Haonan Chen",
+        "Xiaoshen Han",
+        "Jiawei Gao",
+        "Ehsan Adeli",
+        "Yilun Du"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-07-23T07:04:51+00:00",
+      "link": "https://arxiv.org/pdf/2607.21670v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "ordered action tokens for visuomotor policy learning",
+      "llm_evidence_cn": "有序动作标记用于视觉运动策略学习",
+      "llm_evidence": "有序动作标记用于视觉运动策略学习",
+      "canonical_evidence": "有序动作标记用于视觉运动策略学习",
+      "llm_tldr_en": "Ordered Action Tokenization (OAT) introduces a learned action tokenizer with high compression, total decodability, and ordered token space for visuomotor policies.",
+      "llm_tldr_cn": "连续机器人动作被映射为离散标记以用于视觉运动策略，但现有方法要么产生过长标记序列要么缺乏结构。本文提出有序动作标记化（OAT），通过带寄存器的变换器、有限标量量化和排序训练机制，同时实现高压缩、完全可解码性和有序标记空间，提高了下游策略的兼容性和性能。",
+      "llm_tldr": "连续机器人动作被映射为离散标记以用于视觉运动策略，但现有方法要么产生过长标记序列要么缺乏结构。本文提出有序动作标记化（OAT），通过带寄存器的变换器、有限标量量化和排序训练机制，同时实现高压缩、完全可解码性和有序标记空间，提高了下游策略的兼容性和性能。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "action generation in robotics using language models",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.22430v1",
+      "source": "arxiv",
+      "title": "On the Identifiability of Controlled World Models",
+      "abstract": "Learning world models that infer environment dynamics from high-dimensional observations and predict outcomes under candidate actions is central to planning and control. Joint-Embedding Predictive Architectures (JEPAs) provide a compelling framework for learning such models in representation space. Recent action-conditioned extensions perform promisingly in visual control and latent-space planning, but leave a fundamental question unresolved: when does controlled latent prediction identify both the underlying state and the controlled dynamics? This is challenging under nonlinear observations and behavior policies with limited conditional action variation, where state-dependent evolution and action effects can be statistically confounded. We establish a joint identifiability theory for controlled world models with Gaussian latent states under state-dependent Gaussian behavior policies. We identify two policy-dependent conditions: spectral separation of the predictable signal governs representation identifiability, while non-degenerate conditional action variation governs transition identifiability. We prove that when both conditions hold, every global minimizer of the JEPA objective identifies the latent state and controlled transition up to an orthogonal transformation. We further derive quantitative bounds on representation and transition identifiability under approximate optimization. Finally, we construct predictor perturbations along weakly excited action directions whose counterfactual-to-on-policy error ratio is the inverse transition-identifiability margin, revealing the cost of limited action coverage. Experiments across nonlinear observation maps and behavior policies corroborate the theory and demonstrate implications for transition identifiability, counterfactual prediction, and goal-conditioned latent planning.",
+      "authors": [
+        "Xiangteng Zhang",
+        "Yang Guan",
+        "Bo Zhang",
+        "Ya-Qin Zhang",
+        "Shengbo Eben Li"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-24T15:49:12+00:00",
+      "link": "https://arxiv.org/pdf/2607.22430v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "identifiability of controlled world models",
+      "llm_evidence_cn": "受控世界模型的可辨识性",
+      "llm_evidence": "受控世界模型的可辨识性",
+      "canonical_evidence": "受控世界模型的可辨识性",
+      "llm_tldr_en": "This paper establishes joint identifiability conditions for controlled world models learned via JEPAs, showing when latent representations recover true states and dynamics.",
+      "llm_tldr_cn": "联合嵌入预测架构（JEPA）在视觉控制与潜在空间规划中表现良好，但受控潜在预测何时能辨识真实状态与动态这一基本问题尚未解决。本文为非线性观测与有限动作变化下的受控世界模型建立了联合可辨识性条件。理论结果揭示了状态演化与动作效应的可分离性要求，为实际学习提供了指导。",
+      "llm_tldr": "联合嵌入预测架构（JEPA）在视觉控制与潜在空间规划中表现良好，但受控潜在预测何时能辨识真实状态与动态这一基本问题尚未解决。本文为非线性观测与有限动作变化下的受控世界模型建立了联合可辨识性条件。理论结果揭示了状态演化与动作效应的可分离性要求，为实际学习提供了指导。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
