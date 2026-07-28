@@ -1,0 +1,124 @@
+Title: Embodied GPT-5.1: Evidence of a World Model?
+
+URL Source: https://arxiv.org/pdf/2607.23899v1
+
+Published Time: Tue, 28 Jul 2026 01:23:48 GMT
+
+Number of Pages: 6
+
+Markdown Content:
+# Embodied GPT-5.1: Evidence of a World Model? 
+
+Roberto Spinelli 
+
+Grad. Studies in Mechanical Eng. University of São Paulo 
+
+São Paulo, Brazil rspinelli@usp.br 
+
+Thiago C. Martins 
+
+Department of Mechatronics University of São Paulo 
+
+São Paulo, Brazil thiago@usp.br 
+
+Abstract —This exploratory study examines whether a large multimodal language model, GPT-5.1, can serve as the high-level controller of a physical mobile robot despite having no prior embodiment, no training in simulated environments, and no exposure to sensorimotor experience. Using only low-resolution first-person images and a discrete action set, the model was tasked with navigation and object-directed behaviors such as locating and contacting a target toy. Across multiple trials, GPT-5.1 demonstrated emergent capabilities that suggest elements of spatial reasoning and physical understanding. These included maintaining short-term memory of object locations after they left the camera frame, inferring the physical consequences of its own movements, and executing coherent action sequences such as colliding with an object and reversing to visually verify the outcome. At the same time, the model displayed inefficiencies and perceptual limitations, including imprecise alignment strategies and occasional misidentification of distant distractors. Overall, the results indicate that GPT-5.1 exhibits signs of world-model-like behavior in an embodied setting, despite the absence of any embodiment-related training, a finding that challenges long-standing views in cognitive science and robotics which hold that a physical body is a necessary prerequisite for developing such forms of intelligence. The findings motivate deeper investigation into the emergence, limits, and robustness of physical under-standing in large language models. 
+
+Index Terms —embodied AI, multimodal large language mod-els, mobile robotics, world model, spatial reasoning 
+
+I. E MBODIED INTELLIGENCE AND THE ROLE OF 
+
+PHYSICALITY 
+
+Theoretical frameworks in cognitive science and robotics converge on the view that intelligence is fundamentally em-bodied. Grounded cognition holds that cognitive processes depend on sensorimotor interaction, bodily states, and situated action [1], [2], while behavior-based robotics rejects internal symbolic models in favor of the principle that “the world is its own best model” [3]. Pfeifer and Scheier [4, Ch. 3] similarly argue that only physically situated agents can cope with real-world physics and grounding. Sensorimotor theories 
+
+Research sponsored by PECE - Graduate Studies in Artificial Intelligence and by Coordenação de Aperfeiçoamento de Pessoal de Nível Superior - CAPES (PROAP 2050). Thiago Martins is Sponsored by CNPq (grant 309688/2025-6) © 2026 IEEE. Personal use of this material is permitted. Permission from IEEE must be obtained for all other uses, in any current or future media, including reprinting/republishing this material for advertising or promotional purposes, creating new collective works, for resale or redistribution to servers or lists, or reuse of any copyrighted component of this work in other works. DOI: 10.1109/CROS69211.2026.11565684. 
+
+describe perception as mastery of sensorimotor contingen-cies linking action to sensory change [5], and developmental robotics shows that learning such contingencies is essential for self-organization and cognitive growth [6]. Harnad’s symbol grounding problem [7] formalizes the concern that, without sensorimotor referents, symbolic systems lack intrinsic mean-ing. There is significant recent progress in the integration of LLMs into robotics systems. Hierarchical architectures such as PaLM-SayCan [8] use LLMs for high-level planning while delegating execution to low-level controllers. Vision-language systems like PaLM-E [9] and EmbodiedGPT [10] take first-person images and instructions as input to generate goal-directed action sequences, and systems such as LangNav [11] and RobotGPT [12] explore perception-to-text pipelines and LLM-generated policies. Sikorski et al. [13] use general-purpose LLMs (GPT-4-Turbo and quantized LLaMA-2) on a desktop to interpret spoken commands and convert them into low-level motion primitives on a small Arduino-based wheeled robot. Although those approaches have shown that cloud LLMs can reliably parse and sequence locomotion commands, they do not handle onboard first-person vision or embodied visual grounding, and their language models operate purely as text-to-action translators. The authors further note that offline LLMs remain unreliable for physical control, underscoring the difficulty of grounding generic models in real-world execution. Modern machine learning approaches to robotics control problems in complex environments have formalized the con-cept of the World Model (WM) as the learning of a compressed spatial and temporal representation of the environment [14]. Drawing on cognitive analogies, the WM is an internal rep-resentation of the physical environment that enables the agent to generate accurate predictions about the consequences of its actions. Contemporary research in Embodied AI (EAI) recog-nizes the core challenge of bridging high-level semantics with grounded physical interaction [15]. Multimodal Large Lan-guage Models (MLLMs), such as GPT-5.1, excel at semantic reasoning and task decomposition but often overlook physical constraints and lack strong adaptation to environmental feed-back. Conversely, traditional WMs provide physics-awareness and internal representations, yet struggle with semantic rea-soning. Therefore, a critical research question remains: Can an embodied MLLM, which has not been explicitly trained on physical simulation, develop the emergent capabilities required arXiv:2607.23899v1 [cs.RO] 27 Jul 2026 Fig. 1. The differential-drive mobile robot platform equipped with a forward-facing camera used in this study. 
+
+for a functional world model? II. O BJECTIVE 
+
+In this exploratory study, we ask whether models trained exclusively on text and images—without any physical body, and without access to simulated or real environments during training—can develop the ability to act through a physical robot in the real world. Can such models support spatial orientation, navigation, and task-directed physical behavior? More broadly, can a disembodied model develop something akin to proprioceptive awareness when placed in control of a body for the first time? These questions touch on deeper issues: do such interac-tions reveal the emergence of an internal World Model—an inner representation that encodes the structure of the physical environment and enables the model to generate accurate pre-dictions about the consequences of its own actions? We aim to explore these questions by evaluating the ability of GPT-5.1 to act through a physical robot in the real world. III. S YSTEM ARCHITECTURE 
+
+This study uses a differential-drive mobile robot equipped with a forward-facing camera and basic odometry. The plat-form has been previously described in detail in [16], in-cluding its mechanical structure, sensor suite, and embedded control electronics. For completeness, we summarize only its essential characteristics here: a two-wheel differential drive base, onboard battery supply, a microcontroller responsible for motor actuation, and a camera module providing real-time first-person visual input. Figure 1 shows our little robot. To evaluate the LLM as the control policy, we implemented a closed-loop architecture in which the model receives vi-sual observations and produces motion commands iteratively. Figure 2 illustrates the full system pipeline. The interaction protocol proceeds as follows: 1. The system prompt configures the LLM with the role: "You are piloting a small mobile robot..." A mission prompt defines the goal, such as locating a specific object (e.g., a toy penguin). 2. At each control cycle, the robot captures an image from its onboard camera. This image is transmitted to the LLM  
+
+> Fig. 2. System architecture showing the closed-loop interaction between the LLM (GPT-5.1), robot and camera.
+
+along with the current mission context. 3. The LLM analyzes the scene, generates a short textual reasoning trace, and outputs one command selected from a constrained action set: advance for t seconds, reverse for t seconds, or rotate by θ degrees. 4. The robot executes the commands. After motion completion, a new image is captured and sent back to the model, together with all previous images and reasoning traces, forming an accumulated short-term memory. This expanded context is then used by the LLM to generate the next action, completing the perception–action loop. 5. The episode continues until the LLM explicitly declares "MISSION ACCOMPLISHED", which terminates the loop. This architecture enables running fully embodied trials in real time, with the LLM operating as the high-level controller while the robot handles low-level motor execution. IV. R ESULTS AND DISCUSSION 
+
+In this exploratory study, we restricted our evaluation to GPT-5.1, one of the most advanced publicly available reasoning-capable multimodal language models at the time of experimentation, trained on text and images [17]. We designed missions in which the robot was instructed to locate a specific target—a plush penguin—and physically touch it. When the robot was initially placed with the penguin already within its field of view, GPT-5.1 reliably identified the target and began issuing movement commands that generally resulted in forward progress toward the object. However, the model exhibited characteristic limitations in alignment control. While a human operator would typically rotate the robot until it faced the target head-on and only then drive straight, the LLM tended to advance even when the penguin appeared off-center, then adjust with small rotations, then advance again, in a spiral pattern. To illustrate this behavior, we present the following run. Fig. 3. Penguin is visible ahead-left.   
+
+> Fig. 4. Penguin is ahead-left, closer.
+> Fig. 5. After small rotation.
+
+A. Run 3 (2025-11-26) 
+
+Figure 3: LLM reasoning: “The penguin is clearly visible 
+
+ahead-left with unobstructed floor between us, and we just need to come very close to it. I’ll move forward a short distance to reduce the gap while keeping enough margin to stop before making contact and reassess our distance in  
+
+> Colors look odd because the OpenCV library operates in BGR instead of RGB; this was corrected in the following runs.
+> Fig. 6. Penguin is visible left of center.
+
+the next frame.” Although the model correctly identified that the penguin was to the left, it chose to move forward first. Command: advance 2 seconds (40 cm). 
+
+Figure 4: LLM reasoning: “The penguin is ahead-left at close-to-moderate range with clear floor between us, but our heading is slightly to its right. I’ll turn a bit left to better align with the penguin so we can approach it straight on while maintaining control over our stopping distance.” Command: 
+
+turn left 10 degrees. 
+
+Figure 5: LLM reasoning: “The penguin is directly ahead-left at fairly close range with clear floor in front of us. I’ll 
+
+move forward a short distance to come very close to it while minimizing risk of bumping into it. After this step we should be near enough to declare the mission complete.” The LLM rotated only slightly and again chose to advance rather than re-align. Command: advance 1 second (20 cm). 
+
+This suboptimal alignment strategy did not occur in all trials—sometimes the model performed multiple corrective rotations—but it rarely aligned perfectly before advancing. Still, despite inefficiency, GPT-5.1 typically managed to close distance consistently and complete the mission. After initial tests, we increased task difficulty by placing the robot facing a wall, requiring the model to actively explore the environment before locating the penguin. GPT-5.1 gener-ally succeeded (4 out of 5) in maneuvering, even reversing when near obstacles (as confirmed by its reasoning traces), demonstrating a form of spatial awareness of its body in the environment. 
+
+B. Run 2 (2025-11-27) 
+
+Figure 6: LLM reasoning: “The penguin toy is visible slightly left of center at a medium distance on open floor. I’ll drive straight toward it to close much of the gap while keeping it roughly in front of the robot. A 3-second advance should move significantly closer without overshooting due to the wide-angle distortion.” Command: advance 3 seconds (60 cm). The robot advanced so far that the penguin left the field of view. Figure 7: This moment tests whether the model retains memory and spatial understanding: having previously seen the Fig. 7. Penguin left the frame. Model correctly infers its position.   
+
+> Fig. 8. Penguin visible on the left, after rotation.
+> Fig. 9. Penguin out of view after small rotation.
+
+penguin on the left, it must infer that after advancing, the object should now be off-frame to its left. LLM reasoning: “The penguin is no longer visible, sug-gesting it is now off to our left after advancing. I’ll turn moderately left to re-center the previous penguin location in the camera view while keeping clear of nearby furniture and feet.” Command: turn left 25 degrees. This confirms an accurate spatial inference using only static images and accumulated context.   
+
+> Fig. 10. Model misidentifies a distant penguin.
+> Fig. 11. Final frame of the sequence.
+
+Figure 8: After closing the distance using a spiral approach: LLM reasoning: “The penguin is clearly visible on the left 
+
+and fairly close, with open floor ahead toward it. I’ll advance 
+
+a short distance to move closer and likely make contact without overshooting. This should make the penguin grow significantly in the frame ; we can fine-tune with very small moves afterward if it’s not yet filling the view.” Command: 
+
+advance 0.7 seconds (14 cm). Given the penguin was far left, advancing was not optimal—it would not center the target nor increase its apparent size efficiently. Figure 9: LLM reasoning: “The penguin, previously at the extreme left , is now out of view, meaning it is likely just to our left or slightly behind after the forward move. I’ll turn a bit further left to sweep it back into the camera’s field of view without changing our position much. Once it reappears and is closer to center, we can make a precise short advance to touch it and fill the frame.” Command: turn left 8 degrees. 
+
+Figure 10: The rotation was too small; the penguin remained out of view. At this point, the model mistakenly identified a distant penguin in the background. LLM reasoning: “The penguin is visible ahead slightly right of center near the red cabinet , with clear floor between us and it. I’ll move forward a short distance to get closer while keeping it in view and avoiding the nearby furniture legs. This Fig. 12. Robot approaching the penguin before collision.  
+
+> Fig. 13. After first impact, robot reverses to verify.
+
+should noticeably increase its size in the frame so we can then fine-tune our alignment and distance.” Command: advance 1 second (20 cm). 
+
+Although GPT-5.1 had previously inferred that the penguin was on the left, it now assumed that the distant plush on the right was the target, which is puzzling. Does the model lack the understanding that the original penguin could not have moved so far from its previous position, or did it simply abandon the earlier target and adopt a new one? Under the first interpretation, one might expect the LLM to notice, from its memory, that the far penguin was already present in the previous frame and therefore could not be the same object. However, this assumption may be unwarranted, because models do not perceive images in the same way humans do; it is possible that the distant penguin was never detected at all in the earlier, blurrier frame. Ultimately, GPT-5.1 pursued this new penguin and contin-ued the mission accordingly (Figure 11). 
+
+C. Run 6 (2025-11-27): Knock-Down Task 
+
+To further probe not only the model’s spatial reasoning but also its understanding of physical interaction, we introduced a new mission: "find the penguin and knock it down with your head (camera)."    
+
+> Fig. 14. Penguin still upright after first strike.
+> Fig. 15. Second strike.
+> Fig. 16. Penguin toppled, mission complete.
+
+Figure 12: After locating the penguin and closing distance, the model successfully commanded the robot to collide with the target. Figure 13: LLM reasoning: "We are pressed closely against the penguin’s side, so it’s hard to see whether it is upright or toppled. Backing up a short distance will create space so we can turn and visually confirm its orientation." Command: 
+
+reverse 0.7 s (14 cm). 
+
+This reasoning indicates that the model inferred physical contact and understood the need to reverse to regain visual confirmation—suggesting an emergent grasp of physical in-teraction despite no tactile sensors. Figure 14: Upon seeing that the penguin was still upright, GPT-5.1 initiated another forward strike. Figures 15 and 16: After the second impact, the robot again reversed to inspect the result. Detecting that the penguin was finally toppled, the model declared the mission complete. 
+
+Aggregate results: In the touch mission , across five trials, the model failed only once, when it got stuck against a table leg (having no tactile sensors to feel the obstacle). In the 
+
+knock-down mission , also across five trials, the model achieved two full successes, one partial outcome, and two failures. The partial case occurred when the robot located the penguin but did not manage to topple it, whereas the failures corresponded to runs in which the model did not find the penguin while navigating. V. C ONCLUSION 
+
+Despite being a short exploratory study using only a single model (GPT-5.1) and a limited scope of tasks, our experiments revealed striking indications of spatial and physical under-standing emerging from a model trained solely on text and images. The robot’s camera feed consisted of low-resolution (960×576), compressed (JPEG 85), and often noisy images, yet the model was able to navigate, orient itself, interpret spatial relations among objects, and even reason about physical interactions—all from static frames, one per action cycle. GPT-5.1 showed the ability to correctly infer the expected position of an object that left the camera’s field of view as a consequence of its own forward motion. This required the model to maintain short-term memory, track relative spatial changes, and perform causal inference—capacities not explic-itly trained during pretraining. In the knock-down task, the model exhibited a coherent action sequence: after colliding with the penguin, it reversed to visually confirm whether the object had toppled, repeated the strike when necessary, and then reassessed the result. Such behavior suggests anontrivial internal representation of physical presence, contact, and proprioceptive awareness. Nonetheless, limitations remain: the model often chose in-efficient strategies such as spiral approaches, and occasionally misidentified distractor objects when the primary target left the frame—errors likely stemming from both incomplete spatial understanding and perceptual constraints. Overall, despite these limitations, the experiments provide compelling evidence that GPT-5.1 exhibits at least some degree of emergent spatial and physical understanding be-yond its training regime, consistent with world-model-like behavior. Further, more controlled experiments are needed to characterize the boundaries, robustness, and generality of such capabilities in large multimodal language models. ACKNOWLEDGMENT 
+
+The authors thank the “Futures” network started by Max Nolan Chen, “Caramelo Biônico” and “Fundo Patrimonial Amigos da Poli” for providing resources and support. REFERENCES [1] Lawrence W Barsalou. Grounded cognition. Annual review of psychol-ogy , 59:617–645, 2008. [2] Lawrence Shapiro. Embodied cognition . Routledge, 2019. [3] Rodney A Brooks. Intelligence without representation. Artificial intelligence , 47(1-3):139–159, 1991. [4] Rolf Pfeifer and Christian Scheier. Understanding intelligence . MIT press, 1999. [5] J Kevin O’Regan and Alva Noë. A sensorimotor account of vision and visual consciousness. Behavioral and brain sciences , 24(5):939–973, 2001. [6] Lisa Jacquey, Gianluca Baldassarre, Vieri Giuliano Santucci, and J. Kevin O’Regan. Sensorimotor contingencies as a key drive of development: From babies to robots. Frontiers in Neurorobotics , Volume 13 - 2019, 2019. [7] Stevan Harnad. The symbol grounding problem. Physica D: Nonlinear Phenomena , 42(1-3):335–346, 1990. [8] Michael Ahn, Anthony Brohan, Noah Brown, Yevgen Chebotar, Omar Cortes, Byron David, Chelsea Finn, Chuyuan Fu, Keerthana Gopalakr-ishnan, Karol Hausman, Alex Herzog, Daniel Ho, Jasmine Hsu, Julian Ibarz, Brian Ichter, Alex Irpan, Eric Jang, Rosario Jauregui Ruano, Kyle Jeffrey, Sally Jesmonth, Nikhil J Joshi, Ryan Julian, Dmitry Kalashnikov, Yuheng Kuang, Kuang-Huei Lee, Sergey Levine, Yao Lu, Linda Luu, Carolina Parada, Peter Pastor, Jornell Quiambao, Kanishka Rao, Jarek Rettinghouse, Diego Reyes, Pierre Sermanet, Nicolas Sievers, Clayton Tan, Alexander Toshev, Vincent Vanhoucke, Fei Xia, Ted Xiao, Peng Xu, Sichun Xu, Mengyuan Yan, and Andy Zeng. Do as i can, not as i say: Grounding language in robotic affordances, 2022. [9] Danny Driess, Fei Xia, Mehdi S. M. Sajjadi, Corey Lynch, Aakanksha Chowdhery, Brian Ichter, Ayzaan Wahid, Jonathan Tompson, Quan Vuong, Tianhe Yu, Wenlong Huang, Yevgen Chebotar, Pierre Sermanet, Daniel Duckworth, Sergey Levine, Vincent Vanhoucke, Karol Hausman, Marc Toussaint, Klaus Greff, Andy Zeng, Igor Mordatch, and Pete Florence. Palm-e: an embodied multimodal language model. In 
+
+Proceedings of the 40th International Conference on Machine Learning ,ICML’23. JMLR.org, 2023. [10] Yao Mu, Qinglong Zhang, Mengkang Hu, Wenhai Wang, Mingyu Ding, Jun Jin, Bin Wang, Jifeng Dai, Yu Qiao, and Ping Luo. Embodiedgpt: vision-language pre-training via embodied chain of thought. In Pro-ceedings of the 37th International Conference on Neural Information Processing Systems , NIPS ’23, Red Hook, NY, USA, 2023. Curran Associates Inc. [11] Bowen Pan, Rameswar Panda, SouYoung Jin, Rogerio Feris, Aude Oliva, Phillip Isola, and Yoon Kim. LangNav: Language as a perceptual representation for navigation. In Kevin Duh, Helena Gomez, and Steven Bethard, editors, Findings of the Association for Computational Linguistics: NAACL 2024 , pages 950–974, Mexico City, Mexico, June 2024. Association for Computational Linguistics. [12] Yixiang Jin, Dingzhe Li, Yong A, Jun Shi, Peng Hao, Fuchun Sun, Jianwei Zhang, and Bin Fang. Robotgpt: Robot manipulation learning from chatgpt. IEEE Robotics and Automation Letters , 9(3):2543–2550, 2024. [13] Pascal Sikorski, Leendert Schrader, Kaleb Yu, Lucy Billadeau, Jinka Meenakshi, Naveena Mutharasan, Flavio Esposito, Hadi AliAkbarpour, and Madi Babaiasl. Deployment of large language models to control mobile robots at the edge. In 2025 3rd International Conference on Mechatronics, Control and Robotics (ICMCR) , pages 19–24, 2025. [14] David Ha and Jürgen Schmidhuber. World models. Zenodo , 2018. [15] Jingtao Ding, Yunke Zhang, Yu Shang, Yuheng Zhang, Zefang Zong, Jie Feng, Yuan Yuan, Hongyuan Su, Nian Li, Nicholas Sukiennik, Fengli Xu, and Yong Li. Understanding world or predicting future? a comprehensive survey of world models. ACM Comput. Surv. , 58(3), September 2025. [16] Pedro Pimentel Fuoco, Vinicius Selestrim, and Thiago de Castro Mar-tins. Bringing ros to the classroom: A modern robotics kit for students. In 2025 Brazilian Conference on Robotics (CROS) , volume 1, pages 1–5, 2025. [17] OpenAI. Gpt-5.1 instant and gpt-5.1 thinking system card adden-dum. https://deploymentsafety.openai.com/gpt-5-1, November 2025. Accessed 2025-11-29.

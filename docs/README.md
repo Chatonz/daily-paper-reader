@@ -6,56 +6,81 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-27
-- 运行时间：2026-07-27 21:45:06 UTC
+- 最新运行日期：2026-07-28
+- 运行时间：2026-07-28 21:32:51 UTC
 - 运行状态：成功
-- 本次总论文数：12
-- 精读区：6
-- 速读区：6
+- 本次总论文数：19
+- 精读区：7
+- 速读区：12
 
 ### 今日简报（AI）
-今天精选12篇论文，聚焦Mixture-of-Experts VLAs组合技能与零真实数据人形机器人训练两大突破。最值得精读的两篇9.0分工作：前者揭示专家混合架构如何涌现组合能力，后者证明合成视频即可教会人形机器人多样技能。建议重点研读这两篇，并留意速读中关于组合泛化和可纠正注意力机制的操作应用思路。
-- 详情：[/202607/27/README](/202607/27/README)
+今日重点聚焦世界与动作建模，精读《WorldDiT》与《LeapBot-WA》两篇高分论文。
+
+最值得关注的两个方向：统一扩散架构用于世界与动作联合建模，以及通过预测潜在对齐实现世界锚定动作模型。
+
+建议普通读者优先阅读精读列表中的两篇9.0论文，并留意速读中触觉增强和仿真管线等技术趋势。
+- 详情：[/202607/28/README](/202607/28/README)
 
 ### 精读区论文标签
-1. [Emergent Compositional Skills in Mixture-of-Experts VLAs](/202607/27/2607.20771v1-emergent-compositional-skills-in-mixture-of-experts-vlas)  
+1. [WorldDiT: A Unified Diffusion Architecture for World and Action Modeling](/202607/28/2607.23909v1-worlddit-a-unified-diffusion-architecture-for-world-and-action-modeling)  
+   标签：评分：9.0/10、query:human-aigc
+   evidence：世界与行动建模，扩散Transformer
+2. [LeapBot-WA: World-Anchor Action Models via Predictive Latent Alignments](/202607/28/2607.23969v1-leapbot-wa-world-anchor-action-models-via-predictive-latent-alignments)  
+   标签：评分：9.0/10、query:human-aigc
+   evidence：利用预测潜在对齐的世界动作模型
+3. [Learning Reusable Hybrid Motion Priors for Humanoid Locomotion from Motion Imitation](/202607/28/2607.24083v1-learning-reusable-hybrid-motion-priors-for-humanoid-locomotion-from-motion-imitation)  
    标签：评分：9.0/10、query:vla-humanoid
-   evidence：混合专家VLA用于组合式机器人策略
-2. [Learning Diverse Humanoid Tasks via Synthetic Video Scenarios without Real World Data](/202607/27/2607.21648v1-learning-diverse-humanoid-tasks-via-synthetic-video-scenarios-without-real-world-data)  
-   标签：评分：9.0/10、query:human-aigc
-   evidence：通过生成AI合成视频学习多样化人形任务
-3. [ViTacWorld: Scaling Visuo-Tactile World Models for Contact-Rich Robot Manipulation](/202607/27/2607.22530v1-vitacworld-scaling-visuo-tactile-world-models-for-contact-rich-robot-manipulation)  
-   标签：评分：9.0/10、query:human-aigc
-   evidence：动作条件的视觉触觉世界模型
-4. [Robostral Navigate](/202607/27/2607.20785v1-robostral-navigate)  
-   标签：评分：8.0/10、query:vla-humanoid
-   evidence：用于导航航路点预测的视觉语言模型
-5. [Addressing the Orchestration Gap in Generalist Robots via Physical Agency](/202607/27/2607.21725v1-addressing-the-orchestration-gap-in-generalist-robots-via-physical-agency)  
-   标签：评分：8.0/10、query:vla-humanoid
-   evidence：通用机器人协调，结合语言条件策略与世界知识，支持类人任务分解与恢复
-6. [Robot-Factored World Models via Robot Rendering](/202607/27/2607.22535v1-robot-factored-world-models-via-robot-rendering)  
+   evidence：用于人形机器人行走的可复用混合运动先验
+4. [Addressing the Orchestration Gap in Generalist Robots via Physical Agency](/202607/28/2607.21725v1-addressing-the-orchestration-gap-in-generalist-robots-via-physical-agency)  
    标签：评分：8.0/10、query:human-aigc
-   evidence：提出机器人分解的世界模型用于动作条件视频预测
+   evidence：通用机器人世界知识、规划、编排器
+5. [WCM: World-Cognition Model for Generalizable Human-Robot Interaction](/202607/28/2607.22999v1-wcm-world-cognition-model-for-generalizable-human-robot-interaction)  
+   标签：评分：8.0/10、query:vla-humanoid
+   evidence：世界认知模型结合视觉语言动作和世界模型用于人机交互
+6. [$N_0$-VTLA: Scaling Vision-Tactile-Language-Action Model with Latent Tactile Tokens](/202607/28/2607.23782v1-n0-vtla-scaling-vision-tactile-language-action-model-with-latent-tactile-tokens)  
+   标签：评分：8.0/10、query:vla-humanoid
+   evidence：视觉-触觉-语言-动作模型用于接触丰富操作
+7. [$N_0$-TWAM: Scaling Tactile-Native World-Action Model for Contact-Rich Manipulation](/202607/28/2607.23783v1-n0-twam-scaling-tactile-native-world-action-model-for-contact-rich-manipulation)  
+   标签：评分：8.0/10、query:human-aigc
+   evidence：首个大规模触觉原生世界动作模型，用于接触丰富操作
 
 ### 速读区论文标签
-1. [GuidedAttention: Interpretable and Correctable Visual Attention for OOD-Robust Robot Manipulation via Imitation Learning](/202607/27/2607.21049v1-guidedattention-interpretable-and-correctable-visual-attention-for-ood-robust-robot-manipulation-via-imitation-learning)  
+1. [τ: Learning Touch-Augmented Vision-Language-Action Models from Future Visual Supervision](/202607/28/2607.24485v1--learning-touch-augmented-vision-language-action-models-from-future-visual-supervision)  
+   标签：评分：8.0/10、query:vla-humanoid
+   evidence：触觉增强的视觉语言动作模型框架
+2. [Real2Sim2Real for Vision-Language-Action Manipulation: An AMD ROCm-Based Pipeline](/202607/28/2607.22997v1-real2sim2real-for-vision-language-action-manipulation-an-amd-rocm-based-pipeline)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：可应用于人形机器人的可解释注意力机器人操作
-2. [Scale Up Strategically: Learning Compositional Generalization via Bias-Aware Evaluation and Data Collection for Robotic Manipulation](/202607/27/2607.21582v1-scale-up-strategically-learning-compositional-generalization-via-bias-aware-evaluation-and-data-collection-for-robotic-manipulation)  
+   evidence：VLA操作流水线，AMD加速
+3. [Real-Time Human-Centric World Modeling for Upper-Body Human-Object Interaction](/202607/28/2607.23517v1-real-time-human-centric-world-modeling-for-upper-body-human-object-interaction)  
+   标签：评分：7.0/10、query:human-aigc
+   evidence：以人为中心的世界建模用于交互
+4. [A Few Words Go a Long Way: Language Guided Robot Policy Synthesis](/202607/28/2607.23784v1-a-few-words-go-a-long-way-language-guided-robot-policy-synthesis)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：机器人操作的组合泛化，通过偏差感知评估和数据收集提升操作技能
-3. [Ordered Action Tokens for Visuomotor Policy Learning](/202607/27/2607.21670v1-ordered-action-tokens-for-visuomotor-policy-learning)  
+   evidence：使用LLM编码代理进行语言引导的机器人策略合成
+5. [Memory for Attention: Language-Conditioned Re-Perception with a Vision--Language--Motion Map](/202607/28/2607.23797v1-memory-for-attention-language-conditioned-re-perception-with-a-vision--language--motion-map)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：有序动作标记用于视觉运动策略学习
-4. [ConceptTree: Bringing Semantic Transparency to Black-Box Decision Making for Robotic Manipulation](/202607/27/2607.17861v1-concepttree-bringing-semantic-transparency-to-black-box-decision-making-for-robotic-manipulation)  
+   evidence：视觉-语言-运动地图，语言条件的再感知
+6. [Embodied GPT-5.1: Evidence of a World Model?](/202607/28/2607.23899v1-embodied-gpt-51-evidence-of-a-world-model)  
+   标签：评分：7.0/10、query:human-aigc
+   evidence：探究GPT-5.1是否具备机器人控制的世界模型
+7. [A Motion-Aware Vector Quantization Framework with Centroid Reuse for Efficient VLA Inference](/202607/28/2607.24148v1-a-motion-aware-vector-quantization-framework-with-centroid-reuse-for-efficient-vla-inference)  
+   标签：评分：7.0/10、query:vla-humanoid
+   evidence：基于运动感知的矢量量化实现高效VLA推理
+8. [DeVA: Decoupled Video-Action Model with physical guidance for robot policy learning](/202607/28/2607.24159v1-deva-decoupled-video-action-model-with-physical-guidance-for-robot-policy-learning)  
+   标签：评分：7.0/10、query:vla-humanoid
+   evidence：解耦视频-动作模型结合物理引导用于机器人策略学习
+9. [MEMENTO: Memory-Guided Memetic Code-as-Policy Evolution](/202607/28/2607.22832v1-memento-memory-guided-memetic-code-as-policy-evolution)  
    标签：评分：6.0/10、query:vla-humanoid
-   evidence：机器人操作中的可解释决策
-5. [Action-Conditioned World Model for Goal Plane Probe Guidance in Robotic Ultrasound](/202607/27/2607.21918v1-action-conditioned-world-model-for-goal-plane-probe-guidance-in-robotic-ultrasound)  
+   evidence：大语言模型驱动的代码作为策略进化，用于长时程具身任务
+10. [Not Forgotten: Implementation and Evaluation of a Personalized Episodic Memory for the Humanoid Robot Head Kim](/202607/28/2607.24190v1-not-forgotten-implementation-and-evaluation-of-a-personalized-episodic-memory-for-the-humanoid-robot-head-kim)  
    标签：评分：6.0/10、query:human-aigc
-   evidence：用于机器人超声引导的动作条件世界模型
-6. [On the Identifiability of Controlled World Models](/202607/27/2607.22430v1-on-the-identifiability-of-controlled-world-models)  
-   标签：评分：6.0/10、query:human-aigc
-   evidence：受控世界模型的可辨识性
+   evidence：人形机器人头部，情景记忆
+11. [NEO: NeRF It Once, Edit It Many Times for Continuous Object Manipulation](/202607/28/2607.24538v1-neo-nerf-it-once-edit-it-many-times-for-continuous-object-manipulation)  
+   标签：评分：6.0/10、query:vla-humanoid
+   evidence：语言引导的NeRF编辑用于机器人操控
+12. [Data Pyramid for Embodied Manipulation](/202607/28/2607.24744v1-data-pyramid-for-embodied-manipulation)  
+   标签：评分：6.0/10、query:vla-humanoid
+   evidence：为具身操作组织数据来源，包括真实机器人和仿真数据
 
 
 <div class="dpr-home-promo-card">
