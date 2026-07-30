@@ -1,0 +1,679 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-30T21:51:44.594803+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 2,
+    "deep_divecandidates": 9,
+    "deep_cap": 7,
+    "deep_selected": 7,
+    "quick_candidates": 8,
+    "quick_skim_target": 12,
+    "quick_selected": 8
+  },
+  "deep_dive": [
+    {
+      "id": "2607.27205v1",
+      "source": "arxiv",
+      "title": "TurboVLA: Real-Time Vision-Language-Action Model at 32 Hz on an RTX 4090 with <1 GB VRAM",
+      "abstract": "Vision-language-action (VLA) models commonly adopt an LLM-centric $V \\to L \\to A$ pathway, where visual observations are projected into the representation space of a large language model before being decoded into robot actions. Although effective, this design incurs substantial computation and memory overhead at every policy invocation. In this work, we introduce TurboVLA, a new VLA paradigm that reformulates the conventional $V \\to L \\to A$ pathway as a direct $V + L \\to A$ mapping. Instead of using a large language model as the central interface between perception and action, TurboVLA independently encodes visual observations and language instructions, directly exchanges information between them through lightweight bidirectional vision-language interaction, and predicts continuous action chunks with a compact decoder. This simple design constructs task-conditioned representations directly from visual and linguistic features, significantly reducing the computational and memory costs of VLA inference. On LIBERO, TurboVLA achieves 97.7% average success with only 0.2B parameters, 31.2 ms inference latency, and 0.9 GB inference VRAM on a consumer-grade RTX 4090, matching or outperforming substantially larger VLA policies. These results establish TurboVLA as a simple and effective alternative to the prevailing LLM-centric VLA paradigm, offering a new perspective on how vision, language, and action can be connected for efficient robotic manipulation. Code is available at https://github.com/H-EmbodVis/TurboVLA.",
+      "authors": [
+        "Hengyi Xie",
+        "Chenfei Yao",
+        "Xianjin Wu",
+        "Xuanyang Xi",
+        "Yiping Tang",
+        "Di Xu",
+        "Yingying Zhu",
+        "Dingkang Liang",
+        "Xiang Bai",
+        "Han Ding"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-07-29T17:59:58+00:00",
+      "link": "https://arxiv.org/pdf/2607.27205v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Real-time VLA model for robot control, relevant to humanoid robots",
+      "llm_evidence_cn": "面向机器人控制的实时VLA模型，适用于人形机器人",
+      "llm_evidence": "面向机器人控制的实时VLA模型，适用于人形机器人",
+      "canonical_evidence": "面向机器人控制的实时VLA模型，适用于人形机器人",
+      "llm_tldr_en": "TurboVLA introduces a direct V+L to A mapping, achieving 32Hz real-time VLA inference with <1GB VRAM on RTX 4090, highly relevant to humanoid robot control.",
+      "llm_tldr_cn": "现有VLA模型采用V→L→A通路，计算和内存开销大，难以实时部署。本文提出TurboVLA，将传统通路重构为直接V+L→A映射，独立编码视觉和语言后通过轻量双向视觉语言融合交换信息。在RTX 4090上实现32Hz实时推理，显存占用低于1GB，且任务性能与大型模型相当。",
+      "llm_tldr": "现有VLA模型采用V→L→A通路，计算和内存开销大，难以实时部署。本文提出TurboVLA，将传统通路重构为直接V+L→A映射，独立编码视觉和语言后通过轻量双向视觉语言融合交换信息。在RTX 4090上实现32Hz实时推理，显存占用低于1GB，且任务性能与大型模型相当。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "vision language action model for humanoid robots",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.26567v1",
+      "source": "arxiv",
+      "title": "Speech2Grasp: Data-Efficient Transfer of Text-Conditioned Grasp Detection to Speech in Humanoid Robots",
+      "abstract": "Humanoid robots increasingly require multi-modal understanding for natural interaction with humans. Despite the prominence of vision-language models, they generally assume textual rather than the more natural speech inputs. In this paper, we investigate whether a well-established text-conditioned model can be transferred to speech in a data-efficient manner. Using ALBEF as a case study, we conduct diagnostic analyses showing that a lightweight MLP-based projector effectively adapts it to speech, while preserving semantic discrimination and robustness. Motivated by these findings, we introduce Speech2Grasp, a framework for data-efficient transfer of text-conditioned grasp detection to speech. Real-world humanoid robot experiments show that Speech2Grasp outperforms cascaded ASR-based pipeline, while reducing inference latency. Our findings suggest a practical paradigm for extending established text-conditioned systems to speech.",
+      "authors": [
+        "Hung Nguyen",
+        "Kim Nhat Minh Nguyen",
+        "Van Duc Vu",
+        "Van-Danh Le",
+        "Hoang Huy Le",
+        "Dinh Tuan Nguyen",
+        "Pham Tuyen Le",
+        "Van-Truong Nguyen",
+        "Quan Nguyen"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-07-29T07:40:00+00:00",
+      "link": "https://arxiv.org/pdf/2607.26567v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Humanoid robot grasp detection using speech input",
+      "llm_evidence_cn": "人形机器人利用语音输入的抓取检测",
+      "llm_evidence": "人形机器人利用语音输入的抓取检测",
+      "canonical_evidence": "人形机器人利用语音输入的抓取检测",
+      "llm_tldr_en": "Speech2Grasp transfers text-conditioned grasp detection to speech input for humanoid robots, using a lightweight MLP projector, enabling multimodal human-robot interaction.",
+      "llm_tldr_cn": "人形机器人需要多模态理解，但视觉-语言模型通常只接受文本输入。本文研究能否高效地将文本条件抓取检测迁移到语音输入。以ALBEF为例，通过轻量MLP投影器即可有效适应语音，保留语义判别能力。在此基础上提出Speech2Grasp框架，在实际人形机器人上实现了语音驱动的抓取。",
+      "llm_tldr": "人形机器人需要多模态理解，但视觉-语言模型通常只接受文本输入。本文研究能否高效地将文本条件抓取检测迁移到语音输入。以ALBEF为例，通过轻量MLP投影器即可有效适应语音，保留语义判别能力。在此基础上提出Speech2Grasp框架，在实际人形机器人上实现了语音驱动的抓取。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "humanoid robot control and manipulation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.26789v1",
+      "source": "arxiv",
+      "title": "CheckVLA: Execution-Time Verification with Action-Conditioned World Model for Long-Horizon Mobile Manipulation",
+      "abstract": "Vision-language-action (VLA) policies commonly execute long-horizon mobile manipulation through open-loop action chunks, issuing multiple actions without receiving new high-level visual input. A committed chunk therefore implies how observations should evolve, but accidental deviations can violate this expectation while the remaining actions continue to propagate the error: commit-time policy confidence cannot react to a deviation that occurs after dispatch, and observation-only anomaly scores lack an action-conditioned reference for separating expected effects from unexplained changes. We propose CheckVLA, which verifies execution with a separately trained, frozen action-conditioned world model. A conformally calibrated risk threshold bounds the episode-level probability of an unnecessary first intervention and determines when to intervene, its exceedance controls how strongly the rewritten suffix retains the superseded chunk, latency-aware hard prefixing restricts replacement to actions that remain deployable, and an event-driven keyframe bank preserves evidence of prior progress across repairs. On RoboCasa365, under a common training recipe and a matched invocation budget, CheckVLA attains a 36.1% average success rate against 27.6% for periodic replanning (+8.5 points). At a matched 5% episode-level false-alarm target, action conditioning raises timely recall to 77.9%, against 48.6% for an observation-only control and 37.9% for an action-shuffled control. These simulation results support action-conditioned verification as a way to restore feedback during chunked execution while keeping the repair consistent with inference latency.",
+      "authors": [
+        "Yushan Liu",
+        "Peibo Sun",
+        "Xintao Chao",
+        "Zhenyang Yang",
+        "Yifan Xie",
+        "Lingfeng Zhang",
+        "Shoujie Li",
+        "Chenyu Tang",
+        "Fang Chen",
+        "Xiao-Ping Zhang",
+        "Wenbo Ding"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-29T11:31:33+00:00",
+      "link": "https://arxiv.org/pdf/2607.26789v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Action-conditioned world model for VLA policy verification",
+      "llm_evidence_cn": "用于VLA策略验证的动作条件世界模型",
+      "llm_evidence": "用于VLA策略验证的动作条件世界模型",
+      "canonical_evidence": "用于VLA策略验证的动作条件世界模型",
+      "llm_tldr_en": "CheckVLA uses an action-conditioned world model to verify long-horizon mobile manipulation execution, detecting deviations from expected observations.",
+      "llm_tldr_cn": "VLA策略通常通过开环动作块执行长程移动操作，但一旦出现偏离，错误会累积。本文提出CheckVLA，利用一个独立训练的、冻结的动作条件世界模型来验证执行过程，通过共形预测器确定何时观测异常并触发恢复。该方法有效检测并缓解了执行偏差。",
+      "llm_tldr": "VLA策略通常通过开环动作块执行长程移动操作，但一旦出现偏离，错误会累积。本文提出CheckVLA，利用一个独立训练的、冻结的动作条件世界模型来验证执行过程，通过共形预测器确定何时观测异常并触发恢复。该方法有效检测并缓解了执行偏差。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.26452v1",
+      "source": "arxiv",
+      "title": "CG-World: A Large-Scale World-State Dataset and Protocol for World Models",
+      "abstract": "World models must learn the joint dynamics of states, actions, events, and observations, yet existing video, robotics, and simulation datasets usually capture only part of this structure. We introduce CG-World, a large-scale world-state dataset and protocol derived from industrial computer graphics production pipelines. CG-World explicitly records intermediate states, including multimodal semantics, spatial structure, skeletal and controller states, motion curves, camera and lighting parameters, physics caches, contact events, and multi-pass renderings. CG-World v1 contains approximately 850,000 temporally aligned segments of 1-5 seconds. It separates latent states, observations, relations, events, and branch metadata, and organizes them into unified spatiotemporal samples. To support intervention learning and counterfactual reasoning, CG-World defines a branch lineage covering factual trajectories, observation interventions, action interventions, mechanism interventions, and strict counterfactual branches, with intervention targets, invariants, and alternative outcomes explicitly recorded. We evaluate the dataset on geometry-conditioned video generation, action prediction, and closed-loop vision-language-action policy transfer. Results show that CG-World provides reusable structured supervision for controlled generation, action modeling, and embodied policy transfer. We plan to expand CG-World through continued data collection and community collaboration toward a shared data infrastructure for world models, Physical AI, and embodied intelligence.",
+      "authors": [
+        "Yiming Cai",
+        "Fangjie Yu",
+        "Meiqing Yu",
+        "Ziyue Shi",
+        "Pengfei Yuan",
+        "Yong Guo"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-07-29T04:06:28+00:00",
+      "link": "https://arxiv.org/pdf/2607.26452v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Large-scale world-state dataset for world models",
+      "llm_evidence_cn": "面向世界模型的大规模世界状态数据集",
+      "llm_evidence": "面向世界模型的大规模世界状态数据集",
+      "canonical_evidence": "面向世界模型的大规模世界状态数据集",
+      "llm_tldr_en": "CG-World provides a large-scale dataset of world states from CG pipelines, including multimodal semantics, physics, and actions, to support world model research.",
+      "llm_tldr_cn": "现有数据集未能完整记录状态、动作、事件和观察的联合动力学。本文推出CG-World，一个从工业计算机图形生产管线派生的大规模世界状态数据集，显式记录多模态语义、空间结构、骨架控制器状态、运动曲线、接触事件等。包含约85万段1-5秒的时序片段，为世界模型训练提供全面监督。",
+      "llm_tldr": "现有数据集未能完整记录状态、动作、事件和观察的联合动力学。本文推出CG-World，一个从工业计算机图形生产管线派生的大规模世界状态数据集，显式记录多模态语义、空间结构、骨架控制器状态、运动曲线、接触事件等。包含约85万段1-5秒的时序片段，为世界模型训练提供全面监督。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.26513v1",
+      "source": "arxiv",
+      "title": "Explicit Kinematic Guidance from Analytic Concepts for Vision-Language-Action Models",
+      "abstract": "Current Vision-Language-Action (VLA) models rely mainly on 2D inputs, neglecting the rich object structural information and commonsense knowledge inherent in the 3D physical world. This deficiency restricts their spatial awareness and adaptability for complex, high-precision manipulation. To bridge this crucial gap, we construct a Concept Expert module for VLA to build executable Analytic Concepts that represent objects as explicit, programmatic blueprints. Our mechanism operates in two synergistic phases: First, prior to VLA inference, the Concept Expert leverages 3D information from Vision Foundation Models (VFMs) to estimate the initial kinematic and structural parameters. Second, throughout the manipulation process, the VLA model utilizes its inherent capability to dynamically track the dynamic concept parameters, continuously aligning them with observational changes to ensure persistent accuracy. Once established, the Analytic Concepts provide explicit, high-quality guidance for VLA fine-tuning through (1) dense, programmatic manipulation rewards and (2) precise spatial guidance.   This formulation allows VLA models to learn physically grounded interaction behaviors while maintaining end-to-end learning flexibility.   Our experimental results show consistent improvements in success rate and learning efficiency across supervised and reinforcement learning settings, demonstrating the effectiveness of structured, concept-based guidance for VLA post-training.",
+      "authors": [
+        "Mingyang Sun",
+        "Jiude Wei",
+        "Xiujian Liang",
+        "Qichen He",
+        "Donglin Wang",
+        "Cewu Lu",
+        "Jianhua Sun"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-29T06:24:25+00:00",
+      "link": "https://arxiv.org/pdf/2607.26513v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "VLA model with 3D kinematic guidance",
+      "llm_evidence_cn": "具有3D运动学引导的VLA模型",
+      "llm_evidence": "具有3D运动学引导的VLA模型",
+      "canonical_evidence": "具有3D运动学引导的VLA模型",
+      "llm_tldr_en": "Explicit Kinematic Guidance from Analytic Concepts enhances VLA models by incorporating 3D object structural information, improving spatial awareness for high-precision manipulation.",
+      "llm_tldr_cn": "当前视觉-语言-动作模型主要依赖2D输入，忽略了3D物理世界的物体结构和常识信息，限制了其在复杂高精度操作中的空间感知能力。本文提出概念专家模块，利用3D视觉基础模型估计运动学参数，为VLA模型提供可执行的分析概念蓝图。实验证明该方法显著提升了操作精度和鲁棒性。",
+      "llm_tldr": "当前视觉-语言-动作模型主要依赖2D输入，忽略了3D物理世界的物体结构和常识信息，限制了其在复杂高精度操作中的空间感知能力。本文提出概念专家模块，利用3D视觉基础模型估计运动学参数，为VLA模型提供可执行的分析概念蓝图。实验证明该方法显著提升了操作精度和鲁棒性。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "vision language action model for humanoid robots",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.26579v1",
+      "source": "arxiv",
+      "title": "ContactFlow: A video action conditioning that transfers across embodiments",
+      "abstract": "World models offer a promising route toward robot planning by enabling agents to imagine and verify the consequences of actions before execution. However, current video-based world models often struggle to capture the physical constraints that govern manipulation, particularly contact. Further, their action conditioning is often constrained to specific embodiments such as parallel grippers. We propose \\emph{Contact Flow}, an embodiment-agnostic action representation that encodes manipulation through the trajectory of 3D contact points between an actor and a target object. By discarding actor-specific appearance and kinematics, Contact Flow provides a shared conditioning signal for both human demonstrations and robotic execution. Therefore, we can train a large-scale video generative model on both human and robotic object interaction videos conditioned on Contact Flow, yielding a world model that predicts physically plausible manipulation outcomes. We integrate this model into a propose-imagine-verify-act pipeline, where generated rollouts are assessed by a vision-language model before execution. Experiments on the DROID dataset and real-world tabletop manipulation tasks demonstrate that Contact Flow enables transfer between human demonstrations and different robotic embodiments.",
+      "authors": [
+        "Sami Azirar",
+        "Enrico Pallotta",
+        "Jan Nogga",
+        "Jürgen Gall",
+        "Sven Behnke",
+        "Hermann Blum"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-07-29T07:59:47+00:00",
+      "link": "https://arxiv.org/pdf/2607.26579v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Embodiment-agnostic action representation for world models in manipulation",
+      "llm_evidence_cn": "跨实体的世界模型动作表示用于操作",
+      "llm_evidence": "跨实体的世界模型动作表示用于操作",
+      "canonical_evidence": "跨实体的世界模型动作表示用于操作",
+      "llm_tldr_en": "ContactFlow proposes an embodiment-agnostic action representation using 3D contact point trajectories, enabling world models to transfer across embodiments for manipulation planning.",
+      "llm_tldr_cn": "视频世界模型难以捕捉操作中的物理约束，且动作条件化通常受限于特定实体（如平行爪）。本文提出ContactFlow，一种与实体无关的动作表示，通过3D接触点轨迹编码操作。该方法可在人类演示和机器人执行之间共享条件信号，实验证明其在不同实体间实现有效迁移，提升操作规划成功率。",
+      "llm_tldr": "视频世界模型难以捕捉操作中的物理约束，且动作条件化通常受限于特定实体（如平行爪）。本文提出ContactFlow，一种与实体无关的动作表示，通过3D接触点轨迹编码操作。该方法可在人类演示和机器人执行之间共享条件信号，实验证明其在不同实体间实现有效迁移，提升操作规划成功率。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.26991v1",
+      "source": "arxiv",
+      "title": "RL$^2$-VLA: Adaptive RL Latent Compositional Steering with Test-Time Scaling for Vision-Language-Action Models",
+      "abstract": "Despite the impressive visuomotor capabilities enabled by Vision-Language-Action (VLA) models, their performance often degrades on challenging and out-of-domain tasks. Recent test-time steering and scaling methods improve performance without extensive data collection and retraining, but action samples often remain concentrated around similar behaviors and therefore inherit correlated failure modes. Moreover, existing methods apply the same intervention strategy at every timestep, regardless of whether the base policy is already likely to succeed. To address these limitations, we introduce $RL^2$, an adaptive inference-time steering framework that leverages Reinforcement Learning on VLA Latents. First, we train a lightweight offline RL policy conditioned on expressive latents extracted from the VLA action expert and compose its flow velocity with that of the frozen VLA during inference. This compositional steering strategy combines the behavioral priors of large-scale imitation learning with the action diversity induced by offline RL beyond dominant demonstration modes. We further discover that inference-time steering follows fundamentally different scaling laws under success and failure states, revealing that action diversity is most beneficial when the base VLA is likely to fail, but can unnecessarily perturb already-accurate actions when success is likely. Building on this insight, $RL^2$ activates compositional steering only when failure is predicted. Across the SIMPLER and PolaRiS benchmarks, $RL^2$ improves success rates by up to +17.3% in out-of-domain settings, while ablations and scaling studies demonstrate the importance of latent representations and RL training. Finally, real-world experiments demonstrate that these gains transfer beyond simulation, establishing $RL^2$ as a practical and modular steering framework for VLA deployment.",
+      "authors": [
+        "Derek Ming Siang Tan",
+        "Shailesh Shailesh",
+        "Srikrishna Iyer",
+        "William Wei Jie Teo",
+        "Yuanliang Ju",
+        "Qiao Gu",
+        "Guillaume Sartoretti"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-29T14:49:56+00:00",
+      "link": "https://arxiv.org/pdf/2607.26991v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Adaptive test-time steering for VLA models",
+      "llm_evidence_cn": "VLA模型的自适应推理时引导",
+      "llm_evidence": "VLA模型的自适应推理时引导",
+      "canonical_evidence": "VLA模型的自适应推理时引导",
+      "llm_tldr_en": "RL2-VLA uses reinforcement learning on VLA latents for adaptive inference-time steering, improving performance on challenging tasks without retraining.",
+      "llm_tldr_cn": "视觉-语言-动作（VLA）模型在困难或域外任务上性能下降。现有测试时引导方法无法调整干预策略，且动作样本集中在相似行为，导致相关失败模式。本文提出RL2，在VLA潜在空间进行强化学习，实现自适应推理时引导，并扩展训练一个基础策略，提升模型在复杂任务上的鲁棒性。",
+      "llm_tldr": "视觉-语言-动作（VLA）模型在困难或域外任务上性能下降。现有测试时引导方法无法调整干预策略，且动作样本集中在相似行为，导致相关失败模式。本文提出RL2，在VLA潜在空间进行强化学习，实现自适应推理时引导，并扩展训练一个基础策略，提升模型在复杂任务上的鲁棒性。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "vision language action model for humanoid robots",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.27138v1",
+      "source": "arxiv",
+      "title": "DLAM: Distributional Latent Actions with Temporal Constraints",
+      "abstract": "Vision-language-action (VLA) models remain constrained by scarce action-labeled robot data, whereas action-free videos offer abundant observations of physical change. Latent action models can extract such priors, but reconstruction-trained codes may predict future observations without the structure required for joint generation with robot actions. Existing structured methods add temporal constraints but retain deterministic transition points, so residual errors in locally inferred transitions may propagate and compound under recursive composition. We introduce DLAM, a distributional latent-action model that represents each transition as a diagonal Gaussian. Reconstruction conditioned on the reference frame grounds the mean in observed visual change, while normalized composition and reversal over equal-gap triplets constrain both the mean and dimension-wise variance. Variance composition uses a lightweight shared-correlation coefficient to account for dependence between adjacent transitions that share an intermediate frame, whereas reversal negates the mean and preserves the variance. For downstream policy learning, we freeze the encoder and train a flow-matching policy to jointly generate mean transition sequences and robot actions. On held-out transitions, DLAM learns more temporally consistent latent dynamics than existing latent-action baselines and achieves stronger direct and cumulative reconstruction on held-out videos. Under the same controlled $π_0$ transfer protocol, it also improves policy performance on MetaWorld MT50, LIBERO, and real-world manipulation tasks. Controlled ablations show that normalized mean constraints account for most of the reconstruction gain, while learned variance and correlation-aware composition provide complementary improvements in downstream control.",
+      "authors": [
+        "Zuojin Tang",
+        "Feifan Luo",
+        "Haoyun Liu",
+        "Botai Yuan",
+        "Dekang Qi",
+        "Ronghan Chen",
+        "Yandan Yang",
+        "Tong Lin",
+        "Xinyuan Chang",
+        "Mu Xu",
+        "Bin Liu",
+        "De Ma",
+        "Zhiheng Ma"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.CV"
+      ],
+      "published": "2026-07-29T17:09:48+00:00",
+      "link": "https://arxiv.org/pdf/2607.27138v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "distributional latent actions with temporal constraints for VLA models",
+      "llm_evidence_cn": "基于分布潜动作和时序约束的VLA模型",
+      "llm_evidence": "基于分布潜动作和时序约束的VLA模型",
+      "canonical_evidence": "基于分布潜动作和时序约束的VLA模型",
+      "llm_tldr_en": "DLAM represents transitions as diagonal Gaussians, improving latent action modeling for VLA tasks with limited action-labeled data.",
+      "llm_tldr_cn": "VLA模型受限于动作标注数据稀缺。潜动作模型可从无动作视频中提取先验，但现有结构方法存在误差传播。DLAM将每步转移表示为对角高斯分布，通过参考帧重建约束均值，并加入正态化流提高表达能力。在机器人操作任务中，DLAM有效提升了动作生成质量。",
+      "llm_tldr": "VLA模型受限于动作标注数据稀缺。潜动作模型可从无动作视频中提取先验，但现有结构方法存在误差传播。DLAM将每步转移表示为对角高斯分布，通过参考帧重建约束均值，并加入正态化流提高表达能力。在机器人操作任务中，DLAM有效提升了动作生成质量。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "vision language action model for humanoid robots",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.26315v1",
+      "source": "arxiv",
+      "title": "MoMo: Dial Motion Mode in Robot Manipulation with Spatiotemporal Action Tokenization",
+      "abstract": "To operate effectively across diverse contexts, robots must not only perform manipulation tasks accurately but also adapt how their actions unfold to the task, object, and interaction setting. We ask whether this execution-level variation can be learned as a reusable behavioral factor shared across tasks. We present \\textbf{MoMo}, a two-stage imitation-learning framework consisting of a spatiotemporal action tokenizer and a behavior-cloning transformer that takes task and a continuous motion-mode condition as inputs. Across six real-robot manipulation tasks, varying this condition produces steady, dynamic, and intermediate behaviors that human raters can distinguish and that differ in joint speed, acceleration, and end-effector approach pitch. On tasks demonstrated in only one mode, MoMo transfers the unseen requested mode while largely preserving task success. Together, these results provide evidence of compositional generalization to unseen task--mode combinations and show that motion mode can be reused across tasks to control how a manipulation skill is performed.",
+      "authors": [
+        "Yuhan Hu",
+        "Hugues Thomas",
+        "Peide Huang",
+        "Mouli Sivapurapu",
+        "Benoit Landry",
+        "Arto Kivila"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-28T22:25:10+00:00",
+      "link": "https://arxiv.org/pdf/2607.26315v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "robot manipulation with spatiotemporal action tokenization and motion mode conditioning",
+      "llm_evidence_cn": "机器人操作中的时空动作分词与运动模式调节",
+      "llm_evidence": "机器人操作中的时空动作分词与运动模式调节",
+      "canonical_evidence": "机器人操作中的时空动作分词与运动模式调节",
+      "llm_tldr_en": "MoMo learns reusable motion modes via spatiotemporal action tokenization, enabling a behavior-cloning transformer to generate diverse manipulation behaviors conditioned on a continuous motion mode.",
+      "llm_tldr_cn": "针对机器人操作中动作执行方式的多样性问题，本文提出 MoMo 框架，通过时空动作分词器将动作序列离散为令牌，再使用行为克隆 Transformer 以任务和连续运动模式条件生成动作。在六个真实操作任务上，调节运动模式可产生稳定、动态等不同行为风格，表明执行层面的变化可作为可复用因素学习，有助于提升人形机器人操作技能的适应性。",
+      "llm_tldr": "针对机器人操作中动作执行方式的多样性问题，本文提出 MoMo 框架，通过时空动作分词器将动作序列离散为令牌，再使用行为克隆 Transformer 以任务和连续运动模式条件生成动作。在六个真实操作任务上，调节运动模式可产生稳定、动态等不同行为风格，表明执行层面的变化可作为可复用因素学习，有助于提升人形机器人操作技能的适应性。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "manipulation skills for humanoid robots",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.25798v1",
+      "source": "arxiv",
+      "title": "Transformer Transformer: A Unified Model for Motion-Conditioned Robot Co-design",
+      "abstract": "An often overlooked factor of robot manipulation performance is the embodiment of the robot itself. Motivated by this problem, we study motion-conditioned robot co-design, where the goal is to generate complete robot designs that track target end-effector trajectories (from human demonstrations) while optimizing user-defined rewards. We introduce Transformer Transformer, a diffusion transformer trained on RoboTokens, a unified tokenization of robot embodiments, states, and actions. The same architecture can be used across embodiment spaces (e.g., wheeled bimanual, quadrupeds, humanoids) and use cases (embodiment generation, cross embodiment controller). Rather than overfitting to one reward function, Transformer Transformer is a dynamics model, whose reward-agnostic state and action predictions can be converted into reward-specific value predictions. These value predictions are used to steer embodiment diffusion towards high value robot designs, through a procedure we call Dynamics Self-Guidance. Experiments across multiple design spaces show zero-shot optimization of unseen rewards and trajectories, improving performance and runtime over the evolutionary baseline. Finally, we fabricated an optimized ALOHA design, which reduced tracking error by over 70% compared to the original design.",
+      "authors": [
+        "Huy Ha",
+        "C. Karen Liu",
+        "Shuran Song"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-28T14:47:14+00:00",
+      "link": "https://arxiv.org/pdf/2607.25798v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Unified model for robot co-design across embodiments including humanoids",
+      "llm_evidence_cn": "跨多种机器人形态的统一共设计模型，包括人形",
+      "llm_evidence": "跨多种机器人形态的统一共设计模型，包括人形",
+      "canonical_evidence": "跨多种机器人形态的统一共设计模型，包括人形",
+      "llm_tldr_en": "Transformer Transformer is a diffusion transformer for motion-conditioned robot co-design, generating designs that track target trajectories across embodiments including humanoids.",
+      "llm_tldr_cn": "机器人操作性能受限于硬件设计。本文提出Transformer Transformer模型，一种基于扩散Transformer的机器人共设计方法，在统一 token 化框架下生成符合示教轨迹的机器人设计，可适用于轮式双臂、四足、人形等多种形态。该模型是一个动力学模型，不依赖单一奖励函数。",
+      "llm_tldr": "机器人操作性能受限于硬件设计。本文提出Transformer Transformer模型，一种基于扩散Transformer的机器人共设计方法，在统一 token 化框架下生成符合示教轨迹的机器人设计，可适用于轮式双臂、四足、人形等多种形态。该模型是一个动力学模型，不依赖单一奖励函数。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "humanoid robot",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.27180v1",
+      "source": "arxiv",
+      "title": "HumanCLAW: Can Vision-Language Models Act Through a Body?",
+      "abstract": "Evaluating whether a vision-language model (VLM) can act through a physical body is challenging. The outcome of an action couples the VLM's decision with motor control. When a task fails, it is hard to tell whether the VLM made a bad choice or the motor controller simply failed to execute it, e.g., losing balance and falling. In this work, we introduce HumanCLAW, an evaluation framework that decouples action decision-making from low-level execution. At every step, a harnessed, off-the-shelf VLM issues an atomic skill command, and the command is translated into a sub-second chunk of continuous full-body motion with real physical consequences, including gravity and collisions. The body can therefore act freely in the physical world, while execution-side disturbances, balance and motor errors, are factored out. What remains measurable is the model's action intelligence: its moment-to-moment choice of what the body should execute next. Based on this framework, we build HumanCLAW-Bench: 1,218 long-horizon, egocentric find-navigate-interact episodes across 41 indoor scenes. We test nine state-of-the-art VLMs and find that none solves the benchmark; the best model reaches only a 16.8% success rate. Recognizing the target is not the bottleneck. What current VLMs lack is embodied self-awareness: they lose track of their own body, failing to tell where it is, whether it has reached the goal, or whether it has hit an obstacle.",
+      "authors": [
+        "Siyao Li",
+        "Jiawei Gu",
+        "Shuai Liu",
+        "Kairui Hu",
+        "Zekun Li",
+        "Linjie Li",
+        "Chengcheng Tang",
+        "Po-Chen Wu",
+        "Ivan Shugurov",
+        "Lingni Ma",
+        "Michael Zollhoefer",
+        "Sizhe An",
+        "Abhay Mittal",
+        "Amy Zhao",
+        "Ranjay Krishna",
+        "Manling Li",
+        "Ziwei Liu",
+        "Chuan Guo"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-07-29T17:51:36+00:00",
+      "link": "https://arxiv.org/pdf/2607.27180v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Evaluates VLM acting through a physical body for humanoid robot control",
+      "llm_evidence_cn": "评估VLM通过物理身体行动，用于人形机器人控制",
+      "llm_evidence": "评估VLM通过物理身体行动，用于人形机器人控制",
+      "canonical_evidence": "评估VLM通过物理身体行动，用于人形机器人控制",
+      "llm_tldr_en": "HumanCLAW is an evaluation framework that decouples VLM decision-making from low-level execution, enabling realistic assessment of VLM-based humanoid robot control.",
+      "llm_tldr_cn": "评估视觉-语言模型（VLM）能否通过物理身体执行动作是一个挑战，因为失败难以归因。本文提出HumanCLAW框架，将VLM的决策与底层运动控制解耦，每一步由VLM发出原子技能命令，再由运动控制器执行亚秒级全身运动，从而在真实物理环境中自由行动。该工作为VLM在人形机器人上的应用提供了可靠的评估基准。",
+      "llm_tldr": "评估视觉-语言模型（VLM）能否通过物理身体执行动作是一个挑战，因为失败难以归因。本文提出HumanCLAW框架，将VLM的决策与底层运动控制解耦，每一步由VLM发出原子技能命令，再由运动控制器执行亚秒级全身运动，从而在真实物理环境中自由行动。该工作为VLM在人形机器人上的应用提供了可靠的评估基准。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "humanoid robot control and manipulation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.26657v1",
+      "source": "arxiv",
+      "title": "Enfold: Folding World-Generator Computation into Predictive Representations for Efficient Embodied Control",
+      "abstract": "World generative models are typically used through what they produce: a rendered future, a video-conditioned action, or latent context computed by a costly generative branch. We argue that their more reusable asset is the computation that constructs a future. As a generator transforms a corrupted future into a coherent trajectory, its intermediate states organize appearance, spatial layout, and interaction across levels of abstraction. Can this future-generative computation be internalized in a representation inferred from the present alone? We present Enfold, which transfers this computation into a representation predicted from the current visual context and language instruction. During training, multi-level states exposed as the generator processes the observed future supervise a current-only encoder. The learned representation is fed back to condition future generation and is read by task heads without allowing task gradients to reshape the encoder. At deployment, action prediction no longer executes the generator. Across LIBERO, RoboTwin2.0, and real-robot tasks, Enfold supports strong control while reducing action latency by $3.7\\times$ relative to Fast--WAM, Enfold-Flash reaches $10.1\\times$. Representation analyses show that it suppresses nuisance variation and preferentially captures changes that emerge over longer horizons. When the current scene is altered by human intervention, both the generated continuation and the executed actions adapt, which is inconsistent with fixed trajectory replay. These results recast a world generator as a source of predictive control representations: its future need not be materialized at every step if its internal structure can be enfolded into the present.",
+      "authors": [
+        "Weili Zeng",
+        "Yitong Xing",
+        "Fulong Liu",
+        "Chengqun Yang",
+        "Antao Xiang",
+        "Feng Tian",
+        "Jingnan Gao",
+        "Jisong Cai",
+        "Xin Wang",
+        "Xiaomin Wu",
+        "Yao Mu",
+        "Yichao Yan"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-29T09:17:33+00:00",
+      "link": "https://arxiv.org/pdf/2607.26657v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "world generative model and predictive representations for embodied control",
+      "llm_evidence_cn": "世界生成模型与预测表示用于具身控制",
+      "llm_evidence": "世界生成模型与预测表示用于具身控制",
+      "canonical_evidence": "世界生成模型与预测表示用于具身控制",
+      "llm_tldr_en": "Enfold internalizes future-generative computation into a representation predicted from visual context and language, enabling efficient embodied control without costly generation.",
+      "llm_tldr_cn": "现有世界生成模型通常通过生成未来帧来使用，但本文认为其计算过程本身更具复用价值。Enfold 将生成世界模型的计算过程内化为一种从当前视觉上下文和语言指令预测的表示，无需显式生成未来图像。该方法在具身控制任务中展现出高效性，为世界动作模型提供了新的利用方式。",
+      "llm_tldr": "现有世界生成模型通常通过生成未来帧来使用，但本文认为其计算过程本身更具复用价值。Enfold 将生成世界模型的计算过程内化为一种从当前视觉上下文和语言指令预测的表示，无需显式生成未来图像。该方法在具身控制任务中展现出高效性，为世界动作模型提供了新的利用方式。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.26903v1",
+      "source": "arxiv",
+      "title": "From Passive Video to Editable Experience: Physically Grounded Experience Synthesis for Embodied Intelligence",
+      "abstract": "The key bottleneck in embodied AI is not model architecture but data. Although billions of human manipulation videos exist online, robots cannot directly learn from them due to the embodiment gap between human morphology and robot hardware. We introduce Pegasus, a low-resource framework that bridges this gap by translating human demonstrations into robot-learnable data through structured knowledge transfer. Instead of relying on raw video prompts, Pegasus constructs a graph-based intermediate representation: a Task Graph extracted from human videos is transformed through Affordance and Constraint Graphs into a Robot Planning Graph for robot-conditioned video generation. A hierarchical affordance latent space models the relationship between object states, affordances, and tasks, enabling generalization beyond object identities. A closed-loop physics verifier further filters invalid generations using kinematic feasibility, collision constraints, and joint limits. We evaluate Pegasus across a range of egocentric manipulation benchmarks, including GTEA Gaze+ and EPIC-KITCHENS-100, and diverse robot embodiments, assessing Task Correctness, Executability, State Consistency, and Learnability. Results demonstrate reliable cross-embodiment translation and show that robot data generation can be reframed from a hardware collection problem into a scalable, low-resource knowledge transfer problem.",
+      "authors": [
+        "Jia Luo"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.RO"
+      ],
+      "published": "2026-07-29T13:35:23+00:00",
+      "link": "https://arxiv.org/pdf/2607.26903v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "bridging human demonstrations to robot learning for embodied intelligence",
+      "llm_evidence_cn": "弥合人类示教到机器人学习的鸿沟",
+      "llm_evidence": "弥合人类示教到机器人学习的鸿沟",
+      "canonical_evidence": "弥合人类示教到机器人学习的鸿沟",
+      "llm_tldr_en": "Pegasus translates human manipulation videos into robot-learnable data via graph-based knowledge transfer, using task, affordance, and constraint graphs to generate robot-conditioned videos.",
+      "llm_tldr_cn": "具身AI的瓶颈在于数据：人类视频不可直接用于机器人学习。本文提出Pegasus框架，通过构建任务图、可行性图和约束图，将人类演示转化为机器人条件下的训练视频。层次化可行性潜在空间模型保证了物理一致性。实验证明该方法能生成高质量机器人可学习数据，显著提升下游策略学习效率。",
+      "llm_tldr": "具身AI的瓶颈在于数据：人类视频不可直接用于机器人学习。本文提出Pegasus框架，通过构建任务图、可行性图和约束图，将人类演示转化为机器人条件下的训练视频。层次化可行性潜在空间模型保证了物理一致性。实验证明该方法能生成高质量机器人可学习数据，显著提升下游策略学习效率。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "research on humanoid robots and world action models",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.26712v1",
+      "source": "arxiv",
+      "title": "ActSWM: Action-Sensitive World Models for Long-Horizon Planning in Open-World Games",
+      "abstract": "Latent world models support efficient model-predictive control by optimizing future control sequences in latent space and replanning in a receding-horizon manner. However, existing latent predictors often lack stable long-horizon rollout ability, and prediction accuracy alone does not ensure that rollouts remain responsive to the actions being planned. We identify Context Collapse, a failure mode in which autoregressive latent predictors maintain high similarity to future states while producing nearly indistinguishable futures under different action sequences. To address this issue, we propose ActSWM, an action-sensitive latent world model grounded in a transition-separation principle: a planning-useful latent dynamics model should keep alternative-action futures distinguishable and make the action associated with each local transition recoverable. Under this principle, action sensitivity is enforced as a constraint on latent rollouts rather than treated only as an auxiliary prediction target, encouraging predicted futures to preserve action-dependent differences over long horizons. Across step-drift analysis, closed-loop Minecraft planning, and cross-game local action recovery, ActSWM preserves larger action-dependent rollout gaps than existing baselines, improves task success in long-horizon interactive settings, and enables world-model-based action recovery from offline gameplay videos.",
+      "authors": [
+        "Zhenfeng Gan",
+        "ZiTong Zeng",
+        "Jiajun Cheng",
+        "Yeke Song",
+        "Yongyi Tang",
+        "Xueqian Wang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-29T09:55:54+00:00",
+      "link": "https://arxiv.org/pdf/2607.26712v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Action-sensitive latent world models for long-horizon planning",
+      "llm_evidence_cn": "用于长时域规划的动作敏感潜在世界模型",
+      "llm_evidence": "用于长时域规划的动作敏感潜在世界模型",
+      "canonical_evidence": "用于长时域规划的动作敏感潜在世界模型",
+      "llm_tldr_en": "ActSWM addresses Context Collapse in latent world models by enforcing transition-separation for action-sensitive rollouts, improving long-horizon planning.",
+      "llm_tldr_cn": "潜在世界模型用于模型预测控制时存在上下文崩溃问题，即不同动作序列产生几乎不可区分的未来预测。本文提出ActSWM，基于过渡分离原则确保潜在动态对动作敏感。实验显示在开放世界游戏中，ActSWM显著提升长时域规划质量，且计算开销低。",
+      "llm_tldr": "潜在世界模型用于模型预测控制时存在上下文崩溃问题，即不同动作序列产生几乎不可区分的未来预测。本文提出ActSWM，基于过渡分离原则确保潜在动态对动作敏感。实验显示在开放世界游戏中，ActSWM显著提升长时域规划质量，且计算开销低。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.26770v1",
+      "source": "arxiv",
+      "title": "Vision-TL-Action: Neuro-Symbolic Trajectory Generation from Visual Observations and Temporal Logic",
+      "abstract": "Temporal logic (TL) provides a compositional language for the formulation of long horizon robotic tasks, but existing TL-conditioned trajectory generators can sidestep perception-to-symbol binding by encoding exact object geometry in the task graph. We introduce \\emph{Vision-TL-Action}, which generates action trajectories from multi-view images, a coordinate-free TL syntax graph, and the robot initial state. TL-node tokens and spatial visual tokens are fused through bidirectional cross-attention, and the resulting representation conditions a flow-matching trajectory generator. Visual tokens are augmented only with normalized image-plane locations and camera-view identifiers, while a training-only predicate-to-region objective encourages grounding to referenced objects. Consistent with prior work in this domain, we evaluate the model using Success@$K$, the fraction of tasks for which at least one of K sampled trajectories satisfies the TL specification. On Panda task, our model achieves 67.45% Success@1024, compared with 59.11% for the oracle-state baseline. On AntMaze task, it achieves 96.35% Success@256, comparable to the oracle result of 96.88%. Resolution and intervention studies show that spatial detail depends on semantic grounding and predicate identity affects both attention and performance. These results demonstrate a direct mapping from visual observations and structured TL goals to action trajectories without requiring object geometry at inference. Code is available at https://github.com/AricLau07/vision-tl-action.",
+      "authors": [
+        "Zezhi Liu",
+        "Zhiwei Zheng",
+        "Hanqian Luo",
+        "Deyun Qin",
+        "Shizhen Wu",
+        "Yongchun Fang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-29T11:12:31+00:00",
+      "link": "https://arxiv.org/pdf/2607.26770v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "action generation from visual and temporal logic",
+      "llm_evidence_cn": "从视觉和时序逻辑生成动作",
+      "llm_evidence": "从视觉和时序逻辑生成动作",
+      "canonical_evidence": "从视觉和时序逻辑生成动作",
+      "llm_tldr_en": "Vision-TL-Action generates action trajectories from multi-view images, temporal logic, and initial robot state using bidirectional cross-attention and flow matching.",
+      "llm_tldr_cn": "现有时序逻辑条件轨迹生成器通常将精确物体几何编码到任务图，绕过感知到符号的绑定。本文提出Vision-TL-Action，通过双向交叉注意力融合时序逻辑节点标记和空间视觉标记，使用流匹配生成动作轨迹。实验表明该方法能从多视图图像直接生成符合高层任务规范的轨迹。",
+      "llm_tldr": "现有时序逻辑条件轨迹生成器通常将精确物体几何编码到任务图，绕过感知到符号的绑定。本文提出Vision-TL-Action，通过双向交叉注意力融合时序逻辑节点标记和空间视觉标记，使用流匹配生成动作轨迹。实验表明该方法能从多视图图像直接生成符合高层任务规范的轨迹。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "action generation in robotics using language models",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
