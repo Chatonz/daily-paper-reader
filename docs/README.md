@@ -6,67 +6,71 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-30
-- 运行时间：2026-07-30 21:57:42 UTC
+- 最新运行日期：2026-08-01
+- 运行时间：2026-08-01 20:44:38 UTC
 - 运行状态：成功
-- 本次总论文数：15
+- 本次总论文数：17
 - 精读区：7
-- 速读区：8
+- 速读区：10
 
 ### 今日简报（AI）
-1) 今日日报聚焦VLA模型实时化与机器人抓取、动作生成，共15篇论文，精读7篇。  
-2) 最值得看的方向：TurboVLA在RTX 4090上实现32Hz、<1GB显存运行；Speech2Grasp将文本抓取迁移到语音，数据效率高。  
-3) 建议关注VLA模型轻量化与多模态指令交互的突破，为未来机器人实时控制铺路。
-- 详情：[/202607/30/README](/202607/30/README)
+今日精读7篇、速读10篇，核心覆盖世界模型、具身智能与机器人安全控制。最值得看两篇9.0分论文《World Action Planner》与《EgoGenesis》，均围绕动作条件世界模型展开，强调可泛化决策与自我中心感知记忆。建议普通读者优先关注世界模型如何提升决策泛化，再结合导航、人形机器人安全强化学习等速读论文扩展应用场景。
+- 详情：[/202608/01/README](/202608/01/README)
 
 ### 精读区论文标签
-1. [TurboVLA: Real-Time Vision-Language-Action Model at 32 Hz on an RTX 4090 with <1 GB VRAM](/202607/30/2607.27205v1-turbovla-real-time-vision-language-action-model-at-32-hz-on-an-rtx-4090-with-1-gb-vram)  
-   标签：评分：10.0/10、query:vla-humanoid
-   evidence：面向机器人控制的实时VLA模型，适用于人形机器人
-2. [Speech2Grasp: Data-Efficient Transfer of Text-Conditioned Grasp Detection to Speech in Humanoid Robots](/202607/30/2607.26567v1-speech2grasp-data-efficient-transfer-of-text-conditioned-grasp-detection-to-speech-in-humanoid-robots)  
-   标签：评分：9.0/10、query:vla-humanoid
-   evidence：人形机器人利用语音输入的抓取检测
-3. [CheckVLA: Execution-Time Verification with Action-Conditioned World Model for Long-Horizon Mobile Manipulation](/202607/30/2607.26789v1-checkvla-execution-time-verification-with-action-conditioned-world-model-for-long-horizon-mobile-manipulation)  
+1. [World Action Planner: Generalizable Decision-Making with Action-Conditioned World Models](/202608/01/2607.27599v1-world-action-planner-generalizable-decision-making-with-action-conditioned-world-models)  
    标签：评分：9.0/10、query:human-aigc
-   evidence：用于VLA策略验证的动作条件世界模型
-4. [CG-World: A Large-Scale World-State Dataset and Protocol for World Models](/202607/30/2607.26452v1-cg-world-a-large-scale-world-state-dataset-and-protocol-for-world-models)  
-   标签：评分：8.0/10、query:human-aigc
-   evidence：面向世界模型的大规模世界状态数据集
-5. [Explicit Kinematic Guidance from Analytic Concepts for Vision-Language-Action Models](/202607/30/2607.26513v1-explicit-kinematic-guidance-from-analytic-concepts-for-vision-language-action-models)  
+   evidence：动作条件世界模型驱动的通用决策规划方法
+2. [EgoGenesis: Egocentric World-Action Modeling with Online Anchored Projective Memory and Action-3D RoPE](/202608/01/2607.28243v1-egogenesis-egocentric-world-action-modeling-with-online-anchored-projective-memory-and-action-3d-rope)  
+   标签：评分：9.0/10、query:human-aigc
+   evidence：以自我中心视频构建世界-动作仿真器，合成可控操作视频以扩展真实机器人数据
+3. [TacWAM: Anchor-Guided World Action Model with Mechanics-Aware Tactile Prediction](/202608/01/2607.28391v1-tacwam-anchor-guided-world-action-model-with-mechanics-aware-tactile-prediction)  
+   标签：评分：9.0/10、query:human-aigc
+   evidence：力学感知的世界行动模型，结合触觉预测用于接触丰富操纵
+4. [QuantWAMs: Calibrating at the Right Granularity for World Action Models](/202608/01/2607.28405v1-quantwams-calibrating-at-the-right-granularity-for-world-action-models)  
+   标签：评分：9.0/10、query:human-aigc
+   evidence：直接针对世界行动模型（WAM）提出高效部署的量化框架。
+5. [Cross-Embodiment Transfer via Behavior-Aligned Representations](/202608/01/2607.27549v1-cross-embodiment-transfer-via-behavior-aligned-representations)  
    标签：评分：8.0/10、query:vla-humanoid
-   evidence：具有3D运动学引导的VLA模型
-6. [ContactFlow: A video action conditioning that transfers across embodiments](/202607/30/2607.26579v1-contactflow-a-video-action-conditioning-that-transfers-across-embodiments)  
-   标签：评分：8.0/10、query:human-aigc
-   evidence：跨实体的世界模型动作表示用于操作
-7. [RL$^2$-VLA: Adaptive RL Latent Compositional Steering with Test-Time Scaling for Vision-Language-Action Models](/202607/30/2607.26991v1-rl2-vla-adaptive-rl-latent-compositional-steering-with-test-time-scaling-for-vision-language-action-models)  
+   evidence：研究VLA模型中的行为对齐表示以促进机器人操作的跨具身迁移。
+6. [RedFlow: Redirect Failure into Action-Level Corrections for Flow-matching VLA Policy](/202608/01/2607.27782v1-redflow-redirect-failure-into-action-level-corrections-for-flow-matching-vla-policy)  
    标签：评分：8.0/10、query:vla-humanoid
-   evidence：VLA模型的自适应推理时引导
+   evidence：提出面向流匹配VLA策略的离线强化学习框架，通过动作级修正监督改善机器人操作。
+7. [Security of World-Model-Based Embodied AI: A Lifecycle of Threats, Defenses, and Evaluation](/202608/01/2607.28226v1-security-of-world-model-based-embodied-ai-a-lifecycle-of-threats-defenses-and-evaluation)  
+   标签：评分：8.0/10、query:human-aigc
+   evidence：世界模型具身AI安全的全生命周期综述
 
 ### 速读区论文标签
-1. [DLAM: Distributional Latent Actions with Temporal Constraints](/202607/30/2607.27138v1-dlam-distributional-latent-actions-with-temporal-constraints)  
+1. [PAC-MAN: Perception-Aware CBF-RL for Whole-Body Safety in Humanoid Dodgeball](/202608/01/2607.28623v1-pac-man-perception-aware-cbf-rl-for-whole-body-safety-in-humanoid-dodgeball)  
    标签：评分：8.0/10、query:vla-humanoid
-   evidence：基于分布潜动作和时序约束的VLA模型
-2. [HumanCLAW: Can Vision-Language Models Act Through a Body?](/202607/30/2607.27180v1-humanclaw-can-vision-language-models-act-through-a-body)  
-   标签：评分：8.0/10、query:vla-humanoid
-   evidence：评估VLM通过物理身体行动，用于人形机器人控制
-3. [MoMo: Dial Motion Mode in Robot Manipulation with Spatiotemporal Action Tokenization](/202607/30/2607.26315v1-momo-dial-motion-mode-in-robot-manipulation-with-spatiotemporal-action-tokenization)  
+   evidence：结合控制障碍函数与强化学习的人形全身安全控制，降低感知部署差距
+2. [MemVLN: Episodic and Procedural Memory for Vision-and-Language Navigation](/202608/01/2607.23504v1-memvln-episodic-and-procedural-memory-for-vision-and-language-navigation)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：机器人操作中的时空动作分词与运动模式调节
-4. [Enfold: Folding World-Generator Computation into Predictive Representations for Efficient Embodied Control](/202607/30/2607.26657v1-enfold-folding-world-generator-computation-into-predictive-representations-for-efficient-embodied-control)  
-   标签：评分：7.0/10、query:human-aigc
-   evidence：世界生成模型与预测表示用于具身控制
-5. [ActSWM: Action-Sensitive World Models for Long-Horizon Planning in Open-World Games](/202607/30/2607.26712v1-actswm-action-sensitive-world-models-for-long-horizon-planning-in-open-world-games)  
-   标签：评分：7.0/10、query:human-aigc
-   evidence：用于长时域规划的动作敏感潜在世界模型
-6. [Vision-TL-Action: Neuro-Symbolic Trajectory Generation from Visual Observations and Temporal Logic](/202607/30/2607.26770v1-vision-tl-action-neuro-symbolic-trajectory-generation-from-visual-observations-and-temporal-logic)  
+   evidence：利用语言模型生成导航动作
+3. [Practice Makes Policies: Bootstrapping and Consolidating Robotic Capabilities from Zero Human Demonstrations](/202608/01/2607.26809v1-practice-makes-policies-bootstrapping-and-consolidating-robotic-capabilities-from-zero-human-demonstrations)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：从视觉和时序逻辑生成动作
-7. [Transformer Transformer: A Unified Model for Motion-Conditioned Robot Co-design](/202607/30/2607.25798v1-transformer-transformer-a-unified-model-for-motion-conditioned-robot-co-design)  
+   evidence：无需人工示范的机器人操作能力自主进化
+4. [RoboBRIDGE: A Modular Framework for Bridging Policies to Robust Real-World Robotic Agents](/202608/01/2607.27881v1-robobridge-a-modular-framework-for-bridging-policies-to-robust-real-world-robotic-agents)  
+   标签：评分：7.0/10、query:vla-humanoid
+   evidence：面向真实操纵场景的VLA模型模块化部署框架，可迁移至人形机器人
+5. [SceneActBench: Can Agents Act on the 3D Scenes They See?](/202608/01/2607.22393v1-sceneactbench-can-agents-act-on-the-3d-scenes-they-see)  
+   标签：评分：6.0/10、query:vla-humanoid
+   evidence：用于三维场景动作生成评测的基准
+6. [False Prophets: On the Security of World Models in Agentic Systems](/202608/01/2607.23147v1-false-prophets-on-the-security-of-world-models-in-agentic-systems)  
    标签：评分：6.0/10、query:human-aigc
-   evidence：跨多种机器人形态的统一共设计模型，包括人形
-8. [From Passive Video to Editable Experience: Physically Grounded Experience Synthesis for Embodied Intelligence](/202607/30/2607.26903v1-from-passive-video-to-editable-experience-physically-grounded-experience-synthesis-for-embodied-intelligence)  
+   evidence：揭示世界模型在智能体系统中的安全隐患，为世界动作模型安全部署提供警示
+7. [S2A2: Audio-Visual Imitation Learning for Manipulation Tasks Using Acoustic Spatial Information](/202608/01/2607.26047v1-s2a2-audio-visual-imitation-learning-for-manipulation-tasks-using-acoustic-spatial-information)  
+   标签：评分：6.0/10、query:vla-humanoid
+   evidence：通过视听模仿学习获取操控技能
+8. [Embodied Agents Take Control: Minimal-Interface Zero-Shot Agents Rival Industrial-Scale Policies in Vision-and-Language Navigation](/202608/01/2607.26148v1-embodied-agents-take-control-minimal-interface-zero-shot-agents-rival-industrial-scale-policies-in-vision-and-language-navigation)  
+   标签：评分：6.0/10、query:vla-humanoid
+   evidence：极简接口的智能体执行具身控制
+9. [Leveraging Trajectory Graphs for Pre-Execution Error Diagnosis in Agentic LLM Systems](/202608/01/2607.27443v1-leveraging-trajectory-graphs-for-pre-execution-error-diagnosis-in-agentic-llm-systems)  
+   标签：评分：6.0/10、query:vla-humanoid
+   evidence：面向具身智能长时程任务的智能体错误预诊断
+10. [MUGEN: A Unified Framework for Efficient Motion Understanding and Generation](/202608/01/2607.27581v1-mugen-a-unified-framework-for-efficient-motion-understanding-and-generation)  
    标签：评分：6.0/10、query:human-aigc
-   evidence：弥合人类示教到机器人学习的鸿沟
+   evidence：面向物理AI的人体运动理解与生成
 
 
 <div class="dpr-home-promo-card">
