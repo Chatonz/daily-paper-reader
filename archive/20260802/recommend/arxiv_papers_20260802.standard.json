@@ -1,0 +1,138 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-02T21:16:01.721341+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 2,
+    "deep_divecandidates": 0,
+    "deep_cap": 7,
+    "deep_selected": 0,
+    "quick_candidates": 3,
+    "quick_skim_target": 12,
+    "quick_selected": 3
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2607.24036v1",
+      "source": "arxiv",
+      "title": "WARL: Wrench-Augmented Reinforcement Learning for Task-Agnostic Learning in Legged Robots",
+      "abstract": "While reinforcement learning for legged robots has achieved high motor performance, it has been constrained by the limited exploration capability of actions confined to the joint space. To address this issue, this study proposes a new method, Wrench-Augmented Reinforcement Learning (WARL), which introduces a wrenche (force and torque) into the action space. The proposed method combines wrench-guided exploration with a success rate-based curriculum mechanism to expand exploration capabilities in the early stages of learning, with the ultimate goal of acquiring behaviors based solely on joint control. Experiments using a quadruped robot demonstrated that WARL can learn robustly across diverse terrains and motor tasks without requiring terrain-specific reward adjustments or complex curriculum designs. Furthermore, an ablation study verified the effectiveness of the Switching Curriculum, which gradually eliminates the wrench. On the other hand, we also show that introducing a wrench can encourage behaviors that do not sufficiently exploit the robot's physical embodiment. These findings suggest that while wrench-based exploration enhancement is effective for improving learning efficiency, designing it in a way that is consistent with the robot's physical structure is a critical future challenge.",
+      "authors": [
+        "Keita Yoneda",
+        "Kento Kawaharazuka",
+        "Kei Okada"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-27T06:17:42+00:00",
+      "link": "https://arxiv.org/pdf/2607.24036v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "wrench-augmented RL for legged robot control, transferable to humanoid control",
+      "llm_evidence_cn": "力/力矩增强的强化学习用于腿式机器人控制，可迁移到人形控制",
+      "llm_evidence": "力/力矩增强的强化学习用于腿式机器人控制，可迁移到人形控制",
+      "canonical_evidence": "力/力矩增强的强化学习用于腿式机器人控制，可迁移到人形控制",
+      "llm_tldr_en": "WARL augments the action space with wrench (force/torque) and uses success-based curriculum to boost exploration in legged robot RL, achieving robust task-agnostic behaviors across terrains in quadruped experiments.",
+      "llm_tldr_cn": "腿式机器人强化学习虽能达到高运动性能，但动作限于关节空间导致探索不充分。本文提出WARL，在动作空间中引入力与力矩，并配合成功率课程机制，扩大学习早期探索能力，最终掌握仅基于关节控制的鲁棒行为。四足机器人实验表明其能跨多种地形和任务稳定学习，为腿式机器人自主决策提供了一种高效探索增强方案。",
+      "llm_tldr": "腿式机器人强化学习虽能达到高运动性能，但动作限于关节空间导致探索不充分。本文提出WARL，在动作空间中引入力与力矩，并配合成功率课程机制，扩大学习早期探索能力，最终掌握仅基于关节控制的鲁棒行为。四足机器人实验表明其能跨多种地形和任务稳定学习，为腿式机器人自主决策提供了一种高效探索增强方案。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "humanoid robot control and manipulation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.25053v1",
+      "source": "arxiv",
+      "title": "Motion Generation With Environmental Constraints",
+      "abstract": "Robot motion planning faces challenges in high-dimensional spaces and uncertain environments, often constrained by the need for collision-free motions. We advocate an alternative approach, Environmental Constraint Exploitation (ECE), where deliberate contact with the environment simplifies planning by reducing dimensionality and computational complexity. By integrating ECE into motion planning algorithms, we bias exploration to task-relevant regions and leverage contact for uncertainty reduction to improve robustness during execution. We evaluate ECE benefits with RRT-based planners and demonstrate their practical benefits in a real-world application. This work consolidates and extends prior research, showcasing how ECE simplifies motion planning while enhancing adaptability and performance in complex environments.",
+      "authors": [
+        "Előd Páll",
+        "Oliver Brock"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-27T20:31:40+00:00",
+      "link": "https://arxiv.org/pdf/2607.25053v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Motion generation with environmental contact exploitation",
+      "llm_evidence_cn": "利用环境接触的机器人运动生成",
+      "llm_evidence": "利用环境接触的机器人运动生成",
+      "canonical_evidence": "利用环境接触的机器人运动生成",
+      "llm_tldr_en": "This work advocates Environmental Constraint Exploitation (ECE) for robot motion planning, deliberately using contact with the environment to reduce dimensionality and improve robustness.",
+      "llm_tldr_cn": "传统运动规划在高维不确定环境中面临碰撞约束难题。论文提出环境约束利用（ECE），通过有意接触环境来简化规划，降低维度与计算复杂度，并利用接触减少不确定性。在RRT规划器和真实应用中的实验证明ECE能提升规划鲁棒性与适应性，为高维机器人（包括人形）运动生成提供新思路。",
+      "llm_tldr": "传统运动规划在高维不确定环境中面临碰撞约束难题。论文提出环境约束利用（ECE），通过有意接触环境来简化规划，降低维度与计算复杂度，并利用接触减少不确定性。在RRT规划器和真实应用中的实验证明ECE能提升规划鲁棒性与适应性，为高维机器人（包括人形）运动生成提供新思路。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "humanoid robot control and manipulation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.27581v1",
+      "source": "arxiv",
+      "title": "MUGEN: A Unified Framework for Efficient Motion Understanding and Generation",
+      "abstract": "Grounding human motion in language, and language in motion, is a central step toward physical AI systems that can understand, generate, and communicate human behavior. Unified motion--language systems first coupled the two directions through a shared discrete motion codebook, but quantization limits generation quality. The strongest generators buy quality back at growing cost: stacked residual codebooks enlarge the representation; masked decoding stages, long autoregressive rollouts, and denoising chains of tens to hundreds of steps stretch inference; even the continuous-latent designs among them reach their latent only through an iterative diffusion head; and none of this decoding machinery serves understanding. We therefore propose MUGEN, a unified motion--language framework that pays neither cost: no codebook, one draw. A single adaptive-length autoencoder compresses any-length motion into a few continuous latent slots, the system's only motion representation: the language model generates them for text-to-motion and reads them back for motion understanding. Depth-routed hidden states let each slot read from the transformer depth it needs, and a calibrated head predicts a joint distribution over the full latent set, so a single draw carries the text-conditional, cross-slot variation a description permits. At a decoding cost of K language-model steps, one draw, and one decoder pass, MUGEN leads language-model baselines on FID on HumanML3D while raising retrieval precision above the real-motion reference under the standard evaluator, achieves the best CIDEr and BLEU@4 scores, and surpasses the discrete-token state of the art on every retrieval and alignment metric on SnapMoGen.",
+      "authors": [
+        "Zhankai Ye",
+        "Yukai Jin",
+        "Bingyang Wei",
+        "Bofan Li",
+        "Yusen Wu",
+        "Fangyi Li",
+        "Shangqian Gao",
+        "Xin Liu"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-30T01:55:51+00:00",
+      "link": "https://arxiv.org/pdf/2607.27581v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Unified motion-language understanding and generation for physical AI",
+      "llm_evidence_cn": "面向物理AI的统一步伐-语言理解与生成",
+      "llm_evidence": "面向物理AI的统一步伐-语言理解与生成",
+      "canonical_evidence": "面向物理AI的统一步伐-语言理解与生成",
+      "llm_tldr_en": "MUGEN proposes an efficient unified framework for motion understanding and generation, coupling human motion and language through shared discrete codebooks without costly decoding chains.",
+      "llm_tldr_cn": "统一运动-语言系统对物理AI至关重要，但现有方法或量化生成质量低，或生成器推理代价高，且解码机制不促进理解。作者提出MUGEN，通过共享离散运动码本同时支持理解与生成，并设计高效解码避免深层迭代。实验表明MUGEN在运动理解和生成任务上达到最优，且推理显著加速，为人形机器人的动作生成提供高效的模型基础。",
+      "llm_tldr": "统一运动-语言系统对物理AI至关重要，但现有方法或量化生成质量低，或生成器推理代价高，且解码机制不促进理解。作者提出MUGEN，通过共享离散运动码本同时支持理解与生成，并设计高效解码避免深层迭代。实验表明MUGEN在运动理解和生成任务上达到最优，且推理显著加速，为人形机器人的动作生成提供高效的模型基础。",
+      "llm_tags": [
+        "query:human-aigc:composite"
+      ],
+      "matched_query_tag": "query:human-aigc:composite",
+      "matched_query_text": "Papers central to humanoid、世界行动模型、AIGC相关文章, especially work that connects or combines: humanoid robot; world action model; humanoid; research on humanoid robots and world action models.",
+      "matched_requirement_id": "req-composite-human-aigc",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

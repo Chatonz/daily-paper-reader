@@ -1,0 +1,54 @@
+{
+  "label": "2026-08-02",
+  "date": "2026-08-02",
+  "generated_at": "2026-08-02T21:17:32",
+  "count": 3,
+  "papers": [
+    {
+      "paper_id": "202608/02/2607.24036v1-warl-wrench-augmented-reinforcement-learning-for-task-agnostic-learning-in-legged-robots",
+      "section": "quick",
+      "title_en": "WARL: Wrench-Augmented Reinforcement Learning for Task-Agnostic Learning in Legged Robots",
+      "authors": "Keita Yoneda, Kento Kawaharazuka, Kei Okada",
+      "date": "2026-07-27",
+      "pdf": "https://arxiv.org/pdf/2607.24036v1",
+      "score": "6.0",
+      "evidence": "力/力矩增强的强化学习用于腿式机器人控制，可迁移到人形控制",
+      "tldr": "腿部机器人强化学习受限于关节空间探索能力，本文提出WARL方法，将力/力矩引入动作空间，并通过成功率课程逐步消除外力，显著提升早期探索效率。在四足机器人上验证了跨地形和任务的鲁棒学习，消融实验表明课程设计有效。研究还发现引入外力可能偏离本体物理结构，需进一步优化。",
+      "tags": "query:vla-humanoid",
+      "abstract_en": "While reinforcement learning for legged robots has achieved high motor performance, it has been constrained by the limited exploration capability of actions confined to the joint space. To address this issue, this study proposes a new method, Wrench-Augmented Reinforcement Learning (WARL), which introduces a wrenche (force and torque) into the action space. The proposed method combines wrench-guided exploration with a success rate-based curriculum mechanism to expand exploration capabilities in the early stages of learning, with the ultimate goal of acquiring behaviors based solely on joint control. Experiments using a quadruped robot demonstrated that WARL can learn robustly across diverse terrains and motor tasks without requiring terrain-specific reward adjustments or complex curriculum designs. Furthermore, an ablation study verified the effectiveness of the Switching Curriculum, which gradually eliminates the wrench. On the other hand, we also show that introducing a wrench can encourage behaviors that do not sufficiently exploit the robot's physical embodiment. These findings suggest that while wrench-based exploration enhancement is effective for improving learning efficiency, designing it in a way that is consistent with the robot's physical structure is a critical future challenge.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/02/2607.25053v1-motion-generation-with-environmental-constraints",
+      "section": "quick",
+      "title_en": "Motion Generation With Environmental Constraints",
+      "authors": "Előd Páll, Oliver Brock",
+      "date": "2026-07-27",
+      "pdf": "https://arxiv.org/pdf/2607.25053v1",
+      "score": "6.0",
+      "evidence": "利用环境接触的机器人运动生成",
+      "tldr": "机器人运动规划在高维空间和不确定环境中面临挑战，通常需要无碰撞路径。本文倡导环境约束利用（ECE），通过刻意接触环境降低维度与计算复杂度，并将ECE集成到RRT规划器中，偏置探索至任务相关区域，同时利用接触减少不确定性。实验证明其在实际应用中的有效性，展现了对复杂环境的适应性与性能提升。",
+      "tags": "query:vla-humanoid",
+      "abstract_en": "Robot motion planning faces challenges in high-dimensional spaces and uncertain environments, often constrained by the need for collision-free motions. We advocate an alternative approach, Environmental Constraint Exploitation (ECE), where deliberate contact with the environment simplifies planning by reducing dimensionality and computational complexity. By integrating ECE into motion planning algorithms, we bias exploration to task-relevant regions and leverage contact for uncertainty reduction to improve robustness during execution. We evaluate ECE benefits with RRT-based planners and demonstrate their practical benefits in a real-world application. This work consolidates and extends prior research, showcasing how ECE simplifies motion planning while enhancing adaptability and performance in complex environments.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202608/02/2607.27581v1-mugen-a-unified-framework-for-efficient-motion-understanding-and-generation",
+      "section": "quick",
+      "title_en": "MUGEN: A Unified Framework for Efficient Motion Understanding and Generation",
+      "authors": "Zhankai Ye, Yukai Jin, Bingyang Wei, Bofan Li, Yusen Wu, Fangyi Li, Shangqian Gao, Xin Liu",
+      "date": "2026-07-30",
+      "pdf": "https://arxiv.org/pdf/2607.27581v1",
+      "score": "6.0",
+      "evidence": "面向物理AI的统一步伐-语言理解与生成",
+      "tldr": "现有统一运动-语言系统依赖离散码本或繁重的迭代解码，生成质量与效率难以兼得。MUGEN提出无码本单次采样框架，用自适应长度自编码器将任意运动压缩为少量连续潜变量槽，语言模型一步生成并读取，配合深度路由与校准头部实现高效解码。在HumanML3D上以K步语言模型代价取得FID领先，检索精度超过真实运动参考；在SnapMoGen上取得最佳CIDEr和BLEU@4，全面超越离散token SOTA。该工作为运动理解与生成提供了统一且高效的新范式。",
+      "tags": "query:human-aigc",
+      "abstract_en": "Grounding human motion in language, and language in motion, is a central step toward physical AI systems that can understand, generate, and communicate human behavior. Unified motion--language systems first coupled the two directions through a shared discrete motion codebook, but quantization limits generation quality. The strongest generators buy quality back at growing cost: stacked residual codebooks enlarge the representation; masked decoding stages, long autoregressive rollouts, and denoising chains of tens to hundreds of steps stretch inference; even the continuous-latent designs among them reach their latent only through an iterative diffusion head; and none of this decoding machinery serves understanding. We therefore propose MUGEN, a unified motion--language framework that pays neither cost: no codebook, one draw. A single adaptive-length autoencoder compresses any-length motion into a few continuous latent slots, the system's only motion representation: the language model generates them for text-to-motion and reads them back for motion understanding. Depth-routed hidden states let each slot read from the transformer depth it needs, and a calibrated head predicts a joint distribution over the full latent set, so a single draw carries the text-conditional, cross-slot variation a description permits. At a decoding cost of K language-model steps, one draw, and one decoder pass, MUGEN leads language-model baselines on FID on HumanML3D while raising retrieval precision above the real-motion reference under the standard evaluator, achieves the best CIDEr and BLEU@4 scores, and surpasses the discrete-token state of the art on every retrieval and alignment metric on SnapMoGen.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
