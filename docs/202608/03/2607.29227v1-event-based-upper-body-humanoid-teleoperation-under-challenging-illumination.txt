@@ -1,0 +1,278 @@
+Title: Event-Based Upper-Body Humanoid Teleoperation Under Challenging Illumination
+
+URL Source: https://arxiv.org/pdf/2607.29227v1
+
+Published Time: Mon, 03 Aug 2026 00:50:16 GMT
+
+Number of Pages: 7
+
+Markdown Content:
+# Event-Based Upper-Body Humanoid Teleoperation Under Challenging Illumination 
+
+Haoyu Fu 1,2, Zhou Ge 1,2,∗, Chengze Li 1,2, Chenzhao Sun 1, Ze Cui 1, Wenjing Zhou 1, Xulei Qin 3
+
+Abstract — We present a real-time upper-body human-to-humanoid motion imitation framework driven by neuromor-phic event-based vision. This work addresses practical per-ceptual bottlenecks of conventional frame-based RGB sen-sors—specifically their difficulty in high dynamic range (HDR) scenes and rapid motions due to fixed integration times. By leveraging the Prophesee EVK4 event camera, which operates asynchronously with high temporal resolution and a dynamic range exceeding 120 dB, our system supports stable tracking in conditions where standard vision pipelines degrade, such as severe backlighting and very low light ( < 5 lux) environments. The architecture integrates a low-latency Perception Module, utilizing optimized event accumulation and gravity-aligned inertial fusion, with a causal Motion Module (TWIST) that performs online kinematic retargeting. We validate the system on an embedded NVIDIA Booster T1 platform and an 18-DoF humanoid upper-body setup, demonstrating an end-to-end photon-to-action latency of 23–34 ms and advantages over RGB baselines under our experimental setup. The results indicate a practical trade-off: events can be preferable for fast or poorly lit upper-body teleoperation, whereas well-lit static scenes may favor RGB or hybrid sensing. 
+
+I. INTRODUCTION The effective imitation of human motion is a cornerstone capability for the next generation of humanoid robots, en-abling applications that range from hazardous-environment teleoperation and disaster response to intuitive social inter-action and learning-from-demonstration (LfD). For these sys-tems to be viable outside controlled laboratory settings, the perception-to-action loop must be both low-latency , ensuring tight kinesthetic coupling for the operator, and environ-mentally robust , maintaining reliability despite unpredictable lighting or rapid dynamic events [1]. However, the safe and reliable deployment of such systems is frequently bottlenecked by the inherent physical limita-tions of the perception layer. Conventional synchronous vi-sion sensors (RGB and Depth) operate on a frame-integration paradigm: photons are collected over a fixed exposure time to form a static image. This creates a fundamental trade-off: long exposures induce motion blur during fast movements, degrading tracking accuracy, while short exposures require high illumination and may fail in low-light conditions. Fur-thermore, the limited dynamic range (often around 60 dB) of standard CMOS sensors results in under- or over-saturation 
+
+> 1School of Mechatronic Engineering and Automation, Shanghai Univer-sity, Shanghai 200444, China.
+> 2SHU General Intelligent Robotics Research Institute, Baoshan District, Shanghai, 200444, China.
+> 3School of Physics, Changchun University of Science and Technology, Jilin, 130015, China. Corresponding author email: gezhou@shu.edu.cn
+
+in high-contrast scenes, such as a silhouette scenario where an operator stands against strong backlighting [2]. In safety-critical Human-Robot Interaction (HRI), a temporary loss of perception due to these environmental factors can interrupt the control loop, potentially leading to erratic robot behaviors or unsafe transients. To surmount these perceptual barriers, we propose the integration of neuromorphic event-based vision into the hu-manoid control loop. Unlike traditional frame-based cameras that capture absolute intensity frames, event cameras (e.g., Prophesee EVK4) operate asynchronously, recording per-pixel brightness changes (events) with microsecond-level timestamps [3]. These properties can improve robustness in scenarios that challenge fixed-exposure RGB sensors [4], [5]. While event cameras have demonstrated significant utility in visual odometry and SLAM [6], their application to real-time humanoid teleoperation remains under-explored [7]. The challenge lies in bridging the domain gap between asynchronous, sparse event streams—which lack the dense texture information of RGB images—and the synchronous, kinematically rigid requirements of robot control loops on embedded hardware. In this work, we present a deployment-oriented architec-ture for event-driven upper-body human motion imitation. Our experiments command only the upper body and torso; full-body locomotion and contact-rich manipulation remain future work. The detailed contributions of this paper are:  
+
+> •
+
+System Construction with Deployment Constraints: 
+
+We build a complete, real-time upper-body human-to-humanoid imitation system around an event cam-era, including event-to-pose perception, gravity-aligned fusion, and causal retargeting suitable for embedded deployment.  
+
+> •
+
+Embedded Validation in Challenging Conditions: We evaluate the integrated system on the NVIDIA Booster T1 platform and show advantages over RGB baselines in low light, backlit HDR, and fast-motion scenarios under our experimental setup.  
+
+> •
+
+Control-Oriented Evaluation Protocol and Claim Boundaries: We report not only perception error (MPJPE), but also closed-loop metrics relevant to tele-operation stability, including photon-to-action latency, temporal pose jitter, lost-frame ratio, and robot joint RMSE, together with paired and mixed-effects statisti-cal summaries. We explicitly report the metric trade-off and do not claim universal superiority on all indicators. Compared with prior event-based HPE studies that empha-arXiv:2607.29227v1 [cs.RO] 31 Jul 2026 size standalone pose accuracy, our novelty lies in the end-to-end control coupling and deployment-oriented validation. We do not claim a novel backbone architecture; instead, we focus on low-latency integration, fair cross-modality comparison, and control-relevant robustness analysis. II. RELATED WORK 
+
+A. Real-Time Human Motion Imitation 
+
+Real-time humanoid teleoperation has advanced signifi-cantly from offline animation processing to interactive con-trol. Traditional approaches predominantly rely on marker-based motion capture (Mocap) or structured light depth sensors (RGB-D) [1], [8]. While Mocap systems offer sub-millimeter precision, they require instrumented environments and suits, rendering them impractical for field deployment. RGB-D sensors (e.g., Kinect, Realsense) enable markerless tracking but suffer from limited range, interference in sun-light (IR saturation), and relatively high latency due to depth computation [2]. Recent learning-based retargeting methods [9], [10] have improved the naturalness of generated motion by learning priors from large datasets. However, these deep learning approaches often entail prohibitive computational costs or introduce non-negligible inference latencies, which can break the sense of presence in teleoperation—known as the ”long feedback loop” problem in haptics and control theory [11], [12], [13]. Our approach prioritizes latency minimization and 
+
+geometric consistency over generative plausibility, ensuring direct and predictable control suitable for safety-critical tasks. 
+
+B. Event-Based Vision in Robotics 
+
+Event cameras offer a paradigm shift for high-speed robotics [3], [14]. Their ability to suppress redundant static data while capturing high-frequency dynamics has enabled robust visual odometry, high-speed obstacle avoidance [15], and agile drone navigation [6]. This work extends these benefits to the domain of humanoid control. Specifically, we exploit the sensor’s temporal resolution to maintain interaction fidelity during fast, varying-speed human gestures (e.g., boxing, waving) that would otherwise suffer from inter-frame aliasing or temporal undersampling in standard 30Hz or 60Hz vision pipelines. 
+
+C. Event-Based Human Pose Estimation 
+
+Recent literature has begun to address human pose es-timation (HPE) directly from event streams. Approaches utilizing representations such as time-surfaces, voxel grids, and spiking neural networks (SNNs) have shown promise in extracting 3D body shape [7], [16], [17]. However, most existing works evaluate HPE as a standalone computer vision benchmark, focusing on endpoint error metrics (MPJPE) rather than closed-loop control stability [18], [19], [20]. A low MPJPE does not guarantee a smooth control signal; high-frequency jitter in pose estimation can excite unnec-essary actuator motion. Our work explicitly addresses these downstream challenges by integrating low-latency filtering and kinematic optimization directly into the loop. III. S YSTEM OVERVIEW 
+
+We propose an end-to-end framework enabling a hu-manoid robot to robustly imitate upper-body human motion in real-time, driven by asynchronous event data. The ar-chitecture is designed to minimize photon-to-action latency while ensuring the safety and plausibility of the generated upper-body robot motion. Fig. 1 illustrates the pipeline, logically divided into a Perception Module (Sect. III-C) and a Motion Module (Sect. III-D). The core design philosophy is robustness through high-speed asynchrony : by preserving microsecond-timestamped brightness changes within short accumulation windows, the system reduces tracking loss associated with motion blur, while the high dynamic range of the sensor supports opera-tion across large illumination gradients.  
+
+> Fig. 1. Event-based human-to-robot imitation system overview. Events are accumulated into tensors, fed into a 3D pose estimator, fused with IMU gravity, and mapped to robot joints via TWIST.
+
+A. Design Goals and System Constraints 
+
+To support reliable HRI on embedded hardware, the sys-tem is designed under three constraints: 1) Robust perception in challenging light: maintain sta-ble tracking under backlight and low-light conditions. 2) Low latency: keep end-to-end delay well below 100 ms for teleoperation. 3) Embedded feasibility: run onboard within a practical power envelope ( ≈15–20 W). 
+
+B. Real-Time Safety Policy in the Loop 
+
+Beyond accuracy, we explicitly design the runtime be-havior for safe deployment in HRI. The perception node publishes both 3D keypoints and confidence scores; low-confidence joints are down-weighted in retargeting, while the optimizer is regularized toward a nominal posture to avoid abrupt commands. At the control level, we enforce joint, velocity, and acceleration bounds at each cycle and use warm-started optimization to promote continuity. If confidence drops for consecutive cycles (e.g., severe self-occlusion), the system enters a hold-and-damp mode that smoothly decelerates joint targets instead of propagating unstable pose updates. This policy reduces aggressive transients and keeps robot behavior predictable during temporary perception degradation. C. Perception Module 
+
+The Perception Module converts asynchronous events into a stable, gravity-aligned 3D skeleton. Raw events ei =(xi, y i, t i, p i) are accumulated into a lightweight time-surface representation: 
+
+S(x, y, t ) = X
+
+> ti∈∆t
+
+pi · exp 
+
+
+
+− t − ti
+
+τ
+
+
+
+(1) where ∆t = 5 ms, stride = 1 ms, and τ = 5 ms in all experiments. This representation is chosen for low latency on embedded hardware [21]. The resulting tensor is resized to 256 × 256 and processed by a lightweight MediaPipe-like 3D pose backbone [22]. We keep the mobile encoder–decoder layout, replace the RGB stem with a two-polarity time-surface stem, and regress 17 3D joints plus confidence scores. The network has 2.1M parameters and is trained on V2E-converted Human3.6M before fine-tuning on DHP19 [20], [23]; held-out event validation MPJPE is 31.8 mm. TensorRT FP16 inference runs above 100 Hz on Booster T1. We then fuse a head-mounted IMU to align gravity and apply a One-Euro filter (β = 0 .4, fmin = 1 .5 Hz) to suppress jitter while preserving responsiveness [24]. To stabilize asynchronous sensing under real scenes, we apply two practical heuristics. First, event density normal-ization reduces sensitivity to bursty contrast changes caused by sudden lighting transitions. Second, a short temporal consistency check rejects isolated single-frame outliers be-fore they enter the control loop. These lightweight steps incur negligible overhead but improve downstream command smoothness. 
+
+D. Motion Module 
+
+The Motion Module bridges the domain gap between the perceptual human skeleton and the robot’s underlying kinematics. It treats the high-frequency stream of perception poses as reference signals for a real-time trajectory optimiza-tion problem. We retarget motion using directional limb alignment to handle human-robot proportion mismatch, then solve a causal TWIST-style objective at each control step. Following the retargeting formulation in [25], we use TWIST as the downstream optimizer and focus our contribution on event-based sensing, embedded integration, and control-oriented validation: 
+
+min 
+
+> Qk
+
+
+
+wt∥F K (Qk) − Starget ∥2
+
++ ws∥ ˙Qk∥2
+
++ wl∥Qk − Qnom ∥2 (2) subject to joint, velocity, and acceleration limits. We use wt = 1.0, ws = 0.1, and wl = 0.01 with warm-start initialization from the previous step: target tracking is dominant, smoothness damps event-induced jitter, and the weak nominal term prevents limit-seeking postures. The solver converges in 3–5 iterations within a 10 ms control cycle. In practice, we further include confidence-adaptive target weighting: distal joints with low confidence are softly reg-ularized, while torso and shoulder anchors remain dominant to preserve global body intent. This improves robustness against partial occlusion and texture-sparse clothing where event activity can be locally weak. IV. I MPLEMENTATION DETAILS 
+
+A. Hardware Platform Specifications 
+
+Perception uses a Prophesee EVK4 sensor (HD 1280 ×
+
+720 , dynamic range > 120 dB) [4], [5]. Core inference, retargeting, and control computation run on an NVIDIA Booster T1 embedded module ( ≈15 W), and robot execu-tion is tested on a custom 18-DoF humanoid platform; the reported protocol commands the upper body and torso while the lower body remains in a stable nominal stance. 
+
+B. Software Architecture 
+
+The pipeline is implemented as three ROS2 nodes: event preprocessing, TensorRT inference, and motion retargeting. Event decoding and inference are implemented in C++, retargeting runs in Python at 100 Hz, and optimization uses warm-start from the previous control step. In deployment, the event preprocessing node publishes compact tensors with timestamp synchronization; the infer-ence node outputs local 3D keypoints and confidence scores; and the retargeting node enforces kinematic feasibility before sending commands to the low-level controller. This modular structure allows independent profiling and replacement of each stage. To minimize transport jitter, we pin inference and retar-geting processes to dedicated CPU cores and use monotonic timestamps for cross-node synchronization. We also log per-stage latency online, enabling direct attribution of end-to-end delay to acquisition, inference, optimization, and middleware transport. 
+
+C. Reproducibility Settings 
+
+To improve reproducibility, we fix key runtime and train-ing parameters across all experiments. Event accumulation uses a 5 ms window and 1 ms stride, One-Euro filtering uses β = 0 .4 and fmin = 1 .5 Hz, and TWIST optimization uses wt = 1 .0, ws = 0 .1, and wl = 0 .01 . The perception backbone is exported with static input shape, Conv-BN fusion, FP16 TensorRT, CUDA graph replay, and batch size 1. For training, we use Adam ( 1×10 −4, cosine decay) for 80 epochs with a 90/10 train-validation split and fixed random seeds. These settings are kept unchanged between event and RGB baselines except for sensing modality and exposure constraints. During each run, calibration files, exposure/gain settings, ROS2 timestamps, and per-trial CSV logs are stored with the same subject-condition-repetition indexing used for the reported tables. V. E XPERIMENTAL EVALUATION 
+
+We evaluate the system under lighting and motion con-ditions where frame-based pipelines are known to degrade. Event and RGB baselines run on the same hardware with matched skeleton topology, post-processing, and TensorRT settings to keep comparisons fair. MPJPE and robot joint RMSE are used for perception and execution accuracy, while Lost Frame Ratio and Tem-poral Pose Jitter capture robustness. MPJPE follows stan-dard human-pose definitions [18], [19], [20]. Unless noted otherwise, condition-specific entries report mean ± standard deviation over 12 subjects with 5 trials each. 
+
+A. Evaluation Protocol 
+
+The evaluation includes 12 participants performing astandardized set of upper-body gestures (waving, punch-ing, pointing, torso bending, and fast arm swings). Each participant repeats the sequence five times under four test conditions: normal indoor light, HDR backlight, low light (< 5 lux), and rapid motion emphasis (up to 5 Hz arm frequency). For each trial, we record synchronized sensor streams, 3D pose output, and robot joint telemetry. To ensure fairness, RGB and event pipelines share the same downstream pose and retargeting stack. The RGB baseline is tested at 30 FPS and 120 FPS with fixed exposure and disabled auto-gain on the same embedded platform and controller configuration. 
+
+B. Baseline Implementation and Fairness Checks 
+
+To reduce confounding factors, we enforce the same skeletal topology, post-filtering strategy, optimizer settings, and controller limits across modalities. The only intentional difference is the sensing front-end and its corresponding accumulation/readout behavior. For RGB, fixed exposure/gain gives repeatable stress tests and avoids hidden adaptation in backlight, but is conservative in moderate lighting. Thus, we do not claim that all RGB pipelines are inferior: well-tuned auto-exposure could narrow some gaps, while adaptation delay and HDR saturation motivate event+RGB hybrid recovery. For event sensing, we fix event accumulation window and stride across all trials. Both pipelines are profiled under identical CPU/GPU settings, ROS2 middleware, inference precision, batch size, and downstream parameter count. 
+
+C. Metric Definitions 
+
+For clarity and reproducibility, we define each reported metric explicitly. Tracking success is the percentage of trials completed without sustained tracking failure, while Lost Frame Ratio is the frame-level invalid-output rate: Lost Frame Ratio (%) = Ninvalid pose outputs 
+
+Ntotal expected outputs 
+
+× 100 (3) Temporal Pose Jitter = 1
+
+T − 1
+
+> T
+
+X
+
+> t=2
+
+1
+
+J
+
+> J
+
+X
+
+> j=1
+
+∥pt,j − pt−1,j ∥2
+
+(4) Joint RMSE =
+
+vuut 1
+
+T J 
+
+> T
+
+X
+
+> t=1
+> J
+
+X
+
+> j=1
+
+(ˆ qt,j − q∗ 
+
+> t,j
+
+)2 (5) where pt,j is the 3D position of human joint j at time t, ˆqt,j 
+
+is the commanded robot joint angle, and q∗ 
+
+> t,j
+
+is the reference value from synchronized demonstrations. Photon-to-action latency is measured from LED stimulus timestamp to first corresponding actuator command timestamp.              
+
+> TABLE I BASELINE CONFIGURATION FOR FAIR COMPARISON
+> Setting Event Pipeline RGB Pipeline
+> Input resolution 640 ×480 (equivalent crop) 640 ×480 Inference engine TensorRT FP16, batch=1 TensorRT FP16, batch=1 Post-processing One-Euro + kinematic limits One-Euro + kinematic limits Control loop 100 Hz TWIST retargeting 100 Hz TWIST retargeting
+
+D. Statistical Analysis 
+
+For latency, jitter, and RMSE, we report mean and standard deviation across all subjects and trials. We additionally compute 95% bootstrap confidence intervals ( n = 1000 ) for MPJPE and joint RMSE. Each event trial is paired with an RGB trial from the same participant, condition, and repetition index; inferential comparisons use two-sided paired t-tests on paired differences with significance threshold p < 0.05 . We report paired effect size (Cohen’s dz ). To account for repeated measurements more rigorously, we also fit a linear mixed-effects model for each metric: 
+
+ys,c,r = β0 + β1 1event + β2 1120FPS + us + uc + ϵs,c,r (6) where s denotes subject, c lighting/motion condition, and 
+
+r repetition. Random intercepts us and uc model subject-and condition-level variability. We use trial-level paired tests as a sensitivity analysis and mixed-effects estimates as the primary robustness check. As an additional conservative check against pseudo-replication, we aggregate metrics at the subject-condition level and repeat paired comparisons on aggregated values. The direction of modality effects remains consistent with the trial-level analysis, and the mixed-effects coefficients are reported in Table II. Table II provides a compact statistical summary of key perception and control metrics over 240 paired condition-level observations per modality (12 subjects × 4 condi-tions × 5 repetitions). The RGB column denotes the fixed-exposure 30 FPS baseline; the 120 FPS setting is retained as a covariate in the mixed-effects analysis. Importantly, we do not claim universal superiority on every metric: MPJPE remains slightly lower for RGB in our setup, while event sensing yields advantages on control-oriented metrics such as latency, jitter, and joint tracking stability. 
+
+E. Robustness to Illumination and Fast Motion 
+
+We evaluate two challenging illumination conditions and one fast-motion condition to stress-test robustness. 1) Severe Backlight (HDR): Subject in front of a bright window ( ≈5000 lux) with dim interior lighting. TABLE II STATISTICAL SUMMARY OF KEY METRICS (240 P AIRED                                                               
+
+> CONDITION -L EVEL OBSERVATIONS ; LME C OEFFICIENTS FOR EVENT
+> MODALITY )
+> Metric Event RGB Paired Test βevent (p)
+> MPJPE (mm) 33 .8±4.631 .7±4.2p= 0 .009 ,dz= 0 .35 +1 .9(p= 0 .012 )Latency (ms) 27 .4±3.652 .8±9.8p < 0.001 ,dz=−1.65 −25 .0(p < 0.001 )Jitter (mm) 10 .8±3.118 .9±5.5p < 0.001 ,dz=−1.21 −7.6(p < 0.001 )Joint RMSE ( ◦)4.9±1.36.2±2.0p= 0 .001 ,dz=−0.62 −1.2(p= 0 .001 )
+
+2) Very Low Light: Ambient illumination reduced below 5 lux. Quantitative outcomes for these stress conditions are reported in Tables III and II. 
+
+F. Latency Analysis and Breakdown 
+
+Latency is measured as photon-to-action delay in a dual-pipeline setup with RGB (Hikvision) and event camera (EVK4). To improve measurability and repeatability, we use an LED screen (instead of live human motion) as the action input source: when the screen lights up and displays a prede-fined human action, synchronized timestamps are recorded at the LED trigger, camera streams, and robot computing platform. End-to-end latency is defined from LED action on-set to the first corresponding actuator command timestamp, and stage-wise delays are attributed to acquisition, transfer, inference, retargeting, and middleware transport. Under this setup, the event-based pipeline achieves 23–34 ms end-to-end latency. The same LED-based protocol is applied to RGB at 30 FPS and 120 FPS. Even with 120 FPS input, frame-based acquisition and readout remain the main bottleneck, while event sensing provides lower capture latency. 
+
+G. Fast Motion Tracking 
+
+Participants performed rapid waving and boxing (up to 5 Hz). In this setting, Lost Frame Ratio is 2.9 ± 1.4% for the event pipeline and 10 .8 ± 2.9% for RGB, indicating more stable high-speed tracking. 
+
+H. Failure Cases and Recovery Analysis 
+
+To complement average metrics, we explicitly quantify failure and recovery behavior under stress conditions, includ-ing temporary self-occlusion, static pauses, and long-duration operation without manual reset. The results reflect a modality trade-off. Event sensing recovers faster from dynamic occlusion and induces smaller post-recovery overshoot, while static-scene re-initialization and long-horizon yaw drift remain weaker than RGB under our protocol. 
+
+I. Qualitative and Quantitative Robot Imitation Results 
+
+The experimental setup used for the qualitative comparison in Fig. 3 is shown in Fig. 2. The RGB camera and the event camera are placed at approximately matched viewpoints, about 5 m from the subject. Due to power and compute limits of the robot-side processing platform, an additional NVIDIA Jetson Nano is used for synchronized dual-camera capture and data transmission.  
+
+> Fig. 2. Experimental setup for the qualitative robot-imitation results in Fig. 3. RGB and event cameras are arranged with similar viewpoints at approximately 5 m from the subject. A Jetson Nano is used to coordinate synchronized dual-camera capture and data transfer under robot-platform power/compute constraints.
+
+Figure 3 compares RGB observations, event representa-tions, and event-driven robot imitation results for two fast ac-tions. Subfigures (a) and (b) correspond to adjacent frames of the waving sequence: RGB frames suffer from severe motion blur and the key action pattern becomes difficult to recognize, while event frames preserve clearer motion boundaries in this example. Subfigures (c) and (d) correspond to representative frames of the Gangnam Style dance sequence, where event edges remain well-structured under rapid limb motion and the retargeted robot motion remains temporally coherent. The arrows in Fig. 3 indicate the dominant motion trends of the main actions. During dynamic tasks, the event-based pipeline yields lower Robot Joint Angle RMSE ( 4.9◦ ± 1.3◦) than RGB ( 6.2◦ ± 2.0◦), consistent with reduced perceptual jitter and phase lag. 
+
+J. Ablation Study 
+
+Replacing the exponential time-surface with a voxel grid increases preprocessing latency from ≈2 ms to > 8 ms. Removing the One-Euro filter raises temporal jitter by about 45%, and disabling IMU fusion causes up to 15 ◦ root drift during rapid bending. These results support the selected design choices. We further observe that disabling confidence-adaptive weighting in TWIST increases limb-endpoint oscillation during partial occlusions, confirming that confidence-aware control coupling is beneficial for stable robot execution. Although this component has limited effect on MPJPE, it notably affects actuator smoothness, which is critical in physical deployment. 
+
+K. Discussion 
+
+Since the kinematic structures of humans and humanoid robots differ significantly, direct comparison of absolute joint positions in the robot coordinate space is not meaningful. Differences in limb lengths, joint limits, and degrees of free-dom make Cartesian error metrics in centimeters misleading. TABLE III QUANTITATIVE STRESS -T EST RESULTS UNDER CHALLENGING LIGHTING AND MOTION 
+
+Condition Metric Event-Based Pipeline RGB-Based Pipeline 
+
+HDR backlight Tracking success (%) 93 .8 ± 4.3 38 .6 ± 11 .2
+
+HDR backlight MPJPE (mm) 39 .6 ± 6.7 56 .8 ± 14 .6
+
+Low light ( < 5 lux) Tracking success (%) 84 .7 ± 6.8 49 .2 ± 10 .5
+
+Low light ( < 5 lux) Lost-frame ratio (%) 3.8 ± 1.9 14 .7 ± 4.6
+
+Fast motion Lost-frame ratio (%) 2.9 ± 1.4 10 .8 ± 2.9
+
+Fast motion Temporal jitter (mm) 10 .8 ± 3.1 18 .9 ± 5.5                                        
+
+> TABLE IV PHOTON -TO -A CTION LATENCY COMPARISON BETWEEN EVENT -B ASED AND RGB-B ASED PIPELINES
+> Pipeline Stage Event-Based RGB (30 FPS) RGB (120 FPS)
+> Sensor Acquisition 1–4 16–33 8–16 Data Transfer / Bus 1–2 3–8 3–8 Pose Estimation (MediaPipe / CNN) 6–10 10–15 8–12 Motion Retargeting (TWIST / IK) 4–6 3–5 3–5 ROS2 / Controller Transport 1–2 1–3 1–3 Safety Buffer 10 10 10
+> Total End-to-End 23–34 43–74 33–54
+> Fig. 3. Qualitative comparison under fast motions with labeled subfigures (a)–(d). Row 1: RGB frames with strong motion blur, where the action becomes hard to identify. Row 2: event frames with clearer motion contours in these examples. Row 3: corresponding event-driven robot imitation results. Arrows mark the dominant hand/arm motion trend, and columns are ordered by capture time. Subfigures (a) and (b) show adjacent waving frames; subfigures (c) and (d) show representative Gangnam Style dance frames.
+
+Therefore, perception accuracy in this work is evaluated in the human skeletal space , using standard metrics from the human pose estimation literature. Robot imitation quality is instead assessed through temporal stability and robustness of tracking. These results suggest a clear metric trade-off. Under our settings, RGB achieves slightly lower frame-wise pose error in well-lit static conditions, while event sensing provides better timing fidelity and robustness under challenging illu-mination and rapid motion. For teleoperation, these control-oriented properties often dominate operator experience and safety. Our optimization target prioritizes closed-loop controlla-bility (latency, recovery speed, and command smoothness) over minimal frame-wise pose error, explaining why the event pipeline can improve dynamic interaction quality even when MPJPE is not the best single metric. 
+
+L. Threats to Validity and Deployment Notes 
+
+Internal validity: Event and RGB pipelines share the same downstream stack, but sensing principles differ and perfect low-level parity is difficult. We therefore report both perception-space and control-space metrics. 
+
+External validity: Our protocol uses upper-body gestures, 12 subjects × 5 repetitions across four conditions, and one 18-DoF humanoid platform. The paired design improves sen-sitivity, but these statistics are pilot-scale evidence rather than population-level proof. Clothing/body-size diversity, longer sessions, full locomotion, contact manipulation, and different robot kinematics remain future work. 
+
+Measurement limitations: Latency and jitter depend on middleware configuration and hardware clock synchroniza-tion. We mitigate this with monotonic timestamps and re-peated trials, but cross-lab replication may still shift absolute values. 
+
+Human-robot safety: During confidence collapse or pro-longed static scenes, the controller falls back to damped hold mode rather than aggressive extrapolation. Safety quantifica-tion in this paper focuses on kinematic proxies (recovery delay, post-recovery overshoot, yaw drift, and joint RMSE); contact-force and collision-risk measurements remain future work. Overall, Tables II–V show that the event pipeline primarily improves robustness and responsiveness rather than absolute MPJPE. Measured perception-front-end power is also lower in our implementation ( 3.1 ± 0.3 W vs. RGB 4.0 ± 0.4 Wat 30 FPS and 7.8 ± 0.6 W at 120 FPS). 
+
+System Limitations: A fundamental limitation of event-based vision is its reliance on relative motion. In completely static scenes where neither the camera nor the subject moves, the event output becomes sparse, increasing re-initialization delay (1.0 ±0.3 s in Table V). While our system mitigates this through IMU fusion and TWIST regularization, prolonged static periods still benefit from active sensor micro-saccades or complementary RGB/Depth sensing for absolute pose TABLE V FAILURE -R ECOVERY METRICS UNDER STRESS CONDITIONS 
+
+Failure-Case Metric Event-Based Pipeline RGB-Based Pipeline 
+
+Recovery time after 1 s self-occlusion 260 ± 90 ms 520 ± 180 ms Post-recovery joint overshoot peak 5.8◦ ± 1.6◦ 8.1◦ ± 2.4◦
+
+Static-scene re-initialization delay ( > 2 s pause) 1.0 ± 0.3 s 0.6 ± 0.2 sYaw drift rate over 3 min (no reset) 2.4◦/min 1.3◦/min 
+
+recovery [7], [18], [16]. Performance also degrades with very slow motions ( < 0.1 m/s limb tip velocity), low-texture clothing, strong self-occlusion, and dynamic/cluttered backgrounds that generate irrelevant events. IMU integration errors can also accumulate without re-initialization, causing yaw drift (2.4 ◦/min over 3 min); periodic yaw reset reduces this to below 0.8 ◦/min in our tests. VI. C ONCLUSION 
+
+We have presented a real-time upper-body motion imita-tion system for humanoid robots, built around neuromorphic event-based vision. By addressing perception latency, illu-mination robustness, and kinematic retargeting in a single pipeline, we demonstrate practical advantages in several RGB-challenging scenarios under our setup. The system achieves millisecond-level responsiveness (23–34 ms) and supports reliable tracking with a sensor dynamic range exceeding 120 dB in our tests. Our findings indicate that the main gain of event sensing in this context is not absolute frame-wise pose accuracy, but robust closed-loop behavior under adverse illumination and rapid motion. The improvement is not universal across all metrics: RGB remains competitive on frame-wise MPJPE in well-lit static conditions, whereas the event pipeline provides stronger control-oriented robustness. Future work will address contact-aware manipulation, event+RGB recovery for static scenes, and cross-platform full-body validation. ACKNOWLEDGMENT 
+
+This work was funded in part by the National Natural Science Foundation of China (62505167), and the Sci-ence and Technology Commission of Shanghai Municipality (25ZR1402149). REFERENCES 
+
+[1] A. Kanazawa, M. J. Black, D. W. Jacobs, and J. Malik, “End-to-end recovery of human shape and pose,” in Proceedings of the IEEE conference on computer vision and pattern recognition , 2018, pp. 7122–7131. [2] L. Sentis and O. Khatib, “Synthesis of whole-body behaviors through hierarchical control of behavioral primitives,” International Journal of Humanoid Robotics ,vol. 4, no. 04, pp. 741–771, 2007. [3] G. Gallego, T. Delbr¨ uck, G. Orchard, C. Bartolozzi, B. Taba, A. Censi, S. Leutenegger, A. J. Davison, J. Conradt, K. Daniilidis et al. , “Event-based vision: A survey,” IEEE transactions on pattern analysis and machine intelli-gence , vol. 44, no. 1, pp. 154–180, 2020. [4] P. Lichtsteiner, C. Posch, and T. Delbruck, “A 128 × 128 120 db 15 μslatency asynchronous temporal contrast vision sensor,” IEEE journal of solid-state circuits , vol. 43, no. 2, pp. 566–576, 2008. [5] C. Brandli, R. Berner, M. Yang, S.-C. Liu, and T. Delbruck, “A 240 × 180 130 db 3 μs latency global shutter spatiotemporal vision sensor,” IEEE Journal of Solid-State Circuits , vol. 49, no. 10, pp. 2333–2341, 2014. [6] A. R. Vidal, H. Rebecq, T. Horstschaefer, and D. Scaramuzza, “Ultimate SLAM? combining events, images, and IMU for robust visual SLAM in HDR and high-speed scenarios,” IEEE Robotics and Automation Letters , vol. 3, no. 2, pp. 994– 1001, 2018. [7] L. Xu, W. Xu, V. Golyanik, M. Habermann, L. Fang, and C. Theobalt, “EventCap: Monocular 3d capture of high-speed human motions using an event camera,” in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , 2020, pp. 4968–4978. [8] M. Loper, N. Mahmood, J. Romero, G. Pons-Moll, and M. J. Black, “SMPL: A skinned multi-person linear model,” ACM transactions on graphics (TOG) ,vol. 34, no. 6, pp. 1–16, 2015. [9] X. B. Peng, P. Abbeel, S. Levine, and M. Van de Panne, “Deepmimic: Example-guided deep reinforcement learning of physics-based character skills,” ACM Transactions On Graphics (TOG) , vol. 37, no. 4, pp. 1–14, 2018. [10] J. P. Araujo, Y. Ze, P. Xu, J. Wu, and C. K. Liu, “Retargeting matters: General mo-tion retargeting for humanoid motion tracking,” arXiv preprint arXiv:2510.02252 ,2025. [11] M. Gleicher, “Retargeting motion to new characters,” in Proceedings of the 25th annual conference on Computer graphics and interactive techniques , 1998, pp. 33–42. [12] K. Ayusawa and E. Yoshida, “Motion retargeting for humanoid robots based on identification to preserve and reproduce human motion features,” in 2014 IEEE/RSJ International Conference on Intelligent Robots and Systems . IEEE, 2014, pp. 4464–4469. [13] L. Penco, B. Cl´ ement, V. Modugno, E. M. Hoffman, G. Nava, D. Pucci, N. G. Tsagarakis, J.-B. Mouret, and S. Ivaldi, “Robust real-time whole-body motion retargeting from human to humanoid,” in 2018 IEEE-RAS 18th International Conference on Humanoid Robots (Humanoids) . IEEE, 2018, pp. 425–432. [14] H. Rebecq, D. Gehrig, and D. Scaramuzza, “ESIM: an open event camera simulator,” in Proceedings of the 2nd Conference on Robot Learning (CoRL) .PMLR, 2018, pp. 969–982. [15] D. Falanga, K. Kleber, and D. Scaramuzza, “Dynamic obstacle avoidance for quadrotors with event cameras,” Science Robotics , vol. 5, no. 40, p. eaaz9712, 2020. [16] S. Zou, C. Guo, X. Zuo, S. Wang, P. Wang, X. Hu, S. Wu, and L. Cheng, “Eventhpe: Event-based 3D human pose and shape estimation,” in Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV) , 2021, pp. 11 613–11 622. [17] D. Gehrig, A. Loquercio, K. G. Derpanis, and D. Scaramuzza, “End-to-end learning of representations for asynchronous event-based data,” in Proceedings of the IEEE/CVF international conference on computer vision , 2019, pp. 5633– 5643. [18] G. Scarpellini, P. Morerio, and A. Del Bue, “Lifting monocular events to 3D human poses,” in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition Workshops (CVPRW) , 2021, pp. 1439–1449. [19] C. Millerdurai, H. Akada, J. Wang, D. Luvizon, C. Theobalt, and V. Golyanik, “EventEgo3D++: 3D human motion capture from a head-mounted event camera,” 
+
+International Journal of Computer Vision , 2025. [20] E. Calabrese, G. Taverni, C. E. Awai, D. Scaramuzza et al. , “DHP19: Dynamic vision sensor 3D human pose dataset,” in Proceedings of the IEEE/CVF Confer-ence on Computer Vision and Pattern Recognition Workshops (CVPRW) , 2019. [21] X. Lagorce, G. Orchard, F. Galluppi, B. E. Shi, and R. B. Benosman, “HOTS: A hierarchy of event-based time-surfaces for pattern recognition,” IEEE Transac-tions on Pattern Analysis and Machine Intelligence , vol. 39, no. 7, pp. 1346–1359, 2016. [22] C. Lugaresi, J. Tang, H. Nash, C. McClanahan, E. Uboweja, M. Hays, F. Zhang, C.-L. Chang, M. G. Yong, J. Lee et al. , “Mediapipe: A framework for building perception pipelines,” arXiv preprint arXiv:1906.08172 , 2019. [23] Y. Hu, S.-C. Liu, and T. Delbruck, “v2e: From video frames to realistic DVS events,” in Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , 2021, pp. 1312–1321. [24] G. Casiez, N. Roussel, and D. Vogel, “1C filter: a simple speed-based low-pass filter for noisy input in interactive systems,” in Proceedings of the SIGCHI Conference on human factors in computing systems , 2012, pp. 2527–2530. [25] Y. Ze, Z. Chen, J. P. Ara´ ujo, Z.-a. Cao, X. B. Peng, J. Wu, and C. K. Liu, “Twist: Teleoperated whole-body imitation system,” arXiv preprint arXiv:2505.02833 ,2025.
