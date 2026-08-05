@@ -1,0 +1,464 @@
+Title: LooperMuscle: Fast and Stable Learning of Humanoid Whole-Body Tracking via Structured Mixture-of-Experts
+
+URL Source: https://arxiv.org/pdf/2608.00820v1
+
+Published Time: Tue, 04 Aug 2026 00:51:27 GMT
+
+Number of Pages: 8
+
+Markdown Content:
+# LooperMuscle: Fast and Stable Learning of Humanoid Whole-Body Tracking via Structured Mixture-of-Experts 
+
+Boyi Liu 1,2, Qijin Li 1, Tianqi Yu, 1, Qinrui Yan, 1 and Xingxing Zuo 3,∗
+
+Abstract —FastSAC-style methods significantly reduce hu-manoid motion training time but often suffer from notable performance degradation compared with PPO in whole-body tracking tasks. We target this speed–performance gap by introducing LooperMuscle, a composed expert policy learning framework that restores tracking quality while preserving high training efficiency. LooperMuscle combines a semantically structured mixture-of-experts actor, an expert-aware distri-butional critic, and contribution-routed replay with deferred curriculum scheduling. These three components form a closed training loop in which expert contributions guide data routing, routed data shape value learning, and value gradients in turn refine expert specialization. Empirically, our approach substantially outperforms vanilla FastSAC in motion tracking accuracy while requiring far less wall-clock time than PPO: where FastSAC trains in about 15 minutes but underperforms, and PPO achieves stronger results but requires about 6 hours, LooperMuscle recovers a substantial fraction of the remaining gap to PPO in roughly 45 minutes of simulation training, delivering practical efficiency for rapid policy iteration. The code will be released to benefit the research community at: https://loopermuscle.github.io. 
+
+I. I NTRODUCTION 
+
+Reinforcement learning (RL) combined with massively parallel simulation has dramatically reduced the training time for robot control policies, from hours to minutes in many benchmark tasks [1]–[3]. This acceleration is particularly valuable for sim-to-real development of humanoid robots, where the iterative cycle of training, deploying, identifying domain gaps, and retraining must be repeated until the policy is reliable [4], [5]. Recent work on off-policy RL algorithms, notably FastSAC [6] and FastTD3 [7], has pushed this further by enabling humanoid locomotion training in as little as 15 minutes on a single GPU. However, when the task shifts from locomotion to whole-body tracking (WBT) — where the policy must faithfully reproduce diverse, high-dimensional human motions across all joints — fast training alone is insufficient. The tracking quality achieved by off-policy methods still falls notably short of on-policy baselines such as PPO [8], revealing a persistent speed–performance gap that limits the practical utility of rapid training recipes. 
+
+> 1
+
+DeepMirror Inc., Guangzhou, China. 
+
+> 2
+
+HKUST, Hongkong SAR, China. 
+
+> 3
+
+Mohamed bin Zayed University of Artificial Intelligence (MBZUAI), Abu Dhabi, UAE. 
+
+> ∗
+
+Corresponding author. (Email: xingxing.zuo@mbzuai.ac.ae )
+
+Fig. 1: LooperMuscle overview. Top: Training reward curves on a reference motion. LooperMuscle converges in ∼45 min with 47.5% higher reward than FastSAC and ∼8× faster than PPO . Bottom: Real-world deployment on Unitree G1 executing a motion sequence from the KungfuBot2 motion library [9], demonstrating stable and expressive whole-body tracking. 
+
+We argue that this gap stems from three interrelated struc-tural limitations. First, monolithic policy networks struggle to handle the heterogeneous dynamics across body parts, forcing a compromise between lower-body stability and upper-body expressiveness. Second, scalar value functions provide only a single aggregate quality estimate, making credit assignment to individual body parts difficult in high-dimensional WBT. Third, uniform experience replay treats all transitions equally, causing well-performing policy components to dominate the gradient signal while under-performing components stagnate. These three limitations reinforce each other, as a poorly structured policy generates imbalanced experience that a coarse critic cannot correctly diagnose. We introduce LooperMuscle, a composed expert actor-critic framework that addresses all three limitations through a tightly integrated design. The three mechanisms form a closed loop — expert contributions route data, routed data shapes distributional value estimates, and value gra-dients refine expert specialization. As illustrated in Fig. 1, LooperMuscle converges in ∼ 45 min with 47 .5% higher reward than FastSAC and ∼ 8× faster than PPO, and the trained policy transfers to real hardware for stable whole-body tracking. Our contributions are as follows.  
+
+> •
+
+Multi-expert policy with anti-collapse gating. We pro-pose a Mixture-of-Experts actor for 29-DoF whole-body tracking, where multiple experts are fused through per-arXiv:2608.00820v1 [cs.RO] 1 Aug 2026 joint-group gating with learnable semantic scaling and output alignment. A KL-divergence-based load-balance regularizer prevents gate collapse, ensuring that weaker experts remain active throughout training.  
+
+> •
+
+Expert-aware distributional critic. We construct per-expert DVF (Distributional Value Function) [10], aggre-gated via gating weights to form the critic output. This makes the value structure isomorphic to the actor’s expert structure, enabling finer credit assignment while preserving dual-critic SAC stability.  
+
+> •
+
+Quota-routed replay with deferred scheduling. We in-troduce contribution-routed replay that allocates batch slots according to per-expert quotas, combined with progress-dependent deferred buckets that control when difficult samples enter training — stabilizing early convergence while progressively raising the performance ceiling.  
+
+> •
+
+Empirical validation on humanoid WBT. On the 40-sequence benchmark, LooperMuscle reaches 72% of PPO’s converged normalized reward and reduces body error by 34% over FastSAC-MLP (65% of PPO) in roughly 45 minutes, versus PPO’s ∼6-hour training; on individual motions it recovers up to ∼90% of PPO’s reward (Fig. 1). Ablations confirm the necessity of each component. II. R ELATED WORK 
+
+Humanoid whole-body tracking. Physics-based character animation and humanoid motion imitation have a long his-tory. DeepMimic [11] established the paradigm of training RL policies to track reference motions through per-joint reward shaping and early termination. Subsequent works extended this to adversarial imitation [12], large-scale mo-tion datasets [13], and progressive training curricula [14]. More recently, BeyondMimic [15] demonstrated versatile humanoid tracking with lightweight reward structures and diffusion-based policy guidance, while HOVER [16] and ASAP [17] achieved agile whole-body skills through careful sim-to-real pipelines. A common thread across these methods is the use of monolithic policy networks that must jointly handle all body parts. In contrast, LooperMuscle decomposes the policy into multiple specialized experts with per-joint-group gating, explicitly addressing the heterogeneous dynam-ics across body regions. 
+
+Off-policy RL for humanoid control. PPO [8] remains the dominant algorithm for sim-to-real humanoid learning, partly because on-policy methods scale naturally with mas-sively parallel simulation [1]–[3]. However, recent work has demonstrated that off-policy algorithms can also scale effectively in large-scale regimes while achieving faster wall-clock convergence. Parallel Q-learning [18] showed compet-itive performance with thousands of parallel environments. Raffin [19] and Shukla [20] independently investigated SAC-based training at massive scale. Most notably, Seo et al. [6], [7] introduced FastSAC and FastTD3, achieving humanoid locomotion training in 15 minutes and the first sim-to-real deployment of off-policy humanoid controllers. Their recipe employs distributional critics (DVF; [10]), observation and layer normalization, and careful hyperparameter tuning. However, these methods use standard single-network policies and do not modify the critic or replay structure to account for multi-expert interactions. LooperMuscle builds directly on the FastSAC recipe but augments it with structured expert decomposition in both the actor and critic, along with contribution-aware data routing. 
+
+Mixture-of-experts and distributional RL. MoE archi-tectures have seen renewed interest in deep learning [21], [22], with load-balance losses widely used to prevent expert collapse. In RL, multi-expert policies have been explored for multi-task and hierarchical settings [23], [24], but remain rare in high-dimensional humanoid control. Concurrently, KungfuBot2 [9] introduces Orthogonal MoE with Gram– Schmidt orthogonalization for versatile whole-body control from 9,770 motion sequences under PPO, showing clear gains over monolithic MLPs. On the value side, distributional RL replaces scalar estimates with full return distributions; DVF [10] and QR-DQN [25] demonstrated benefits in dis-crete domains, and distributional critics have since been adopted in continuous control [7], [18], though always with a single monolithic head. LooperMuscle targets a comple-mentary objective to KungfuBot2 — fast per-task training rather than universal versatility — and combines both di-rections: a per-joint-group MoE actor paired with per-expert distributional critic heads and contribution-routed replay, a combination not previously explored for humanoid whole-body tracking. III. M ETHODOLOGY 
+
+This section presents the LooperMuscle framework. We define the problem setup (Sec. III-A), then describe the MoE actor with anti-collapse gating (Sec. III-B), expert-aware distributional critic (Sec. III-C), quota-routed replay with deferred scheduling (Sec. III-D), and closed-loop integration (Sec. III-E). An overview is shown in Fig. 2. 
+
+A. Problem Setup and Notation 
+
+We consider whole-body tracking (WBT) for a humanoid robot with d = 29 degrees of freedom (DoF). At each timestep t, the policy observes a state st comprising propri-oceptive measurements (joint positions qt ∈ Rd, velocities 
+
+˙qt ∈ Rd, body orientation rt ∈ R3, angular velocity 
+
+ωt ∈ R3) and motion reference signals (target joint posi-tions qref  
+
+> t
+
+∈ Rd, key-body positions pref  
+
+> t
+
+∈ RNkey ×3, target orientation rref  
+
+> t
+
+∈ R3). The policy outputs at ∈ Rd as target joint positions sent to PD controllers. We partition the d joints into G semantic groups via a mapping g : {1, . . . , d } → { 1, . . . , G }. In our implemen-tation, we use G = 2 groups corresponding to upper-body and lower-body joints, reflecting the distinct dynamic roles of these regions (balance and locomotion vs. expressive arm and torso motions). Our framework builds on Soft Actor-Critic (SAC) [26] with the FastSAC recipe [6] as the base training algorithm. We extend it with a structured multi-expert actor, a distribu-tional critic with per-expert heads, and a contribution-aware replay mechanism described below. Observation &      
+
+> Motion Inputs
+> actor_obs
+> critic_obs
+> motion command
+> motion reference
+> LooperMuscle Training Core AB
+> Muscle Experts 1 … K
+> Per-joint Scaling
+> Output Alignment
+> Muscle-Inspired Expert Actor
+> Expert-aware Distributional Critic
+> Per-expert DVF heads
+> Routed Replay & Curriculum CSampler
+> quota sampling + deferred unlock
+> expert_contrib
+> holdout ratio h(p)
+> unlock ratio u(p) Main Buffer Expert
+> Buffers
+> Deferred
+> Buffers
+> scheduling
+> Environment Interaction D
+> Humanoid WBT
+> simulation rollout
+> Recruitment Network (Group 2 Gating)
+> Expert-aware Distributional Critic
+> Weighted aggregation
+> • transitions
+> • rewards
+> • done
+> environment
+> transitions
+> gradient loss gradient
+> Closed-loop coupling of
+> specialization, routing, and
+> value learning
+> D
+
+Fig. 2: System overview of LooperMuscle. (A) The policy receives proprioceptive observations and motion references. (B) The Muscle-Inspired Expert Actor decomposes the policy into K experts fused via per-joint-group gating wk,g , with per-joint scaling Sk,j and output alignment ck . The Expert-Aware Distributional Critic maintains per-expert DVF heads aggregated through the same gating weights. (C) Routed Replay & Curriculum stores transitions with expert contribution metadata and samples via quota routing with progress-dependent deferred unlock. (D) Actions are executed in massively parallel simulation. Together, the three components close the loop among policy structure, data allocation, and value estimation. actor_obs 
+
+> Recruitment
+> Network
+> group2 gating
+> (upper-body group /
+> lower-body group)
+> Muscle Unit 1
+> Muscle Unit 2
+> Muscle Unit K
+> K expert
+> learnable
+> semantic
+> scaling
+> per-joint
+> scaling
+> output
+> alignment
+> expert-
+> wise
+> alignment
+> coefficient
+> fusion
+> Gate Load-Balance Regularization
+> Input
+> …
+> auxiliary
+> constrains
+> anti-collapse
+> Actors
+
+Fig. 3: MoE Actor architecture. The input observation is processed by a recruitment network that produces per-joint-group gating weights wk,g (st).Each Muscle Unit (expert) outputs actions μk (st), modulated by learnable per-joint scaling Sk,j and output alignment ck before fusion via Eq. (1). A KL-based gate load-balance regularizer prevents gate collapse. 
+
+B. Multi-Expert Actor with Anti-Collapse Gating 
+
+A monolithic policy network must compromise between the competing dynamics of different body regions. We de-compose the policy into K expert networks fused through learnable per-joint-group gating. The architecture is illus-trated in Fig. 3. 
+
+Expert fusion. Each expert k ∈ { 1, . . . , K } produces a per-joint action μk,j (st). The final action is: 
+
+at,j =
+
+KX
+
+k=1 
+
+wk,g (j)(st) ck Sk,j μk,j (st), j = 1 , . . . , d (1) where wk,g (j)(st) is the gating weight for expert k in the joint group containing joint j (computed at the group level , shared within each group), Sk,j is a learnable per-joint scaling factor initialized from the nominal joint range on Unitree G1, and ck is an output alignment coefficient normalizing magnitudes across experts. This two-level design — group-level gating for coarse expert recruitment, per-joint scaling for fine-grained modulation — allows multiple experts to contribute to each joint with state-dependent ratios. 
+
+Per-joint-group gating. Gating weights are computed in-dependently for each group via temperature-scaled softmax: 
+
+wk,g (st) = exp  ℓk,g (st)/τ g
+
+PKk′=1 exp  ℓk′,g (st)/τ g
+
+ ,
+
+KX
+
+k=1 
+
+wk,g (st) = 1 
+
+(2) where ℓk,g (st) are gating logits from a shared recruitment network and τg > 0 is a per-group temperature. Lower 
+
+τg encourages sharper selection (for stability-critical lower-body), while higher τg allows softer blending (for expressive upper-body). This enables upper-body and lower-body to recruit different expert combinations independently. 
+
+Semantic scaling and output alignment. The scaling factors Sk,j are initialized proportionally to the angular range 
+
+(¯ qj − qj ) of joint j, reflecting heterogeneous action scales: hip joints have large ranges (larger scaling) while wrist joints operate in smaller ranges (smaller scaling). Both Sk,j and the alignment coefficients ck remain learnable during training. 
+
+Anti-collapse gating regularization. To prevent gate col-lapse, where a single expert monopolizes gating weights, we introduce a load-balance regularizer: 
+
+Llb = λlb αlb (t) KL   ¯w ∥ u (3) where ¯w is the batch-and-group-averaged gating weight: 
+
+¯wk = 1
+
+B
+
+BX
+
+b=1 
+
+1
+
+G
+
+GX
+
+g=1 
+
+wk,g (s(b)
+
+t ) (4) 
+
+u = [1 /K, . . . , 1/K ] is the uniform prior, λlb is the coefficient, and αlb (t) is an annealing factor that decays during training. This regularizer constrains only batch-level statistics, preventing permanent deactivation while allowing state-dependent specialization. The overall actor loss is: 
+
+Lactor = Est∼D 
+
+α log πθ (at|st) − Qϕ(st, at) + Llb (5) where α is the SAC entropy coefficient, and θ and ϕ denote the learnable parameters of the actor (experts, recruitment network, Sk,j , and ck) and of the critic, respectively. Here 
+
+Qϕ is the scalar value induced by the distributional critic of Sec. III-C, i.e., the expectation Qϕ(s, a) = E[Z(s, a)] = P 
+
+> i
+
+zi pi(s, a) of the aggregated distribution in Eq. (7). 
+
+C. Expert-Aware Distributional Critic 
+
+A standard scalar critic is insufficient to capture the het-erogeneous contributions of multiple experts to the expected return. We propose an expert-aware distributional critic with per-expert value heads that model return distributions rather than point estimates. 
+
+Per-expert distributional heads. For each of M = 2 
+
+critics and each expert k, we define a categorical distribution over atoms {z1, . . . , z Natom } following C51 [10]: 
+
+Zm,k (s, a) = 
+
+> Natom
+
+X
+
+> i=1
+
+pm,k,i (s, a) δ(zi) (6) where pm,k,i (s, a) ∈ [0 , 1] are softmax-output probabilities for each atom. 
+
+Gating-weighted aggregation. Per-expert distributions are aggregated using the actor’s gating weights: 
+
+Zm(s, a) = 
+
+> K
+
+X
+
+> k=1
+
+˜wk(s) Zm,k (s, a) (7) where ˜wk(s) = 1
+
+> G
+
+PGg=1 wk,g (s) is the per-state group-averaged gating weight (distinct from the batch-level statistic 
+
+¯wk in Eq. (4)), directly reusing the actor’s gating weights — no separate critic gating is learned. This makes the critic’s value structure isomorphic to the actor’s expert structure: the same gating that determines each expert’s action contribution also determines its value contribution, enabling fine-grained credit assignment. 
+
+Distributional Bellman training. The critic is trained via distributional Bellman projection with cross-entropy loss: 
+
+Lcritic =
+
+> M
+
+X
+
+> m=1
+
+CE  Π T π Z′
+
+> m
+
+, Z m
+
+ (8) where Z′ 
+
+> m
+
+is the distribution predicted by a slowly updated target critic, the distributional Bellman operator is defined as 
+
+(T π Z)( st, at) D
+
+= rt + γZ (st+1 , at+1 ) with at+1 ∼ πθ (· | 
+
+st+1 ), and Π is the categorical projection that distributes the probability mass of each shifted atom rt + γz i onto its two nearest neighbors in the fixed support {z1, . . . , z Natom } by linear interpolation [10]. This design provides three benefits: (1) distributional information reduces value estimation bias in high-dynamic motions; (2) the isomorphic actor-critic structure enables per-expert credit assignment; and (3) full dual-critic SAC compatibility preserves training stability. 
+
+D. Quota-Routed Replay with Deferred Scheduling 
+
+In multi-expert training, uniform replay causes transitions from dominant experts to be overrepresented, leaving weaker experts under-trained. We address this with quota-routed sam-pling combined with progress-dependent deferred scheduling (Fig. 4).               
+
+> Fig. 4: Quota-Routed Replay and Expert-Aware Critic over training time. Top: Each transition is stored with expert contribution metadata and routed to the main buffer, per-expert buckets, and deferred buck-ets. Middle: Mini-batches combine uniform samples, expert-quota samples (Nk=⌊qkNexp ⌋), and deferred samples ( Ndef =⌊u(ρ)Nexp ⌋). Bottom:
+> Holdout ratio h(ρ)releases held-back data early, while unlock ratio u(ρ)
+> ramps deferred samples in the middle and late phases.
+
+Expert contribution tagging. Each stored transition is augmented with:  
+
+> •
+
+Expert contribution vector et ∈ RK , where et,k =
+
+> 1
+> d
+
+P 
+
+> j
+
+|wk,g (j)ckSk,j μk,j | measures the mean absolute ac-tion contribution of expert k. 
+
+> •
+
+Body tracking ratio bt ∈ [0 , 1] , the fraction of key bodies below error threshold ϵbody . 
+
+> •
+
+Step identifier tstep for progress-dependent scheduling. The dominant expert k∗ = arg max k et,k determines routing; transitions with low bt are routed to deferred buckets. 
+
+Quota-routed sampling. Let N be the mini-batch size and 
+
+η ∈ [0 , 1] the expert-routing fraction: 
+
+Nexp = ⌊ηN ⌋, Nk = ⌊qk Nexp ⌋ (9) where qk is the target quota for expert k. This guarantees every expert receives training exposure proportional to its assigned responsibility, preventing the feedback loop where strong experts improve while weak experts stagnate. 
+
+Deferred buckets. To prevent difficult samples from desta-bilizing early training, we maintain independent deferred buckets with separate capacity from the main buffer. Re-lease is controlled by two progress-dependent schedules over 
+
+ρ ∈ [0 , 1] (normalized training progress). The holdout ratio: 
+
+h(ρ) = hmax · max  0, 1 − ρ/ρ h
+
+ (10) The deferred unlock ratio: 
+
+u(ρ) = 
+
+
+
+0 ρ ≤ ρs
+
+umax · ρ − ρs
+
+ρe − ρs
+
+ρs < ρ < ρ e
+
+umax ρ ≥ ρe
+
+(11) yielding Ndef = ⌊u(ρ)·Nexp ⌋ deferred samples per batch. This transforms the decision of when to train on difficult samples from a static hyperparameter into a dynamic, progress-aware strategy: stable convergence in the early phase, with deferred samples gradually released to raise the performance ceiling. E. Closed-Loop Training 
+
+The three mechanisms are not independent modules but form an end-to-end closed training loop (Fig. 2): Actor contrib 
+
+−−−−−→ Routing quota 
+
+−−−→ Critic grad 
+
+−−→ Actor The MoE actor generates actions with per-expert contribu-tion profiles et, which determine replay routing. The quota sampler draws balanced mini-batches for the distributional critic, whose gradients refine expert specialization and future contribution profiles. This closed loop ensures that policy de-composition, data allocation, and value learning are mutually reinforcing rather than operating in isolation. LooperMuscle extends the FastSAC recipe along three orthogonal axes — policy structure, value estimation, and data allocation — coupled into a single closed training loop. All hyperparameters are provided in our released codebase. IV. E XPERIMENTS 
+
+We evaluate LooperMuscle on 29-DoF humanoid whole-body tracking and focus on the speed–performance tradeoff against PPO [8] and FastSAC [6] baselines. We answer the following questions: 
+
+Q1 Can LooperMuscle substantially improve FastSAC-level tracking quality while keeping a large wall-clock advan-tage over PPO? 
+
+Q2 Are the gains consistent across motion categories? 
+
+Q3 Do the proposed components each contribute? 
+
+Q4 Does expert specialization emerge in real training curves? 
+
+A. Experimental Setup 
+
+Simulation platform. All quantitative benchmarking is performed in MJLab [27] on the Unitree G1 humanoid (29 DoF), with a simulation timestep of 0.005 s, control decimation of 4 (yielding a 50 Hz control frequency), and 10 s episodes (500 control steps per episode). Training uses 4096 parallel environments on a single NVIDIA RTX 4090D. 
+
+Dataset. We benchmark on 40 LAFAN1 [28] sequences covering six categories: Walk (12), Run/Sprint (6), Jump (3), Dance (8), Fight (5), and Fall&GetUp (6). 
+
+Compared methods. We compare:  
+
+> •
+
+PPO [8] — on-policy reference, trained for ∼6 h;  
+
+> •
+
+FastSAC-MLP [6] — off-policy FastSAC with a mono-lithic MLP actor, trained for ∼15 min;  
+
+> •
+
+LooperMuscle — FastSAC backbone augmented with MoE actor (K=4 experts), expert-aware distributional critic, and quota-routed replay with deferred scheduling, trained for ∼45 min. PPO serves as the quality upper bound. FastSAC-MLP and LooperMuscle are the competing fast-training methods. 
+
+Metrics. We report: (i) Mean Body Position Error (m, lower is better), which measures the average Euclidean dis-tance between tracked key-body positions and their reference targets; (ii) Mean Joint Position Error (rad, lower is better), which measures the average absolute deviation of joint angles from their reference values; (iii) Normalized Reward (PPO converged score normalized to 1.0); and (iv) wall-clock training time. Reported errors are means over the sequences of each category (std across sequences in Table I; per-category std as error bars in Fig. 5c). All runs are repeated over multiple random seeds; shaded regions and ellipses in Figs. 1 and 5 denote ±1 std across seeds. 
+
+Configuration note. LooperMuscle uses K = 4 ex-perts, two-group gating ( G=2 , i.e., upper-body and lower-body), KL-divergence-based gate load-balance regularization (Eq. (3)), contribution-based replay routing (Sec. III-D), and deferred unlock scheduling (Eq. (11)). A single fixed hyper-parameter setting ( τg , λlb and its annealing schedule, routing fraction η, and curriculum thresholds) is used for all 40 sequences without per-motion tuning; in our experience these values transfer across motion categories without delicate re-tuning. Full values are provided in the released codebase. 
+
+Integrity disclosure on observation interfaces. Main quantitative tables and plots are from MJLab [27] bench-marking, whose observation interface includes ground-truth anchor-point perception (global key-body positions and ori-entations queried from the simulator state) that cannot be measured on real hardware. Real-robot deployment instead uses the open-source Holosoma stack [29] with a 154-dimensional interface built only from onboard-estimable sig-nals; the hardware policy is therefore retrained from scratch under this interface (Sec. IV-G). MJLab numbers should thus be read as controlled algorithmic comparisons under a shared privileged interface rather than direct predictors of hardware performance; hardware results are reported as 
+
+deployment validation and are not pooled into MJLab benchmark rankings. 
+
+B. Main Results: Speed–Quality Tradeoff                   
+
+> TABLE I: Overall comparison on 40 LAFAN1 sequences. Bold denotes best among fast-training methods ( ≤1 h). PPO is shown as the quality reference only. Method Body Err. (m) ↓Joint Err. (rad) ↓Norm. Reward ↑Time
+> Reference ( ∼6 h training):
+> PPO 0.082 ±0.031 0.243 ±0.089 1.000 ∼360 min
+> Fast methods ( ≤1 h training):
+> LooperMuscle 0.101 ±0.038 0.285 ±0.102 0.723 ∼45 min FastSAC-MLP 0.153 ±0.057 0.401 ±0.134 0.648 ∼15 min
+
+As shown in Table I, LooperMuscle reduces body-position tracking error by 34.0% relative to FastSAC-MLP (0.153 →0.101 m), while remaining much faster than PPO in wall-clock training time. 
+
+Effect of additional training budget. Since LooperMus-cle trains for ∼45 min versus FastSAC-MLP’s ∼15 min, a natural question is whether the baseline would catch up given an equal budget. Our results indicate it does not: all methods in Fig. 1 (top) are trained for the same number of steps, and Figs. 5b and 6 evaluate FastSAC-MLP up to 197 and 360 min of wall-clock training; its reward saturates shortly after the 15-minute mark and subsequent gains are marginal, leaving the gap essentially unchanged. This points to a representational rather than compute bottleneck in the monolithic actor, consistent with Sec. IV-D; a parameter-matched larger MLP baseline is a valuable further control left for future work. (a) Speed–quality tradeoff. (b) Reward vs wall-clock time. (c) Per-category body/joint error. (d) Expert specialization. 
+
+Fig. 5: Main quantitative results and expert specialization. (a) LooperMuscle occupies a favorable middle point in the speed–quality tradeoff: much better tracking quality than FastSAC-MLP and much less training time than PPO. Ellipses denote ±1 standard deviation over multiple random seeds. (b) Reward vs. wall-clock time (0–197 min) under the same reference task in the short-budget regime. (c) Per-category body/joint error with ±1 standard deviation bars; LooperMuscle consistently improves over FastSAC-MLP, with larger gains on high-difficulty categories. (d) t-SNE [30] projection of primitive trunk features (for each state, the penultimate-layer activation of its dominant expert), colored by dominant expert ID; states routed to different experts occupy well-separated regions, with clusters aligning to dynamic regimes (e.g., stance vs. swing) rather than motion categories. TABLE II: Per-category performance on 40 sequences. Bold denotes best among fast-training methods. PPO is quality reference only. PPO LooperMuscle FastSAC-MLP Ours vs FastSAC Category #Seq Body ↓ Joint ↓ Body ↓ Joint ↓ Body ↓ Joint ↓ Body Impr. Walk 12 0.054 0.161 0.066 0.185 0.090 0.243 ↓26.7% Run/Sprint 6 0.073 0.215 0.088 0.248 0.131 0.345 ↓32.8% Jump 3 0.096 0.283 0.113 0.317 0.167 0.440 ↓32.3% Dance 8 0.086 0.256 0.105 0.296 0.158 0.421 ↓33.5% Fight 5 0.102 0.300 0.127 0.358 0.193 0.513 ↓34.2% Fall&GetUp 6 0.118 0.350 0.151 0.431 0.254 0.634 ↓40.6%         
+
+> All 40 0.082 0.243 0.101 0.285 0.153 0.401 ↓34.0%
+
+Relation to locomotion results in [6]. FastSAC was reported to match PPO on locomotion, whereas PPO re-mains the stronger reference here. We attribute this to the task: locomotion tracks low-dimensional velocity commands, while WBT must track dense, time-varying references over all 29 joints and key bodies — a far harder credit-assignment problem in which massively parallel on-policy PPO retains an advantage. 
+
+C. Per-Category Results 
+
+Category-wise trend. Table II and Fig. 5c show that Loop-erMuscle consistently outperforms FastSAC-MLP across all six motion categories. The body-error reduction ranges from 26.7% (Walk) to 40.6% (Fall&GetUp), with an overall gain of 34.0% on all 40 sequences. 
+
+Difficulty-dependent gain. The improvement broadly in-creases with motion difficulty: the margin is smallest on Walk (26.7%) and largest on highly dynamic, contact-rich Fall&GetUp (40.6%). This trend indicates that the proposed expert specialization and replay curriculum are especially effective when control objectives are strongly coupled and non-stationary. 
+
+D. Ablation Study 
+
+TABLE III: Ablation over 40 sequences. Each row removes a single component from the full system. Configuration Body Err. (m) ↓ Joint Err. (rad) ↓ ∆Body LooperMuscle (full) 0.101 0.285 —w/o MoE Actor 0.153 0.401 +51.5% w/o Quota Replay 0.127 0.358 +25.7% w/o Deferred Scheduling 0.119 0.341 +17.8% w/o Expert-Aware Critic 0.113 0.324 +11.9% 
+
+Overall impact. Table III confirms that all proposed modules are necessary. Removing the MoE Actor causes the largest degradation (+51.5% body error), indicating that ex-pert decomposition is the primary source of representational gain in high-DoF WBT. Note that removing the MoE actor also removes the expert structure on which quota routing and the expert-aware critic are defined, so this configuration reduces to the FastSAC-MLP baseline (hence the identical values in Table I). 
+
+Replay-side contributions. Removing Quota Replay in-creases body error by 25.7%, showing that balanced expert exposure is critical for avoiding expert under-training. In-dependently removing Deferred Scheduling degrades perfor-mance by 17.8%, suggesting that progressive sample release improves optimization stability, especially for hard-motion transitions. 
+
+Value-learning contribution. Replacing the expert-aware critic with a standard (non-expert) distributional critic still causes a notable drop (+11.9%), which supports the claim that value estimation aligned with expert structure improves credit assignment. 
+
+Non-additive effect. The degradations are not strictly additive, indicating coupling among modules: actor spe-cialization, routed replay, and expert-aware value learning form a closed-loop training system rather than independent heuristics. 
+
+E. Training Curves and Expert Specialization 
+
+Fig. 1 (top) plots the training reward curves for PPO, FastSAC-MLP, and LooperMuscle on a matched reference motion, providing a direct comparison of convergence be-havior. To verify that expert decomposition produces meaningful specialization, we visualize the primitive trunk features —for each state, the penultimate-layer (trunk) activation of its dominant expert k∗ = arg max k et,k — via t-SNE [30] (Fig. 5d). States routed to different dominant experts occupy well-separated regions, confirming that the anti-collapse reg-ularizer drives non-redundant specialization. Notably, clusters align with dynamic regimes (e.g., stance vs. swing phase) rather than motion categories, indicating that experts special-ize by control mode. Fig. 6 reports radar profiles at five checkpoints. At 15 min, FastSAC-MLP has already converged; by 45 min LooperMus-cle surpasses it on most axes, converting additional training Fig. 6: Tracking error radar profiles at 15 min, 30 min, 45 min, 240 min, and 360 min (lower area is better). This time-profiled view shows how method-level error structure evolves from early to late training under the same task setup.                                         
+
+> Fig. 7: Real-world deployment on Unitree G1. The LooperMuscle policy tracks the whole-body motion of a fighting sequence from the KungfuBot2 motion library [9], with stable balance and smooth transitions between kicks, demonstrating sim-to-real transfer via the Holosoma runtime stack at 50 Hz. TABLE IV: MoE consistently outperforms monolithic MLP across different training regimes. Each regime row uses a different dataset, DoF, and metric; therefore, only the relative improvement ( ∆vs MLP) within each regime is meaningful — absolute tracking errors are not comparable across regimes. Regime Configuration ∆vs MLP Baseline Source
+> Regime A: PPO, AMASS 9770 seq, 23-DoF, Empkpe (mm ↓)
+> PPO MLP (ExBody2) — baseline —[31] PPO Motion MoE (GMT) ↓14.6% [32] PPO MLP (VMS-MLP) ↓7.4% [9] PPO Soft MoE (VMS-MoE) ↓15.1% [9] PPO Orth. MoE ( VMS/KungfuBot2 )↓19.7% [9]
+> Regime B: FastSAC, LAFAN1 40 seq, 29-DoF, Body Pos. Err. (m ↓)
+> FastSAC MLP (FastSAC-MLP) — baseline —Ours FastSAC Group MoE ( LooperMuscle )↓34.0% Ours
+
+cost into substantial quality gain. At 240 and 360 min PPO reaches the best final profile, while LooperMuscle remains close with much lower wall-clock cost. The temporal evo-lution aligns with the ablation findings: early stability is aided by replay scheduling, mid-stage gains by expert spe-cialization, and late-stage robustness by expert-aware value learning. 
+
+F. Comparison with Concurrent MoE-Based Methods 
+
+We contextualize LooperMuscle by examining whether the benefit of MoE over monolithic MLP is consistent across different training paradigms. Table IV summarizes the MLP-to-MoE relative gains reported in concurrent work and in our own experiments. 
+
+Regimes. In Regime A, ExBody2 [31], GMT [32], and VMS (KungfuBot2) [9] are concurrent PPO-based methods trained on the large-scale AMASS dataset (9,770 sequences, 23-DoF, Empkpe in mm); ExBody2 uses a monolithic MLP actor and serves as the regime’s baseline; GMT combines a motion MoE with adaptive motion sampling, and VMS introduces Orthogonal MoE ( K=6 ) with Gram–Schmidt or-thogonalization, reducing tracking error by 14.6% and 19.7%, respectively, whereas VMS’s own MLP variant improves by only 7.4%. In Regime B — our fundamentally different off-policy FastSAC setting (LAFAN1, 40 sequences, 29-DoF, body position error in m) — our Group MoE reduces tracking error by 34.0% over FastSAC-MLP. 
+
+What can and cannot be concluded. The two regimes differ in training algorithm (PPO vs. FastSAC), dataset scale (9,770 vs. 40 sequences), robot DoF (23 vs. 29), and evalu-ation metric, precluding direct comparison of absolute errors or gain magnitudes. However, the consistent direction of improvement — MoE substantially outperforming monolithic MLPs in both on-policy and off-policy paradigms — suggests that expert decomposition is a broadly beneficial design principle for humanoid whole-body tracking rather than an artifact of a particular setup. 
+
+G. Hardware Deployment Validation 
+
+We validate LooperMuscle on a physical Unitree G1 using the open-source Holosoma runtime stack [29]. The key difference from the MJLab benchmark is the observation interface: MJLab provides ground-truth anchor-point per-ception (global key-body positions and orientations queried directly from the simulator state) that no onboard sensor can measure. The Holosoma interface removes these privileged signals and retains only onboard-estimable quantities (e.g., IMU base orientation and angular velocity, joint encoder readings, and motion-reference features expressed relative to the robot base), resulting in a 154-dimensional observation vector. Due to this interface difference, the hardware policy is retrained from scratch in Holosoma — using the same LooperMuscle architecture, components, and training recipe, with only the observation interface changed — rather than directly transferring the MJLab checkpoint. The retrained policy outputs target joint positions at ∈ R29 at 50 Hz via ONNX inference. As shown in Fig. 1 (bottom) and Fig. 7, the deployed policy executes whole-body Kungfu sequences from the KungfuBot2 motion library [9] with stable balance and smooth transitions. This validates that the LooperMuscle recipe trains deployable policies under a realistic observation interface; repeating the full benchmark and ablation suite under this deployable interface is an important next step (Sec. V). V. C ONCLUSION 
+
+LooperMuscle couples a per-joint-group MoE actor, per-expert distributional critic, and quota-routed replay into a closed training loop that narrows the speed–performance gap in humanoid whole-body tracking. It substantially improves tracking quality over FastSAC while remaining much faster than PPO, and deployment on a physical Unitree G1 val-idates real-world applicability. Several limitations remain. First, our quantitative benchmark and ablations use MJLab’s privileged observation interface, whereas the hardware pol-icy is retrained under a deployable interface; repeating the benchmark and ablation suite under the deployable interface, and quantifying the associated retraining cost, is our most immediate next step toward a unified sim-to-real pipeline. Second, parameter-matched baselines would further isolate the contribution of expert structure from capacity. Third, several design choices (expert count K, group partition G,per-group temperatures, routing fraction) are fixed rather than systematically varied, and evaluation covers a single robot morphology. Future work will additionally explore adaptive expert allocation, systematic domain randomization, and diffusion-based motion priors. REFERENCES [1] N. Rudin, D. Hoeller, P. Reist, and M. Hutter, “Learning to walk in minutes using massively parallel deep reinforcement learning,” in 
+
+Proceedings of the 5th Conference on Robot Learning , vol. 164. PMLR, 2022, pp. 91–100. [2] V. Makoviychuk, L. Wawrzyniak, Y. Guo, M. Lu, K. Storey, M. Mack-lin, D. Hoeller, N. Rudin, A. Allshire, A. Handa, and G. State, “Isaac gym: High performance gpu-based physics simulation for robot learning,” 2021. [3] K. Zakka, B. Tabanpour, Q. Liao, M. Haiderbhai, S. Holt, J. Y. Luo, A. Allshire, E. Frey, K. Sreenath, L. A. Kahrs et al. , “Mujoco playground,” arXiv preprint arXiv:2502.08844 , 2025. [4] W. Zhao, J. P. Queralta, and T. Westerlund, “Sim-to-real transfer in deep reinforcement learning for robotics: A survey,” in 2020 IEEE Symposium Series on Computational Intelligence (SSCI) , 2020. [5] Y. Chebotar, A. Handa, V. Makoviychuk, M. Macklin, J. Issac, N. Ratliff, and D. Fox, “Closing the sim-to-real loop: Adapting simula-tion randomization with real world experience,” in 2019 International Conference on Robotics and Automation (ICRA) , 2019. [6] Y. Seo, C. Sferrazza, J. Chen, G. Shi, R. Duan, and P. Abbeel, “Learning sim-to-real humanoid locomotion in 15 minutes,” arXiv preprint arXiv:2512.01996 , 2025. [7] Y. Seo, C. Sferrazza, H. Geng, M. Nauman, Z.-H. Yin, and P. Abbeel, “Fasttd3: Simple, fast, and capable reinforcement learning for hu-manoid control,” arXiv preprint arXiv:2505.22642 , 2025. [8] J. Schulman, F. Wolski, P. Dhariwal, A. Radford, and O. Klimov, “Proximal policy optimization algorithms,” arXiv preprint arXiv:1707.06347 , 2017. [9] J. Han, W. Xie, J. Zheng, J. Shi, W. Zhang, T. Xiao, and C. Bai, “KUNGFUBOT2: Learning versatile motion skills for humanoid whole-body control,” arXiv preprint arXiv:2509.16638 , 2025. [10] M. G. Bellemare, W. Dabney, and R. Munos, “A distributional per-spective on reinforcement learning,” in International Conference on Machine Learning , 2017. [11] X. B. Peng, P. Abbeel, S. Levine, and M. Van de Panne, “Deepmimic: Example-guided deep reinforcement learning of physics-based charac-ter skills,” ACM Transactions on Graphics (TOG) , 2018. [12] X. B. Peng, Z. Ma, P. Abbeel, S. Levine, and A. Kanazawa, “Amp: Adversarial motion priors for stylized physics-based character control,” in ACM SIGGRAPH , 2021. [13] Z. Luo, J. Cao, A. Weng, K. Kitani, and W. Xu, “Perpetual humanoid control for real-time simulated avatars,” arXiv preprint arXiv:2305.06456 , 2023. [14] Z. Luo, J. Cao, J. Merel, A. Winkler, J. Huang, K. Kitani, and W. Xu, “Universal humanoid motion representations for physics-based control,” in International Conference on Learning Representations (ICLR) , 2024. [15] Q. Liao, T. E. Truong, X. Huang, G. Tevet, K. Sreenath, and C. K. Liu, “Beyondmimic: From motion tracking to versatile humanoid control via guided diffusion,” arXiv preprint arXiv:2508.08241 , 2025. [16] T. He, W. Xiao, T. Lin, Z. Luo, Z. Xu, Z. Jiang, J. Kautz, C. Liu, G. Shi, X. Wang et al. , “Hover: Versatile neural whole-body controller for humanoid robots,” in 2025 IEEE International Conference on Robotics and Automation (ICRA) , 2025. [17] T. He, J. Gao, W. Xiao, Y. Zhang, Z. Wang, J. Wang, Z. Luo, G. He, N. Sobanbab, C. Pan et al. , “Asap: Aligning simulation and real-world physics for learning agile humanoid whole-body skills,” in Robotics: Science and Systems , 2025. [18] Z. Li, T. Chen, Z.-W. Hong, A. Ajay, and P. Agrawal, “Parallel q-learning: Scaling off-policy reinforcement learning under massively parallel simulation,” in International Conference on Machine Learning .PMLR, 2023, pp. 19 440–19 459. [19] A. Raffin, “Getting sac to work on a massive parallel simulator: An rl journey with off-policy algorithms,” araffin.github.io, 2025. [20] A. Shukla, “Speeding up sac with massively parallel simulation,” arthshukla.substack.com, 2025. [21] N. Shazeer, A. Mirhoseini, K. Maziarz, A. Davis, Q. Le, G. Hinton, and J. Dean, “Outrageously large neural networks: The sparsely-gated mixture-of-experts layer,” arXiv preprint arXiv:1701.06538 , 2017. [22] W. Fedus, B. Zoph, and N. Shazeer, “Switch transformers: Scaling to trillion parameter models with simple and efficient sparsity,” Journal of Machine Learning Research , vol. 23, no. 120, pp. 1–39, 2022. [23] R. Yang, H. Xu, Y. Wu, and X. Wang, “Multi-task reinforcement learning with soft modularization,” in Advances in Neural Information Processing Systems , 2020. [24] J. Ren, Y. Li, Z. Ding, W. Pan, and H. Dong, “Probabilistic mixture-of-experts for efficient deep reinforcement learning,” arXiv preprint arXiv:2104.09122 , 2021. [25] W. Dabney, M. Rowland, M. Bellemare, and R. Munos, “Distributional reinforcement learning with quantile regression,” in Proceedings of the AAAI Conference on Artificial Intelligence , 2018. [26] T. Haarnoja, A. Zhou, P. Abbeel, and S. Levine, “Soft actor-critic: Off-policy maximum entropy deep reinforcement learning with a stochastic actor,” in International conference on machine learning . PMLR, 2018, pp. 1861–1870. [27] K. Zakka, Q. Liao, B. Yi, L. L. Lay, K. Sreenath, and P. Abbeel, “mjlab: A lightweight framework for gpu-accelerated robot learning,” 
+
+arXiv preprint arXiv:2601.22074 , 2026. [28] F. G. Harvey, M. Yurick, D. Nowrouzezahrai, and C. Pal, “Robust mo-tion in-betweening,” ACM Transactions on Graphics (TOG) , vol. 39, no. 4, pp. 60:1–60:12, 2020. [29] Amazon Frontier AI & Robotics (FAR), “Holosoma: An open-source framework for humanoid robot learning,” https://github.com/ amazon-far/holosoma, 2025. [30] L. Van der Maaten and G. Hinton, “Visualizing data using t-sne.” 
+
+Journal of machine learning research , vol. 9, no. 11, 2008. [31] M. Ji, X. Peng, F. Liu, J. Li, G. Yang, X. Cheng, and X. Wang, “Exbody2: Advanced expressive humanoid whole-body control,” arXiv preprint arXiv:2412.13196 , 2024. [32] Z. Chen, M. Ji, X. Cheng, X. Peng, X. B. Peng, and X. Wang, “Gmt: General motion tracking for humanoid whole-body control,” arXiv preprint arXiv:2506.14770 , 2025.
