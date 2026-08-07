@@ -6,101 +6,90 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-05
-- 运行时间：2026-08-05 21:34:30 UTC
+- 最新运行日期：2026-08-07
+- 运行时间：2026-08-07 20:26:56 UTC
 - 运行状态：成功
-- 本次总论文数：27
-- 精读区：15
+- 本次总论文数：22
+- 精读区：10
 - 速读区：12
 
 ### 今日简报（AI）
-今日精读聚焦几何感知策略空间的自监督世界模型，以及交互表征与技能组合的移动操作学习，共深入分析15篇、速览12篇。最值得关注的是自引导世界建模（SG-WAM）满分论文，其几何感知策略空间设计极具启发性；同时，结合交互表征的技能组合方法为复杂操作任务提供了新思路。建议普通读者优先浏览精读列表中的高分工作，并关注速读中关于语言条件安全过滤与VLM驱动的混合现实编程方向。
-- 详情：[/202608/05/README](/202608/05/README)
+今日精读10篇、速读12篇，聚焦人形机器人操作与具身智能前沿。
+
+最值得关注：人形机器人全身协同操作（潜在世界模型）与建筑施工场景的感知-行动系统，均获9分以上高分。
+
+建议从触觉预测与全景视觉-语言-动作模型入手，快速了解灵巧操作与移动操作的最新进展。
+- 详情：[/202608/07/README](/202608/07/README)
 
 ### 精读区论文标签
-1. [SG-WAM: Self-Guided World Modeling in Geometry-Aware Policy Space](/202608/05/2608.01397v1-sg-wam-self-guided-world-modeling-in-geometry-aware-policy-space)  
+1. [$ω$-0: A Latent Predictive World Action Model for Concurrent Humanoid Loco-Manipulation](/202608/07/2608.06375v1--0-a-latent-predictive-world-action-model-for-concurrent-humanoid-loco-manipulation)  
    标签：评分：10.0/10、query:human-aigc
-   evidence：几何感知策略空间中的自导世界建模
-2. [Developing Combined Manipulation and Locomotion Skills with Interaction Representation and Skill Composition](/202608/05/2608.00208v1-developing-combined-manipulation-and-locomotion-skills-with-interaction-representation-and-skill-composition)  
+   evidence：用于人形机器人并发移动操作的潜预测世界行动模型
+2. [Perception-and-action system for humanoid robot task execution in construction](/202608/07/2608.01600v1-perception-and-action-system-for-humanoid-robot-task-execution-in-construction)  
    标签：评分：9.0/10、query:vla-humanoid
-   evidence：人形机器人全身操作与运动技能组合
-3. [Disentangling Visuo-Tactile Foresight: Oracle-Guided Interface Discovery for World Action Models](/202608/05/2608.00547v1-disentangling-visuo-tactile-foresight-oracle-guided-interface-discovery-for-world-action-models)  
-   标签：评分：9.0/10、query:human-aigc
-   evidence：直接研究世界行动模型用于视觉-触觉操作
-4. [SelfWAM: A Self-Grounded Unified World Action Model for Fast Robot Control](/202608/05/2608.00725v1-selfwam-a-self-grounded-unified-world-action-model-for-fast-robot-control)  
-   标签：评分：9.0/10、query:human-aigc
-   evidence：提出一种自扎根的统一世界行动模型，联合预测动作与未来观测，实现快速机器人控制
-5. [DynamicWAM: Dual-Path Motion Conditioning for World-Action Models in Dynamic Manipulation](/202608/05/2608.00793v1-dynamicwam-dual-path-motion-conditioning-for-world-action-models-in-dynamic-manipulation)  
-   标签：评分：9.0/10、query:human-aigc
-   evidence：扩展世界行动模型以支持动态操作中的运动条件
-6. [MiniWorld: Democratizing the Training of Video World Models from Scratch](/202608/05/2608.01127v1-miniworld-democratizing-the-training-of-video-world-models-from-scratch)  
-   标签：评分：9.0/10、query:human-aigc
-   evidence：学习智能体动作下环境动态的视频世界模型，为具身AI提供基础
-7. [Hermite Curves as Trajectory Priors for Vision-Language-Action Models](/202608/05/2608.01265v1-hermite-curves-as-trajectory-priors-for-vision-language-action-models)  
+   evidence：面向建筑任务执行的人形机器人感知-动作系统
+3. [Look Where It Matters: Adaptive Visual Refinement for Vision-Language-Action Models](/202608/07/2608.02197v1-look-where-it-matters-adaptive-visual-refinement-for-vision-language-action-models)  
    标签：评分：9.0/10、query:vla-humanoid
-   evidence：为VLA模型引入埃尔米特曲线轨迹先验，提升动作块的平滑性与连续性
-8. [GenTrack: Physical Alignment for Robot-Native Motion Generation and Zero-Shot Humanoid Tracking](/202608/05/2608.01410v1-gentrack-physical-alignment-for-robot-native-motion-generation-and-zero-shot-humanoid-tracking)  
+   evidence：面向空间精确操控的VLA视觉精炼方法
+4. [How Should Vision-Language-Action Models Use Proprioceptive State?](/202608/07/2608.03052v1-how-should-vision-language-action-models-use-proprioceptive-state)  
    标签：评分：9.0/10、query:vla-humanoid
-   evidence：人形机器人跟踪与运动生成
-9. [World Action Models in Real Time: An Empirical Study of Smooth Execution via Asynchronous Deployment](/202608/05/2608.01880v1-world-action-models-in-real-time-an-empirical-study-of-smooth-execution-via-asynchronous-deployment)  
-   标签：评分：9.0/10、query:human-aigc
-   evidence：面向平滑实时WAM执行的异步部署实证研究
-10. [ChainVLA: Chaining Vision-Language-Action Queries through a Unified Execution State for Long-Horizon Manipulation](/202608/05/2608.02326v1-chainvla-chaining-vision-language-action-queries-through-a-unified-execution-state-for-long-horizon-manipulation)  
+   evidence：研究VLA模型中本体感觉状态的接入方式，对闭环控制的影响
+5. [Learning Context-Aware Motion Priors for Humanoid Control](/202608/07/2608.03234v1-learning-context-aware-motion-priors-for-humanoid-control)  
    标签：评分：9.0/10、query:vla-humanoid
-   evidence：一种利用统一执行状态串联查询的视觉-语言-动作策略，面向长时程操作
-11. [Faster-WAM: Do World Action Models Need Deep Action Modules?](/202608/05/2608.02365v1-faster-wam-do-world-action-models-need-deep-action-modules)  
+   evidence：上下文感知运动先验的人形机器人控制
+6. [Faster-WAM: Efficient Inference-Time Future Conditioning for Robust World Action Models](/202608/07/2608.04404v1-faster-wam-efficient-inference-time-future-conditioning-for-robust-world-action-models)  
    标签：评分：9.0/10、query:human-aigc
-   evidence：直接针对世界行动模型，改进行动模块效率
-12. [StableMimic: Smooth Human-Like Recovery for Humanoid Motion Tracking - Learning Beyond the Tracking Distribution for Structured Post-Fall Behavior](/202608/05/2608.02385v1-stablemimic-smooth-human-like-recovery-for-humanoid-motion-tracking---learning-beyond-the-tracking-distribution-for-structured-post-fall-behavior)  
+   evidence：面向机器人操作的世界动作模型
+7. [MobileWAM: Bridging World Action Models to Mobile Manipulation with Chain-of-Foresight](/202608/07/2608.04657v2-mobilewam-bridging-world-action-models-to-mobile-manipulation-with-chain-of-foresight)  
    标签：评分：9.0/10、query:human-aigc
-   evidence：人形机器人运动跟踪与结构化跌倒后恢复
-13. [PFM-HR: Pose Flow Matching for Humanoid Robots](/202608/05/2608.03227v1-pfm-hr-pose-flow-matching-for-humanoid-robots)  
-   标签：评分：9.0/10、query:human-aigc
-   evidence：面向人形机器人跟踪的姿态流匹配先验
-14. [RoboReact: Agentic Skill Distillation from Generated Egocentric Videos for Generalizable Whole-Body Manipulation](/202608/05/2608.03387v1-roboreact-agentic-skill-distillation-from-generated-egocentric-videos-for-generalizable-whole-body-manipulation)  
+   evidence：直接提出将世界行动模型扩展到移动全身操控的MobileWAM，桥接WAM与移动场景
+8. [JoyAI-RA 0.5: Scaling Robot Manipulation Learning via Dual Action Alignment](/202608/07/2608.05674v1-joyai-ra-05-scaling-robot-manipulation-learning-via-dual-action-alignment)  
    标签：评分：9.0/10、query:vla-humanoid
-   evidence：从生成的自我中心视频合成全身人形机器人操作技能，直接面向人形操作
-15. [LiLa-WAM: Lightweight Latent Reasoning World-Action Model for Robotic Manipulation](/202608/05/2608.03701v1-lila-wam-lightweight-latent-reasoning-world-action-model-for-robotic-manipulation)  
+   evidence：通过双重动作对齐扩展操控学习的视觉-语言-世界-动作框架
+9. [Robust-WAM: Bridging Generative Pretraining and Semantic Foresight in World-Action Models](/202608/07/2608.05903v1-robust-wam-bridging-generative-pretraining-and-semantic-foresight-in-world-action-models)  
    标签：评分：9.0/10、query:human-aigc
-   evidence：轻量级潜在推理世界-动作模型用于机器人操作
+   evidence：提出针对视频生成式WAM的通用后训练方法，保留VAE预训练并增加语义预知
+10. [GeniWorld: A Generalizable Interactive World Model for Robotic Manipulation via Visual Actions](/202608/07/2608.06332v1-geniworld-a-generalizable-interactive-world-model-for-robotic-manipulation-via-visual-actions)  
+   标签：评分：9.0/10、query:human-aigc
+   evidence：基于视觉动作的交互式世界模型；动作条件化泛化稳定的操控世界模型
 
 ### 速读区论文标签
-1. [Towards General Language-Conditioned Latent Safety Filters](/202608/05/2608.00315v1-towards-general-language-conditioned-latent-safety-filters)  
+1. [ReTouch: Empowering Contact-Rich Dexterous Manipulation with Online-Refined Tactile Prediction](/202608/07/2608.01824v1-retouch-empowering-contact-rich-dexterous-manipulation-with-online-refined-tactile-prediction)  
    标签：评分：8.0/10、query:vla-humanoid
-   evidence：面向视觉-语言-动作策略的语言条件下潜空间安全过滤
-2. [From Failures to Supervision: DynamicEnvPlan for Robust Long-Horizon Embodied Planning](/202608/05/2608.00613v1-from-failures-to-supervision-dynamicenvplan-for-robust-long-horizon-embodied-planning)  
+   evidence：用于灵巧操作的视觉-语言-动作模型结合在线触觉精化
+2. [Learning Panorama-Aware VLA for Mobile Manipulation with Whole-Body Teleoperation](/202608/07/2608.02257v1-learning-panorama-aware-vla-for-mobile-manipulation-with-whole-body-teleoperation)  
+   标签：评分：8.0/10、query:vla-humanoid
+   evidence：全景感知VLA策略与全身遥操作，面向轮式双臂机器人移动操作
+3. [Grounded Semantic Re-Binding for Robust Instruction Generalization in Vision-Language-Action Models](/202608/07/2608.02497v1-grounded-semantic-re-binding-for-robust-instruction-generalization-in-vision-language-action-models)  
+   标签：评分：8.0/10、query:vla-humanoid
+   evidence：使用语义再绑定改进VLA模型的指令泛化鲁棒性
+4. [EmbodiedVAE: Disentangled Video VAE for Efficient and Controllable Embodied Manipulation](/202608/07/2608.02990v1-embodiedvae-disentangled-video-vae-for-efficient-and-controllable-embodied-manipulation)  
    标签：评分：8.0/10、query:human-aigc
-   evidence：动态环境中人形智能体的具身规划
-3. [ORCESTRA: VLM-driven Visual Robot programming in Mixed Reality](/202608/05/2608.00775v1-orcestra-vlm-driven-visual-robot-programming-in-mixed-reality)  
+   evidence：面向具身操纵世界模型的解耦视频VAE
+5. [Structure-Aware Robust Fine-Tuning: Defending Vision-Language-Action Robots Against Physical Attention Hijacking](/202608/07/2608.03231v1-structure-aware-robust-fine-tuning-defending-vision-language-action-robots-against-physical-attention-hijacking)  
    标签：评分：8.0/10、query:vla-humanoid
-   evidence：使用视觉语言模型驱动的人形机器人任务规划
-4. [LooperMuscle: Fast and Stable Learning of Humanoid Whole-Body Tracking via Structured Mixture-of-Experts](/202608/05/2608.00820v1-loopermuscle-fast-and-stable-learning-of-humanoid-whole-body-tracking-via-structured-mixture-of-experts)  
-   标签：评分：8.0/10、query:human-aigc
-   evidence：基于结构化专家混合的人形机器人全身跟踪
-5. [OC-VLA++: Monocular Geometry-Guided Cross-View Consistency for Viewpoint-Robust Robotic Manipulation](/202608/05/2608.01066v1-oc-vla-monocular-geometry-guided-cross-view-consistency-for-viewpoint-robust-robotic-manipulation)  
+   evidence：防御VLA策略免受物理注意力劫持；提升机器人操控鲁棒性
+6. [Unified Visuomotor Targets: Supervising VLAs Beyond Physical Actions](/202608/07/2608.03563v1-unified-visuomotor-targets-supervising-vlas-beyond-physical-actions)  
    标签：评分：8.0/10、query:vla-humanoid
-   evidence：面向视角鲁棒操作的视觉-语言-动作策略，使用语言模型生成机器人动作
-6. [DreamTrajectory: Trajectory-Guided Action Generation with World Model Alignment for Mobile Manipulation](/202608/05/2608.01381v1-dreamtrajectory-trajectory-guided-action-generation-with-world-model-alignment-for-mobile-manipulation)  
+   evidence：为VLA策略设计新的训练目标以提升机器人学习
+7. [CofactVLA: Deconfounding Vision-Language-Action Models via Counterfactual Intervention](/202608/07/2608.04396v1-cofactvla-deconfounding-vision-language-action-models-via-counterfactual-intervention)  
    标签：评分：8.0/10、query:vla-humanoid
-   evidence：面向移动操作的轨迹引导动作生成与世界模型对齐，涉及VLA与动作生成
-7. [D-VLC: Decentralized Vision-Language Collaboration for Heterogeneous Embodied Multi-Robot Systems in Unknown Environments](/202608/05/2607.29009v2-d-vlc-decentralized-vision-language-collaboration-for-heterogeneous-embodied-multi-robot-systems-in-unknown-environments)  
+   evidence：面向机器人操作的视觉-语言-动作模型因果去混杂方法
+8. [Mind-VLA: Instruction-Aware Spatial Representation Alignment for Vision-Language-Action Models](/202608/07/2608.04633v1-mind-vla-instruction-aware-spatial-representation-alignment-for-vision-language-action-models)  
+   标签：评分：8.0/10、query:vla-humanoid
+   evidence：指令感知的空间表示对齐的VLA模型
+9. [Multi-View Unified Camera Fields: Geometry-Shaped Action-Facing Representations for RGB-Only Multi-Camera VLA Policies](/202608/07/2608.01826v1-multi-view-unified-camera-fields-geometry-shaped-action-facing-representations-for-rgb-only-multi-camera-vla-policies)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：面向具身多机器人系统的LLM/VLM任务分解与角色分配
-8. [Latency-Tolerant Cloud-Edge Collaborative Vision-Language-Action Models via Emergent Representational Specialization](/202608/05/2608.00569v1-latency-tolerant-cloud-edge-collaborative-vision-language-action-models-via-emergent-representational-specialization)  
+   evidence：多相机VLA策略的几何形状动作表示
+10. [Track4Action: Distilling World-Centric 3D Tracker into Vision-Language-Action Policies](/202608/07/2608.03727v1-track4action-distilling-world-centric-3d-tracker-into-vision-language-action-policies)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：云端-边缘协同VLA策略和涌现表示特化
-9. [RL Bootstrapping of OpenVLA-OFT for a Novel Robot Embodiment](/202608/05/2608.01013v1-rl-bootstrapping-of-openvla-oft-for-a-novel-robot-embodiment)  
+   evidence：将世界中心3D追踪器蒸馏进VLA策略，为动作生成注入几何与运动监督
+11. [ETA: A New Agentic Paradigm for Embodied Tasks](/202608/07/2608.03924v1-eta-a-new-agentic-paradigm-for-embodied-tasks)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：通过强化学习将预训练VLA策略适配到新型机器人本体
-10. [Ego2Robot: Scalable Robot Data Synthesis from Egocentric Human Data](/202608/05/2608.02580v1-ego2robot-scalable-robot-data-synthesis-from-egocentric-human-data)  
+   evidence：提出面向通用具身任务的智能体范式，强调规划、工具调用与可检查性
+12. [Structured LLM Reasoning for Zero-Shot Human--Robot Coordination Under Hidden Goals](/202608/07/2608.04309v1-structured-llm-reasoning-for-zero-shot-human--robot-coordination-under-hidden-goals)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：从第一视角人类视频大规模合成机器人数据用于VLA预训练
-11. [HAM-VLN: Harnessing Hierarchical Agentic Memory for Zero-Shot Vision-and-Language Navigation](/202608/05/2607.29600v1-ham-vln-harnessing-hierarchical-agentic-memory-for-zero-shot-vision-and-language-navigation)  
-   标签：评分：6.0/10、query:vla-humanoid
-   evidence：基于多模态大模型与分层记忆的零样本导航动作规划
-12. [Action Chunk Scheduling for Batched Robot Policy Serving](/202608/05/2608.00337v1-action-chunk-scheduling-for-batched-robot-policy-serving)  
-   标签：评分：6.0/10、query:vla-humanoid
-   evidence：面向VLA机器人策略的调度服务系统
+   evidence：基于结构化大语言模型推理实现零样本人机协同与任务规划
 
 
 <div class="dpr-home-promo-card">

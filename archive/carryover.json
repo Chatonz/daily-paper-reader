@@ -1,33 +1,39 @@
 {
-  "generated_at": "2026-08-05T21:19:12.143054+00:00",
-  "updated_date": "20260805",
+  "generated_at": "2026-08-07T20:14:36.678777+00:00",
+  "updated_date": "20260807",
   "carryover_days": 9,
   "tag_states": {
     "human-aigc": {
-      "updated_date": "20260805",
+      "updated_date": "20260807",
       "carryover_days": 9,
       "items": [
         {
-          "id": "2608.02990v1",
+          "id": "2608.05799v1",
           "source": "arxiv",
-          "title": "EmbodiedVAE: Disentangled Video VAE for Efficient and Controllable Embodied Manipulation",
-          "abstract": "Latent diffusion models (LDMs) have recently significantly advanced embodied learning in constructing powerful embodied manipulation world models. However, despite the remarkable performance, existing LDMs predominantly rely on Variational Autoencoders (VAEs) optimized for natural scenes while failing to account for the unique characteristics of embodied manipulation scenarios, yielding latent representations that are neither compact nor controllable, thereby hindering efficient training of LDMs and precise robotic control. To solve this problem, we present EmbodiedVAE, a novel video VAE that provides compact yet controllable latent representations tailored for the robotic manipulation world models. Specifically, EmbodiedVAE adopts a dual-encoder, single-decoder architecture with an asymmetric spatio-temporal compression module, which automatically disentangles the robot arm's motion from background environment, resulting in overall compactness while providing explicit embodied latent to support fine-grained action control. To further preserve the temporal consistency of learned robotic motion latent, we introduce an optimal-transport-based consistency module that explicitly enforces motion fidelity and inter-frame coherence. Extensive experiments demonstrate that our proposed EmbodiedVAE achieves superior reconstruction quality with high compression rate, while enabling more precise action control in robotic manipulation scenarios with an average of 2dB PSNR improvement over state-of-the-art video VAEs.",
+          "title": "XEWorld: Can Action-Conditioned World Models Generalize to Unseen Robot Embodiments?",
+          "abstract": "Action-conditioned world models are promising learned simulators for robotic manipulation, yet evaluating them exclusively on training robots fails to reveal whether they capture physical dynamics or merely memorize visual patterns. To answer whether a model can faithfully render a robot it has never seen, we introduce XEWorld, a controlled cross-embodiment testbed for world models that isolates embodiments by evaluating held-out robots within physically identical scenes. Our systematic analysis uncovers a shared architectural bottleneck: current models act primarily as 2D visual pattern matchers whose generalization is governed by visual similarity rather than physical kinematic similarity. Driven by this limitation, they struggle to translate abstract numeric joint actions into coherent visual trajectories, and fail to predict dynamic visual changes from static initial observations. Consequently, successfully rendering an unseen embodiment zero-shot strictly requires heavily grounded cues, specifically pixel-space actions and explicit spatial-temporal alignment. Even when bypassing this zero-shot barrier via few-shot adaptation, the forced appearance recovery triggers catastrophic forgetting of seen embodiments. Together, these failures expose a critical inability to apply learned physical dynamics to novel visual appearances, highlighting that achieving true cross-embodiment generalization requires architectural innovations that decouple visual appearance from underlying physical dynamics.",
           "authors": [
-            "Jiayi Luo",
-            "Hanxin Zhu",
-            "Chen Gao",
-            "Jiankun Wang",
-            "Cong Wang",
-            "Tianyu He",
-            "Jianxin Li",
-            "Zhibo Chen"
+            "Yixiang Chen",
+            "Jiabing Yang",
+            "Yuan Xu",
+            "Qisen Ma",
+            "Keji He",
+            "Peiyan Li",
+            "Kai Wang",
+            "Ziheng He",
+            "Xiangnan Wu",
+            "Jing Liu",
+            "Nianfeng Liu",
+            "Yan Huang",
+            "Liang Wang"
           ],
           "primary_category": "cs.RO",
           "categories": [
-            "cs.RO"
+            "cs.RO",
+            "cs.CV"
           ],
-          "published": "2026-08-04T01:01:18+00:00",
-          "link": "https://arxiv.org/pdf/2608.02990v1",
+          "published": "2026-08-06T09:35:33+00:00",
+          "link": "https://arxiv.org/pdf/2608.05799v1",
           "tags": [
             "keyword:VLA-Humanoid",
             "keyword:human-aigc",
@@ -35,13 +41,13 @@
             "query:human-aigc"
           ],
           "llm_score": 8.0,
-          "llm_evidence_en": "disentangled video VAE for embodied manipulation world models",
-          "llm_evidence_cn": "面向具身操纵世界模型的解耦视频VAE",
-          "llm_evidence": "面向具身操纵世界模型的解耦视频VAE",
-          "canonical_evidence": "面向具身操纵世界模型的解耦视频VAE",
-          "llm_tldr_en": "Latent diffusion world models for embodied manipulation rely on natural-scene VAEs, giving uncompact and uncontrollable latents; EmbodiedVAE designs a video VAE tailored to manipulation to provide compact controllable representations for efficient world-model training and precise control.",
-          "llm_tldr_cn": "现有潜在扩散世界模型在具身操纵中沿用为自然场景设计的VAE，导致隐表示不够紧凑且不可控，限制了世界模型训练与精确控制。本文提出EmbodiedVAE，一种面向机器人操纵世界模型设计的视频VAE，其隐表示兼具紧凑性与可操控性。这种表示使得潜在扩散模型的训练更高效，并为下游控制提供更精准的潜在条件。实验结果显示了在操纵场景中更好的重建质量和控制能力，为具身世界模型提供了更合适的表示基础。",
-          "llm_tldr": "现有潜在扩散世界模型在具身操纵中沿用为自然场景设计的VAE，导致隐表示不够紧凑且不可控，限制了世界模型训练与精确控制。本文提出EmbodiedVAE，一种面向机器人操纵世界模型设计的视频VAE，其隐表示兼具紧凑性与可操控性。这种表示使得潜在扩散模型的训练更高效，并为下游控制提供更精准的潜在条件。实验结果显示了在操纵场景中更好的重建质量和控制能力，为具身世界模型提供了更合适的表示基础。",
+          "llm_evidence_en": "cross-embodiment generalization of action-conditioned world models",
+          "llm_evidence_cn": "动作条件世界模型的跨本体泛化研究",
+          "llm_evidence": "动作条件世界模型的跨本体泛化研究",
+          "canonical_evidence": "动作条件世界模型的跨本体泛化研究",
+          "llm_tldr_en": "XEWorld introduces a controlled cross-embodiment testbed showing current action-conditioned world models act as 2D visual pattern matchers, limited by visual rather than kinematic similarity.",
+          "llm_tldr_cn": "动作条件世界模型作为机器人操作的学习模拟器很有前景，但仅在训练机器人上评估无法判断其是否真正学习物理动力学。为此，本文提出XEWorld，一个受控的跨本体测试基准，在物理相同场景中评估未见过的机器人。系统性分析发现当前模型主要充当2D视觉模式匹配器，其泛化由视觉相似性而非运动学相似性主导。该瓶颈导致它们难以泛化到新本体，为未来世界模型设计提供了重要诊断和方向。",
+          "llm_tldr": "动作条件世界模型作为机器人操作的学习模拟器很有前景，但仅在训练机器人上评估无法判断其是否真正学习物理动力学。为此，本文提出XEWorld，一个受控的跨本体测试基准，在物理相同场景中评估未见过的机器人。系统性分析发现当前模型主要充当2D视觉模式匹配器，其泛化由视觉相似性而非运动学相似性主导。该瓶颈导致它们难以泛化到新本体，为未来世界模型设计提供了重要诊断和方向。",
           "llm_tags": [
             "query:human-aigc"
           ],
@@ -49,13 +55,58 @@
           "matched_query_text": "world action model",
           "matched_requirement_id": "req-2",
           "selection_source": "carryover_cache",
-          "paper_id": "2608.02990v1",
+          "paper_id": "2608.05799v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2608.05706v1",
+          "source": "arxiv",
+          "title": "LAWM-3D: Learning 3D-Aware Latent Actions from Human Videos for Generalizable Robot World Models",
+          "abstract": "World models enable agents to perform forward rollout and planning without real-world interaction. However, their application in open-world embodied intelligence remains limited by the high cost of action annotations and the heterogeneity of action spaces across platforms. Recently, latent action models (LAMs) have alleviated this bottleneck by learning action representations directly from unlabeled human videos in a self-supervised manner. Nevertheless, most existing LAMs rely on single-view inputs and operate primarily in 2D pixel space, raising a fundamental question: can simply incorporating multi-view videos into LAM training endow the learned latent actions with 3D-aware perception? Our study shows that the answer is negative. The primary reasons lie in future-frame appearance leakage as well as inter-camera appearance discrepancies and viewpoint variations. To address these issues, we propose LAWM-3D, which introduces three tightly coupled key designs: (1) a multi-view invariant unified action tokenization scheme for learning 3D-aware latent actions; (2) a geometric alignment constraint that anchors intermediate encoder features to a pretrained 3D foundation model, thereby explicitly providing cross-view geometric correspondences; and (3) a non-injective RGB-D joint reconstruction objective that prevents shortcut learning from future-frame appearance information, forcing the LAM to focus supervision on motion cues with geometric significance. Importantly, these components are not simply stacked but are tightly coupled through a unified motivation. Built upon a two-stage paradigm of large-scale human video pretraining followed by robot fine-tuning, extensive experiments demonstrate that the proposed 3D-aware latent actions significantly improve world model performance, achieving SOTA results in generation quality, physical consistency, and generalization ability.",
+          "authors": [
+            "Jiarui Yang",
+            "Jiale Zhange",
+            "Jiawei Li",
+            "Hang Guo",
+            "Wen Huang",
+            "Jinpeng Wang",
+            "Peidong Liu",
+            "Shu-Tao Xia"
+          ],
+          "primary_category": "cs.CV",
+          "categories": [
+            "cs.CV"
+          ],
+          "published": "2026-08-06T07:47:01+00:00",
+          "link": "https://arxiv.org/pdf/2608.05706v1",
+          "tags": [
+            "keyword:VLA-Humanoid",
+            "keyword:human-aigc",
+            "query:VLA-Humanoid",
+            "query:human-aigc"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "latent actions from human videos for 3D-aware robot world models",
+          "llm_evidence_cn": "利用人类视频学习潜在动作，构建3D感知的机器人世界模型",
+          "llm_evidence": "利用人类视频学习潜在动作，构建3D感知的机器人世界模型",
+          "canonical_evidence": "利用人类视频学习潜在动作，构建3D感知的机器人世界模型",
+          "llm_tldr_en": "LAWM-3D learns 3D-aware latent actions from multi-view human videos, addressing action annotation cost and platform heterogeneity for open-world robot world models.",
+          "llm_tldr_cn": "世界模型让代理无需真实交互即可进行前瞻滚动和规划，但动作标注成本高、跨平台动作空间异构限制了开放世界应用。潜动作模型（LAM）可从无标注人类视频中自监督学习动作表示，但多依赖单视角2D像素空间。本文提出LAWM-3D，探索将多视角视频引入LAM训练，使潜在动作具备3D感知能力，并以此构建可泛化的机器人世界模型。实验证明，LAWM-3D在多种机器人平台上显著提升了世界模型的前瞻预测和规划性能，为开放世界具身智能提供了新路径。",
+          "llm_tldr": "世界模型让代理无需真实交互即可进行前瞻滚动和规划，但动作标注成本高、跨平台动作空间异构限制了开放世界应用。潜动作模型（LAM）可从无标注人类视频中自监督学习动作表示，但多依赖单视角2D像素空间。本文提出LAWM-3D，探索将多视角视频引入LAM训练，使潜在动作具备3D感知能力，并以此构建可泛化的机器人世界模型。实验证明，LAWM-3D在多种机器人平台上显著提升了世界模型的前瞻预测和规划性能，为开放世界具身智能提供了新路径。",
+          "llm_tags": [
+            "query:human-aigc"
+          ],
+          "matched_query_tag": "query:human-aigc",
+          "matched_query_text": "world action model",
+          "matched_requirement_id": "req-2",
+          "selection_source": "carryover_cache",
+          "paper_id": "2608.05706v1",
           "carry_days": 1
         }
       ]
     },
     "VLA-Humanoid": {
-      "updated_date": "20260805",
+      "updated_date": "20260807",
       "carryover_days": 9,
       "items": []
     }
