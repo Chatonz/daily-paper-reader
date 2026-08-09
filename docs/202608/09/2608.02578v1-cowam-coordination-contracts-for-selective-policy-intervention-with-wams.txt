@@ -1,0 +1,737 @@
+Title: CoWAM: Coordination Contracts for Selective Policy Intervention with WAMs
+
+URL Source: https://arxiv.org/pdf/2608.02578v1
+
+Published Time: Tue, 04 Aug 2026 02:50:56 GMT
+
+Number of Pages: 17
+
+Markdown Content:
+# CoWAM: Coordination Contracts for Selective Policy Intervention with WAMs 
+
+Shuaijun Liu 1, Qifu Wen 2,3 , Shuyang Hao 1, Qi Luo 1
+
+Chenglong Zhang 1, Feiyang You 1, Chengyu Wu 1, Ningxin Su 1,* 
+
+> 1
+
+The Hong Kong University of Science and Technology (Guangzhou) 
+
+> 2
+
+Boston University 3Shanghai Jiao Tong University 
+
+> *
+
+Corresponding author 
+
+Abstract 
+
+World Action Models (WAMs) augment robot policies with action-conditioned predicted futures, but a plausible future alone does not justify changing the action that a bimanual policy would execute. We present CoWAM, a selective in-tervention layer that expresses synchronization, role com-patibility, and collision convergence as coordination con-tracts . Each contract combines typed admissibility checks with event-conditioned verification and calibrated interven-tion gates. CoWAM preserves the nominal action unless an alternative satisfies every active obligation and provides a clear, low-risk improvement; when the nominal action is also inadmissible, it invokes a predefined abstention fallback. To separate selector quality from proposal quality, all methods operate on identical candidate pools and commit their deci-sions before shared oracle labeling. Across eight simulated bimanual tasks, CoWAM improves coordination-valid selec-tion by 16.7 percentage points over the contract-only variant and raises closed-loop success by 9.6 percentage points over the strongest selective baseline, while keeping harmful inter-ventions below 1%. Together, these results establish coordi-nation contracts as an effective interface for conservative pol-icy intervention with predicted world-action evidence across coordination-rich bimanual tasks. 
+
+Introduction 
+
+Bimanual manipulation couples two action streams through shared objects, timing, workspace, and arm roles. Action-chunking policies produce coherent paired motion (Zhao et al. 2023; Chi et al. 2023), while world action models (WAMs) additionally pair proposed actions with predicted consequences (Zhu et al. 2025; Li et al. 2025; Yuan et al. 2026; Guo et al. 2026). These futures can expose failures before execution, but visual plausibility alone does not de-termine when an alternative should replace Policy Top-1 
+
+(i = 0 ), the proposer’s first-ranked candidate and hereafter the nominal action. A coherent rollout may still contain a delayed grasp, incompatible arm assignment, or converging collision; an unsupported override can likewise turn uncer-tainty into failure. Our setting therefore extends beyond iso-lated pick-and-place: Figure 1 highlights cross-arm transfer, parallel object placement, and multi-stage insertion, which expose coordination-validity questions in synchronization, role assignment, spatial compatibility, and phase consistency. We introduce CoWAM , a selective intervention layer that represents synchronization, role, and collision obligations as a  
+
+> Initial
+> Cross-arm transfer
+> Approach Coordination Outcome
+> b
+> Dual placement
+> c
+> Drawer insertion
+
+Figure 1: Coordination-rich task structures. RoboTwin 2.0 examples span cross-arm transfer, parallel placement, and multi-stage insertion beyond simple pick-and-place, expos-ing synchronization, role-assignment, spatial-compatibility, and phase-consistency obligations. 
+
+coordination contracts . Each contract combines typed ad-missibility predicates, event-conditioned learned evidence, and calibrated intervention gates. The nominal action re-mains in effect unless an alternative satisfies every active obligation, remains low-risk, preserves task utility, and clears the calibrated intervention thresholds. Otherwise CoWAM preserves the nominal action or invokes a predefined absten-tion fallback. This contract view separates proposal generation from in-tervention. CoWAM neither trains a new action generator nor changes the candidate pool. Every selector instead receives the same ordered candidates, commits before simulator out-comes are available, and is audited by one shared oracle-labeling pass. We refer to this protocol as outcome-blind same-pool evaluation . The evaluation therefore distinguishes coordination-valid selection, false and harmful intervention, natural closed-loop success, and proposal headroom. Across eight RoboTwin tasks and three coordination event families, CoWAM converts 140 of 150 opportunities versus 115 for the contract-only variant, with five false and one harmful intervention among 180 matched negatives. It also records 151 successes across 240 natural episodes, com-pared with 128 for the strongest selective baseline, with a positive gain on every evaluated task. Our contributions are: (1) coordination contracts that specify the obliga-arXiv:2608.02578v1 [cs.RO] 3 Aug 2026 (A) WAM Candidate Pool 
+
+Á
+
+# CoWAM Coordination Contracts with World Action Models 
+
+……
+
+Froze WAM Proposer 
+
+Ordered pool 𝒫 ! = 𝑎 ",̂ 𝑧 " "#$ %&' 
+
+Same candidates, identities, and order 
+
+𝑖 = 0 Nominal 
+
+𝑖 = 1 Inadmissible 
+
+𝑖 = 𝑛 Alternative   
+
+> Paired action chunk 𝑎 !
+> Predicted future ˆ𝑧 !
+
+(B) Active Coordination Contract (C) Candidate Qualification    
+
+> Active obligations Nominal Alternative A Alternative B Contain as rows Lift synchronized Lift synchronized Roles compatible Clearance safe
+> Compact active-event
+> Synchronization
+> Role compatibility Collision convergence
+
+Pass Pass Pass Pass FPN/A 
+
+F N/A F N/A 
+
+……… P  
+
+> 𝑪𝒐𝒏𝒕𝒓𝒂𝒄𝒕 𝒂𝒅𝒎𝒊𝒔𝒔𝒊𝒃𝒊𝒍𝒊𝒕𝒚 𝒈 𝒊 =8
+> 𝒆:𝒎 𝒚,𝒆 %𝟏
+> 𝒄 𝒊,𝒆
+> Task phase / Event state
+
+(D) Selective Intervention    
+
+> Commit decision record
+> IDs · contracts · evidence
+> Shared Oracle · same pool
+> labels only after commitment
+> Selector quality Proposal headroom
+> selection failure |missing proposal
+
+Outcome-Blind / Same-Pool Audit     
+
+> OFFLINE ONLY
+> Executed paired action chunk
+> eligible set?
+> ℰ!≠ ∅
+> nominal valid?
+> $"= 1
+> Override Preserve Abstain
+> best eligible candidate
+> '⋆= argmax
+> $∈ℰ !
+> -$= 2
+> no alternative qualifies
+> execute 4 "
+> nominal inadmissible
+> task fallback yes no
+> yes no
+> Next replanning step
+
+Event-conditioned verifier         
+
+> ensemble × M ̂𝑝 !,# 𝑅 !$𝑈 !%%𝑜 !𝑄 !
+> 𝑓 &(𝑜 ', 𝒂 !, % 𝒛 !, 𝑒) = (̂𝑝 !,# ,̂ 𝑟 !,# , % 𝑢 !, % 𝑜 !, % 𝑞 !)𝑆 != 𝑈 !%+ 𝜆 (%𝑜 !− 𝜆 )𝑅 !$
+
+Input: 𝑜 𝑡 , 𝑎 𝑖 , ˆ 𝑧 𝑖 , 𝑒 
+
+Independent ensemble                 
+
+> Conjunctive intervention gate
+> contract · risk · utility opportunity · confidence margin
+> Contract !!= 1
+> Risk $!"≤ & #
+> Utility '!$≥ ' %$− *
+> Opp. +,!≥ & &
+> Conf. -!≥ & '
+> Margin .!− . %≥ & (
+> ℰ)= {1 > 0: 5 != 1}
+
+Figure 2: CoWAM overview and method framework. A frozen WAM supplies action-future candidates; coordination contracts and calibrated evidence support selective preserve, override, or abstain decisions. tions and evidence required for WAM-based intervention; (2) a contract-conditioned selective controller with typed checks, event-specific verification, calibrated bounds, and decisions to preserve, override, or abstain; (3) an outcome-blind same-pool evaluation that separates selector quality from proposal headroom; and (4) mechanism and robust-ness evidence across component removals, candidate counts, event families, sequential horizons, and proposer sources. 
+
+Related Work 
+
+Robot WAMs increasingly couple predicted observations or latent states with action generation. Unified World Models and UVA jointly model video and actions (Zhu et al. 2025; Li et al. 2025); Fast-WAM studies the role of test-time imagina-tion (Yuan et al. 2026); X-WAM predicts multi-view RGB-D futures (Guo et al. 2026); and DreamZero executes a WAM as a closed-loop policy (Ye et al. 2026). CoWAM addresses the complementary question of whether an existing WAM candidate provides sufficient evidence to replace the nomi-nal action. Predicted futures also support policy steering and veri-fication. FOREWARN aligns action-conditioned latent fu-tures with a vision-language model (Wu et al. 2025); future-compatibility scoring tests action-outcome agreement (Ruan et al. 2026); and adaptive execution compares observations with imagined rollouts (Wang et al. 2026). Selective predic-tion and calibrated ensembles provide related tools for ab-stention and uncertainty (Geifman and El-Yaniv 2017; Guo et al. 2017; Lakshminarayanan, Pritzel, and Blundell 2017). CoWAM instead qualifies candidate interventions through typed event contracts and calibrated conjunctive gates. Bimanual policies must preserve timing, object roles, and collision constraints. ACT, Diffusion Policy, and 3D Diffu-sion Policy model paired or multimodal actions (Zhao et al. 2023; Chi et al. 2023; Ze et al. 2024); ALOHA Unleashed and RDT-1B scale contact-rich bimanual learning (Zhao et al. 2025; Liu et al. 2025); and RoboTwin supplies dual-arm simulation tasks (Mu et al. 2025; Chen et al. 2025). Unlike constraint-integrated action generation (Bouvier et al. 2025), CoWAM keeps both policy and WAM frozen and validates candidate coordination before intervention. 
+
+Methods 
+
+World-Action Candidate Interface 
+
+At replanning time t, a frozen proposer returns an ordered candidate pool 
+
+Pt = {(ai, ˆzi)}K−1
+
+i=0 , (1) where ai is a synchronized left-right action chunk, ˆzi is its predicted world trajectory, and i = 0 denotes the nominal candidate. The prediction may include multi-view RGB-D observations and proprioception. CoWAM neither resam-ples this pool nor changes the proposer. Candidate identities and order remain fixed through verification, selection, execu-tion, and audit. The interface consumes synchronized action candidates and candidate-conditioned evidence without cou-pling the selector to the proposer’s generation objective. In our realization, multi-view RGB-D predictions and propri-oception instantiate the contract fields directly. The same contract interface and calibrated selector operate across all proposer sources evaluated in Experiments. The controller returns one of three decisions. Preserve 
+
+executes the nominal action, override executes one verified alternative, and abstain invokes a task-defined fallback when no candidate is admissible. This makes policy intervention, rather than future generation, the object of the method. 
+
+Coordination Contracts 
+
+A coordination contract specifies which event obligations are active and what evidence is required for intervention. We use three typed families: synchronization, role compatibility, and collision convergence. Let E be the event vocabulary, 
+
+mt,e ∈ { 0, 1} indicate whether event e is active, and ci,e ∈{0, 1} denote the corresponding deterministic predicate for candidate i. The contract-admissibility indicator is 
+
+gi = Y
+
+> e∈E
+
+(1 − mt,e + mt,e ci,e ) . (2) Thus inactive event types impose no constraint, whereas ev-ery active predicate must pass. Predicates use paired action and future evidence: examples include bounded inter-arm distance, compatible object assignments, synchronized con-tact progress, and nondivergent shared-object motion. The contract also stores calibrated decision thresholds and the fallback associated with contract failure. Contracts are deliberately typed rather than collapsed into one plausibility score. They expose why a candidate is in-admissible, determine which predictions are relevant to the current task phase, and preserve a valid nominal action un-less an alternative supplies positive evidence for intervention. They also impose three invariants. First, contract activation is determined before candidate outcomes are known. Second, every active obligation is evaluated for every candidate under the same information boundary. Third, failure of one required obligation cannot be compensated by an unrelated high utility score. These invariants prevent a productive-looking candi-date from hiding a specific coordination violation. Through-out this paper, a coordination contract denotes this complete decision object rather than predicates in isolation: typed obli-gations define admissibility, event-conditioned evidence es-timates future satisfaction, and calibrated gates determine whether that evidence is strong enough to replace the nomi-nal action. The Contract-only ablation retains the typed pred-icates while removing the learned evidence and gate stack. 
+
+Event-Conditioned Contract Evidence 
+
+Deterministic predicates capture necessary structure but cannot resolve every future-dependent failure. An event-conditioned verifier therefore maps the current observation, candidate action, predicted future, and active event to 
+
+fθ (ot, ai, ˆzi, e ) = (ˆ pi,e , ˆri,e , ˆui, ˆoi, ˆqi), (3) where ˆpi,e estimates event satisfaction, ˆri,e estimates coordi-nation risk, ˆui is task utility, ˆoi is opportunity value, and ˆqi
+
+is confidence. The verifier is trained and calibrated on task-seed-disjoint groups. Independently seeded models provide predictive variation. For aggregate risk and utility, CoWAM constructs conservative bounds 
+
+R+ 
+
+> i
+
+= ¯ ri + κr sri , U − 
+
+> i
+
+= ¯ ui − κusui , (4) where bars denote ensemble means, sri and sui denote predic-tive dispersion, and κr , κ u are frozen calibration multipliers. We define Qi as the minimum satisfaction confidence over active events and use the frozen score 
+
+Si = U − 
+
+> i
+
++ λo ˆoi − λr R+ 
+
+> i
+
+, (5) with nonnegative coefficients fixed before evaluation. All normalization, ensemble members, calibration multipliers, and thresholds are fixed on task-seed-disjoint training and validation groups. Test groups are used once for the reported discrimination and calibration metrics. Conditioning on e al-lows the same predicted motion to be interpreted differently when the relevant obligation is synchronization, role assign-ment, or collision convergence. Scalar verifier removes this distinction while retaining a learned candidate score. 
+
+Selective Policy Intervention 
+
+For an alternative i > 0, all intervention conditions are com-bined as 
+
+Gi = gi 1[R+ 
+
+> i
+
+≤ τr ] 1[U − 
+
+> i
+
+≥ U − 
+
+> 0
+
+− ϵu]
+
+× 1[ˆ oi ≥ τo] 1[Qi ≥ τq ] 1[Si − S0 ≥ τm]. (6) The terms respectively enforce contract validity, bounded risk, utility retention, an active opportunity, event confidence, and a selective margin over the nominal action. If at least one alternative satisfies Gi = 1 , CoWAM chooses the highest-score candidate, breaking ties by the original proposer or-der. If none passes, it preserves the nominal action when 
+
+g0 = 1 and abstains through the contract fallback otherwise. Opportunity and margin serve different purposes. The abso-lute opportunity gate rejects pools in which no alternative is predicted to be useful, whereas the relative margin rejects changes that are not decisively better than the nominal can-didate. Utility retention prevents a locally safer motion from discarding task progress; risk and confidence gates protect against uncertain event satisfaction. Because the rule is con-junctive, each accepted override has a complete, inspectable reason record. Every decision record contains candidate IDs, contract outcomes, verifier outputs, uncertainty, and the selected mode. The record is persisted before any outcome label is available. A shared simulator pass subsequently labels every candidate for task success, coordination validity, progress, and failure mode. An override is beneficial when it repairs a nominal failure without losing another required outcome, 
+
+harmful when it loses a required outcome, and false when no task or coordination outcome supports the change. Oracle best-candidate success quantifies the proposal ceiling sepa-rately from online selection. Because every selector commits first and receives labels from the same outcome batch, paired comparisons share identical simulator outcomes and success definitions. Aggregate selector comparison Selector Evidence channels Selection rule Valid selection ↑ Matched-negative intervention ↓                                                                                                                       
+
+> n/N Rate False n/N False rate Harm n/N Harm rate
+> Deployable baselines
+> Policy Top-1 order top-1 92/150 61.3% 0/180 0.0% 0/180 0.0% Future-Consensus future agreement rank 101/150 67.3% 112/180 62.2% 16/180 8.9% Static collision gate geometry future collision reject 96/150 64.0% 39/180 21.7% 8/180 4.4% RGB-D selector RGB-D future learned rank 126/150 84.0% 10/180 5.6% 2/180 1.1% Selective Control partial contract selective 112/150 74.7% 18/180 10.0% 2/180 1.1%
+> CoWAM components
+> Contract-only contract contract-rank 115/150 76.7% 20/180 11.1% 3/180 1.7% Scalar verifier contract scalar scalar-gate 104/150 69.3% 31/180 17.2% 5/180 2.8%
+> Proposed method and offline reference
+> CoWAM contract event future full-gate 140/150 93.3% 5/180 2.8% 1/180 0.6%
+> Oracle Upper Bound outcome oracle 150/150 100.0% 0/180 0.0% 0/180 0.0%
+> Event-family decomposition Event Coordination obligation Opp. Policy Contract CoWAM False Harm
+> Synchronization Contacts and releases remain temporally compatible 50 31 39 47 2/60 0/60 Role compatibility Arms retain task-consistent object and support roles 50 30 37 46 2/60 0/60 Collision convergence Inter-arm motion avoids convergence toward unsafe contact 50 31 39 47 1/60 1/60
+> Total All active coordination contracts 150 92 115 140 5/180 1/180
+
+Table 1: Coordination-valid intervention. The upper block joins the selector definitions from the appendix with the complete event ledger: valid selection uses 150 oracle-confirmed opportunities, while false and harmful intervention use 180 matched contract-valid negatives. The lower block aligns each evaluated event family with its coordination obligation and reports valid selections plus CoWAM’s matched-negative errors. CoWAM versus Contract-only has 27 versus 2 discordant pairs (p = 1 .6×10 −6). 
+
+Experiments 
+
+Setup 
+
+We evaluate CoWAM in RoboTwin 2.0 (Chen et al. 2025) on eight bimanual tasks: Lift Pot, Pick Dual Bottles, Stack Two Bowls, Place Can in Basket, Put Bottles in Dustbin, Stack Three Bowls, Scan Object, and Hang Mug. The primary in-terface provides paired bimanual actions, multi-view RGB-D futures, and predicted proprioception; separate robustness tests use X-WAM, LeWorldModel (Maes et al. 2026), and mixed proposer pools through the same candidate interface. Within each paired unit, all methods receive the same re-stored state, observations, ordered actions, predicted futures, and execution horizon. We compare Policy Top-1; Future-Consensus, which ranks predicted-future agreement; a static collision gate; an RGB-D selector; and an earlier Selective Control baseline. These cover no intervention, aggressive future reranking, fixed ge-ometric filtering, and selective intervention without the com-plete coordination contract. Contract-only removes learned verification and the full gate stack, Scalar verifier removes event conditioning, and further ablations isolate each con-servative gate. The oracle selects the best candidate after outcome labeling and provides an offline proposal ceiling for the shared candidate pool. The coordination audit comprises 180 independent event-stress clusters across eight tasks and three event families. A frozen oracle identifies 150 positive opportunities; one matched contract-valid negative per cluster supplies 180 units for measuring false and harmful intervention. Natu-ral closed loop uses 30 held-out seeds per task and method: 240 paired episode pools per method and 1,440 episodes across six methods. Candidate scaling uses 80 independent restored states for each K ∈ { 4, 8, 16 , 32 }; learned rank-ing uses 1,200 task-seed-disjoint groups and 9,600 candidate records. Success requires strict simulator completion, coordination validity requires all active event obligations, and interven-tion means selecting i̸ = 0 ; false and harmful interventions follow the Methods definitions. Statistical units are paired event clusters or task-seed episodes, never correlated can-didates, with two-sided exact paired tests for both headline comparisons. Thresholds are selected on disjoint validation units and frozen before outcome-bearing evaluation. Frozen denominators retain every outcome-bearing evaluation unit; the appendix specifies allocation and denominator reuse. 
+
+Main Results 
+
+CoWAM selects coordination-valid candidates on 140 of 150 opportunities (93.3%), compared with 115 of 150 (76.7%) for Contract-only. This 16.7 percentage-point gain is sup-ported by 27 versus 2 discordant pairs ( p = 1 .6×10 −6). This improvement does not require more frequent or riskier intervention: CoWAM makes five false and one harmful in-tervention among 180 matched negatives, whereas Future-Consensus makes 112 and 16. The strongest non-CoWAM coordination baseline is the RGB-D selector, with 126 valid selections among 150 opportunities, ten false interventions, and two harmful interventions among 180 matched negatives. 60 70 80 90 100                
+
+> Valid selection (%)
+> Oracle CoWAM Contracts Selective Scalar Static gate Future Policy
+> best baseline
+> 100.0
+> 93.3
+> 76.7 74.7 69.3 64.0 67.3 61.3 (a) Valid selection (N= 150 )020 40 60
+> False / harmful intervention (%)
+> CoWAM Contracts Selective Scalar Static gate Future
+> 2.8 62.2
+> False Harm (b) Active-selector error (N= 180 )010 20
+> Failure count
+> Timeout Drop Stagnation Async release Role Collision
+> -28.0% -41.7% -35.0% -71.4% -75.0% -66.7%
+> Policy CoWAM (c) Failure counts (N= 240 )
+
+Figure 3: Observed intervention outcomes. CoWAM achieves the strongest deployable valid selection, the lowest error among selectors that intervene, and fewer failures in every recorded category. 0.6 0.8 1.0       
+
+> Score (higher ↑)
+> Current + action No future Future Scalar Shuffled CoWAM
+> PR ROC Pair
+> (a) Ranking discrimination 0.0 0.1 0.2
+> Error (lower ↓)
+> Current + action No future Future Scalar Shuffled CoWAM
+> ECE Brier (b) Calibration error
+
+Figure 4: Learned contract evidence. Event-conditioned CoWAM yields the strongest ranking discrimination and low-est calibration error among the evaluated representations. CoWAM therefore recovers more valid alternatives without increasing unsupported interventions. The improvement is consistent across all three event families: CoWAM converts 47 of 50 synchronization, 46 of 50 role-compatibility, and 47 of 50 collision-convergence opportunities, compared with 39, 37, and 39 for Contract-only. Higher conversion and lower matched-negative error occur together: event evidence au-thorizes rather than merely encourages reranking. The gains in each family therefore reflect more accurate coordination decisions instead of a larger intervention budget. The same method improves natural closed-loop success from 96 of 240 episodes (40.0%) for Policy Top-1 and 128 of 240 (53.3%) for Selective Control to 151 of 240 (62.9%). This is a 9.6 percentage-point gain over the strongest selective baseline, with 32 versus 9 discordant pairs ( p = 4 .3×10 −4). CoWAM also reaches 95.4% coordination validity while lim-iting false and harmful interventions to 3.3% and 0.4%. Every task contributes a positive gain, demonstrating consistency across the eight-task evaluation rather than concentration in a single task family. Together, these gains add 23 success-ful episodes over Selective Control. The oracle upper bound succeeds on 176 of 240 pools; CoWAM closes 55 of the 80-success gap between the nominal policy and this proposal ceiling. Relative to Policy Top-1, CoWAM reduces inter-arm collision from 18 to 6 episodes, role conflict from 16 to 4, 
+
+Method Succ. Valid ↑ False ↓ Harm ↓
+
+Policy Top-1 96/240 (40.0%) 80.8% 0.0% 0.0% Future-Consensus 111/240 (46.3%) 84.6% 42.9% 5.4% RGB-D selector 120/240 (50.0%) 87.9% 9.6% 2.1% Selective Control 128/240 (53.3%) 90.0% 5.8% 0.8% 
+
+CoWAM 151/240 (62.9%) 95.4% 3.3% 0.4% 
+
+Oracle 176/240 (73.3%) 100.0% 0.0% 0.0% 
+
+(a) Aggregate outcomes Task Selective CoWAM Success Oracle 
+
+Lift Pot 19/30 22/30 +3 24/30 Pick Dual Bottles 18/30 21/30 +3 23/30 Stack Two Bowls 17/30 20/30 +3 23/30 Place Can in Basket 16/30 19/30 +3 22/30 Put Bottles in Dustbin 14/30 18/30 +4 21/30 Stack Three Bowls 13/30 17/30 +4 20/30 Scan Object 17/30 18/30 +1 22/30 Hang Mug 14/30 16/30 +2 21/30 
+
+Total 128/240 151/240 +23 176/240 (b) Per-task consistency 
+
+Table 2: Natural closed-loop performance. (a) Aggregate outcome and intervention quality. (b) Success consistency across eight tasks, with gain over Selective Control. Each task uses 30 paired held-out seeds. The aggregate paired discordance is 32 versus 9 ( p = 4 .3×10 −4). and asynchronous release from 14 to 4. Figure 3 visualizes the resulting validity, intervention error, and natural failure profile. Together, the event audit and natural closed loop evaluate complementary levels of the same claim. The audit tests whether CoWAM identifies coordination-valid alterna-tives at intervention opportunities, while natural episodes test whether those choices translate into complete task execution. 
+
+Ablations 
+
+Contract-only trails full CoWAM by 16.7 percentage points, showing that typed predicates become substantially more effective when combined with event-conditioned evidence and calibrated intervention gates. Removing event condi-tioning reduces validity by 18.7 percentage points, while Future-Consensus failure coord. invalid        
+
+> Initial Front Terminal Front Initial Head Terminal Head Initial Left wrist Terminal Left wrist Initial Right wrist Terminal Right wrist
+> CoWAM success coord. valid
+
+Figure 5: Lift Pot: CoWAM coordination success. From the same restored state and candidate pool, Future-Consensus fails while CoWAM selects an alternative that achieves task success and coordination validity across all recorded camera views. 
+
+Variant Valid ↑ False ↓ Harm ↓
+
+Full CoWAM 93.3% 2.8% 0.6% 
+
+Contract-only 76.7% 11.1% 1.7% Scalar verifier 69.3% 17.2% 2.8% No event conditioning 74.7% 10.0% 1.7% No depth 85.3% 5.6% 1.1% No uncertainty bound 94.7% 14.4% 3.3% No baseline preservation 96.7% 28.9% 7.8% 
+
+(a) Contract and gate ablation Representation AUPRC ↑ Pair acc. ↑ ECE ↓
+
+Current only 0.68 0.66 0.12 Current + action 0.75 0.73 0.09 No future 0.71 0.69 0.11 Future-Consensus 0.60 0.61 0.15 Scalar verifier 0.80 0.79 0.06 Future shuffled 0.63 0.62 0.14 
+
+CoWAM 0.92 0.89 0.03 (b) Learned representation ablation 
+
+Table 3: Mechanism and learned evidence. (a) Contract and gate variants reuse 150 positive and 180 matched-negative units. (b) Representation variants use 1,200 task-seed-disjoint groups and 9,600 candidate records. The two panels separate admissibility and intervention control from learned future-conditioned evidence. Nominal action failure Front   
+
+> Initial Middle Terminal
+> Nominal action failure Head
+> CoWAM successful execution Front
+> CoWAM successful execution Head
+
+Figure 6: Place Can in Basket: CoWAM success. Initial, intermediate, and terminal views contrast the nominal failure with CoWAM’s successful object acquisition, transport, and basket placement. the Scalar verifier reaches 69.3%, confirming the value of obligation-specific evidence. Removing uncertainty bounds slightly raises positive selection but increases false interven-tion from 2.8% to 14.4% and harm from 0.6% to 3.3%. With-out baseline preservation, these rates rise to 28.9% and 7.8%. These ablations indicate that strong performance requires both identifying valid alternatives and controlling when they may replace the nominal action. The no-depth variant reaches 85.3% validity, between Contract-only and the full method. The remaining gain identifies a useful contribution from 3D correspondence within the method’s multimodal evidence. On task-seed-disjoint groups, event-conditioned CoWAM reaches 0.92 AUPRC, 0.03 expected calibration error, and 0.89 pair accuracy. Scalar verifier reaches 0.80, 0.06, and 0.79, respectively. Shuffling predicted futures reduces AUPRC to 0.63, below current-plus-action features at 0.75. These comparisons show that the verifier uses candidate-specific temporal evidence and that event structure improves both discrimination and calibration. Figure 4 separates rank-ing discrimination from calibration error using complemen-tary visual encodings. At 25%, 50%, 75%, and 100% selective coverage, CoWAM’s observed coordination-risk violation rates are 0.7%, 1.2%, 2.7%, and 5.8%. Future-Consensus rises from 3.3% to 22.4%; CoWAM retains the lower violation rate across the full operating range. 
+
+Robustness Analysis 
+
+As K increases from 4 to 32, oracle-confirmed opportu-nity rises from 28 to 40 of 80 states. CoWAM recovers 26 of 28 to 38 of 40 available rescues, corresponding to 92.9–95.0% retention, while false intervention remains be-tween four and five states. Future-Consensus accumulates 34–43 false interventions. Thus increasing proposal diver-sity creates usable headroom without forcing unsupported interventions. Across X-WAM, LeWorldModel, and mixed proposal pools, CoWAM gains 10.0–12.5 percentage points in success over the corresponding strongest baseline while Nominal action failure        
+
+> Initial Front Terminal Front Initial Head Terminal Head Initial Left wrist Terminal Left wrist Initial Right wrist Terminal Right wrist
+> CoWAM successful execution
+
+Figure 7: Put Bottles in Dustbin: CoWAM success. Front, head, and wrist views contrast the nominal failure with CoWAM’s successful two-arm object assignment and phase-consistent placement. 
+
+K Opp. CoWAM rescue CoWAM false FC false 
+
+4 28 92.9% 5.0% 42.5% 8 32 93.8% 5.0% 47.5% 16 36 94.4% 6.3% 52.5% 32 40 95.0% 6.3% 53.8% 
+
+(a) Candidate-count scaling Proposer Baseline CoWAM Gain False Harm 
+
+X-WAM 66/120 78/120 +10.0% 5/120 1/120 LeWorldModel 60/120 75/120 +12.5% 7/120 1/120 Mixed pool 70/120 85/120 +12.5% 6/120 1/120 
+
+(b) Cross-proposer transfer 
+
+Table 4: Proposal robustness. (a) Each candidate count uses 80 independent states; rescue is normalized by oracle-confirmed opportunities and false intervention by all states. (b) Each proposer regime uses 120 paired pools. Baseline is the strongest corresponding non-CoWAM selector; FC de-notes Future-Consensus. keeping false selections to five to seven and harmful selec-tions to one among 120 pools. These proposer-conditioned gains support interface-level reuse: the same contract fields, verifier outputs, and conservative gates operate on candidate pools from distinct WAM sources without changing their proposal generators. The appendix reports the complete task and event decom-positions, sequential horizons, proposer regimes, modality and threshold ablations, risk-coverage analysis, runtime, fail-ure labels, and denominator ledger. At full selective coverage, its coordination-risk violation rate is 5.8%, versus 22.4% for Future-Consensus. The full selector reaches 88 ms per de-cision and 4.8 GB peak GPU memory, supporting online replanning on one RTX 5880 Ada GPU; the appendix re-ports offline outcome-labeling cost separately. 
+
+Qualitative Cases 
+
+Figures 5–7 show three task-level examples. The Lift Pot case shows CoWAM replacing a nominal failure with a coordination-valid successful alternative from the same pool. Place Can in Basket and Put Bottles in Dustbin show CoWAM’s successful coordination through sequential trans-port, multi-object role assignment, and terminal completion from complementary camera views. 
+
+Discussion and Limitations 
+
+The results support coordination contracts as an interface between prediction and control. Typed obligations identify the coordination requirement, event-conditioned verification estimates candidate satisfaction, and calibrated gates deter-mine whether evidence warrants intervention. Contract-only leaves rescues unranked; removing uncertainty or baseline preservation increases false and harmful interventions. Pre-diction quality and intervention decisions should be evalu-ated separately. Proposal quality and intervention quality form comple-mentary axes. The oracle upper bound measures available action-space opportunity, whereas CoWAM measures its online conversion under conservative criteria. Candidate-scaling and cross-proposer results show that diverse pools create opportunities while CoWAM avoids the error growth of unconditional reranking. Richer pools thus expand avail-able choices, and calibrated evidence expands the subset selected confidently. Gains remain consistent across eight bimanual tasks, three event families, candidate counts, se-quential horizons, and proposer sources, supporting coordi-nation contracts across diverse structures and WAM candi-date distributions. This breadth establishes a common selec-tor structure across the evaluated variations; additional tasks and embodiments enter through contract instantiation and calibration while preserving the intervention rule. 
+
+Conclusion 
+
+CoWAM uses predicted futures to evaluate coordination con-tracts before modifying bimanual policy actions. Typed obli-gations, learned verification, and calibrated gates determine when to preserve, override, or abstain. Outcome-blind same-pool evaluation shows higher coordination-valid selection and natural task success with low false and harmful inter-vention rates. These gains persist across tasks, event families, candidate counts, horizons, and proposers. Ablations iden-tify complementary contributions from coordination struc-ture, temporally aligned futures, and calibration. Candidate scaling shows that CoWAM converts richer pools into valid interventions without unconditional-reranking error growth. Cross-proposer transfer shows that the same selector in-creases task success across WAM candidate distributions with unchanged generators. Together, CoWAM establishes coordination contracts as a reusable interface between world-action prediction and coordinated bimanual control. References 
+
+Bouvier, J.-B.; Ryu, K.; Nagpal, K.; Liao, Q.; Sreenath, K.; and Mehr, N. 2025. DDAT: Diffusion Policies Enforcing Dynamically Admissible Robot Trajectories. In Proceedings of Robotics: Science and Systems . Los Angeles, CA, USA. Chen, T.; Chen, Z.; Chen, B.; Cai, Z.; Liu, Y.; Li, Z.; Liang, Q.; Lin, X.; Ge, Y.; Gu, Z.; Deng, W.; Guo, Y.; Nian, T.; Xie, X.; Chen, Q.; Su, K.; Xu, T.; Liu, G.; Hu, M.; Gao, H.-a.; Wang, K.; Liang, Z.; Qin, Y.; Yang, X.; Luo, P.; and Mu, Y. 2025. RoboTwin 2.0: A Scalable Data Generator and Bench-mark with Strong Domain Randomization for Robust Biman-ual Robotic Manipulation. arXiv preprint arXiv:2506.18088 .Chi, C.; Feng, S.; Du, Y.; Xu, Z.; Cousineau, E.; Burchfiel, B. C. M.; and Song, S. 2023. Diffusion Policy: Visuomotor Policy Learning via Action Diffusion. In Proceedings of Robotics: Science and Systems . Daegu, Republic of Korea. Geifman, Y.; and El-Yaniv, R. 2017. Selective Classification for Deep Neural Networks. In Advances in Neural Informa-tion Processing Systems , volume 30. Guo, C.; Pleiss, G.; Sun, Y.; and Weinberger, K. Q. 2017. On Calibration of Modern Neural Networks. In Proceedings of the 34th International Conference on Machine Learning ,volume 70 of Proceedings of Machine Learning Research ,1321–1330. Guo, J.; Li, Q.; Li, P.; Chen, Z.; Sun, N.; Su, Y.; Wang, H.; Zhang, Y.; Li, X.; and Liu, H. 2026. Unified 4D World Action Modeling from Video Priors with Asynchronous Denoising. 
+
+arXiv preprint arXiv:2604.26694 .Lakshminarayanan, B.; Pritzel, A.; and Blundell, C. 2017. Simple and Scalable Predictive Uncertainty Estimation us-ing Deep Ensembles. In Advances in Neural Information Processing Systems , volume 30. Li, S.; Gao, Y.; Sadigh, D.; and Song, S. 2025. Unified Video Action Model. In Proceedings of Robotics: Science and Systems . Los Angeles, CA, USA. Liu, S.; Wu, L.; Li, B.; Tan, H.; Chen, H.; Wang, Z.; Xu, K.; Su, H.; and Zhu, J. 2025. RDT-1B: A Diffusion Foun-dation Model for Bimanual Manipulation. In International Conference on Learning Representations .Maes, L.; Le Lidec, Q.; Scieur, D.; LeCun, Y.; and Balestriero, R. 2026. LeWorldModel: Stable End-to-End Joint-Embedding Predictive Architecture from Pixels. arXiv preprint arXiv:2603.19312 .Mu, Y.; Chen, T.; Chen, Z.; Peng, S.; Lan, Z.; Gao, Z.; Liang, Z.; Yu, Q.; Zou, Y.; Xu, M.; Lin, L.; Xie, Z.; Ding, M.; and Luo, P. 2025. RoboTwin: Dual-Arm Robot Benchmark with Generative Digital Twins. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition ,27649–27660. Ruan, B.-K.; Hsiao, T.-F.; Lo, L.; and Shuai, H.-H. 2026. Is the Future Compatible? Diagnosing Dynamic Consistency in World Action Models. arXiv preprint arXiv:2605.07514 .Wang, R.; Zhang, Y.; Lin, J.; Luo, K.; Wang, J.; Wang, Z.; and Qi, X. 2026. When to Trust Imagination: Adaptive Ac-tion Execution for World Action Models. arXiv preprint arXiv:2605.06222 .Wu, Y.; Tian, R.; Swamy, G.; and Bajcsy, A. 2025. From Foresight to Forethought: VLM-In-the-Loop Policy Steering via Latent Alignment. In Proceedings of Robotics: Science and Systems . Los Angeles, CA, USA. Ye, S.; Ge, Y.; Zheng, K.; Gao, S.; Yu, S.; Kurian, G.; Indupuru, S.; Tan, Y. L.; Zhu, C.; Xiang, J.; Malik, A.; Lee, K.; Liang, W.; Ranawaka, N.; Gu, J.; Xu, Y.; Wang, G.; Hu, F.; Narayan, A.; Bjorck, J.; Wang, J.; Kim, G.; Niu, D.; Zheng, R.; Xie, Y.; Wu, J.; Wang, Q.; Julian, R.; Xu, D.; Du, Y.; Chebotar, Y.; Reed, S.; Kautz, J.; Zhu, Y.; Fan, L.; and Jang, J. 2026. World Action Models are Zero-shot Policies. 
+
+arXiv preprint arXiv:2602.15922 .Yuan, T.; Dong, Z.; Liu, Y.; and Zhao, H. 2026. Fast-WAM: Do World Action Models Need Test-time Future Imagina-tion? arXiv preprint arXiv:2603.16666 .Ze, Y.; Zhang, G.; Zhang, K.; Hu, C.; Wang, M.; and Xu, H. 2024. 3D Diffusion Policy: Generalizable Visuomotor Policy Learning via Simple 3D Representations. In Proceedings of Robotics: Science and Systems . Delft, Netherlands. Zhao, T. Z.; Kumar, V.; Levine, S.; and Finn, C. 2023. Learning Fine-Grained Bimanual Manipulation with Low-Cost Hardware. In Proceedings of Robotics: Science and Systems . Daegu, Republic of Korea. Zhao, T. Z.; Tompson, J.; Driess, D.; Florence, P.; Ghasemipour, S. K. S.; Finn, C.; and Wahid, A. 2025. ALOHA Unleashed: A Simple Recipe for Robot Dexterity. In Proceedings of the 8th Conference on Robot Learning ,volume 270 of Proceedings of Machine Learning Research ,1910–1924. Zhu, C.; Yu, R.; Feng, S.; Burchfiel, B.; Shah, P.; and Gupta, A. 2025. Unified World Models: Coupling Video and Ac-tion Diffusion for Pretraining on Large Robotic Datasets. In 
+
+Proceedings of Robotics: Science and Systems . Los Angeles, CA, USA. Appendix 
+
+A. Additional Method Details 
+
+Contract Structure 
+
+CoWAM treats a coordination contract as an executable spec-ification for one intervention opportunity. The contract con-tains an active-event mask, deterministic predicates, learned evidence requirements, calibrated thresholds, and a fallback. Table A1 summarizes the three event families used in the evaluation. The predicates are necessary conditions; the event-conditioned verifier resolves future-dependent ambi-guity among candidates that pass them. For event vocabulary E, candidate admissibility is 
+
+gi = Y
+
+> e∈E
+
+(1 − mt,e + mt,e ci,e ).
+
+The active mask mt,e is determined from task phase and contract state before candidate outcomes are available. The deterministic predicate ci,e uses the synchronized action pair, predicted RGB-D trajectory, and predicted proprioception. Candidate identity and the active mask are immutable within a decision. 
+
+Verifier and Calibration 
+
+The verifier consumes the current multi-view observation, paired left-right action chunk, four predicted future steps, predicted proprioception, and the active event type. Event-specific heads estimate satisfaction, coordination risk, task utility, opportunity, and confidence. Three independently seeded models form the evaluation ensemble. Training, val-idation, and test groups are disjoint by task and seed; the reported ranking block contains 1,200 test groups and 9,600 candidate records. For each candidate, calibration produces risk upper bound 
+
+R+ 
+
+> i
+
+and utility lower bound U − 
+
+> i
+
+. The selected operating point requires contract validity, R+ 
+
+> i
+
+≤ τr , utility retention relative to the nominal action, opportunity ˆoi ≥ τo, event confidence 
+
+Qi ≥ τq , and score margin Si − S0 ≥ τm. The threshold sensitivity in Table A12 evaluates joint strict and permissive variants without changing the candidate pools. 
+
+Decision Procedure 
+
+The complete decision procedure is: 1. Receive and persist the ordered paired candidate pool. 2. Instantiate the active coordination contract from task and event state. 3. Evaluate typed predicates and event-conditioned evidence for every candidate without access to outcome labels. 4. Construct calibrated risk and utility bounds and evaluate all selective gates. 5. Override with the highest-scoring eligible alternative; otherwise preserve the contract-valid nominal action or abstain through the frozen fallback. 6. Persist the selected index, decision mode, contract out-comes, scores, bounds, and candidate-pool digest before shared oracle evaluation. The same interface defines all ablations. Contract-only retains typed predicates but removes learned verification and the full gate stack. Scalar verifier replaces the event-conditioned outputs with one learned score. No uncertainty bound uses point estimates, and no baseline preservation re-moves the relative protection for the nominal action. Only Full CoWAM is the proposed method. 
+
+B. Experimental Protocol 
+
+Tasks and Evidence Allocation 
+
+The evaluation uses the eight RoboTwin 2.0 tasks defined in the main paper, covering shared objects, parallel roles, se-quential stacking, shared receptacles, and handover. Table A3 records the independent units assigned to each experiment. Each column reports its designated evaluation block with an explicit denominator. The separate proposer-transfer block contains 360 paired pools over six tasks: 20 held-out seeds per task for each of X-WAM, LeWorldModel, and the mixed proposer regime. Fig-ures A1 and A2 show how the same coordination vocabulary maps onto the broader RoboTwin 2.0 scenario space through tool use, ordered object placement, articulated manipulation, transport, and assembly. Across these interactions, synchro-nization, role compatibility, and phase consistency provide a common contract description. a
+
+> Tool use
+> b
+> Ordered placement
+> c
+> Sequential roles
+> d
+> Articulated interaction
+> e
+> Coupled transport
+> f
+> Multi-stage assembly
+
+Figure A1: Broader RoboTwin 2.0 task coverage. The task atlas spans tool use, ordered object placement, transport, handover, articulated-object interaction, and multi-stage as-sembly, highlighting the coordination structures addressed by CoWAM. 
+
+Compared Selectors Outcome-Blind Pairing 
+
+Each evaluation unit materializes one ordered candidate pool shared by every selector. Candidate IDs, order, actions, and predicted futures are identical across methods. Selectors Event family Coordination obligation Deterministic evidence Learned future evidence Failure response 
+
+Synchronization Required contacts and re-leases remain temporally compatible Contact order, phase progress, and bounded left-right delay Event completion probability and divergence risk Preserve a valid nominal chunk; otherwise abstain Role compatibil-ity Arms retain task-consistent object and support roles Object assignment, grasp owner-ship, and role margin Role-conflict probability and task-utility retention Reject incompatible reassignment Collision con-vergence Inter-arm motion does not converge toward unsafe con-tact Minimum separation and rela-tive approach trend Collision-risk upper bound over the predicted horizon Preserve or invoke the collision fallback 
+
+Table A1: Coordination-contract families. Every active row contributes both typed admissibility and event-conditioned evidence to the intervention gate. 
+
+Component Frozen setting 
+
+Visual evidence Current and four-step multi-view RGB-D future Additional evidence Paired action chunk and predicted proprioception Event heads Synchronization, role compatibility, collision convergence Ensemble Three independently seeded verifier instances Group split 60/20/20 train, validation, and test by task-seed group Optimization AdamW, 3×10 −4, batch 128, 100 epochs 
+
+(a) Verifier Parameter Default 
+
+Candidate count K = 8 
+
+Risk upper bound 0.20 Utility lower floor 0.55 Selective margin 0.12 Event confidence 0.70 Abstention Enabled 
+
+(b) Selector 
+
+Table A2: Verifier and selector configuration. Thresholds are frozen on validation groups before outcome-bearing evaluation. 
+
+Task Coordination family Natural Pos. events Negatives Ranking groups 
+
+Lift Pot Shared object 30 20 23 150 Pick Dual Bottles Parallel objects 30 20 23 150 Stack Two Bowls Sequential stack 30 18 22 150 Place Can in Basket Shared receptacle 30 20 23 150 Put Bottles in Dustbin Shared receptacle 30 18 22 150 Stack Three Bowls Sequential stack 30 18 22 150 Scan Object Parallel roles 30 18 22 150 Hang Mug Handover 30 18 23 150 
+
+Total 8 tasks, 6 families 240 150 180 1,200 
+
+Table A3: Evidence allocation for the eight-task blocks. Natural entries are paired episode pools; event entries are independent clusters; ranking entries are task-seed-disjoint groups. 
+
+Selector Candidate evidence Decision rule Experimental role 
+
+Policy Top-1 Proposer order Always choose i = 0 Nominal policy baseline Future-Consensus Predicted futures Rank by future agreement Aggressive future-based baseline Static collision gate Geometric future checks Reject predicted collision and rerank Rule-based baseline RGB-D selector Current and predicted RGB-D Learned candidate score Learned selector baseline Selective Control Partial contracts and selective gates Preserve or override Strong predecessor baseline Contract-only Typed coordination predicates Contract-valid reranking CoWAM ablation Scalar verifier Contracts and one learned score Partially gated reranking CoWAM ablation 
+
+CoWAM Contracts and event-conditioned evidence All calibrated gates Proposed method 
+
+Oracle Upper Bound Simulator outcomes Best candidate after labeling Offline proposal ceiling 
+
+Table A4: Compared selectors and their information. Every deployable selector commits before oracle outcomes are available. a
+
+> Before interaction
+> Tool contact
+> After interaction
+> b
+> Articulated opening
+> c
+> Three-stage assembly
+
+Figure A2: Interaction primitives beyond simple pick-and-place. Before-and-after states illustrate tool contact, articu-lated manipulation, and multi-stage assembly, each requiring phase-consistent contact and motion. write their chosen index and complete decision record be-fore an oracle call. One subsequent simulator batch labels ev-ery candidate. This protocol preserves an identical outcome-information boundary for every selector and measures the oracle proposal ceiling independently. For event validity, 180 event-stress clusters are constructed before outcome inspection. The oracle marks 150 clusters containing at least one coordination-valid alternative. All 180 clusters also contribute one matched negative on which the nominal action is contract-valid. Natural closed loop instead evaluates full paired episodes on 30 held-out seeds per task. Candidate-scaling prefixes are nested within each restored state, so the scientific unit is the state rather than an individual candidate. 
+
+Metrics and Statistical Tests 
+
+Strict task success is simulator completion within the fixed horizon. Coordination validity requires every active event obligation to hold. A rescue selects an alternative that repairs the nominal action without losing another required outcome. A false intervention changes the nominal action without task or coordination support; a harmful intervention loses at least one required outcome. Intervention rate is reported alongside error, distinguishing selective accuracy from inactivity. The M1 comparison uses paired cluster discordance and a two-sided exact McNemar test. The M2 comparison uses paired task-seed episodes and the same exact test. Candi-date records within a pool are not treated as independent. Ranking metrics are computed on task-seed-disjoint groups; calibration is measured by expected calibration error and Brier score. Frozen denominators exactly match the block allocations reported in the experiment ledger. 
+
+C. Complete Result Decompositions 
+
+Natural Closed Loop by Task Coordination Events Complete Selector Counts 
+
+The event-family gain is balanced: CoWAM recovers eight, nine, and eight more valid opportunities than Contract-only for synchronization, role compatibility, and collision conver-gence. The single harmful intervention occurs in collision convergence. The natural-task decomposition likewise shows a gain of two to four episodes per task over Selective Control. 
+
+D. Robustness, Ablations, and Runtime 
+
+Candidate Count and Sequential Horizon 
+
+Candidate-count results retain 92.9–95.0% of available res-cues with a 5.0–6.3% false-intervention rate. Across sequen-tial horizons from one to eight decisions, CoWAM retains substantially lower false-intervention counts than Future-Consensus, widening the advantage from 104 to 946 avoided false selections. 
+
+Proposer Regimes Complete Learned-Ranking Metrics Evidence and Threshold Ablations 
+
+Predicted futures and temporal correspondence provide con-sistent gains in validity and intervention precision. The threshold sweep places the validation-selected default on the favorable operating frontier: 140 valid selections with five false and one harmful intervention, while neighboring settings trace the expected precision-coverage continuum. 
+
+Risk Coverage Runtime and Failure Labels 
+
+E. Reproducibility and Evaluation Coverage 
+
+Denominator Ledger 
+
+The ledger counts independent scientific units rather than summing every reused table row. Coordination ablations and event-family decompositions reuse the main coordina-tion pools. Risk-coverage rows reuse the learned-ranking groups. Timing repetitions characterize systems cost and are excluded from the scientific total. 
+
+Runtime Environment and Artifacts 
+
+Every run records task, seed, candidate count, proposer, active contract, contract outcomes, verifier outputs, se-lected action, intervention type, outcome labels, and source hashes. Machine-readable manifests link every decision to its candidate-pool digest, task-seed unit, outcome record, and aggregate-table entry. 40 60 80  
+
+> Success (%)
+> Overall Hang mug Scan 3 bowls Bottles in bin Can in basket 2 bowls Dual bottles Lift pot
+> +9.6 +6.7 +3.3 +13.3 +13.3 +10.0 +10.0 +10.0 +10.0
+> Selective CoWAM
+
+(a) 50 60 70   
+
+> Success (%)
+> Mixed LeWorld X-WAM
+> +12.5 +12.5 +10.0
+> Baseline CoWAM
+
+(b) 0 20 40 60 80    
+
+> Episode rate (%)
+> Mixed LeWorld X-WAM
+> Valid False Harm
+
+(c) 
+
+Figure A3: Natural and proposer-conditioned performance. (a) Per-task and aggregate natural success. (b) Task-success gains over the strongest corresponding baseline in three proposer regimes. (c) Valid, false, and harmful episode rates for the same regimes. Together, the panels show that CoWAM’s natural-task gains persist across all eight tasks and transfer across X-WAM, LeWorldModel, and mixed proposal pools while maintaining low intervention error. 
+
+Deployable selectors Reference Task Policy FC RGB-D Selective Control CoWAM Oracle 
+
+Lift Pot 15/30 17/30 18/30 19/30 22/30 24/30 Pick Dual Bottles 14/30 16/30 17/30 18/30 21/30 23/30 Stack Two Bowls 13/30 15/30 16/30 17/30 20/30 23/30 Place Can in Basket 12/30 14/30 15/30 16/30 19/30 22/30 Put Bottles in Dustbin 10/30 12/30 13/30 14/30 18/30 21/30 Stack Three Bowls 9/30 11/30 12/30 13/30 17/30 20/30 Scan Object 13/30 14/30 16/30 17/30 18/30 22/30 Hang Mug 10/30 12/30 13/30 14/30 16/30 21/30 
+
+Total 96/240 111/240 120/240 128/240 151/240 176/240 
+
+Table A5: Per-task natural closed-loop success. FC denotes Future-Consensus. CoWAM improves over Selective Control on all eight tasks. 
+
+Positive opportunities Matched negatives Event Opp. Policy Contract-only CoWAM False Harm 
+
+Synchronization 50 31 39 47 2/60 0/60 Role compatibility 50 30 37 46 2/60 0/60 Collision convergence 50 31 39 47 1/60 1/60 
+
+Total 150 92 115 140 5/180 1/180 
+
+Table A6: Coordination-valid selection by active contract family, with matched-negative false and harmful interventions. Selector Valid n/N ↑ False n/N ↓ Harm n/N ↓ Role 
+
+Policy Top-1 92/150 (61.3%) 0/180 (0.0%) 0/180 (0.0%) Baseline Future-Consensus 101/150 (67.3%) 112/180 (62.2%) 16/180 (8.9%) Baseline Static collision gate 96/150 (64.0%) 39/180 (21.7%) 8/180 (4.4%) Baseline Scalar verifier 104/150 (69.3%) 31/180 (17.2%) 5/180 (2.8%) Ablation RGB-D selector 126/150 (84.0%) 10/180 (5.6%) 2/180 (1.1%) Baseline Selective Control 112/150 (74.7%) 18/180 (10.0%) 2/180 (1.1%) Baseline Contract-only 115/150 (76.7%) 20/180 (11.1%) 3/180 (1.7%) Ablation 
+
+CoWAM 140/150 (93.3%) 5/180 (2.8%) 1/180 (0.6%) Proposed 
+
+Oracle Upper Bound 150/150 (100.0%) 0/180 (0.0%) 0/180 (0.0%) Reference 
+
+Table A7: Complete selector event ledger. Invalid and preserve counts are omitted because they are exact complements of valid and false counts. 
+
+K States Opp. Crescue C false FC false 
+
+4 80 28 26 4 34 8 80 32 30 4 38 16 80 36 34 5 42 32 80 40 38 5 43 
+
+(a) Candidate pool Steps Dec. Opp. Crescue C false FC false 
+
+1 200 30 29 6 110 2 400 52 49 18 248 4 800 96 91 73 543 8 1,600 160 149 174 1,120 
+
+(b) Sequential horizon 
+
+Table A8: Robustness to candidate count and sequential horizon. C denotes CoWAM and FC denotes Future-Consensus. Panels use independent task-seed units. 
+
+Task success CoWAM selection quality Proposer Baseline CoWAM Gain (pp) Valid False Harm 
+
+X-WAM 66/120 (55.0%) 78/120 (65.0%) +10.0 102/120 5/120 1/120 LeWorldModel 60/120 (50.0%) 75/120 (62.5%) +12.5 98/120 7/120 1/120 Mixed pool 70/120 (58.3%) 85/120 (70.8%) +12.5 108/120 6/120 1/120 
+
+Macro average 54.4% 66.1% +11.7 85.6% 5.0% 0.8% 
+
+Table A9: Cross-proposer evaluation on 120 paired pools per regime. Parenthesized rates and the macro row report percentages in-cell. 60 80 100 
+
+> Valid (%)
+> No baseline No uncertainty No depth No event Scalar Contracts CoWAM
+
+(a) 0 20   
+
+> False / harm (%)
+> No baseline No uncertainty No depth No event Scalar Contracts CoWAM
+> False Harm
+
+(b) 
+
+Figure A4: Mechanism ablation. (a) Valid selection on the positive cohort. (b) False and harmful intervention on matched negatives. The pair shows why uncertainty bounds and baseline preservation are required even when a permis-sive variant converts more positive opportunities. 60 80 100 
+
+> Valid (%)
+> CoWAM No event Shuffled No future RGB + action State only
+
+(a) 0 10   
+
+> False / harm (%)
+> CoWAM No event Shuffled No future RGB + action State only
+> False Harm
+
+(b) 
+
+Figure A5: Evidence and correspondence ablation. (a) Valid selection and (b) matched-negative intervention error when current state, action, depth, predicted future, temporal correspondence, or event conditioning is removed. Discrimination ↑ Calibration ↓
+
+Representation AUPRC AUROC Pair acc. ECE Brier 
+
+Current only 0.68 0.77 0.66 0.12 0.19 Current + action 0.75 0.83 0.73 0.09 0.15 No future 0.71 0.80 0.69 0.11 0.17 Future-Consensus 0.60 0.72 0.61 0.15 0.22 Scalar verifier 0.80 0.88 0.79 0.06 0.12 Future shuffled 0.63 0.74 0.62 0.14 0.21 
+
+CoWAM 0.92 0.96 0.89 0.03 0.07 
+
+Table A10: Complete learned-ranking metrics. Task-seed-disjoint coordination-risk ranking over 1,200 groups and 9,600 candidate records. ECE denotes expected calibration error. The main paper reports the nonredundant AUPRC, pair-accuracy, and ECE subset. 
+
+Input / representation Valid / 150 False / 180 Harm / 180 
+
+Current state only 101 27 6Current + action 111 15 4RGB only 118 12 3RGB-D, no future 123 11 3Future shuffled 100 23 6RGB-D + future, no event 128 10 2
+
+Full CoWAM 140 5 1
+
+Table A11: Modality and temporal-correspondence ablation. 
+
+Scale Valid / 150 False / 180 Harm / 180 Region 
+
+0.75 strict 130 2 0 Conservative 0.90 138 3 1 Low-risk 
+
+1.00 default 140 5 1 Selected 
+
+1.10 142 10 3 Permissive 1.25 loose 144 18 5 Permissive 
+
+Table A12: Joint sensitivity of risk, utility, and intervention thresholds. 
+
+Component Recorded setting 
+
+Simulator RoboTwin 2.0 bimanual task environment GPU host 8× NVIDIA RTX 5880 Ada, 48 GB each Run allocation One explicitly pinned GPU per training or inference job Primary proposer X-WAM paired action, RGB-D future, and proprioception Additional proposers LeWorldModel and mixed candidate pools Verifier Three independently seeded CoWAM instances Decision record Pool digest, contract state, scores, bounds, selected index Outcome record Shared oracle task, coordination, progress, and failure labels 
+
+Table A13: Paper-facing environment and artifact inventory. Exact package versions, model revisions, and checksums are included in the submitted reproducibility archive. 
+
+Retained set CoWAM Future-Consensus Cov. N Viol. Rate Viol. Rate 
+
+25.0% 300 2 0.7% 10 3.3% 50.0% 600 7 1.2% 47 7.8% 75.0% 900 24 2.7% 131 14.6% 100.0% 1,200 70 5.8% 269 22.4% 
+
+Table A14: Coordination-risk violations as selective cover-age increases. FC denotes Future-Consensus; rates are per-centages of retained groups. 
+
+Method Time (ms) Mem. (GB) Params (M) 
+
+Policy Top-1 41.00 3.10 –Future-Consensus 63.00 3.40 –Scalar verifier 72.00 4.20 18.40 
+
+CoWAM 88.00 4.80 22.70 
+
+Oracle rollout 2,460.00 7.60 –
+
+(a) Runtime Failure label Policy CoWAM Red. 
+
+Inter-arm collision 18 6 66.7% 
+
+Role conflict 16 4 75.0% 
+
+Asynchronous release 14 4 71.4% 
+
+Coordination stagnation 20 13 35.0% 
+
+Object drop 12 7 41.7% 
+
+Timeout 25 18 28.0% (b) Natural failure labels 
+
+Table A15: Runtime cost and non-exclusive failure labels. Latency is measured per selection on one RTX 5880 Ada GPU; failures use 240 natural episodes. 0 2 4 6 8 10 
+
+> False (%)
+> 85.0 87.5 90.0 92.5 95.0 97.5
+> Valid (%)
+> 0.75 0.90
+> 1.00
+> 1.10 1.25
+
+(a) 25 50 75 100  
+
+> Coverage (%)
+> 0510 15 20 25
+> Risk violation (%)  Future CoWAM
+
+(b) 0 10 20   
+
+> Failure count
+> Timeout Drop Stagnation Async release Role Collision
+> -28.0% -41.7% -35.0% -71.4% -75.0% -66.7%
+> Policy CoWAM
+
+(c) 
+
+Figure A6: Operating characteristics and failure reduction. (a) Joint threshold sensitivity; marker size encodes harmful intervention. (b) Coordination-risk violation over selective coverage. (c) CoWAM reduces every recorded natural failure category relative to the nominal policy. 
+
+Claim-Reproduction Order 
+
+The minimum reproduction path is: 1. verify simulator, proposer, verifier, and configuration re-visions; 2. materialize the frozen event and natural task-seed matri-ces; 3. generate each ordered candidate pool once and persist its digest; 4. run every selector without oracle access and persist its decision; 5. label the shared candidate pools and closed-loop execu-tions; 6. aggregate paired counts, exact tests, calibration metrics, and denominator checks; and 7. regenerate the main and appendix tables from the frozen aggregate. The submitted artifact contains configurations, run man-ifests, selector records, aggregate tables, statistical scripts, and representative media. Large pretrained proposer weights are referenced by public model revision and checksum rather than duplicated. 
+
+Evaluation Coverage 
+
+The natural evaluation spans held-out seeds across all eight task definitions. The event audit covers synchronization, role, and collision opportunities and connects event-level selection quality to naturally occurring closed-loop coordination out-comes. Cross-proposer evaluation covers X-WAM, LeWorld-Model, and mixed candidate pools. Together, these blocks establish selective-intervention gains across tasks, coordina-tion modes, candidate counts, horizons, and proposer sources under one outcome-blind same-pool protocol. 
+
+G. Qualitative Case Supplement 
+
+This section provides complementary CoWAM comparisons across coordination mechanisms and task executions. Fig-ures A7 and A8 show same-pool coordination rescues, while Figure A9 extends CoWAM’s successful progression to multi-object stacking. Future-Consensus failure coord. invalid        
+
+> 12345678
+> CoWAM success coord. valid
+
+(a) Process view of the Lift Pot success case Future-Consensus failure coord. invalid        
+
+> 12345678
+> CoWAM coordination rescue coord. valid
+
+(b) Second Lift Pot synchronization rescue 
+
+Figure A7: CoWAM Lift Pot rescues. Panel (a) complements the main-paper multi-camera view with the rollout process. Panel (b) shows a second same-pool synchronization rescue; CoWAM restores coordination validity in both cases. 
+
+Block Tasks Indep. units Pools / decisions Candidate records Closed-loop eps. Reused by 
+
+Coordination validity 8 180 360 2,880 0 Main, ablations Natural closed loop 8 240 240 1,920 1,440 Main, per-task Candidate scaling 8 320 320 4,800 0 Main, robustness Sequential horizon 8 200 1,600 6,400 0 Robustness Proposer regimes 6 360 360 2,880 1,440 Transfer Learned ranking 8 1,200 1,200 9,600 0 Ranking, coverage Runtime 8 10,000 10,000 Reused 0 Timing only 
+
+Unique scientific total 8 2,500 4,080 28,480 2,880 –
+
+Table A16: Experiment and denominator ledger. Runtime repetitions are excluded from the scientific total; ablations reuse frozen pools and labels. Future-Consensus failure coord. invalid        
+
+> Initial Front Terminal Front Initial Head Terminal Head Initial Left wrist Terminal Left wrist Initial Right wrist Terminal Right wrist
+
+CoWAM coordination rescue coord. valid (a) Pick Dual Bottles endpoints Future-Consensus failure coord. invalid        
+
+> Initial Front Terminal Front Initial Head Terminal Head Initial Left wrist Terminal Left wrist Initial Right wrist Terminal Right wrist
+
+CoWAM coordination rescue coord. valid 
+
+(b) Lift Pot synchronization rescue 
+
+Figure A8: Coordination evidence and mechanism boundary. Panel (a) shows CoWAM restoring role compatibility for Pick Dual Bottles. Panel (b) shows CoWAM restoring synchronization validity for Lift Pot. Both cases replace a Future-Consensus coordination failure with a coordination-valid CoWAM selection. Nominal action failure Front   
+
+> Initial Middle Terminal
+
+Nominal action failure Head 
+
+CoWAM successful execution Front 
+
+CoWAM successful execution Head 
+
+(a) Stack Two Bowls Nominal action failure Front   
+
+> Initial Middle Terminal
+
+Nominal action failure Head 
+
+CoWAM successful execution Front 
+
+CoWAM successful execution Head (b) Stack Three Bowls 
+
+Figure A9: Additional coordination-rich task executions. Each panel contrasts nominal failure with CoWAM’s successful multi-object stacking, exposing improved grasp assignment, placement order, and phase-consistent completion.

@@ -1,0 +1,399 @@
+Title: Mimir: A Neuro-Symbolic Memory System with Dynamic Grounding for Embodied Agents in Interactive Environments
+
+URL Source: https://arxiv.org/pdf/2608.04933v1
+
+Published Time: Thu, 06 Aug 2026 01:07:04 GMT
+
+Number of Pages: 9
+
+Markdown Content:
+# Mimir: A Neuro-Symbolic Memory System with Dynamic Grounding for Embodied Agents in Interactive Environments 
+
+# Haoming Xu 1,3 ∗, Zhenlin He 1,2 ∗, Hengyi Wang 1,2 , Jiafeng Xu 2, Hao Dong 1, 2 
+
+> 1
+
+PrimeBot Research Institute 
+
+> 2
+
+Peking University  
+
+> 3
+
+University of Chinese Academy of Sciences 
+
+Abstract 
+
+Long-horizon embodied task requires agents to act under par-tial observability while preserving both scene belief and ex-ecution progress. Flat histories or implicit policy states may contain past observations, but they do not provide an explicit interface for deciding which world facts support the currently active goal. We introduce Mimir, a neuro-symbolic mem-ory that separates world memory from task memory and dy-namically grounds them before each action. World memory maintains object locations, object states, and perceptual evi-dence, while task memory maintains an ordered goal agenda, progress state, hand state, failures, and execution constraints. A grounding module binds the active goal to recalled world candidates, fills missing source locations, and attaches ev-idence before planning and embodiment-specific execution. Across tested backbones, Mimir consistently improves on different EB-ALFRED and EB-Habitat tasks, with maximum gains of 42.5% and average gains of 23.0%, respectively. Com-pared with the best results among prior agent and memory systems evaluated under the same backbone, Mimir improves the overall average success rate by 8.5%. Finally, on the EB-Habitat Long-horizon subset, Mimir achieves 86.0% success rate, substantially outperforming current closed-source mod-els. Our code will be released soon. 
+
+# Introduction 
+
+Long-horizon embodied manipulation operates under partial observability. As an agent explores and alters a scene, rele-vant objects may leave view, change state, or become identi-fiable only through earlier interactions. Current observations are often insufficient for selecting the next action. The agent must preserve the evolving world and its task progress. The challenge is not merely to retain past frames. In Fig. 1, a flat history may retain evidence without exposing an ac-tionable state: whether an object remains in its receptacle, is held by the agent, or has been delivered, and whether a subgoal is complete, pending, or blocked. Effective memory must evolve with the world and support the next decision. Recent embodied agents have advanced instruction de-composition, skill selection, and multimodal control by com-bining language, vision, and action (Ahn et al. 2022; Song et al. 2023; Driess et al. 2023; Brohan et al. 2023). Yet they must maintain state over time. Hidden objects require persis-tent world state, while multi-step execution requires explicit 
+
+> ∗
+
+These authors contributed equally. 
+
+task state. Long prompts or implicit policy states may pre-serve information, but provide no interface for inspecting, updating, and reusing it. Memory-based systems make parts of this state explicit. LLM-State tracks object attributes and changes, while CA-PEAM records action context and altered object arrange-ments for planning (Chen, Xiao, and Hsu 2023; Kim et al. 2023). Both strengthen world-state tracking, but leave task progress implicit and do not bind recalled evidence to the ac-tive goal. CLEA integrates environmental memory with exe-cution critique and replanning, whereas RoboMemory coor-dinates multiple cognitive memory types (Lei et al. 2025b,a). However, neither provides a direct interface between world belief and task progress. Other methods address complementary functions. Au-toManual and MSI-Agent convert experience into reusable manuals or insights (Chen et al. 2024; Fu et al. 2024), while MemoryVLA and related methods inject temporal context into policy execution (Shi et al. 2025; Sridhar et al. 2025; Li et al. 2025). They emphasize reusable knowledge or architecture-specific policy memory rather than a transparent episode-level decision state. These limitations expose a missing operational link be-tween what an agent knows and what it must accomplish next. We propose Mimir, a neuro-symbolic memory system that separates world memory from task memory and grounds the active goal against recalled world evidence before each action. World memory stores object locations, states, and perceptual evidence, while task memory tracks the ordered goal agenda, execution progress, hand state, failures, and constraints. By binding the active goal to its object, source, target, and supporting evidence, Mimir turns memory from a passive history into an explicit online decision state. Our contributions are threefold. 
+
+• We formulate embodied memory as the interaction be-tween world state and task state, separating scene belief from execution progress and identifying dynamic ground-ing as the key operation before action. 
+
+• We instantiate this formulation in Mimir, a closed-loop memory system that maintains an ordered task mem-ory and an episode-level TreeMemory of object loca-tions, states, and evidence. It grounds each active goal through memory recall, tracks hand state and execution arXiv:2608.04933v1 [cs.RO] 5 Aug 2026 Figure 1: Motivation of Mimir. Long-horizon embodied tasks require memory of both physical world state and task progress. Flat-history agents can retain past observations yet still lose object locations or confuse completed and pending subgoals. Mimir maintains explicit world and task memories, and dynamically grounds the active goal against recalled world evidence before action. failures, and translates grounded abstract actions through embodiment-specific adapters. 
+
+• Extensive evaluations across different multimodal back-bones of EB-ALFRED and EB-Habitat show improve-ments in both success rate and goal completion for thir-teen backbones, with maximum and mean success-rate gains of 42.5% and 23.0%. Under a matched-backbone comparison, Mimir improves the overall average suc-cess rate over prior agent and memory systems by 8.5% and reaches 86.0% on EB-Habitat Long-horizon, substan-tially above current closed-source models. 
+
+# Related Work 
+
+Memory in Large Language Model Agents. 
+
+Memory is a core mechanism for reasoning beyond the current context. Cognitive accounts distinguish working, episodic, and semantic memory (Atkinson and Shiffrin 1968; Baddeley and Hitch 1974; Tulving 1972), and recent lan-guage agents instantiate these ideas by storing interaction histories, reflections, skills, or structured user memories for later reuse (Yao et al. 2023; Shinn et al. 2023; Wang et al. 2023; Packer et al. 2023; Chhikara et al. 2025). These mem-ories improve adaptation across trials and long-horizon in-teraction, but they remain mostly textual or symbolic; em-bodied manipulation requires memory grounded in physical state, object relations, and task progress. 
+
+Memory for Embodied Planning 
+
+LLM and VLM-based embodied planners decompose goals, ground actions, and select executable skills (Ahn et al. 2022; Song et al. 2023; Driess et al. 2023; Zhang et al. 2023; Lei et al. 2025b), and later methods add manuals, experience stores, symbolic knowledge, or structured scene memory to guide decision-making across interactions (Chen et al. 2024; Fu et al. 2024; Glocker et al. 2025; Choi et al. 2025; Wang et al. 2024). RoboMemory organizes spatial, tempo-ral, episodic, and semantic memory in a brain-inspired ar-chitecture for physical embodied systems (Lei et al. 2025a), with follow-up work refining evolving or compiled memory and KV-cache-centric memory management (Ma et al. 2026; Ding et al. 2026; Yang et al. 2026). LLM-State maintains an open-world representation of object attributes and their changes for retrospective long-horizon planning (Chen, Xiao, and Hsu 2023); Mimir in-stead separates the external world belief from an execution-progress agenda and binds only the active goal to recalled evidence before each action. CAPEAM conditions subgoal planning on prior action context and stores changed ob-ject arrangements and states for navigation and interaction (Kim et al. 2023); Mimir makes the update interface explicit through distinct observation and action writes and carries the selected memory evidence into a grounded goal. Say-Plan searches hierarchical 3D scene graphs and iteratively replans with scene-graph-simulator feedback (Rana et al. 2023); Mimir does not assume a 3D scene graph and in-stead serializes the current first-person observation, ordered task state, recalled candidates, failures, and world-memory snapshot into the VLM decision input. A complementary line of work models the environment it-self: open-vocabulary maps, multimodal 3D maps, and scene graphs make environments queryable for navigation and spa-tial reasoning (Huang et al. 2022; Jatavallabhula et al. 2023; Gu et al. 2023; Chang et al. 2023; Loo, Wu, and Hsu 2025), and recent spatial-memory systems maintain persistent 3D or semantic-spatial representations for exploration and embod-ied reasoning (Yang et al. 2024; Hu et al. 2025; Mao et al. 2025; Zhang et al. 2025). However, world memory alone does not encode the task history of the agent; existing work has not fully unified world-level and task-level memory. 
+
+Memory in Vision-Language-Action Policies. 
+
+Vision-language-action policies map language and visual ob-servations directly to robot actions (Brohan et al. 2023; Open X-Embodiment Collaboration et al. 2023; Kim et al. 2024; Black et al. 2024). To address the non-Markovian nature of long-horizon manipulation, recent VLA models integrate perceptual-cognitive memory, retrieve prior experience and keyframes, or use demonstration-derived memory prompts and episodic memory during policy execution (Shi et al. 2025; Sridhar et al. 2025; Li et al. 2025; Lin et al. 2025; Guo et al. 2026), with further variants exploring multi-scale, re-current, and test-time physical memory (Torne et al. 2026; Li et al. 2026a; Zeng et al. 2026; Lei et al. 2026; Li et al. 2026b). These approaches are tightly coupled to model architecture and action generation, providing less explicit organization for general embodied memory across planning and execution. 
+
+# Method 
+
+We present Mimir, a neuro-symbolic memory system for long-horizon embodied manipulation. At the beginning of an episode, the agent receives an instruction x and the legal action space Ae of embodiment e. At step t, it observes ot
+
+and, after executing a legal action at ∈ Ae, receives feedback 
+
+yt. Mimir maintains 
+
+Mt = ( Tt, W t), (1) where task memory Tt records execution progress and world memory Wt records the current scene belief. The two memories are separated because they evolve from different evidence. Observations and interaction effects re-vise object locations and states in world memory, whereas execution outcomes revise the goal agenda, hand state, and failed hypotheses in task memory. A flat history leaves both states implicit and requires the planner to reconstruct them at every step. Mimir instead preserves them as persistent and independently updateable memories. Dynamic grounding connects the two memories. The cur-rent observation first updates world memory, after which task memory exposes the next unfinished goal. Goal-conditioned recall retrieves a bounded set of relevant entities and evi-dence, and grounding binds the goal to a concrete object and its source and target context. The grounded goal is planned in an embodiment-independent action space and mapped to Ae;execution feedback then updates both memories. The same loop supports separate exploration before execution or inter-leaved exploration when the current memory cannot support a grounded action. 
+
+Task Memory 
+
+Task memory represents what remains to be accomplished and what execution has already established. It comprises symbolic goals G, an agenda order ⪯, a goal-status map st,the current hand state ht, failed object–source hypotheses Ft,and evidence Ct supporting completed goals: 
+
+Tt = ( G, ⪯, s t, h t, F t, C t). (2) The map st assigns each goal one of three states: pending, completed, or blocked. The order ⪯ places prerequisites be-fore dependent goals and uses task order as a deterministic tie breaker. Task memory therefore preserves both the re-maining agenda and the execution state needed to interpret it. In contrast to a history buffer, these fields are updated independently: completing one goal does not remove scene evidence, and revising a world hypothesis does not erase es-tablished task progress. This separation gives grounding a stable task-side query even when the world representation continues to change. For g ∈ G , let Pt denote the pending-goal set and gt the active goal. Here ⊥goal denotes the absence of an active goal, and min ⪯ selects the first goal under the agenda order: 
+
+Pt = {g ∈ G | st(g) = pending },gt =
+
+min ⪯ Pt, Pt̸ = ∅,
+
+⊥goal , Pt = ∅.
+
+(3) Because Pt is recomputed after every task-memory update, the next goal follows from recorded execution state rather than a fresh interpretation of the full history. Completed goals are excluded from later planning, blocked goals remain ex-plicit, and a dependent goal is not selected before its prereq-uisites. Task memory is therefore not an action transcript: it retains unfinished goals, the held object, failed bindings, and evidence for completed work, preventing repeated failures or redundant execution. We represent environment feedback as 
+
+yt = ( σt, ∆t), (4) where σt is the action-level outcome and ∆t contains any feedback-supported change in object relation, object state, or hand state. The effect may be empty when an action succeeds without establishing a task-relevant change. Given the active goal, executed action, and feedback, task memory is updated by 
+
+Tt+1 = UT (Tt, g t, a t, y t). (5) Action success does not directly imply completion. The active goal is completed only when the supported effect es-tablishes its postcondition: 
+
+st+1 (gt) = completed ⇐⇒ Post( gt, ∆t) = 1 . (6) Navigation or opening may therefore succeed while a ma-nipulation goal remains pending; pick, placement, and state-change goals require the corresponding hand, relation, or state effect. Supported grasp, place, or release effects update 
+
+ht, a contradicted object–source binding enters Ft+1 , and verified completion evidence enters Ct+1 .
+
+World Memory 
+
+World memory is an episode-level structured memory of scene entities and their evolving relations. At step t, it com-prises an entity set Vt, parent relations Et, a scene root r, a label function ℓt, and an attribute-and-evidence store ϕt:
+
+Wt = ( Vt, E t, r, ℓ t, ϕ t). (7) Figure 2: Overview of Mimir. Task memory preserves execution progress, while world memory maintains scene entities, relations, and evidence. Goal-conditioned recall retrieves candidates for the active goal, and dynamic grounding selects an evidence-supported binding for planning and embodiment-specific execution. Observations and execution feedback update the two memories online. For each non-root entity v ∈ Vt, the relations induce an active parent pt(v) representing its remembered room, sup-porting surface, container, or held state. The function ℓt
+
+records semantic identity, while ϕt stores observed attributes, interaction-supported state, and supporting evidence. The ev-idence store preserves the observation or interaction from which a record was obtained, allowing a later decision to distinguish an observed relation from one supported by exe-cution feedback. Each entity has one active parent at a time, while uncertain alternatives are represented as separate hy-potheses. This representation places spatial and manipulation state in a common memory. An object may initially belong to a re-ceptacle, later be associated with the hand after a successful pick, and finally be associated with a target after placement. Because these records persist after an entity leaves the cur-rent view, the agent can reason about hidden objects without replaying the visual history. Observation and interaction update world memory through distinct operators: 
+
+W + 
+
+> t
+
+= U obs  
+
+> W
+
+(Wt, o t),Wt+1 = U act  
+
+> W
+
+(W + 
+
+> t
+
+, a t, y t). (8) The observation update adds new entities or refines a hy-pothesis when identity and relational context agree with stored evidence. Additional same-name instances or incom-patible relations remain separate hypotheses, and unresolved alternatives are retained for grounding. The action update writes only effects supported by ∆t: a pick may associate an object with the hand, a placement with the target, and a state-changing action with a revised state. Failed actions leave physical relations unchanged, while contradicted bind-ings are recorded in task memory. Together, the two updates preserve both current perception and interaction-supported changes that may later leave view. For the active goal gt, the query constructor produces 
+
+qt = Q(gt) from its object description, required state, and source or target relations. The retrieval operator searches 
+
+W + 
+
+> t
+
+and returns an ordered and bounded list 
+
+Rt = R(W + 
+
+> t
+
+, q t) =   vk, p + 
+
+> t
+
+(vk), η t,k 
+
+ Kt 
+
+> k=1
+
+, (9) where vk is a candidate entity, p+ 
+
+> t
+
+(vk) its remembered par-ent, and ηt,k the lexical, visual, semantic, and relational ev-idence supporting it. The candidate pool contains entities whose identity, attributes, or relations are compatible with the active query. Evidence may therefore support a candidate through its name, appearance, category, remembered parent, or relation to another entity. Returning a bounded list creates a compact, goal-conditioned view of world memory rather than exposing the full accumulated scene record. The order retains the relative support among candidates, while bind-ings already contradicted in Ft are excluded from repeated selection. 
+
+Grounding and Execution 
+
+Recall identifies which world-memory hypotheses may sup-port the active goal; grounding determines which one should instantiate it at the current step. The operator G first re-moves candidates that cannot support a legal interaction, conflict with explicit source or target constraints, or have been contradicted by feedback. It then selects the candidate best supported by the current observation and recalled evi-dence. Finally, it resolves an omitted source from the selected entity’s remembered parent and attaches the supporting evi-dence to the grounded goal. Recall and grounding therefore play different roles: recall preserves multiple plausible hy-potheses, whereas grounding commits the current decision to one admissible, evidence-supported binding. Let ux(gt) denote an explicitly specified source and ⊥src 
+
+the absence of one. For selected candidate k⋆, let v⋆t = vk⋆
+
+and η⋆t = ηt,k ⋆ . The target d⋆t is retained from the active goal, while the source is 
+
+u⋆t =
+
+ux(gt), ux(gt)̸ = ⊥src ,p+ 
+
+> t
+
+(v⋆t ), ux(gt) = ⊥src ,
+
+ˆgt = G(gt, Rt, F t, A e, x, o t)= ( gt, v ⋆t , u ⋆t , d ⋆t , η ⋆t ).
+
+(10) The tuple makes the selected world evidence explicit to the planner. An explicit source is preserved, whereas an omitted source can be completed from world memory. The target re-mains a task requirement rather than a newly inferred destina-tion. If no candidate satisfies the task and action constraints, 
+
+G returns ⊥grd rather than constructing an unsupported bind-ing. This fail-closed interface prevents an uncertain memory query from being converted directly into an executable ac-tion. When several candidates remain, the VLM compares the current observation with their compact memory descriptions, conditioned on x, gt, and relevant failures in Ft. Its output is restricted to {vk}Kt
+
+> k=1
+
+, allowing visual disambiguation with-out introducing an entity or location unsupported by memory. Let ¯A denote the embodiment-independent abstract action space. The planner produces ¯at ∈ ¯A, and the adapter ρe maps it to a legal action or returns ⊥act :
+
+¯at = Π(ˆ gt, T t, W + 
+
+> t
+
+),ρe : ¯A → Ae ∪ {⊥ act },at = ρe(¯ at).
+
+(11) Let Step e denote the environment transition for embod-iment e. Given a legal action at ∈ Ae, it returns the next observation ot+1 , execution feedback yt, and a termination flag zt+1 . Here zt = 0 denotes an active episode and zt = 1 
+
+denotes termination. Algorithm 1 summarizes the action bearing memory loop. The environment transition is invoked only when grounding and action mapping produce a valid result. Otherwise, the system follows the configured exploration or termination pol-icy without passing an unsupported value to the environment. Execution feedback closes the loop through Equations 5 and 8. World memory records supported changes in object relations and states, while task memory determines whether these changes complete the active goal. Intermediate actions may therefore update the world or hand state while the goal remains pending. Contradicted bindings are retained as fail-ure evidence and excluded from later grounding. 
+
+# Experiments 
+
+To evaluate Mimir’s long-horizon task-solving capability, we follow prior embodied-agent evaluations and conduct exper-iments on EB-ALFRED and EB-Habitat from Embodied-Bench (Yang et al. 2025). Our experiments demonstrate three key findings: 
+
+• Mimir consistently improves task-planning performance across multimodal large language models of different scales. 
+
+• Under the same backbone, Mimir achieves higher success rates than existing methods. Algorithm 1: Mimir Closed-Loop Inference 
+
+Require: x, T 0, W 0, A e, o 0 
+
+> 1:
+
+z0 ← 0, t ← 0 
+
+> 2:
+
+while zt = 0 ∧ P t̸ = ∅ do  
+
+> 3:
+
+W + 
+
+> t
+
+← U obs  
+
+> W
+
+(Wt, o t) 
+
+> 4:
+
+gt ← min ⪯ Pt 
+
+> 5:
+
+Rt ← R(W + 
+
+> t
+
+, Q (gt))  
+
+> 6:
+
+ˆgt ← G(gt, Rt, F t, A e, x, o t) 
+
+> 7:
+
+if ˆgt = ⊥grd then  
+
+> 8:
+
+at ← Explore e(gt, T t, W + 
+
+> t
+
+, A e) 
+
+> 9:
+
+else  
+
+> 10:
+
+¯at ← Π(ˆ gt, T t, W + 
+
+> t
+
+) 
+
+> 11:
+
+at ← ρe(¯ at) 
+
+> 12:
+
+if at = ⊥act then  
+
+> 13:
+
+¯at ← Replan(ˆ gt, T t, W + 
+
+> t
+
+, ¯at) 
+
+> 14:
+
+at ← ρe(¯ at) 
+
+> 15:
+
+end if  
+
+> 16:
+
+end if  
+
+> 17:
+
+if at = ⊥act then  
+
+> 18:
+
+Tt ← Block( Tt, g t) 
+
+> 19:
+
+continue  
+
+> 20:
+
+end if  
+
+> 21:
+
+(ot+1 , y t, z t+1 ) ← Step e(at) 
+
+> 22:
+
+Wt+1 ← U act  
+
+> W
+
+(W + 
+
+> t
+
+, a t, y t) 
+
+> 23:
+
+Tt+1 ← UT (Tt, g t, a t, y t) 
+
+> 24:
+
+t ← t + 1  
+
+> 25:
+
+end while  
+
+> 26:
+
+return (Mt, Status( Tt, z t)) 
+
+• With a mid-sized open-source backbone, Mimir substan-tially outperforms state-of-the-art closed-source models. 
+
+Metrics 
+
+We report Success Rate (SR) and Goal Condition Success Rate (GC), following EmbodiedBench and prior memory-augmented embodied-agent evaluations (Yang et al. 2025; Lei et al. 2025a). SR measures full-task completion, while GC measures completion of ordered goal conditions. Follow-ing the setup of prior work, We set temperature = 0 to avoid randomness during the experiment which aligning with the EmbodiedBench setting. Each task is executed once, And we repeated the experiments multiple times and consistently obtained the same results. 
+
+Main Results 
+
+Table shows broad gains in both SR and GC across model types and scales. The gains are especially large when the bare backbone is weak: InternVL3-8B gains 42.5 SR points on EB-ALFRED, while Gemma-3-12B gains 37.5 SR points and 42.6 GC points on EB-Habitat. Because SR and GC rise together, Mimir does not merely preserve partial progress, it more reliably turns that progress into complete task. The scale comparison further suggests that explicit state management can compensate for limited backbone capacity. With Mimir, InternVL3-8B reaches an SR of 60.0 and a GC of 68.5 on EB-ALFRED, together with an SR of 60.5 and Backbone EB-ALFRED EB-Habitat SR GC ∆SR ∆GC SR GC ∆SR ∆GC Qwen3-VL-8B 26.5 39.7 28.5 37.1 w/ Mimir 57.0 66.7 +30.5 +26.9 65.0 73.8 +36.5 +36.8                                                                                                                                     
+
+> Cosmos-Reason2-8B 13.0 21.8 28.5 37.4 w/ Mimir 51.5 63.4 +38.5 +41.6 45.5 61.1 +17.0 +23.6
+> InternVL3-8B 17.5 28.6 26.5 37.3 w/ Mimir 60.0 68.5 +42.5 +39.9 60.5 69.2 +34.0 +31.9
+> Qwen3.5-8B 41.5 52.0 32.0 38.3 w/ Mimir 59.0 67.6 +17.5 +15.6 53.0 66.2 +21.0 +27.9
+> InternVL3.5-8B 24.5 34.1 37.0 45.1 w/ Mimir 60.5 69.5 +36.0 +35.4 49.5 62.9 +12.5 +17.7
+> Gemma-3-12B 29.0 41.4 26.5 33.0 w/ Mimir 59.0 68.0 +30.0 +26.6 64.0 75.7 +37.5 +42.6
+> Gemma-3-27B 35.0 46.2 42.5 49.7 w/ Mimir 59.0 67.7 +24.0 +21.5 60.0 71.3 +17.5 +21.6
+> Qwen3.5-27B 70.5 75.1 57.0 64.4 w/ Mimir 72.5 79.5 +2.0 +4.4 62.5 71.5 +5.5 +7.1
+> Qwen3-VL-32B 50.5 59.5 50.5 57.5 w/ Mimir 68.0 73.0 +17.5 +13.5 71.5 78.6 +21.0 +21.1
+> InternVL3-38B 30.0 43.0 42.5 52.6 w/ Mimir 58.5 67.2 +28.5 +24.2 50.0 62.9 +7.5 +10.3
+> Qwen2.5-VL-72B 50.0 58.2 49.0 56.8 w/ Mimir 66.0 72.9 +16.0 +14.7 70.0 77.4 +21.0 +20.7
+> InternVL3-78B 31.5 44.1 43.5 53.4 w/ Mimir 59.5 68.4 +28.0 +24.3 54.5 68.4 +11.0 +15.0
+
+Table 1: Four-task average performance on EB-ALFRED and EB-Habitat. The averages cover Base, Common-sense, Complex-instruction, and Long-horizon. Success Rate (SR) and Goal Condition Success Rate (GC) are reported in percentage points. For each backbone, the first row reports the backbone alone and the second row adds Mimir. ∆SR and ∆GC denote the corresponding benchmark-specific gains from Mimir, computed before rounding.                              
+
+> Method EB-ALFRED EB-Habitat SR GC SR GC Voyager 44.0 63.7 49.0 69.0 Reflexion 29.0 43.5 47.5 58.6 Cradle 43.0 54.5 46.0 59.6 RoboOS 22.0 28.0 29.0 38.0 RoboMemory 67.0 78.4 74.0 81.0 Mimir 68.0 76.3 90.0 94.6
+
+Table 2: Comparison with agent and memory systems under the Qwen2.5-VL-72B. Each value is the unweighted mean of Base and Long-horizon follow RoboMemory. a GC of 69.2 on EB-Habitat. These results match or exceed those of its 38B and 78B counterparts. Qwen3-VL-32B nev-ertheless remains stronger than Qwen3-VL-8B, indicating that backbone capacity and structured memory are comple-mentary rather than interchangeable. 
+
+Comparison with Agent and Memory Systems 
+
+We compare against the EmbodiedBench results reported by RoboMemory under the Qwen2.5-VL-72B backbone (Wang et al. 2023; Shinn et al. 2023; Tan et al. 2024, 2025; Lei et al. 2025a). Table 2 shows that memory-centered systems substan-tially outperform generic agent frameworks on both bench-marks. Mimir achieves the highest SR on EB-ALFRED and               
+
+> Method SR GC GPT-5.5 78.0 79.5 Claude-Sonnet-4-6 82.0 86.8 Gemini-3.5-Flash 80.0 84.8 Gemini-3.1-Pro 70.0 75.0 Kimi-2.5 30.0 34.6 Mimir (Qwen3-VL-32B) 86.0 93.0
+
+Table 3: Comparison with closed-source foundation models on EB-Habitat Long-horizon. Success Rate and Goal Con-dition Success Rate are reported in percentage points. the strongest SR and GC on EB-Habitat. Compared with RoboMemory, it raises EB-Habitat SR by 16.0 points and GC by 13.6 points. This larger margin on EB-Habitat is con-sistent with the role of world memory: the planner acts on object and location evidence selected for the active goal, rather than on a general record of prior interaction. 
+
+Comparison with Foundation Models 
+
+We further compare with recent closed-source multimodal models on EB-Habitat Long-horizon. All entries use a max-imum generation budget of 16,384 tokens. With a open-source backbone, Mimir reaches an SR of 86.0 and a GC of 93.0, exceeding the strongest closed-source baseline by 4.0 SR points and 6.2 GC points. This result Variant EB-ALFRED EB-Habitat SR GC SR GC                                         
+
+> Component removal, Qwen3-VL-8B
+> Full Mimir 57.0 66.7 65.0 73.8
+> Without world memory 52.0 63.2 12.5 34.8 Without task memory 34.0 51.5 54.0 65.9
+> Component removal, Qwen3-VL-32B
+> Full Mimir 68.0 73.0 71.5 78.6
+> Without world memory 47.0 57.2 12.5 35.0 Without task memory 30.5 46.5 46.5 60.8
+> Reasoning mode, Qwen3-VL-32B
+> Instruct 50.5 59.5 50.5 57.5 Thinking 48.0 55.8 52.0 61.7 Instruct, Mimir 68.0 73.0 71.5 78.6
+> Thinking, Mimir 61.5 69.1 67.5 75.6
+
+Table 4: Four-task average ablations. The first two blocks remove task memory or world memory from Mimir. The final block compares the Instruct and Thinking variants of Qwen3-VL-32B under the backbone and Mimir settings. indicates that long-horizon embodied performance depends not only on backbone capacity, but also on how task progress and world evidence are organized for each decision. The structured task–world interface enables a 32B open-source model to outperform leading proprietary models. 
+
+Ablation Studies 
+
+The component removals expose a stable division of labor. On EB-Habitat, removing world memory reduces SR from 65.0 to 12.5 with Qwen3-VL-8B and from 71.5 to 12.5 with Qwen3-VL-32B. On EB-ALFRED, removing task memory causes the larger loss, reducing SR by 23.0 points and 37.5 points at the two scales. World memory therefore supplies the object and location evidence needed to instantiate the active goal, whereas task memory preserves ordered progress and execution constraints. Full Mimir is strongest across both scales and environments, showing that the two states are most effective when coupled through grounding. The reasoning-mode comparison holds model size fixed. Without Mimir, Thinking is slightly stronger on EB-Habitat but weaker on EB-ALFRED. With Mimir, Instruct is higher on all four metrics, reaching an SR of 68.0 and a GC of 73.0 on EB-ALFRED, together with an SR of 71.5 and a GC of 78.6 on EB-Habitat. Thinking still gains 13.5 SR points and 13.3 GC points on EB-ALFRED, and 15.5 SR points and 13.9 GC points on EB-Habitat. Internal reasoning and explicit memory are therefore not redundant. Instead, the reversal suggests that once task progress and world evidence are externalized, the Instruct model can exploit the grounded decision state more directly, while the additional reasoning mode provides no further advantage in this setting. 
+
+Failure Analysis 
+
+We inspect failed long-horizon episodes and find two recur-ring information bottlenecks. First, some instructions iden-tify a target only by a coarse category or color, while several 
+
+> (a) Failures caused by ambigu-ous target descriptions and in-sufficient visual evidence.
+> (b) Failures caused by unreal-istic environment configurations and severe occlusion.
+
+Figure 3: Representative failure cases under ambiguous in-structions, insufficient visual evidence, unrealistic environ-ment configurations, and severe occlusion. scene instances satisfy the same description, as shown in panels 1,2 of Fig. 3a. Mimir can retain and compare these candidates, but the available input does not determine which instance matches the evaluator annotation. The failure there-fore occurs at the boundary between language specification and instance-level grounding. Second, the target may be invisible, or rendered without enough detail for reliable recognition, as shown in panels 3,4 of Fig. 3a and Fig. 3b. These observations produce either no world memory entry or an entry too vague to support later retrieval. Memory can preserve evidence that has been ob-served, but it cannot reconstruct evidence that never entered the perceptual stream. These cases delimit the role of Mimir. It organizes and connects available evidence, but it cannot resolve a target that is not identifiable from the agent’s inputs. 
+
+# Conclusion 
+
+We presented Mimir, a neuro-symbolic memory system that treats long-horizon embodied execution as the coordinated evolution of world memory for scene belief and task memory for execution progress. Dynamic grounding connects these states by turning the active goal and recalled evidence into an actionable decision state before task-directed execution. This design shifts memory from passive storage to an on-line interface for action selection, allowing scene belief and execution progress to evolve independently while informing each other. Experiments across diverse backbones and em-bodied environments demonstrate the effectiveness of this task–world interface. Our results suggest that reliable long-horizon memory depends not simply on retaining more his-tory, but on organizing and retrieving the state needed for the current goal. References 
+
+Ahn, M.; Brohan, A.; Brown, N.; Chebotar, Y.; Cortes, O.; David, B.; Finn, C.; Fu, C.; Gopalakrishnan, K.; Hausman, K.; Herzog, A.; Ho, D.; Hsu, J.; Ibarz, J.; Ichter, B.; Irpan, A.; Jang, E.; Ruano, R. J.; Jeffrey, K.; Jesmonth, S.; Joshi, N. J.; Julian, R.; Kalashnikov, D.; Kuang, Y.; Lee, K.-H.; Levine, S.; Lu, Y.; Luu, L.; Parada, C.; Pastor, P.; Quiambao, J.; Rao, K.; Rettinghouse, J.; Reyes, D.; Sermanet, P.; Sievers, N.; Tan, C.; Toshev, A.; Vanhoucke, V.; Xia, F.; Xiao, T.; Xu, P.; Xu, S.; Yan, M.; and Zeng, A. 2022. Do As I Can, Not As I Say: Grounding Language in Robotic Affordances. arXiv:2204.01691. Atkinson, R. C.; and Shiffrin, R. M. 1968. Human Memory: A Proposed System and Its Control Processes. In Psychology of Learning and Motivation , volume 2, 89–195. Academic Press. Baddeley, A. D.; and Hitch, G. 1974. Working Memory. In 
+
+Psychology of Learning and Motivation , volume 8, 47–89. Academic Press. Black, K.; Brown, N.; Driess, D.; Esmail, A.; Equi, M.; Finn, C.; Fusai, N.; Groom, L.; Hausman, K.; Ichter, B.; Jakubczak, S.; Jones, T.; Ke, L.; Levine, S.; Li-Bell, A.; Mothukuri, M.; Nair, S.; Pertsch, K.; Shi, L. X.; Tanner, J.; Vuong, Q.; Walling, A.; Wang, H.; and Zhilinsky, U. 2024. π0: A Vision-Language-Action Flow Model for General Robot Control. arXiv:2410.24164. Brohan, A.; Brown, N.; Carbajal, J.; Chebotar, Y.; Chen, X.; Choromanski, K.; Ding, T.; Driess, D.; Dubey, A.; Finn, C.; Florence, P.; Fu, C.; Arenas, M. G.; Gopalakrishnan, K.; Han, K.; Hausman, K.; Herzog, A.; Hsu, J.; Ichter, B.; Irpan, A.; Joshi, N.; Julian, R.; Kalashnikov, D.; Kuang, Y.; Leal, I.; Lee, L.; Lee, T.-W. E.; Levine, S.; Lu, Y.; Michalewski, H.; Mordatch, I.; Pertsch, K.; Rao, K.; Reymann, K.; Ryoo, M.; Salazar, G.; Sanketi, P.; Sermanet, P.; Singh, J.; Singh, A.; Soricut, R.; Tran, H.; Vanhoucke, V.; Vuong, Q.; Wahid, A.; Welker, S.; Wohlhart, P.; Wu, J.; Xia, F.; Xiao, T.; Xu, P.; Xu, S.; Yu, T.; and Zitkovich, B. 2023. RT-2: Vision-Language-Action Models Transfer Web Knowledge to Robotic Control. arXiv:2307.15818. Chang, M.; Gervet, T.; Khanna, M.; Yenamandra, S.; Shah, D.; Min, S. Y.; Shah, K.; Paxton, C.; Gupta, S.; Batra, D.; Mottaghi, R.; Malik, J.; and Chaplot, D. S. 2023. GOAT: GO to Any Thing. arXiv:2311.06430. Chen, M.; Li, Y.; Yang, Y.; Yu, S.; Lin, B.; and He, X. 2024. AutoManual: Constructing Instruction Manuals by LLM Agents via Interactive Environmental Learning. NeurIPS 2024, arXiv:2405.16247. Chen, S.; Xiao, A.; and Hsu, D. 2023. LLM-State: Open World State Representation for Long-Horizon Task Planning with Large Language Model. arXiv preprint arXiv:2311.17406 .Chhikara, P.; Khant, D.; Aryan, S.; Singh, T.; and Yadav, D. 2025. Mem0: Building Production-Ready AI Agents with Scalable Long-Term Memory. arXiv:2504.19413. Choi, W.; Park, J.; Ahn, S.; Lee, D.; and Woo, H. 2025. NeSyC: A Neuro-symbolic Continual Learner For Com-plex Embodied Tasks In Open Domains. ICLR 2025, arXiv:2503.00870. Ding, X.; Wang, X.; Yang, Y.; Wu, H.; Jiang, S.; Zhang, Q.; Mi, L.; Zhu, H.; Li, K.; Liu, Y.; Chen, Z.; and Cao, T. 2026. MemCompiler: Compile, Don’t Inject – State-Conditioned Memory for Embodied Agents. arXiv:2605.07594. Driess, D.; Xia, F.; Sajjadi, M. S. M.; Lynch, C.; Chowd-hery, A.; Ichter, B.; Wahid, A.; Tompson, J.; Vuong, Q.; Yu, T.; Huang, W.; Chebotar, Y.; Sermanet, P.; Duckworth, D.; Levine, S.; Vanhoucke, V.; Hausman, K.; Toussaint, M.; Greff, K.; Zeng, A.; Mordatch, I.; and Florence, P. 2023. PaLM-E: An Embodied Multimodal Language Model. arXiv:2303.03378. Fu, D.; Qi, B.; Gao, Y.; Jiang, C.; Dong, G.; and Zhou, B. 2024. MSI-Agent: Incorporating Multi-Scale Insight into Embodied Agents for Superior Planning and Decision-Making. EMNLP 2024, arXiv:2409.16686. Glocker, M.; Hönig, P.; Hirschmanner, M.; and Vincze, M. 2025. LLM-Empowered Embodied Agent for Memory-Augmented Task Planning in Household Robotics. arXiv:2504.21716. Gu, Q.; Kuwajerwala, A.; Morin, S.; Jatavallabhula, K. M.; Sen, B.; Agarwal, A.; Rivera, C.; Paul, W.; Ellis, K.; Chel-lappa, R.; Gan, C.; de Melo, C. M.; Tenenbaum, J. B.; Tor-ralba, A.; Shkurti, F.; and Paull, L. 2023. ConceptGraphs: Open-Vocabulary 3D Scene Graphs for Perception and Plan-ning. arXiv:2309.16650. Guo, X.; Jiang, C.; Kim, H. B.; Sun, Y.; Xiao, Y.; Han, Y.; and Yang, J. 2026. Chameleon: Episodic Memory for Long-Horizon Robotic Manipulation. arXiv:2603.24576. Hu, W.; Hong, Y.; Wang, Y.; Gao, L.; Wei, Z.; Yao, X.; Peng, N.; Bitton, Y.; Szpektor, I.; and Chang, K.-W. 2025. 3DLLM-Mem: Long-Term Spatial-Temporal Memory for Embodied 3D Large Language Model. arXiv:2505.22657. Huang, C.; Mees, O.; Zeng, A.; and Burgard, W. 2022. Visual Language Maps for Robot Navigation. arXiv:2210.05714. Jatavallabhula, K. M.; Kuwajerwala, A.; Gu, Q.; Omama, M.; Chen, T.; Maalouf, A.; Li, S.; Iyer, G.; Saryazdi, S.; Keetha, N.; Tewari, A.; Tenenbaum, J. B.; de Melo, C. M.; Krishna, M.; Paull, L.; Shkurti, F.; and Torralba, A. 2023. ConceptFu-sion: Open-set Multimodal 3D Mapping. arXiv:2302.07241. Kim, B.; Kim, J.; Kim, Y.; Min, C.; and Choi, J. 2023. Context-Aware Planning and Environment-Aware Memory for Instruction Following Embodied Agents. In Proceedings of the IEEE/CVF International Conference on Computer Vi-sion , 10936–10946. Kim, M. J.; Pertsch, K.; Karamcheti, S.; Xiao, T.; Balakr-ishna, A.; Nair, S.; Rafailov, R.; Foster, E.; Lam, G.; San-keti, P.; Vuong, Q.; Kollar, T.; Burchfiel, B.; Tedrake, R.; Sadigh, D.; Levine, S.; Liang, P.; and Finn, C. 2024. Open-VLA: An Open-Source Vision-Language-Action Model. arXiv:2406.09246. Lei, M.; Cai, H.; Yang, Y.; Wu, Y.; Ren, J.; Cui, Z.; Tan, L.; Hong, J.; Hu, G.; Zhu, S.; Jiang, S.; Wang, G.; Tan, J.; Wan, Z.; Li, Z.; Li, Z.; Cui, S.; Zhao, Y.; and Han, Y. 2025a. RoboMemory: A Brain-inspired Multi-memory Agentic Framework for Interactive Environmental Learning in Physical Embodied Systems. arXiv:2508.01415. Lei, M.; Wang, G.; Zhao, Y.; Mai, Z.; Zhao, Q.; Guo, Y.; Li, Z.; Cui, S.; Han, Y.; and Ren, J. 2025b. CLEA: Closed-Loop Embodied Agent for Enhancing Task Execution in Dynamic Environments. arXiv:2503.00729. Lei, Y.; Liang, Z.; Zhang, H.; and Luo, P. 2026. VP-WEM: Non-Markovian Visuomotor Policy with Working and Episodic Memory. arXiv:2603.04910. Li, H.; Shen, F.; Chen, D.; Yang, L.; Wang, X.; Shi, J.; Bing, Z.; Liu, Z.; and Knoll, A. 2026a. ReMem-VLA: Em-powering Vision-Language-Action Model with Memory via Dual-Level Recurrent Queries. arXiv:2603.12942. Li, H.; You, Y.; Su, H.; and Guibas, L. 2026b. PhysMem: Scaling Test-Time Memory for Embodied Physical Reason-ing. arXiv:2602.20323. Li, R.; Guo, W.; Wu, Z.; Wang, C.; Deng, H.; Weng, Z.; Tan, Y.-P.; and Wang, Z. 2025. MAP-VLA: Memory-Augmented Prompting for Vision-Language-Action Model in Robotic Manipulation. arXiv:2511.09516. Lin, M.; Liang, X.; Lin, B.; Liu Jingzhi; Jiao, Z.; Li, K.; Sun, Y.; Liufu, W.; Ma, Y.; Liu, Y.; Zhao, S.; Zhuang, Y.; and Liang, X. 2025. EchoVLA: Synergistic Declarative Memory for VLA-Driven Mobile Manipulation. arXiv:2511.18112. Loo, J.; Wu, Z.; and Hsu, D. 2025. Open Scene Graphs for Open-World Object-Goal Navigation. arXiv:2508.04678. Ma, X.; Hu, L.; Tang, W.; Hu, Z.; Liao, Z.; Wu, Z.; and Liu, Y. 2026. BrainMem: Brain-Inspired Evolving Memory for Embodied Agent Task Planning. arXiv:2604.16331. Mao, Y.; Ye, H.; Dong, W.; Zhang, C.; and Zhang, H. 2025. Meta-Memory: Retrieving and Integrating Semantic-Spatial Memories for Robot Spatial Reasoning. arXiv:2509.20754. Open X-Embodiment Collaboration; O’Neill, A.; Rehman, A.; Gupta, A.; Maddukuri, A.; Gupta, A.; et al. 2023. Open X-Embodiment: Robotic Learning Datasets and RT-X Mod-els. arXiv:2310.08864. Packer, C.; Wooders, S.; Lin, K.; Fang, V.; Patil, S. G.; Stoica, I.; and Gonzalez, J. E. 2023. MemGPT: Towards LLMs as Operating Systems. arXiv:2310.08560. Rana, K.; Haviland, J.; Garg, S.; Abou-Chakra, J.; Reid, I.; and Sünderhauf, N. 2023. SayPlan: Grounding Large Language Models Using 3D Scene Graphs for Scalable Robot Task Planning. In Proceedings of the 7th Conference on Robot Learning , volume 229 of Proceedings of Machine Learning Research , 23–72. Shi, H.; Xie, B.; Liu, Y.; Sun, L.; Liu, F.; Wang, T.; Zhou, E.; Fan, H.; Zhang, X.; and Huang, G. 2025. Memo-ryVLA: Perceptual-Cognitive Memory in Vision-Language-Action Models for Robotic Manipulation. ICLR 2026, arXiv:2508.19236. Shinn, N.; Cassano, F.; Berman, E.; Gopinath, A.; Narasimhan, K.; and Yao, S. 2023. Reflexion: Lan-guage Agents with Verbal Reinforcement Learning. arXiv:2303.11366. Song, C. H.; Wu, J.; Washington, C.; Sadler, B. M.; Chao, W.-L.; and Su, Y. 2023. LLM-Planner: Few-Shot Grounded Planning for Embodied Agents with Large Language Models. ICCV 2023, arXiv:2212.04088. Sridhar, A.; Pan, J.; Sharma, S.; and Finn, C. 2025. MemER: Scaling Up Memory for Robot Control via Experience Re-trieval. arXiv:2510.20328. Tan, H.; Hao, X.; Chi, C.; Lin, M.; Lyu, Y.; Cao, M.; Liang, D.; Chen, Z.; Lyu, M.; Peng, C.; He, C.; Ao, Y.; Lin, Y.; Wang, P.; Wang, Z.; and Zhang, S. 2025. RoboOS: A Hier-archical Embodied Framework for Cross-Embodiment and Multi-Agent Collaboration. arXiv:2505.03673. Tan, W.; Zhang, W.; Xu, X.; Xia, H.; Ding, Z.; Li, B.; Zhou, B.; Yue, J.; Jiang, J.; Li, Y.; An, R.; Qin, M.; Zong, C.; Zheng, L.; Wu, Y.; Chai, X.; Bi, Y.; Xie, T.; Gu, P.; Li, X.; Zhang, C.; Tian, L.; Wang, C.; Wang, X.; Karlsson, B. F.; An, B.; Yan, S.; and Lu, Z. 2024. Cradle: Empowering Foundation Agents Towards General Computer Control. arXiv:2403.03186. Torne, M.; Pertsch, K.; Walke, H.; Vedder, K.; Nair, S.; Ichter, B.; Ren, A. Z.; Wang, H.; Tang, J.; Stachowicz, K.; Dhabalia, K.; Equi, M.; Vuong, Q.; Springenberg, J. T.; Levine, S.; Finn, C.; and Driess, D. 2026. MEM: Multi-Scale Embodied Mem-ory for Vision Language Action Models. arXiv:2603.03596. Tulving, E. 1972. Episodic and Semantic Memory. In Orga-nization of Memory , 381–403. Academic Press. Wang, G.; Xie, Y.; Jiang, Y.; Mandlekar, A.; Xiao, C.; Zhu, Y.; Fan, L.; and Anandkumar, A. 2023. Voyager: An Open-Ended Embodied Agent with Large Language Models. arXiv:2305.16291. Wang, Z.; Yu, B.; Zhao, J.; Sun, W.; Hou, S.; Liang, S.; Hu, X.; Han, Y.; and Gan, Y. 2024. KARMA: Augmenting Embodied AI Agents with Long-and-short Term Memory Systems. arXiv:2409.14908. Yang, R.; Chen, H.; Zhang, J.; Zhao, M.; Qian, C.; Wang, K.; Wang, Q.; Koripella, T. V.; Movahedi, M.; Li, M.; Ji, H.; Zhang, H.; and Zhang, T. 2025. EmbodiedBench: Compre-hensive Benchmarking Multi-modal Large Language Models for Vision-Driven Embodied Agents. arXiv:2502.09560. Yang, Y.; Yang, H.; Zhou, J.; Chen, P.; Zhang, H.; Du, Y.; and Gan, C. 2024. 3D-Mem: 3D Scene Memory for Embodied Exploration and Reasoning. arXiv:2411.17735. Yang, Z.; Xie, T.; Lu, B.; Liu, S.; Yu, B.; and Li, M. 2026. KEEP: A KV-Cache-Centric Memory Management System for Efficient Embodied Planning. arXiv:2602.23592. Yao, S.; Zhao, J.; Yu, D.; Du, N.; Shafran, I.; Narasimhan, K.; and Cao, Y. 2023. ReAct: Synergizing Reasoning and Acting in Language Models. ICLR 2023, arXiv:2210.03629. Zeng, Z.; Ding, F.; Yang, H.; and Li, X. 2026. HELM: Harness-Enhanced Long-horizon Memory for Vision-Language-Action Manipulation. arXiv:2604.18791. Zhang, H.; Du, W.; Shan, J.; Zhou, Q.; Du, Y.; Tenenbaum, J. B.; Shu, T.; and Gan, C. 2023. Building Cooperative Embodied Agents Modularly with Large Language Models. arXiv:2307.02485. Zhang, L.; Hao, X.; Tang, Y.; Fu, H.; Zheng, X.; Wang, P.; Wang, Z.; Ding, W.; and Zhang, S. 2025. N avA 3: Un-derstanding Any Instruction, Navigating Anywhere, Finding Anything. arXiv:2508.04598.

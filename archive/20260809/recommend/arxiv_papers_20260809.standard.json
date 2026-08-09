@@ -1,0 +1,266 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-09T20:05:30.329825+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 2,
+    "deep_divecandidates": 3,
+    "deep_cap": 7,
+    "deep_selected": 3,
+    "quick_candidates": 3,
+    "quick_skim_target": 12,
+    "quick_selected": 3
+  },
+  "deep_dive": [
+    {
+      "id": "2608.02578v1",
+      "source": "arxiv",
+      "title": "CoWAM: Coordination Contracts for Selective Policy Intervention with WAMs",
+      "abstract": "World Action Models (WAMs) augment robot policies with action-conditioned predicted futures, but a plausible future alone does not justify changing the action that a bimanual policy would execute. We present CoWAM, a selective intervention layer that expresses synchronization, role compatibility, and collision convergence as coordination contracts. Each contract combines typed admissibility checks with event-conditioned verification and calibrated intervention gates. CoWAM preserves the nominal action unless an alternative satisfies every active obligation and provides a clear, low-risk improvement; when the nominal action is also inadmissible, it invokes a predefined abstention fallback. To separate selector quality from proposal quality, all methods operate on identical candidate pools and commit their decisions before shared oracle labeling. Across eight simulated bimanual tasks, CoWAM improves coordination-valid selection by 16.7 percentage points over the contract-only variant and raises closed-loop success by 9.6 percentage points over the strongest selective baseline, while keeping harmful interventions below 1%. Together, these results establish coordination contracts as an effective interface for conservative policy intervention with predicted world-action evidence across coordination-rich bimanual tasks.",
+      "authors": [
+        "Shuaijun Liu",
+        "Qifu Wen",
+        "Shuyang Hao",
+        "Qi Luo",
+        "Chenglong Zhang",
+        "Feiyang You",
+        "Chengyu Wu",
+        "Ningxin Su"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-08-03T17:51:58+00:00",
+      "link": "https://arxiv.org/pdf/2608.02578v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "selective policy intervention with coordination contracts for World Action Models",
+      "llm_evidence_cn": "面向世界行动模型的选择性策略干预协调契约",
+      "llm_evidence": "面向世界行动模型的选择性策略干预协调契约",
+      "canonical_evidence": "面向世界行动模型的选择性策略干预协调契约",
+      "llm_tldr_en": "CoWAM expresses bimanual coordination as typed contracts and selectively intervenes on WAM-augmented policies, preserving nominal actions unless alternatives satisfy all active obligations.",
+      "llm_tldr_cn": "世界行动模型以动作条件下的预测未来增强机器人策略，但单凭未来合理性不足以改变双机械臂策略的动作。CoWAM把同步、角色兼容和碰撞收敛表达为协调契约，结合类型化可接受性检查、事件条件验证与校准干预门。只有替代动作满足所有激活契约且带来清晰低风险改进时才会干预，否则保留默认动作或调用弃权回退。该方法分离选择器与提案质量，提升了WAM介入的安全性与可解释性。",
+      "llm_tldr": "世界行动模型以动作条件下的预测未来增强机器人策略，但单凭未来合理性不足以改变双机械臂策略的动作。CoWAM把同步、角色兼容和碰撞收敛表达为协调契约，结合类型化可接受性检查、事件条件验证与校准干预门。只有替代动作满足所有激活契约且带来清晰低风险改进时才会干预，否则保留默认动作或调用弃权回退。该方法分离选择器与提案质量，提升了WAM介入的安全性与可解释性。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.05647v1",
+      "source": "arxiv",
+      "title": "KILVO: Kinematic-Inertial-LiDAR-Visual Odometry with Robust Multimodal Adaptation for Humanoid Robots",
+      "abstract": "This article presents a kinematic-inertial-LiDAR-visual odometry for humanoid robots, called KILVO. Tailored to the platform features, requirements, and real-world complexity, it fully utilizes the sensors commonly equipped on humanoid robots, including joint encoders, IMU, LiDAR, and camera, within an asynchronous-sequential hybrid error-state iterated Kalman filter (ESIKF). Specifically, inertial data are used for prediction, leg kinematics are processed asynchronously at a high rate and provide proprioceptive constraints, while exteroception is updated sequentially, first by registering LiDAR points for geometric priors and then by updating the visual component via photometric errors. Moreover, the framework is elaborately designed with multimodal adaptation for resilience to sensor failures. A compact contact estimation module is also developed, sharing information with state estimation without additional sensors. Extensive experiments on public datasets and in the real world across multiple humanoid robots, gait patterns, and scenarios demonstrate that KILVO achieves highly competitive accuracy, efficiency, and output rates, with strong robustness against sensor degradation and failures, making it more suitable for humanoid robots than state-of-the-art fusion methods. Our code and datasets are released on GitHub.",
+      "authors": [
+        "Jixin Gao",
+        "Fucheng Liu",
+        "Teng Zhang",
+        "Fusheng Zha"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-06T06:43:09+00:00",
+      "link": "https://arxiv.org/pdf/2608.05647v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "multimodal odometry specifically designed for humanoid robots",
+      "llm_evidence_cn": "针对人形机器人设计的多模态里程计",
+      "llm_evidence": "针对人形机器人设计的多模态里程计",
+      "canonical_evidence": "针对人形机器人设计的多模态里程计",
+      "llm_tldr_en": "KILVO combines kinematic, inertial, LiDAR, and visual cues in an asynchronous ESIKF to provide robust odometry tailored to humanoid robots.",
+      "llm_tldr_cn": "人形机器人在复杂环境中需要可靠的位姿估计，但现有里程计未充分利用其特有的关节编码器等传感器。本文提出KILVO，一种针对人形机器人特点的异步-顺序混合误差状态迭代卡尔曼滤波里程计，深度融合关节编码器、IMU、LiDAR和相机数据，腿部运动学提供高频本征约束，外观传感器依序更新。由于专为人形平台设计，系统在真实世界条件下展现出更强的鲁棒性和精度。该工作为人形机器人的感知系统提供了重要支撑。",
+      "llm_tldr": "人形机器人在复杂环境中需要可靠的位姿估计，但现有里程计未充分利用其特有的关节编码器等传感器。本文提出KILVO，一种针对人形机器人特点的异步-顺序混合误差状态迭代卡尔曼滤波里程计，深度融合关节编码器、IMU、LiDAR和相机数据，腿部运动学提供高频本征约束，外观传感器依序更新。由于专为人形平台设计，系统在真实世界条件下展现出更强的鲁棒性和精度。该工作为人形机器人的感知系统提供了重要支撑。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "humanoid robot",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.02958v1",
+      "source": "arxiv",
+      "title": "ValueFormer: A Causal Transformer Value Function with Stage-Aware Labels for Semi-Autonomous Vision-Language-Action Policies",
+      "abstract": "Vision-Language-Action (VLA) policies trained by behavior cloning fail silently: from the action stream alone, a collapsing rollout looks much like one making clean progress, because imitation supplies no notion of progress. Reinforcement learning would supply one, but it is impractical here, where real-robot experience is costly and deformable food resists simulation. The cheap alternative, a terminal success / failure bit, is learnable in principle yet far too sparse to say when a rollout went wrong. We argue that the per-frame label, not the architecture, is the hard part: to be useful it must be dense, continuous, and correctly shaped. We present ValueFormer, a compact policy-agnostic causal transformer over a frozen DINOv3 backbone that emits two per-frame signals in one forward pass: a smooth Monte Carlo value, V_mc, for advantage estimation and a sharp binary value for online mistake detection, targets that pull in opposite directions by design. Failed episodes are labeled with a stage-aware, success-then-decay return that preserves the success curve before the failure stage, and detection is supervised from mistake intervals rather than a single failure time, so mistakes the policy recovers from also carry signal. On a real-robot bimanual sandwich-assembly task 1,427 episodes), a critic-derived per-frame training weight lifts task completion from 70% to 85% (within noise at n=20), and a batched bf16 encoder cuts the live serving cost 3~5 times so the critic runs at 2 Hz alongside the policy on a single GPU.",
+      "authors": [
+        "Inkyu Sa",
+        "Konstantin Stulov",
+        "Rajat Bhageria"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-08-03T23:46:39+00:00",
+      "link": "https://arxiv.org/pdf/2608.02958v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "causal transformer value function for VLA policies",
+      "llm_evidence_cn": "面向VLA策略的因果Transformer价值函数",
+      "llm_evidence": "面向VLA策略的因果Transformer价值函数",
+      "canonical_evidence": "面向VLA策略的因果Transformer价值函数",
+      "llm_tldr_en": "Identifies per-frame label quality as the bottleneck for VLA behavior cloning and presents ValueFormer, a causal transformer value function with stage-aware dense continuous labels for semi-autonomous policies.",
+      "llm_tldr_cn": "VLA行为克隆无法从动作流判断策略是否正在崩溃，强化学习又因真实机器人成本高而不可行。本文指出逐帧标签的质量才是关键，并提出ValueFormer，一个策略无关的因果Transformer价值函数，利用阶段感知的稠密连续标签训练，用于半自主策略。该方法为VLA提供进度信号，有助于在部署中检测失败和辅助决策。",
+      "llm_tldr": "VLA行为克隆无法从动作流判断策略是否正在崩溃，强化学习又因真实机器人成本高而不可行。本文指出逐帧标签的质量才是关键，并提出ValueFormer，一个策略无关的因果Transformer价值函数，利用阶段感知的稠密连续标签训练，用于半自主策略。该方法为VLA提供进度信号，有助于在部署中检测失败和辅助决策。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "action generation in robotics using language models",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.01851v1",
+      "source": "arxiv",
+      "title": "Weights or Skills? A Survey of Robot-Learning Techniques: from Action-Predicting Weights to Robots that Write their Own Skills",
+      "abstract": "Robot learning is splitting into two bets: policies that bake competence into frozen weights (vision-language-action, or VLA, models), and agents that write and refine their own executable skills as code. This survey organises the field around that axis of weights versus skills. Its central analytical contribution is a deep-dive that arranges code-as-policy methods by their degree of self-improvement, from zero-shot program synthesis, through closed-loop self-repair and persistent skill memory, to the sparsely populated cell in which execution feedback, skill memory, and evolutionary search combine into one open-ended loop; only a few very recent systems (for example ASPIRE, ENPIRE, and RoboClaw) occupy that cell. We map the complementary \"skills\" pole, from unsupervised reinforcement-learning skill discovery to large-language-model skill libraries, and show that the word \"skill\" is used in at least five distinct senses, of which only the code sense self-improves without gradient updates. We then connect the taxonomy to the emerging skill economy: commercial robot-skill marketplaces now distribute one-tap skills across robots but ship only static playback, which surfaces open problems of adaptation, cross-embodiment portability, provenance, safety verification, composition, and standardisation. This is a deliberately focused survey. Rather than cataloguing the field exhaustively, it examines 77 representative systems across six technique families through one taxonomy and a set of contrast tables, and it supplies operational definitions of the self-improvement mechanisms together with a statement of what each family cannot do.",
+      "authors": [
+        "Gaytri Jena",
+        "Kapil Wanaskar",
+        "Vinija Jain",
+        "Aman Chadha",
+        "Vasu Sharma",
+        "Amitava Das"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-08-03T07:58:35+00:00",
+      "link": "https://arxiv.org/pdf/2608.01851v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "survey of robot-learning covering VLA action generation and code-as-policy skills",
+      "llm_evidence_cn": "涵盖VLA动作生成与代码式技能策略的机器人学习综述",
+      "llm_evidence": "涵盖VLA动作生成与代码式技能策略的机器人学习综述",
+      "canonical_evidence": "涵盖VLA动作生成与代码式技能策略的机器人学习综述",
+      "llm_tldr_en": "A survey organizing robot learning around frozen-weight VLA policies versus self-improving code-as-policy agents, providing a taxonomy and highlighting open-ended skill learning loops.",
+      "llm_tldr_cn": "机器人学习领域正分化为两种技术路线：将能力固化在权重中的视觉-语言-动作（VLA）模型，以及自主编写并改进可执行技能代码的智能体。该综述围绕'权重vs技能'这一主线系统梳理了研究进展，并按自我改进程度将代码即策略方法划分为零样本程序合成、闭环自修复和持久技能记忆等层次。分析指出，只有极少数系统（如ASPIRE、ENPIRE、RoboClaw）开始将执行反馈、技能记忆与进化搜索结合为开放循环，为该领域指出明确的研究空白与未来方向。",
+      "llm_tldr": "机器人学习领域正分化为两种技术路线：将能力固化在权重中的视觉-语言-动作（VLA）模型，以及自主编写并改进可执行技能代码的智能体。该综述围绕'权重vs技能'这一主线系统梳理了研究进展，并按自我改进程度将代码即策略方法划分为零样本程序合成、闭环自修复和持久技能记忆等层次。分析指出，只有极少数系统（如ASPIRE、ENPIRE、RoboClaw）开始将执行反馈、技能记忆与进化搜索结合为开放循环，为该领域指出明确的研究空白与未来方向。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "action generation in robotics using language models",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.04933v1",
+      "source": "arxiv",
+      "title": "Mimir: A Neuro-Symbolic Memory System with Dynamic Grounding for Embodied Agents in Interactive Environments",
+      "abstract": "Long-horizon embodied task requires agents to act under partial observability while preserving both scene belief and execution progress. Flat histories or implicit policy states may contain past observations, but they do not provide an explicit interface for deciding which world facts support the currently active goal. We introduce Mimir, a neuro-symbolic memory that separates world memory from task memory and dynamically grounds them before each action. World memory maintains object locations, object states, and perceptual evidence, while task memory maintains an ordered goal agenda, progress state, hand state, failures, and execution constraints. A grounding module binds the active goal to recalled world candidates, fills missing source locations, and attaches evidence before planning and embodiment-specific execution. Across tested backbones, Mimir consistently improves on different EB-ALFRED and EB-Habitat tasks, with maximum gains of 42.5% and average gains of 23.0%, respectively. Compared with the best results among prior agent and memory systems evaluated under the same backbone, Mimir improves the overall average success rate by 8.5%. Finally, on the EB-Habitat Long-horizon subset, Mimir achieves 86.0% success rate, substantially outperforming current closed-source models. Our code will be released soon.",
+      "authors": [
+        "Haoming Xu",
+        "Zhenlin He",
+        "Hengyi Wang",
+        "Jiafeng Xu",
+        "Hao Dong"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-05T14:57:24+00:00",
+      "link": "https://arxiv.org/pdf/2608.04933v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "neuro-symbolic memory system for embodied agents",
+      "llm_evidence_cn": "面向具身智能体的神经符号记忆系统",
+      "llm_evidence": "面向具身智能体的神经符号记忆系统",
+      "canonical_evidence": "面向具身智能体的神经符号记忆系统",
+      "llm_tldr_en": "Introduces Mimir, a neuro-symbolic memory separating world and task memory with dynamic grounding, improving long-horizon embodied task performance under partial observability.",
+      "llm_tldr_cn": "针对长时程具身任务中部分可观测与历史信息缺乏显式结构的问题，提出神经符号记忆系统Mimir，将世界记忆与任务记忆分离，并在动作前动态接地。世界记忆维护物体位置、状态与感知证据，任务记忆维护目标进度与失败约束，接地模块将活动目标绑定到相关世界候选，提升了具身智能体的决策质量。",
+      "llm_tldr": "针对长时程具身任务中部分可观测与历史信息缺乏显式结构的问题，提出神经符号记忆系统Mimir，将世界记忆与任务记忆分离，并在动作前动态接地。世界记忆维护物体位置、状态与感知证据，任务记忆维护目标进度与失败约束，接地模块将活动目标绑定到相关世界候选，提升了具身智能体的决策质量。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "embodied artificial intelligence for humanoid robots",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.06221v1",
+      "source": "arxiv",
+      "title": "Robot Learning from Human Demonstrations: Handwritten Alphabet Trajectories and Human-Likeness Evaluation",
+      "abstract": "Learning from demonstration (LfD) provides a developmental framework through which robots can develop motor skills by observing and imitating human dynamics, reducing reliance on explicit programming to teach a skill to a robot. The resulting human-like robot motion is recognised as a key factor in building trust and enabling natural collaboration in human-robot interaction. This paper presents a framework for learning human-like robot motion from demonstration, including data collection, probabilistic trajectory learning, and perceptual user evaluation. A dataset of 3,142 handwriting demonstrations was collected from 22 participants across all 52 Latin alphabet character-case combinations via a touchscreen teleoperation interface, capturing planar position, contact force, and timing. Building on the widely used Gaussian Mixture Model and Gaussian Mixture Regression approach for learning from demonstration, the framework is extended in this work by incorporating force and normalised time dimensions to enable richer representation of human dynamics, and adapting it to handle non-continuous, multi-segment trajectories, enabling generalisation across demonstrations. A user study with 21 participants evaluated the perceived human-likeness of the generated trajectories using a continuous scale anchored between robotic and human-like motion, normalised to 0-100 where 50 represents the neutral midpoint. The generated trajectories achieved an overall human-likeness score of 71.50 (SD=22.56), indicating that the majority of trajectories were perceived as more human-like. Participants identified geometric positioning and trajectory sequence as the most influential perceptual factors, and reported positive attitudes toward human-like robot behaviour. The datasets are released as open-source, providing a reproducible benchmark for developing and evaluating human-like robot motion methods.",
+      "authors": [
+        "Alperen Kenan",
+        "Paul Bremner",
+        "Manuel Giuliani"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.HC",
+        "cs.LG"
+      ],
+      "published": "2026-08-06T16:12:18+00:00",
+      "link": "https://arxiv.org/pdf/2608.06221v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "learning human-like robot motion from demonstration for control",
+      "llm_evidence_cn": "通过示教学习类人机器人运动，用于机器人控制",
+      "llm_evidence": "通过示教学习类人机器人运动，用于机器人控制",
+      "canonical_evidence": "通过示教学习类人机器人运动，用于机器人控制",
+      "llm_tldr_en": "Presents an LfD framework for human-like robot motion, collecting 3,142 handwriting demonstrations and using probabilistic trajectory learning plus perceptual evaluation.",
+      "llm_tldr_cn": "针对机器人运动技能依赖显式编程的问题，提出基于示教学习的框架，通过触摸屏遥操作收集22名参与者的手写轨迹数据，采用概率轨迹学习建模类人运动，并通过用户感知评估验证其自然性。实验表明该方法能生成具有人类相似性的机器人运动，有助于人机交互中的信任建立。",
+      "llm_tldr": "针对机器人运动技能依赖显式编程的问题，提出基于示教学习的框架，通过触摸屏遥操作收集22名参与者的手写轨迹数据，采用概率轨迹学习建模类人运动，并通过用户感知评估验证其自然性。实验表明该方法能生成具有人类相似性的机器人运动，有助于人机交互中的信任建立。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "humanoid robot control and manipulation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
