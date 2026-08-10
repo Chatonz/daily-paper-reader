@@ -6,38 +6,55 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-09
-- 运行时间：2026-08-09 20:09:48 UTC
+- 最新运行日期：2026-08-10
+- 运行时间：2026-08-10 20:30:54 UTC
 - 运行状态：成功
-- 本次总论文数：6
-- 精读区：3
-- 速读区：3
+- 本次总论文数：11
+- 精读区：7
+- 速读区：4
 
 ### 今日简报（AI）
-今日共读6篇机器人学习论文，精读聚焦选择性策略干预与因果价值函数，速读覆盖技能综述、神经符号记忆及示教轨迹。最值得关注的是CoWAM（9.0分）提出的协调契约机制，以及ValueFormer（8.0分）引入阶段感知标签的因果Transformer方法。建议先精读CoWAM理解策略干预核心，再速览机器人技能综述，建立整体框架。
-- 详情：[/202608/09/README](/202608/09/README)
+1) 今日精读7篇、速读4篇，重点锁定世界模型与3D场景导航两大前沿方向。  
+2) 最值得看《Decoupling Intention from Trajectory》满分提出意图-轨迹解耦框架，以及《WNM-3D》用3D场景条件提升闭环VLN导航性能。  
+3) 若时间有限，优先关注“世界动作模型”如何提升具身智能决策，再结合视觉-语言-动作模型（VLA）的后续演进。
+- 详情：[/202608/10/README](/202608/10/README)
 
 ### 精读区论文标签
-1. [CoWAM: Coordination Contracts for Selective Policy Intervention with WAMs](/202608/09/2608.02578v1-cowam-coordination-contracts-for-selective-policy-intervention-with-wams)  
+1. [Decoupling Intention from Trajectory: A Representational Deduction Framework for World Action Models](/202608/10/2608.06994v1-decoupling-intention-from-trajectory-a-representational-deduction-framework-for-world-action-models)  
+   标签：评分：10.0/10、query:human-aigc
+   evidence：解耦意图与轨迹的世界行动模型框架，直接对应世界行动模型需求
+2. [WNM-3D: A World Navigation Model with 3D Scene Conditioning for Closed-Loop VLN](/202608/10/2608.07267v1-wnm-3d-a-world-navigation-model-with-3d-scene-conditioning-for-closed-loop-vln)  
    标签：评分：9.0/10、query:human-aigc
-   evidence：面向世界行动模型的选择性策略干预协调契约
-2. [ValueFormer: A Causal Transformer Value Function with Stage-Aware Labels for Semi-Autonomous Vision-Language-Action Policies](/202608/09/2608.02958v1-valueformer-a-causal-transformer-value-function-with-stage-aware-labels-for-semi-autonomous-vision-language-action-policies)  
+   evidence：结合3D场景条件的世界导航模型
+3. [CrossTracer: Cross-Embodiment Navigation via VLA Model Reasoning and Trace Residuals Adapting](/202608/10/2608.06688v1-crosstracer-cross-embodiment-navigation-via-vla-model-reasoning-and-trace-residuals-adapting)  
    标签：评分：8.0/10、query:vla-humanoid
-   evidence：面向VLA策略的因果Transformer价值函数
-3. [KILVO: Kinematic-Inertial-LiDAR-Visual Odometry with Robust Multimodal Adaptation for Humanoid Robots](/202608/09/2608.05647v1-kilvo-kinematic-inertial-lidar-visual-odometry-with-robust-multimodal-adaptation-for-humanoid-robots)  
+   evidence：利用视觉-语言-动作模型生成导航动作轨迹
+4. [AtlasVLA: Persistent World-Ego State Modeling for Vision-Language-Action Models](/202608/10/2608.06729v1-atlasvla-persistent-world-ego-state-modeling-for-vision-language-action-models)  
+   标签：评分：8.0/10、query:vla-humanoid
+   evidence：视觉-语言-动作模型的持久世界-自我状态
+5. [Is Forward Prediction Enough? Physical State Grounding for JEPA World Models](/202608/10/2608.06799v1-is-forward-prediction-enough-physical-state-grounding-for-jepa-world-models)  
    标签：评分：8.0/10、query:human-aigc
-   evidence：针对人形机器人设计的多模态里程计
+   evidence：具有物理状态锚定的JEPA世界模型
+6. [Cross-View Action Consistency for Camera-Robust Vision-Language-Action Policies](/202608/10/2608.06965v1-cross-view-action-consistency-for-camera-robust-vision-language-action-policies)  
+   标签：评分：8.0/10、query:vla-humanoid
+   evidence：通过跨视角动作一致性提升VLA策略的相机鲁棒性
+7. [SimWAM: A Simple World Action Model for End-to-End Autonomous Driving](/202608/10/2608.07468v1-simwam-a-simple-world-action-model-for-end-to-end-autonomous-driving)  
+   标签：评分：8.0/10、query:human-aigc
+   evidence：将视频生成仅作为训练信号的世界行动模型，应用于自动驾驶
 
 ### 速读区论文标签
-1. [Weights or Skills? A Survey of Robot-Learning Techniques: from Action-Predicting Weights to Robots that Write their Own Skills](/202608/09/2608.01851v1-weights-or-skills-a-survey-of-robot-learning-techniques-from-action-predicting-weights-to-robots-that-write-their-own-skills)  
+1. [TEMPO: Semantic-Action Decoupled RL Post-Training for Vision-Language-Action Models](/202608/10/2608.07314v1-tempo-semantic-action-decoupled-rl-post-training-for-vision-language-action-models)  
+   标签：评分：8.0/10、query:vla-humanoid
+   evidence：VLA模型的语义-动作解耦双时间尺度强化学习后训练
+2. [Depth-Wise Probing and Pruning of the Planning Token in a Driving Vision-Language-Action Model](/202608/10/2608.07361v1-depth-wise-probing-and-pruning-of-the-planning-token-in-a-driving-vision-language-action-model)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：涵盖VLA动作生成与代码式技能策略的机器人学习综述
-2. [Mimir: A Neuro-Symbolic Memory System with Dynamic Grounding for Embodied Agents in Interactive Environments](/202608/09/2608.04933v1-mimir-a-neuro-symbolic-memory-system-with-dynamic-grounding-for-embodied-agents-in-interactive-environments)  
+   evidence：对驾驶VLA规划token进行逐层探针与剪枝，方法可迁移至人形VLA分析
+3. [Capek 0.5: An Execution-Centric Vision-Language Model for Embodied Intelligence](/202608/10/2608.06756v1-capek-05-an-execution-centric-vision-language-model-for-embodied-intelligence)  
    标签：评分：6.0/10、query:vla-humanoid
-   evidence：面向具身智能体的神经符号记忆系统
-3. [Robot Learning from Human Demonstrations: Handwritten Alphabet Trajectories and Human-Likeness Evaluation](/202608/09/2608.06221v1-robot-learning-from-human-demonstrations-handwritten-alphabet-trajectories-and-human-likeness-evaluation)  
+   evidence：以执行为中心的具身视觉语言模型，关联具身智能主题
+4. [Representation Handoffs for OpenArm-Based Laboratory Mobile Manipulation](/202608/10/2608.07154v1-representation-handoffs-for-openarm-based-laboratory-mobile-manipulation)  
    标签：评分：6.0/10、query:vla-humanoid
-   evidence：通过示教学习类人机器人运动，用于机器人控制
+   evidence：基于OpenArm的移动操作原型，通过技能接口与表示交接实现语言引导的操作技能，与操作技能需求相关。
 
 
 <div class="dpr-home-promo-card">
