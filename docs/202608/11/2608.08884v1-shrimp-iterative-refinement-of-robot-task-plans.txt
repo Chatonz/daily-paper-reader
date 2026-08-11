@@ -1,0 +1,721 @@
+Title: SHRIMP: Iterative Refinement of Robot Task Plans
+
+URL Source: https://arxiv.org/pdf/2608.08884v1
+
+Published Time: Tue, 11 Aug 2026 01:59:53 GMT
+
+Number of Pages: 18
+
+Markdown Content:
+# SHRIMP : Iterative Refinement of Robot Task Plans 
+
+## Mya Schroder 
+
+mcschroder@wisc.edu Department of Computer Sciences University of Wisconsin–Madison Madison, Wisconsin, USA 
+
+## Yuna Hwang 
+
+yunahwang@cs.wisc.edu Department of Computer Sciences University of Wisconsin–Madison Madison, Wisconsin, USA 
+
+## Callie Y. Kim 
+
+cykim6@cs.wisc.edu Department of Computer Sciences University of Wisconsin–Madison Madison, Wisconsin, USA 
+
+## Leqian Cheng 
+
+lcheng89@wisc.edu Department of Computer Sciences University of Wisconsin–Madison Madison, Wisconsin, USA 
+
+## Jeffrey Li-cheng Liu 
+
+jlliu3@wisc.edu Department of Computer Sciences University of Wisconsin–Madison Madison, Wisconsin, USA 
+
+## Chenchen Zheng 
+
+czheng88@wisc.edu Department of Computer Sciences University of Wisconsin–Madison Madison, Wisconsin, USA 
+
+## Xinning He 
+
+xinning.he@wisc.edu Department of Computer Sciences University of Wisconsin–Madison Madison, Wisconsin, USA 
+
+## Bilge Mutlu 
+
+bilge@cs.wisc.edu Department of Computer Sciences University of Wisconsin–Madison Madison, Wisconsin, USA Tasks  
+
+> pick
+> bowl
+> pick
+> cup Execute
+> Clean up the table
+
+User enters task prompt 
+
+1
+
+Plan is executed on the physical robot 
+
+4
+
+User iteratively refines plan in simulation 
+
+3
+
+LLM+Vision translate user input and environment perception into human-readable 
+
+primitives 
+
+2
+
+Plan validation checks viability of primitive plan 
+
+## +
+
+Figure 1: We introduce SHRIMP , a system that allows users to automatically generate a hierarchical robot primitive plan using natural language and iteratively revise their plan in simulation through re-prompting and explicit correction, before executing it on the robot. 
+
+## Abstract 
+
+As collaborative robots have entered domains such as manufactur-ing, agriculture, and healthcare, programming or adapting robot behavior typically requires robotic expertise that most end users lack. Natural language lowers this barrier. Recent advancements in large language models (LLMs) have made it feasible to translate natural language into robot task plans. However, language-based task specification can suffer from semantic ambiguity, and genera-tive models lack transparency for how language instructions are translated into robot actions, making it difficult for users to vali-date plans before execution. To address these issues, we introduce 
+
+SHRIMP : Simulation-driven Human-in-the-loop Refinement 
+
+> This work is licensed under a Creative Commons Attribution 4.0 International License.
+> UIST ’26, Detroit, MI, USA
+> © 2026 Copyright held by the owner/author(s). ACM ISBN 979-8-4007-2856-3/2026/11 https://doi.org/10.1145/3830398.3830644
+
+Interface for Manipulation Planning . SHRIMP allows users to automatically generate a hierarchical robot primitive plan us-ing natural language and iteratively revise their plan through re-prompting and explicit correction. At each revision, SHRIMP allows users to validate their plan in simulation, and once satisfied, ex-ecute it on the physical robot. Through a user study involving participants planning tabletop kitchen tasks ( 𝑁 = 35), we validate that SHRIMP improves perceived control and enhances robot trans-parency. System videos and source code are available at https://wisc-hci.github.io/SHRIMP. 
+
+## CCS Concepts 
+
+• Human-centered computing → Natural language interfaces ; • 
+
+Computer systems organization → External interfaces for robotics .
+
+## Keywords 
+
+end-user programming, robot planning, natural language interface arXiv:2608.08884v1 [cs.RO] 9 Aug 2026 UIST ’26, November 02–05, 2026, Detroit, MI, USA Schroder et al.    
+
+> ACM Reference Format:
+> Mya Schroder, Yuna Hwang, Callie Y. Kim, Leqian Cheng, Jeffrey Li-cheng Liu, Chenchen Zheng, Xinning He, and Bilge Mutlu. 2026. SHRIMP : Iterative Refinement of Robot Task Plans. In The 39th Annual ACM Symposium on User Interface Software and Technology (UIST ’26), November 02–05, 2026, Detroit, MI, USA. ACM, New York, NY, USA, 18 pages. https://doi.org/10. 1145/3830398.3830644
+
+## 1 Introduction 
+
+Collaborative robots ( i.e. , cobots) have been deployed to manufac-turing, automotive, agriculture, and healthcare contexts [37, 51]. These robots are designed to operate alongside humans to improve productivity and safety and to be reprogrammed on-the-fly by their users to adapt to various tasks [51]. As these users may not always have robotics expertise, successful integration requires user-friendly task planning interfaces that interpret high-level, operator intent, such as a robot skill or task [37, 51]. Current non-expert cobot programming tools, such as a teach pendant, remain difficult for non-experts to use [15, 19], as they operate at a low-level, re-quiring users to specify robot joint positions and construct plans step-by-step from scratch. These limitations motivate the develop-ment of alternative interface modalities that support higher-level robot planning. Natural language offers an accessible way for non-expert users to convey intent for robot task plans. Recent advances in Large Language Models (LLMs) and Vision-Language-Action (VLA) mod-els now make it feasible to translate this input into executable plans. These models have demonstrated capabilities in reasoning and semantically-valid decision making [55, 58]. However, a key limitation of language-based task specification is its inherent impre-cision and ambiguity ( e.g. , the statement, “move the object left,” does not specify the movement distance, whether the reference is ego-or exo-centric, or which object should be manipulated) [13, 34, 42]. This limitation is especially problematic in robot planning, where tasks must be translated into precise pose goals and trajectories. Additionally, generative models, especially VLA models, are often “black-boxes,” limiting the users’ ability to validate task plans before execution on the robot. Even when LLMs produce plans in textual format, or provide user-interpretable explanations, complex robot plans can still be difficult for the user to interpret and verify before execution [11]. To address the ambiguity of language and the limited trans-parency of generative models, while keeping the accessibility of lan-guage for non-experts, we propose SHRIMP : Simulation-driven 
+
+Human-in-the-loop Refinement Interface for Manipulation 
+
+Planning . SHRIMP allows users to specify tasks in natural language, automatically generates a corresponding robot plan using an LLM, and represents that plan as a hierarchy of primitives that can be reviewed and refined in simulation. This combination of structured plan decomposition and physics-grounded simulation supports a complete iterative loop of inspection, correction, and verification. Unlike existing LLM-based robot planning systems [18, 26], SHRIMP 
+
+does not simplify perception and does not rely heavily on text- or code-centric verification and correction. 
+
+SHRIMP prompts users to disambiguate their task within an it-erative plan refinement process, where they adjust the sequence of primitives in a plan or the parameter values of those primitives (e.g. , robot end-effector poses) via natural language re-prompting or explicit correction. After each update, users can test their plans in simulation, to ensure that they align with their original intent before executing on the physical robot. The simulation supports full-execution and step-by-step primitive action playback, and acts as a safe environment to facilitate iterative refinement without the risk of physical collisions or damage. 
+
+SHRIMP improves plan transparency by presenting each plan as a sequence of high- and low-level robot primitives. The primitive rep-resentation gives users control over the level of abstraction at which they wish to engage with the plan. Additionally, the simulation provides transparency into the expected execution of the plan. Be-cause our simulation is fully physics-based, it shows realistic object manipulations, allowing users to identify issues such as unintended object motion or incorrect placement that are not implemented in prior work that solely rely on trajectory-only visualizations [14, 26]. To evaluate SHRIMP , we perform an ablation study ( 𝑁 = 35), where we justify the importance of our system features. Our study shows that SHRIMP provides users with increased control and im-proved transparency compared to the baseline, in which no robot primitive plans are visible nor editable. Our work makes the following contributions: (1) System Contribution : SHRIMP enables physics-grounded ro-bot plan iteration by allowing users to refine generated plans through multi-level language and primitive editing, increas-ing transparency and control during refinement. (2) Empirical Contribution : We evaluate the effectiveness of SHRIMP 
+
+through an ablation study and investigate user-perceived levels of control and transparency over LLM-generated robot plans. (3) Design & Research Implications : We present design and re-search implications on robot planning based on our eval-uation. We provide insights on how to improve end-user transparency and control. 
+
+## 2 Related Works 2.1 End-User Robot Task Planning Systems 
+
+With the increasing prevalence of robots in various domains, there is much research done on end-user robot programming (EURP). End-user robot programming, by definition, aims to keep non-robot experts in-the-loop for the creation and maintenance of robot pro-grams (see [2] for a survey of existing EURP systems). To alleviate user burden while programming robotic systems, many programming modalities have been implemented and tested, including interfaces that rely on visual programming paradigms, augmented and mixed reality (AR/VR) devices, programming-by-demonstration (PbD) techniques, natural language programming paradigms, and tangible interfaces [2, 10, 21, 25, 36, 38, 40, 46, 49]. Our work connects to existing EURP interfaces that are visual-based and those that operate based on natural language. In order to further assist end-users in communicating their programming intent, many previous works use the concept of primitives, which are units of robot actions that are exposed to the user to imply feasible, robot functionalities. For visual programming interface, block-based programming interfaces are prevalent [3, 6, 23, 39, 44, 50]. Other EURP systems SHRIMP : Iterative Refinement of Robot Task Plans UIST ’26, November 02–05, 2026, Detroit, MI, USA aecbd
+
+> f
+
+Figure 2: SHRIMP Interface — This diagram outlines the user workflow with the interface, from submitting a natural language task prompt to executing the plan on the physical robot. A description of steps a–f is provided in Section 3.1. 
+
+provide users with more granular and hierarchical structures of robot programs, where Guerin et al. [20] express robot program control flows as block-based, tree structures, and Liang et al. [30] distinguish between high- and low-level robot primitives and dis-play it on a visual interface, which is the closest to our work. Additional existing works on robot task specification take ad-vantage of natural language programming. There have been many works in this realm even prior to the advent of LLMs, where users could easily type in their instructions in a text box. For example, Beschi et al. [6] and Huang and Cakmak [23] implemented a natural language interaction component into their system, where users can enter the desired robot behaviors and the system parses those into pre-defined robot actions. However, these systems are rigid due to hard-coded features and no support for revising instructions. 
+
+## 2.2 Robot Task Planning with LLMs 
+
+Robotic task planning interfaces have increasingly leveraged LLMs to bridge the gap between high-level human instructions and low-level robot execution [28, 53]. Early works focused on ground-ing LLM reasoning in physical affordances to ensure that gener-ated plans are executable. Systems like SayCan [1] combine LLM-generated actions with learned value functions to select feasible behaviors, while VoxPoser [24] constructs composable 3D value maps from language to guide motion planning in open-vocabulary settings. Vision-Language-Action (VLA) models such as RT-2 [58] enable end-to-end mapping from semantic inputs to robot actions through large-scale co-training. Other work, like ProgPrompt [48] represents tasks as executable code with assertions and recovery steps. AutoGPT+P [7] combines LLMs with classical planners by translating language into symbolic goals and adapting to missing objects. However, such systems typically lack interfaces for users to review or modify generated plans, making them difficult to verify and limit their reusability across tasks. To address this limitation, recent work has begun to explore human-centric interfaces that aim to make robot programming more accessible. Systems such as Alchemist [26] and Cocobo [18] enable users to author and modify robot behaviors through natural language, code, or graphical abstractions, and Dong et al. [16] in-corporates retrieval-based knowledge to support domain-specific programming. Merlo et al. [33] allows the use of natural language feedback to assist with revisions during plan execution; however, in their system, revision is limited to verbal communication. Also, these systems remain limited in both capability and usability: per-ception is often constrained to simplified settings and interfaces are largely text- or code-centric. As a result, users must rely on manual inspection to verify generated plans, with little support for interactive editing or simulation prior to deployment. This highlights the need for systems that tightly integrate grounded perception, structured planning, and intuitive interfaces, enabling users to interactively inspect, refine, and validate robot task plans before execution. 
+
+## 2.3 Robot Plan Visualization & Simulation 
+
+Previous research has examined many different forms of end-user-visible robot plan representations. Mahadevan et al. [31], for exam-ple, provides users with opportunities to manipulate the environ-ment to build a timeline of visual plan steps [31] and Darboven et al. [14] use RViz to visualize robot plans so that end users can detect errors before deployment [14]. Overall, these examples show the importance of visualizing robot behavior prior to task execution; however, they primarily focus on either previewing robot motion or inspecting the robot’s plan, rather than iteratively planning robot manipulation based on the richness of the robot’s interactions with objects in its environment. More recently, user interfaces have emerged that support plan revision. In particular Kuts et al. [29] presents a simulation-based digital twin planning environment that uses game-engine physics to conduct realistic manipulation simulations. Similarly, Matthaiakis et al. [32] uses simulation to allow users to reference and modify robot plans [32]. However, these systems do not take advantage of automatic plan generation, nor do they include general perception of the current scene. Our work extends these research directions by UIST ’26, November 02–05, 2026, Detroit, MI, USA Schroder et al. 
+
+Figure 3: Plan Interaction — After the initial simulation execution, users can step through the plan by selecting each primitive (yellow highlight), at either the high level (gray primitives) or low level (purple primitives), to observe the robot executing each step. In this particular example, the task is to Clean the Table .
+
+integrating automated planning with a physics-based interactive simulation to provide an avenue for iterative plan improvement. 
+
+## 3 The SHRIMP Interface 3.1 User Workflow 
+
+SHRIMP supports end-user creation of tabletop task plans for a bi-manual robot arm system. The interface contains a digital twin of the robot setup and objects so the plan can be tested in simulation before being executed on the robot (see Figure 2). This encourages users to continuously edit and revise their plan in a safe environ-ment. Additionally, since the simulation is physics based, users can verify object-robot interaction within the plan ( i.e. , if a bowl is dropped at the edge of the bin, does it land in the bin or fall off the side). The user interaction flow is illustrated in Figure 2 and described as follows. 
+
+Users track the scene to replicate objects from the physical environment within the simulation. 
+
+Then, users enter their task prompt ( i.e. , “Clean up the table by putting everything in the box”). 
+
+The hierarchical primitive plan is automatically generated, which users can execute in simulation. The plan consists of both high- and low-level robot primitives. Users can expand the high-level primitives to view the low-level primitives. After initial exe-cution, users can step through the hierarchical plan (at either the high- or low- level) to observe what happens after each primitive (see Figure 3). 
+
+Users can edit the plan by either re-prompting, re-ordering/adding primitives, or modifying the primitive parameters. While pose pa-rameters are being edited, a red arrow appears in simulation to indicate the pose. 
+
+Any new or edited plans appear in Task History, under the parent plan. Users can revert back to previous plans if desired and iterate from there. 
+
+Once satisfied with their plan, users can execute it on the phys-ical robot. 
+
+## 3.2 Plan Generation 
+
+3.2.1 Primitives. The hierarchical robot plan consists of low- and high-level primitives. Low-level primitives are the basic building blocks of robot actions. High-level primitives are sequences of low-level primitives. Each primitive has its own parameters. This hierarchical primitive decomposition is an explicit design choice that enables step-level plan inspection, simulation, and parameter editing. See Table 1 for the full list of primitives that we developed. 
+
+3.2.2 LLM Generation. We used GPT 5.1 [47] as our LLM, selected for its accessibility, reproducibility, and reliability with our system. The LLM is provided with the robot configuration, list of available primitives, the positions of all the objects in the scene, and the user’s natural language task description. The LLM is prompted to generate the sequence of primitives needed to complete the plan, prioritizing high-level primitives. See Appendix B for examples of participant task prompts and resulting plans. 
+
+3.2.3 Plan Verification. After the plan is generated, it undergoes three validation checks to ensure robustness. The first check con-firms that grasp primitives with object parameters correctly target the intended object. This is done by calculating expected object and robot positions at each step of the plan and checking that the prior move_to_pose primitives put the gripper within grasping range of the object. If the primitive parameters position the robot gripper too far from the object, the pose parameters are replaced with those from the object tracking. The second check is to prevent arm-to-arm collision. If both robots’ end-effectors are too close SHRIMP : Iterative Refinement of Robot Task Plans UIST ’26, November 02–05, 2026, Detroit, MI, USA WebRTC 
+
+Sim Robot Object Localization
+YOLO 
+
+Frontend
+JS/HTML  IsaacSim 
+
+High-Level Plan  Low-Level
+Executable Primitives 
+
+Physical Robot 
+
+Low-Level Primitive Plan 
+
+Backend
+FastAPI  move to pose, grasp... Collision Checking 
+
+UI System  Task Planning  Robot Interface 
+
+IK 
+
+RangedIK 
+
+Motion Control 
+
+Planner 
+
+LLM prompted with task 
+
+Robot Controllers 
+
+PD with Gravity,
+Coriolis Compensation Tesollo DG3-F Grippers 
+
+> Franka Emika Pandas
+
+Figure 4: System Architecture — Our hardware and software architecture is shown in this diagram. 
+
+to each other, we insert retract motions into the plan to prevent collisions. The final check is to prevent robot-object collision. If we detect that the arm (or the object the arm is holding) collides with other objects in the scene during transit, we increase the height of the robot’s trajectory to prevent collisions. 
+
+## 3.3 Hardware & Software Architecture 
+
+Figure 4 shows our architectural diagram. Below we describe the components, progressing from the hardware robot setup to the frontend interface. The system consists of two 7-degree of freedom Franka Emika Panda Robot arms, each mounted with a 12-DOF Tesollo 3 Finger gripper. The simulation engine is Isaac Sim. Both the physical robots and the simulated robots share the same motion control layer so that the simulated robot acts as a digital twin of the real robot. For IK (inverse kinematics), we use RangedIK [56]. For both the simulated and physical real Franka robots, we developed a PD (Proportion-Derivative) Torque controller with Coriolis compensation. Since the physical Franka Control Interface (FCI) automatically performs gravity compensation, we add additional gravity compensation to the simulation controller. The simulated Tesollo grippers use the same controller; however, for the physical Tesollo grippers, torque is approximated using duty cycle, as they do not support direct torque control. Note that the simulation (and therefore the control loop) runs in real-time at approximately 200 Hz, compared to the Franka that run at 1000 Hz and the Tesollo at 500 Hz. To compensate for the lower control rate, the simulation controller is tuned with higher 𝐾 𝑝 gains to match the physical robots’ motion response. We use a single RGB-Depth d435 Realsense Camera to localize objects in the scene using YOLO11 [27]. This object location data is used by both the simulation and planner. The planner receives the task prompt from the UI backend, creates a plan, and breaks it down into low-level primitives which are executed using the robot interfaces. The plan breakdown and verification steps are described in sections 3.2.2 and 3.2.3. Our backend is a REST API implemented using FastAPI [41]. User plans are stored in file storage as JSON. Our frontend is built using pure Javascript and HTML, with Tailwind [57] as our CSS library. We implemented our own lightweight state storage based                                  
+
+> Level Name Description Parameters Low-Level Sequence
+> Low home Move both arms to their home position ––move_to_pose Move the end effector to a specified pose arm, pose, object –grasp Close the gripper arm, object –release Open the gripper arm, object –tilt_in_hand Tilt object in hand arm, object –wait Pause both arms for a duration duration –High pick Pick up an object to move it to a target position arm, grasp_pose, end_position, object move_to_pose(x2), grasp, move_to_pose(x3) pour Tilt to pour, hold, then return to initial pose arm, initial_pose, pour_orientation, pour_hold, pour_object, receiving_object move_to_pose, tilt_in_hand, move_to_pose, wait, move_to_pose pick_and_place Pick up an object and place it at a target position arm, grasp_pose, end_position, object move_to_pose(x2), grasp, move_to_pose(x4), release, move_to_pose
+
+Table 1: Primitives — The robot plan consists of robot primitives. Low-level primitives are building block robot actions. High-level robot primitives are made up of sequences of low-level primitives. Each primitive has a set of parameters which customize the primitive execution. UIST ’26, November 02–05, 2026, Detroit, MI, USA Schroder et al. 
+
+on the observer pattern. The simulation is streamed to the frontend using WebRTC [35]. To run this entire system, we use two computers (Figure 5), one that has a Real-Time Kernel Patch to run the control logic and interfaces for the physical robots; and another with an NVIDIA GPU to run the simulation, along with the UI and Task Planning components. In order to communicate between these two desktops, we use ROS2 Jazzy. 
+
+## 4 SHRIMP Evaluation 
+
+We ran an ablation within-participants experiment to understand how users interact with the interface ( 𝑁 = 35; ages 18—65+; 14 male, 19 female, 2 preferred not to answer). Each study lasted ap-proximately 50 minutes, for which participants were compensated $15 USD. The study was conducted in front of the two bimanual arms with a desktop for the participant to use the interface, and a laptop for the participant to watch the video tutorials and take the survey (see Figure 5). 
+
+## 4.1 Study Design 
+
+Participants were given one of three tasks: Set the Table , Prepare a Snack , and Clean the Table (described in Table 2). For their given task, participants performed three trials, using three different versions of the interface. The three ablated versions of the interface are described below. 
+
+Plan+Edit : In this condition, users use the full system, with all features enabled, as described in Section 3.1. 
+
+Plan-Only : In this condition, users are unable to edit primitive parameters, expand, or step through the hierarchical plan. Only the high-level primitives are visible, along with arm and object parameters. This condition was designed to test whether exposing a high-level plan alone is sufficient to support users, without in-troducing lower-level inspection and editing affordances. This is similar to existing LLM and VLA systems that expose only high-level plans and provide limited access to underlying actions. 
+
+No-Plan : In the baseline condition, users are unable to view the primitive plan. This condition reflects existing LLM and VLA in-teraction approaches that treat the planning process as a black box, allowing users to revise robot behavior only through natural-language prompts. The order of conditions was counterbalanced across conditions to control for learning effects. 
+
+## 4.2 Procedure 
+
+The study was approved by the Institutional Review Board of the University of Wisconsin-Madison. All participants signed a consent form prior to starting the study. The experimenter first gave the participants a brief introduction of the experiment and showed a video tutorial that outlined how to use the different features present in each condition. The experimenter then presented the task to be performed. Participants were given up to 10 minutes to complete planning for the task, after which they could opt to execute on the robot if they had not already done so. After the trial was finished, participants completed a post-trial evaluation for the interface condition that was just given. This process was then repeated for the remaining two conditions. After completing 
+
+Figure 5: System Setup — The robot hardware consists of two Franka Emika Panda Robot arms, each mounted with a Tesollo 3D-GF gripper, positioned on a table to perform tabletop tasks. A RGB-Depth d435 Realsense Camera is posi-tioned to track the scene. The system runs on a Desktop with a NVIDIA GPU (left) and a laptop with a Real-Time Kernel Patch (right). 
+
+all trials, participants answered open-ended questions about the overall system and provided demographic information. 
+
+## 4.3 Hypothesis 
+
+We formulated three hypotheses: Participants with Plan+Edit con-dition will have greater perceived control compared to Plan-Only 
+
+and No-Plan (H1); Participants using the Plan+Edit condition will feel the system is more transparent compared to Plan-Only 
+
+and No-Plan (H2); Participants using condition Plan+Edit will view the system as being more usable compared to Plan-Only and 
+
+No-Plan (H3).      
+
+> #Task Subtask Success Criteria
+> 1Set the Table
+> (bowl, cup, spoon) (1) Bowl placed in the center of the table (2) Cup placed at upper left of bowl within 10cm (3) Spoon placed at right of bowl within 10cm 2Prepare a Snack
+> (cup ×2, bowl) (1) First cup poured into bowl (2) First cup moved out of the way of the bowl (3) Second cup poured into the bowl 3Clean the Table
+> (cup ×2, bowl, box) (1) First cup placed into the box (2) Second cup placed into the box (3) Bowl placed into the box
+
+Table 2: Experiment Tasks — Participants were assigned one of three tasks to complete during the experiment. Objects used in each task are listed in parentheses. For each task, bi-nary subtask success is computed and summed to determine overall task success. SHRIMP : Iterative Refinement of Robot Task Plans UIST ’26, November 02–05, 2026, Detroit, MI, USA 
+
+## 4.4 Measures 
+
+In order to validate the prior hypotheses, we collected the follow-ing set of data. While the participant was interacting with the interface, we logged all user input and feature usage. After each trial, the participant completed four questionnaires: a subset of the Transparency Of Robots Scale (TOROS) [4] ( 𝛼 = 0.89), the Per-ceived Autonomy Scale (with language changed to first-person) [43] ( 𝛼 = 0.87), the System Usability Scale (SUS) [9] ( 𝛼 = 0.90), and the TASK Load Index (NASA-TLX) [22] ( 𝛼 = 0.78). We also recorded trial completion time and binary success of each of the three subtasks (see Table 2), summed together to obtain a total task success score from 0 to 3. At the end of all three trials, we also asked a set of general open-ended questions and demographic questions. Appendix A contains the questionnaires and open-ended questions. 
+
+## 4.5 Analysis 
+
+The Perceived Autonomy, TOROS, NASA-TLX, and SUS score mea-sures, along with the success and time measures were analyzed using linear mixed effects models (LMMs) with the statsmodels 
+
+Python library [45]. We report comparisons from three models: one with the condition as a fixed effect, one with the task as a fixed effect, and the other with the condition, task, and their interaction as fixed effects. All models include participants as a random effect to account for the within-subjects design. We also compute Pearson correlation between measures, and Spearman correlation between trial progression and measures using the scipy Python library [54]. For each scale measures, we also computed Cronbach’s Alpha using the pingouin Python library [52]. For the qualitative data, we conducted a Thematic Analysis [8] of the user language prompts (recorded from the interface logging), as well as the open-ended questions. One researcher coded the data and created a codebook. Using the codebook, a second researcher coded the data again. The codebook was then revised and data re-coded iteratively until an Inter-Rater-Reliability percent agreement of ≥ 90% was reached. 
+
+## 5 Results 
+
+In our analysis, we explore how viewing and interacting with the hierarchical primitive plan impacts the users’ experience with the system. Figures 6 and 7 summarize our results, with additional visualizations provided in Appendix C. Overall, participants re-ported significantly higher perceived autonomy ( 𝑝 = 0.007) for 
+
+Plan+Edit compared to No-Plan (No-Plan : 𝑀 = 3.15 , 𝑆𝐷 = 0.99; 
+
+Plan+Edit : 𝑀 = 3.50 , 𝑆𝐷 = 0.84). Participants also reported signif-icantly higher transparency (TOROS) ( 𝑝 = 0.026) for Plan+Edit 
+
+compared to No-Plan (No-Plan : 𝑀 = 4.34 , 𝑆𝐷 = 1.34; Plan+Edit :
+
+𝑀 = 4.77 , 𝑆𝐷 = 1.27). There were no significant results between conditions Plan-Only vs No-Plan nor Plan-Only vs Plan+Edit 
+
+for perceived autonomy and transparency. This suggests that view-ing the high-level plan is not sufficient. Instead, users need both the viewing and interaction features of Plan+Edit for higher au-tonomy and transparency. Although participants rated the Plan+Edit system to be the most transparent and provide them with more control, participants also reported significantly higher perceived task load (NASA-TLX) (𝑝 = 0.002) for Plan+Edit compared to Plan-Only (Plan-Only :
+
+𝑀 = 29 .92, 𝑆𝐷 = 20 .24; Plan+Edit : 𝑀 = 37 .86, 𝑆𝐷 = 16 .30). There were no significant differences between conditions for the usability rating (SUS) or task success. Below, we group our significant quantitative and qualitative findings into four themes. 
+
+## 5.1 Explicit Engagement with the Hierarchical Primitives Increases Perceived Control 
+
+Participants’ perceived autonomy scores for the Plan+Edit system were significantly greater than the No-Plan baseline ( 𝑝 = 0.007). This indicates that participants felt they had more control over the interface when they could explicitly step-through and edit the full hierarchical primitive plan. 22 participants mentioned how the 
+
+Plan+Edit features provided them with more control over the plan. For example, P26 said, “I liked the first [Plan+Edit ]. Being able to edit specific parts of the robot’s movements and tasks made me feel like I had more control and could be as simple or complex as I wanted it to be.” 
+
+From the qualitative data, we see two main explanations for this effect: (1) Editing plan parameters provided non-ambiguous, precise control. For example, P17 explained “I preferred the third trial [Plan+Edit ] where I could make more precise adjustments in the software.” (2) It was sometimes easier to adjust the plan manually, than to put it into words. For example, P21 said “The third [Plan+Edit ] was obviously the best. It is much easier to input a value of ‘where to put object’ than it was to try and describe with words where I wanted it to go.” .Additionally, although we did not find differences in usabil-ity between conditions, we did find that the perceived autonomy scores were positively correlated with the usability scores (r=0.635, p<0.001). This is described by P40, who said, I enjoyed the last trial 
+
+[Plan+Edit ] the most because I could be specific about each com-mand and get the robot to do exactly what I wanted. I found myself wanting to be done with the first two trials [No-Plan , Plan-Only ]
+
+while I was using them because they weren’t responding how I wanted. I wanted to spend more time working with the third system because I had more control over it and it became more fun and engaging. 
+
+Finally, although the Plan+Edit condition led to increased per-ceived control, it came at the cost of higher task load compared to condition Plan-Only (𝑝 = 0.002). The qualitative data explains that this is due to the participants viewing the Plan+Edit as more complex because of the added plan information and editing features. For example, P35 said, “The 3rd trial [Plan+Edit ] seemed complex; even though I was used to the interface, I wanted to check on the robot’s responsiveness at each step which caused me to slow down.” 
+
+Eight other participants similarly referenced condition Plan+Edit 
+
+as being more complex and requiring more time to learn how to use the robot primitives. However, there is more nuance to consider, as the increase in task load is not consistent across tasks. Task Clean the Table 
+
+was the easiest of the three tasks, as indicated by Task Clean the Table having lower task load than Prepare a Snack (𝑝 < 0.001) and Set the Table (𝑝 = 0.043), as well as higher task success than Set the Table (𝑝 = 0.024), across all conditions. Incidentally, task load cost between conditions was only significant for task 
+
+Clean the Table , not the other tasks (see Figure 7). This indicates UIST ’26, November 02–05, 2026, Detroit, MI, USA Schroder et al. no-plan plan-only plan+edit      
+
+> Condition
+> 12345**
+> Perceived Autonomy
+> no-plan plan-only plan+edit
+> Condition
+> 1234567*
+> Transparency (TOROS)
+> no-plan plan-only plan+edit
+> Condition
+> 020 40 60 80 100 **
+> Task Load (NASA-TLX)
+> no-plan plan-only plan+edit
+> Condition
+> 020 40 60 80 100
+> System Usability (SUS)
+> no-plan plan-only plan+edit
+> Condition
+> 0246810
+> Time (min)
+> no-plan plan-only plan+edit
+> Condition
+> 0.0 0.5 1.0 1.5 2.0 2.5 3.0
+> Task Success
+
+Figure 6: Quantitative Measures Across Conditions — The bar chart shows the mean participant scores for Perceived Autonomy (control), Transparency, Task Load, System Usability, and mean measures for Time (minutes) and Task Success (out of 3). For Perceived Autonomy, Transparency, System Usability, and Task Success a higher value is better, while for Task Load and Time a lower value is better. Horizontal brackets indicate significant pairwise comparison (𝑝 < 0.05 ∗, 𝑝 < 0.01 ∗∗ ). Vertical lines on each bar indicate standard error. 
+
+that for easier tasks, the added features in Plan+Edit introduce unnecessary complexity. This is supported by the qualitative data of participants that performed Clean the Table . For example, P13 said, “Trial 2 [Plan-Only ] was best. Trial 1 [Plan+Edit ] was ok, but seemed unnecessary as the tracking was good enough that the xy positions were already correct.” In contrast, for the two more complex tasks, there were no significant differences in task load between conditions, suggesting that the additional capabilities of 
+
+Plan+Edit may be more appropriate in these contexts. 
+
+## 5.2 Viewing the Primitive Plan Improves Overall System Understanding 
+
+Our participants scored condition Plan+Edit as having signifi-cantly more transparency compared to No-Plan (𝑝 = 0.026). This was supported in the qualitative data where 19 participants explic-itly expressed that viewing the primitives in Plan+Edit provided them with more understanding of the plan. For example, when de-scribing why they preferred condition Plan+Edit P27 said, “I could 1 2 3     
+
+> Task
+> 12345**** ** ** ***
+> Perceived Autonomy
+> 123
+> Task
+> 1234567*
+> Transparency (TOROS)
+> 123
+> Task
+> 020 40 60 80 100 **** ** ***** ** **** ***
+> Task Load (NASA-TLX)
+> no-plan plan-only plan+edit
+
+Figure 7: User Experience Measures Across Tasks — The bar chart shows the mean participant scores per task for Per-ceived Autonomy (control), Transparency, and Task Load. Task 1 is Set the Table , 2 is Prepare a Snack , and 3 is Clean the Table . Horizontal brackets indicate significant pairwise comparison (𝑝 < 0.05 ∗, 𝑝 < 0.01 ∗∗ , 𝑝 < 0.001 ∗∗∗ ). Vertical lines on each bar indicate standard error. 
+
+see the steps spelled out in the boxes at the bottom of the screen. It was clear that each task would be completed in turn.” Other participants explicitly stated that not seeing the plan in condition No-Plan made them feel confused. For example, P38 said “The first trial [No-Plan ]
+
+lacks clear explanation and I feel confused about how to make the prompt.” 
+
+Additionally, participants expressed that viewing the plan helped increase prompting (not just plan) transparency in two ways: (1) Users used the primitive sequence to see how and why the actual plan differed from their intended task prompt. For example, P8 says “The interface feature where I could see each in-dividual part of the task and how the system quantified it was the most useful because I was able to see where the task I entered could be shown differently by the system.” (2) Seeing the primitive plan helped the users better review and revise their prompt. As P38 said, “The last trial [No-Plan ] I did not see the breakdown of each robot movement, and I liked having that there so I could use it to better describe a certain step.” 
+
+## 5.3 Users Interact with the SHRIMP Iteratively 
+
+Across all conditions, participants revised their plans multiple times (No-Plan : 𝑀 = 3.68, 𝑆𝐷 = 1.61; Plan-Only : 𝑀 = 3.80, 𝑆𝐷 = 2.53; 
+
+Plan+Edit : 𝑀 = 6.88, 𝑆𝐷 = 4.30). Participants also simulated their plan multiple times ( No-Plan : 𝑀 = 4.65, 𝑆𝐷 = 2.37; Plan-Only :
+
+𝑀 = 4.31, 𝑆𝐷 = 2.94; Plan+Edit : 𝑀 = 7.61, 𝑆𝐷 = 4.07). Figure 8 shows an example of the iteration one participant went through until they were satisfied with their plan. Three participants explicitly referenced that the simulation helped them iterate more efficiently. For example, P4 says “The simulation helped, not having to try every iteration on the robot to save time and make it more efficient.” 
+
+Additionally, using participants’ language prompting data, we identified three major prompt iteration strategies (Table 3 shows examples of each of these). 21 participants used the Stepwise strat-egy, in which they tested subtasks one at a time, and then combined into one final plan at the end. 10 participants used the Cumulative 
+
+strategy, in which they started off with a subtask, and then added another subtask to the plan at each iteration. 28 participants used the Oneshot strategy, in which they specified their entire plan first, SHRIMP : Iterative Refinement of Robot Task Plans UIST ’26, November 02–05, 2026, Detroit, MI, USA 
+
+Iteration Strategies Iteration 1 Iteration 2 Iteration 3 Iteration 4 
+
+Stepwise Move the cup into the box Move the other cup into the box Move the red bowl into the box Move two cups and the red bowl into the box 
+
+Cumulative move cup right, move cup forward and pour into bowl. move cup right, move cup forward and pour into bowl. move cup left and place on table 
+
+move cup right, move cup forward and pour into bowl. move cup left and place on table. grab second cup, move right, move for-ward and pour into bowl. move cup left and place on table. 
+
+Oneshot Move bowl to the cen-ter of the table. Move the cup to the upper left from the bowl. Using the Right Arm of the Robot, move the spoon 5 inches from the bowl. Move bowl to the cen-ter of the table. Move the cup next to the bowl in the upper left side of the bowl . Using the Right Arm of the Robot, move the spoon 5 inches from the bowl. Move bowl to the center of the table. Move the cup next to the bowl in the upper left side of the bowl. Using the Right Arm of the Robot, 
+
+move the spoon 5 inches from the center of the ta-ble .Move bowl to the center of the table. Using the Right Arm of the Robot, move the spoon 5 inches from the center of the table. Using the Left Arm of the Robot move the cup to the upper left corner of the bowl. 
+
+Table 3: Iteration Strategies — During the user study, participants used three types of prompt iteration strategies. Here we show examples of these strategies from P10, P12, and P11 respectively. Textual changes are shown in bold. 
+
+and then iterated by adding or changing specific details. Eight par-ticipants even chose to use the Oneshot strategy as a way to update parameter information such as specifying spatial information. For example, P29 used the following prompt, despite having access to parameter editing in condition Plan+Edit : “Move the bowl to the middle of the table. Move the bowl to the left 3 inches. Move the cup towards the user 12 inches. Move the spoon towards the user 12 inches.” 
+
+## 5.4 Inconsistent Outcomes Lead to Frustration 
+
+Six participants reported that similar prompts produced different plans. This variability is due to the non-deterministic nature of LLMs, where the same or similar prompts can result in different output. Sometimes a prompt similar to a previously successful one resulted in a failure due to primitive reordering that led to awkward joint configurations, preventing the robot from reaching the desired pose. However, since participants were not aware of this underlying cause, the inconsistency resulted in frustration. For example, P31 says, “The overall experience was fun and frustrating at the same time. I am still confused on why I was successful the first trial but unsuccessful the other two despite giving the same prompts.” This pattern suggests inconsistent failures undermine usability, which is reflected in the quantitative data, where usability is moderately positively correlated with task success ( 𝑟 = 0.429, 𝑝 < 0.001). Participants compensated for this inconsistency by relying on the transparency the primitive plan provided and using the itera-tion strategies described in Section 5.3 to adapt their prompt. For example, P40 says, “The system was slightly frustrating, but I had Duration From Trial Start (minutes)     
+
+> User prompt:
+> Move the bowl to the middle of the table. Move the bowl to the left 3 inches. Move the cup towards the user 12 inches. Move the spoon towards the user 12 inches
+> User explicitly edits the cup and bowl placement positions using primitive parameters. User prompt:
+> Move the bowl to the middle of the table. Move the bowl to the left 3 inches. Move the cup towards the user 6 inches. Move the spoon towards the user 9 inches
+
+a ccabb
+
+Figure 8: Event Timeline — Here we plot the time that a particular interface interaction event occurred during P29’s Plan+Edit 
+
+condition. UIST ’26, November 02–05, 2026, Detroit, MI, USA Schroder et al. 
+
+an overall good experience. While unpredictable at times, once I un-derstood how each trial worked, I was able to adapt my plans better.” 
+
+Consistent with these observations, task success was moderately correlated with trial progression, indicating a learning effect, where users became more successful as they gained experience with the system ( 𝑟 = 0.337 , 𝑝 < 0.001). This is supported qualitatively, as 22 of our participants mentioned that they felt more proficient and comfortable with the system as trials progressed. For example, P32 said, “The first trial I was very insecure/nervous because I did not know what I was doing and I had never seen the robot move before so it was hard to shoot for an end goal I didn’t know. By the third trial, I started to learn what command words would help the robot complete the task.” 
+
+## 6 Discussion 
+
+In summary, our results confirm our first (H1) and second (H2) hypotheses that the Plan+Edit system improves transparency and control compared to the baseline, No-Plan . However, since there are no significant differences in transparency and control between 
+
+Plan+Edit compared to Plan-Only , nor Plan-Only compared to 
+
+No-Plan we conclude that the combined value of both viewing and interacting with the full hierarchical plan is required to improve transparency and control. Our results show that SHRIMP supports transparency by allowing users to inspect the primitives to under-stand how the generated plan differs from their intended prompt in order to revise their prompt. This outcome suggests that the primitive plan feature helps users to reduce their own language ambiguity. Users refined their language prompts iteratively, using 
+
+Stepwise , Cumulative , or Oneshot strategies (see Figure 3). Addi-tionally, SHRIMP enables control through the primitive plan, where our results show that editing parameters grants the user precise control, especially when it is difficult to express desired changes with natural language. Our results do not support our final hypothesis (H3) that the 
+
+Plan+Edit system significantly improves usability. In fact, all con-ditions received below-average usability scores. We interpret this as reflecting a general lack of familiarity with the interface and task by participants, who are non-expert users that have limited experience with robots and simulation. Based on both SHRIMP ’s strengths and limitations, we introduce the following design and research implications for language-based robot planning systems. 
+
+## 6.1 Design Implications 
+
+Design Implication 1: Language-based robot planning systems should support diverse prompting and editing strategies for efficient iteration. While prior language-based robot planning interfaces often implicitly assume that users will use a single, com-plete prompt, our results show that users employ three distinct prompting strategies: Stepwise , Cumulative , and Oneshot . The 
+
+Stepwise and Cumulative strategies are used by users to gradu-ally build their own mental model of how the system works before writing a complete prompt, whereas Oneshot appears to be used more directly to clarify intent. We hypothesize that end users may adopt these unique strategies because robotic tasks can include both temporal sequences of actions ( e.g. , pour then stir) and separate, standalone actions ( e.g. , placing one cup at a time in a bin without ordering constraints). Therefore, language-based robot planning in-terfaces should support all of these prompting strategies to support practical robot programming practices. Our results also show that users prefer to have control and visi-bility over both high-level prompt revision and low-level primitive parameter editing to reduce language ambiguity. This demonstrates that language as a standalone modality is insufficient for robot task planning and revision, and that diverse editing strategies should be provided to assist end users to reason across multiple layers of plan abstraction. However, our results indicate that defaulting to exposing all possible prompting and editing strategies is also not the answer. As described in Section 5.1, the complexity of the task can be used to determine whether or if any levels of assistance and prompting options are needed. For these iteration and editing strategies to be practical, users must be able to update and evaluate their plans quickly. In our system, the simulation interface is key to allowing this efficient iteration. 
+
+Design Implication 2: In language-based robot planning systems, low-level plan details and editing controls should be introduced in a manner that reduces cognitive load. We found that the added control and transparency enabled by primitive edit-ing also significantly increases users’ cognitive load. This suggests a trade-off: while low-level plan details and editing controls are valuable, they should be presented in a way that mitigates task load. This also suggests that robot planning systems should support robot programmers with varying experience levels, as those with more ex-perience may prefer specifying low-level, physics-level parameters, while novice users may prefer to operate in a higher-level. Additionally, since language-based robot planning systems, like other interfaces and planning tools, have a learning effect, they should gradually disclose features so that users can gain familiarity with the system and the increasing task complexity. 
+
+## 6.2 Research Implications 
+
+Research Implication 1: Language-based robot planning sys-tems should actively guide users across multiple abstraction layers. The ability to revise plans at both language and parameter levels is a core affordance of SHRIMP , enabling users to exercise precise control over their plans. However, simply exposing high-and low-level layers may be insufficient to achieve high usability. First, our findings suggest that it can be difficult for users to know which abstraction layer they should edit. For example, some partici-pants who struggled with spatial placement repeatedly re-prompted using language instead of editing parameters, which would have been more effective and efficient. Additionally, users who think in terms of high-level goals ( i.e. , “move the cup next to the bowl.”), may not naturally map that intent onto discrete numeric parameter fields without a direct, one-to-one mapping between elements in the language prompts and the low-level parameter fields ( e.g. , they may not know “next to” can be also described in the y-axis posi-tion parameter values). These observations highlight opportunities for future research. First, researchers should investigate natural mappings between the low-level, physical layer and the high-level, SHRIMP : Iterative Refinement of Robot Task Plans UIST ’26, November 02–05, 2026, Detroit, MI, USA 
+
+language-based, semantic layer. Then, researchers can use that map-ping to create efficient interaction techniques that better support the users across these abstraction layers. Rather than solely provid-ing the correct tools for editing, these techniques should support users in developing a working mental model of which plan layers to engage with. 
+
+Research Implication 2: Language-based robot planning systems should help users localize failures across the pipeline, not just provide mechanisms to fix them. Despite the prevalence of generative AI-based end-user systems, limited research has ex-plored how to assist users in identifying causes of generative-AI robot plan failures when they occur. This is especially detrimental and hence calls for future work, as end-user robot programming is iterative in nature and closely tied to task success and safety. More research should be conducted in identifying and localizing the causes for robot program failures across programming iterations [5, 12, 17]. This localization of failures is important as it further impacts perceived levels of autonomy and control over generative AI-based systems, where reducing unpredictability over AI system outputs will only then allow users to effectively evaluate these systems’ performances. 
+
+## 6.3 Limitations & Future Work 
+
+Our system has several technological and study design limitation, that present opportunities for future work. 
+
+Technological Limitations — Plan generation is slow, taking up to 1.5 minutes, especially when user task prompts exceed 100 words. This step slows down the iteration process, which some participants noted. Additionally, our vision localization system is sensitive to lightning, and as our study was conducted by a large window, we had to progressively adjust the blinds throughout the study to ensure the objects were being detected. Finally, to ensure consistent object grasping during the study, we manually defined grasp points relative to each object’s centroid. In the future, this function could be made more generalizable by using a machine vision model to automatically determine the best grasp points on objects. 
+
+Study Design Limitations — Some participants reported feeling time pressure during the first trial as they were still becoming famil-iar with the system. Task success may have improved if participants had been given a tutorial period to explore the interface. Addition-ally, for the sake of time, this study focused on tasks involving relatively few objects and subtasks. To stress test the system, future work could evaluate SHRIMP with more complex or long-horizon tasks that require substantially more plan iterations. 
+
+## 7 Conclusion 
+
+In this work, we introduce SHRIMP , a system that allows users to create robot plans using natural language and iterate upon them, using primitive breakdown and simulation execution to verify their plan. Through a user study, we show that our interactive primitive plan feature improves user perceived control and transparency. Additionally we offer design and research implications for creating robot planning interfaces that support control and transparency, while reducing cognitive load and maintaining usability. 
+
+## Acknowledgments 
+
+This work was supported in part by National Science Foundation awards 2330040, “Center: NSF Engineering Research Center for Human AugmentatioN via Dexterity (HAND),” and 2152163, “Inte-grating Robots into the Future of Work.” 
+
+## References 
+
+[1] Michael Ahn, Anthony Brohan, Noah Brown, Yevgen Chebotar, Omar Cortes, Byron David, Chelsea Finn, Chuyuan Fu, Keerthana Gopalakrishnan, Karol Haus-man, Alex Herzog, Daniel Ho, Jasmine Hsu, Julian Ibarz, Brian Ichter, Alex Irpan, Eric Jang, Rosario Jauregui Ruano, Kyle Jeffrey, Sally Jesmonth, Nikhil J Joshi, Ryan Julian, Dmitry Kalashnikov, Yuheng Kuang, Kuang-Huei Lee, Sergey Levine, Yao Lu, Linda Luu, Carolina Parada, Peter Pastor, Jornell Quiambao, Kan-ishka Rao, Jarek Rettinghouse, Diego Reyes, Pierre Sermanet, Nicolas Sievers, Clayton Tan, Alexander Toshev, Vincent Vanhoucke, Fei Xia, Ted Xiao, Peng Xu, Sichun Xu, Mengyuan Yan, and Andy Zeng. 2022. Do As I Can, Not As I Say: Grounding Language in Robotic Affordances. arXiv:2204.01691 [cs.RO] https://arxiv.org/abs/2204.01691 [2] Gopika Ajaykumar, Maureen Steele, and Chien-Ming Huang. 2021. A Survey on End-User Robot Programming. ACM Comput. Surv. 54, 8, Article 164 (Oct. 2021), 36 pages. doi:10.1145/3466819 [3] Sonya Alexandrova, Zachary Tatlock, and Maya Cakmak. 2015. RoboFlow: A flow-based visual programming language for mobile manipulation tasks. In 2015 IEEE International Conference on Robotics and Automation (ICRA) . 5537–5544. doi:10.1109/ICRA.2015.7139973 [4] Georgios Angelopoulos, Dimitri Lacroix, Ricarda Wullenkord, Alessandra Rossi, Silvia Rossi, and Friederike Eyssel. 2025. Measuring transparency in intelligent robots. Scientific Reports (2025). [5] Siddhartha Banerjee and Sonia Chernova. 2019. Fault diagnosis in robot task execution. In AAAI Spring Symposium Series .[6] Sara Beschi, Daniela Fogli, and Fabio Tampalini. 2019. CAPIRCI: A Multi-modal System for Collaborative Robot Programming. In End-User Development , Alessio Malizia, Stefano Valtolina, Anders Morch, Alan Serrano, and Andrew Stratton (Eds.). Springer International Publishing, Cham, 51–66. [7] Timo Birr, Christoph Pohl, Abdelrahman Younes, and Tamim Asfour. 2024. Au-toGPT+P: Affordance-based Task Planning using Large Language Models. In 
+
+Robotics: Science and Systems XX (RSS2024) . Robotics: Science and Systems Foun-dation. doi:10.15607/rss.2024.xx.112 [8] Virginia Braun and Victoria Clarke. 2006. Using thematic analysis in psy-chology. Qualitative research in psychology 3, 2 (2006), 77–101. doi:10.1191/ 1478088706qp063oa [9] John Brooke et al. 1996. SUS-A quick and dirty usability scale. 189, 194 (1996), 4–7. doi:10.1201/9781498710411-35 [10] Yuanzhi Cao, Tianyi Wang, Xun Qian, Pawan S. Rao, Manav Wadhawan, Ke Huo, and Karthik Ramani. 2019. GhostAR: A Time-space Editor for Embodied Author-ing of Human-Robot Collaborative Task with Augmented Reality. In Proceedings of the 32nd Annual ACM Symposium on User Interface Software and Technology 
+
+(New Orleans, LA, USA) (UIST ’19) . Association for Computing Machinery, New York, NY, USA, 521–534. doi:10.1145/3332165.3347902 [11] Juo-Tung Chen and Chien-Ming Huang. 2024. Forgetful Large Language Models: Lessons Learned from Using LLMs in Robot Programming. Proceedings of the AAAI Symposium Series 2, 1 (Jan. 2024), 508–513. doi:10.1609/aaaiss.v2i1.27721 [12] Zhendong Chen, ZhanShang Nie, ShiXing Wan, Junyi Li, Yong Cheng, and Shuai Zhao. 2025. An LLM-powered Natural-to-Robotic Language Translation Frame-work with Correctness Guarantees. 2025 International Joint Conference on Neu-ral Networks (IJCNN) (2025), 1–8. https://api.semanticscholar.org/CorpusID: 280870566 [13] Eugenio Chisari, Jan Ole Von Hartz, Fabien Despinoy, and Abhinav Valada. 2025. Robotic Task Ambiguity Resolution via Natural Language Interaction. In 2025 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS) . 14821– 14827. doi:10.1109/IROS60139.2025.11247661 [14] Johann Arthur Darboven, Ryota Takamido, and Jun Ota. 2024. Enhancing Non-Expert User Interaction with Robots: An Advanced Interface for Error Handling. In 2024 IEEE International Conference on Advanced Intelligent Mechatronics (AIM) .1494–1499. doi:10.1109/AIM55361.2024.10637047 [15] Jeyoun Dong, Wookyong Kwon, Dongyeop Kang, and Seung Woo Nam. 2021. A Study on the Usability Evaluation of Teaching Pendant for Manipulator of Collaborative Robot. In HCI International 2021 - Late Breaking Posters , Constantine Stephanidis, Margherita Antona, and Stavroula Ntoa (Eds.). Springer International Publishing, Cham, 234–238. [16] Wenhang Dong, Dongpeng Li, Yuchen Ji, Hongpeng Chen, Shimin Liu, Zheng Ma, Fang Hao, Yuqi Ji, Hongwen Xing, and Pai Zheng. 2025. Towards a next-generation LLM empowered low-code programming industrial robotic system for human-centric smart manufacturing. Journal of Manufacturing Systems 83 (2025), 675–686. doi:10.1016/j.jmsy.2025.10.012 UIST ’26, November 02–05, 2026, Detroit, MI, USA Schroder et al. 
+
+[17] Federico Errica, Davide Sanvito, Giuseppe Siracusano, and Roberto Bifulco. 2025. What Did I Do Wrong? Quantifying LLMs’ Sensitivity and Consistency to Prompt Engineering. In Proceedings of the 2025 Conference of the Nations of the Ameri-cas Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers) . Association for Computational Linguistics, 1543–1558. doi:10.18653/v1/2025.naacl-long.73 [18] Yate Ge, Yi Dai, Run Shan, Kechun Li, Yuanda Hu, and Xiaohua Sun. 2024. Co-cobo: Exploring Large Language Models as the Engine for End-User Robot Pro-gramming. In 2024 IEEE Symposium on Visual Languages and Human-Centric Computing (VL/HCC) . 89–95. doi:10.1109/VL/HCC60511.2024.00020 [19] Georgia Giannopoulou, Elsi-Mari Borrelli, and Fiona McMaster. 2021. "Program-ming - It’s not for Normal People": A Qualitative Study on User-Empowering Interfaces for Programming Collaborative Robots. In 2021 30th IEEE International Conference on Robot & Human Interactive Communication (RO-MAN) . 37–44. doi:10.1109/RO-MAN50785.2021.9515535 [20] Kelleher R. Guerin, Colin Lea, Chris Paxton, and Gregory D. Hager. 2015. A framework for end-user instruction of a robot assistant for manufacturing. In 
+
+2015 IEEE International Conference on Robotics and Automation (ICRA) . 6167–6174. doi:10.1109/ICRA.2015.7140065 [21] Michael Hagenow, Dimosthenis Kontogiorgos, Yanwei Wang, and Julie Shah. 2025. Versatile Demonstration Interface: Toward More Flexible Robot Demonstration Collection. In 2025 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS) . 8088–8095. doi:10.1109/IROS60139.2025.11246326 [22] Sandra G. Hart and Lowell E. Staveland. 1988. Development of NASA-TLX (Task Load Index): Results of empirical and theoretical research. In Human Mental Workload , Peter A. Hancock and Najmedin Meshkati (Eds.). North-Holland, 139– 183. doi:10.1016/S0166-4115(08)62386-9 [23] Justin Huang and Maya Cakmak. 2017. Code3: A System for End-to-End Program-ming of Mobile Manipulator Robots for Novices and Experts. In Proceedings of the 2017 ACM/IEEE International Conference on Human-Robot Interaction (Vienna, Austria) (HRI ’17) . Association for Computing Machinery, New York, NY, USA, 453–462. doi:10.1145/2909824.3020215 [24] Wenlong Huang, Chen Wang, Ruohan Zhang, Yunzhu Li, Jiajun Wu, and Li Fei-Fei. 2023. VoxPoser: Composable 3D Value Maps for Robotic Manipulation with Language Models. arXiv:2307.05973 [cs.RO] https://arxiv.org/abs/2307.05973 [25] Bryce Ikeda, Maitrey Gramopadhye, LillyAnn Nekervis, and Daniel Szafir. 2025. MARCER: Multimodal Augmented Reality for Composing and Executing Robot Tasks. In 2025 20th ACM/IEEE International Conference on Human-Robot Interaction (HRI) . 529–539. doi:10.1109/HRI61500.2025.10974232 [26] Ulas Berk Karli, Juo-Tung Chen, Victor Nikhil Antony, and Chien-Ming Huang. 2024. Alchemist: LLM-Aided End-User Development of Robot Applications. In Proceedings of the 2024 ACM/IEEE International Conference on Human-Robot Interaction (Boulder, CO, USA) (HRI ’24) . Association for Computing Machinery, New York, NY, USA, 361–370. doi:10.1145/3610977.3634969 [27] Rahima Khanam and Muhammad Hussain. 2024. YOLOv11: An Overview of the Key Architectural Enhancements. arXiv:2410.17725 [cs.CV] https://arxiv.org/ abs/2410.17725 [28] Callie Y. Kim, Nathan Thomas White, Evan He, Frederic Sala, and Bilge Mutlu. 2026. RoboCritics: Enabling Reliable End-to-End LLM Robot Programming through Expert-Informed Critics. In Proceedings of the 21st ACM/IEEE Inter-national Conference on Human-Robot Interaction (Edinburgh, Scotland, UK) 
+
+(HRI ’26) . Association for Computing Machinery, New York, NY, USA, 914–923. doi:10.1145/3757279.3785550 [29] Vladimir Kuts, Jeremy A. Marvel, Murat Aksu, Simone L. Pizzagalli, Martinš Sarkans, Yevhen Bondarenko, and Tauno Otto. 2022. Digital Twin as Indus-trial Robots Manipulation Validation Tool. Robotics 11, 5 (2022). doi:10.3390/ robotics11050113 [30] Ying Siu Liang, Damien Pellier, Humbert Fiorino, and Sylvie Pesty. 2019. End-User Programming of Low-and High-Level Actions for Robotic Task Planning. In 2019 28th IEEE International Conference on Robot and Human Interactive Communication (RO-MAN) . 1–8. doi:10.1109/RO-MAN46459.2019.8956327 [31] Karthik Mahadevan, Blaine Lewis, Jiannan Li, Bilge Mutlu, Anthony Tang, and Tovi Grossman. 2025. ImageInThat: Manipulating Images to Convey User Instruc-tions to Robots. In 2025 20th ACM/IEEE International Conference on Human-Robot Interaction (HRI) . 757–766. doi:10.1109/HRI61500.2025.10974179 [32] Stereos Alexandros Matthaiakis, Konstantinos Dimoulas, Athanasios Athanasatos, Konstantinos Mparis, George Dimitrakopoulos, Christos Gkournelos, Apostolis Papavasileiou, Nikos Fousekis, Stergios Papanastasiou, George Michalos, Giacomo Angione, and Sotiris Makris. 2017. Flexible Programming Tool Enabling Synergy between Human and Robot. Procedia Manufacturing 11 (2017), 431–440. doi:10.1016/j.promfg.2017.07.131 27th International Conference on Flexible Automation and Intelligent Manufacturing, FAIM2017, 27-30 June 2017, Modena, Italy. [33] Elena Merlo, Marta Lagomarsino, and Arash Ajoudani. 2025. A Human-in-The-Loop Approach to Robot Action Replanning Through LLM Common-Sense Reasoning. IEEE Robotics and Automation Letters 10, 10 (2025), 10767–10774. doi:10.1109/LRA.2025.3604702 [34] M. A. Viraj J. Muthugala and A. G. Buddhika P. Jayasekara. 2018. A Review of Service Robots Coping With Uncertain Information in Natural Language Instructions. IEEE Access 6 (2018), 12913–12928. doi:10.1109/ACCESS.2018. 2808369 [35] NVIDIA Corporation. 2023. Omniverse WebRTC Streaming Library .https://docs.omniverse.nvidia.com/ov-web-sdk/latest/web-streaming-library/overview.html Accessed: 2026-03-29. [36] Ana-Lucia Pais Ureche and Aude Billard. 2015. Learning bimanual coordinated tasks from human demonstrations. In Proceedings of the Tenth Annual ACM/IEEE International Conference on Human-Robot Interaction Extended Abstracts . 141–142. [37] Luca Pietrantoni, Marco Favilla, Federico Fraboni, Erica Mazzoni, Sara Morandini, Martina Benvenuti, and Marina De Angelis. 2024. Integrating collaborative robots in manufacturing, logistics, and agriculture: Expert perspectives on technical, safety, and human factors. Frontiers in Robotics and AI 11 (2024), 1342130. doi:10. 3389/frobt.2024.1342130 [38] David Porfirio, Evan Fisher, Allison Sauppé, Aws Albarghouthi, and Bilge Mutlu. 2019. Bodystorming Human-Robot Interactions. In Proceedings of the 32nd Annual ACM Symposium on User Interface Software and Technology (New Orleans, LA, USA) (UIST ’19) . Association for Computing Machinery, New York, NY, USA, 479–491. doi:10.1145/3332165.3347957 [39] David Porfirio, Mark Roberts, and Laura M. Hiatt. 2024. Goal-Oriented End-User Programming of Robots. In Proceedings of the 2024 ACM/IEEE International Conference on Human-Robot Interaction (Boulder, CO, USA) (HRI ’24) . Association for Computing Machinery, New York, NY, USA, 582–591. doi:10.1145/3610977. 3634974 [40] David Porfirio, Allison Sauppé, Aws Albarghouthi, and Bilge Mutlu. 2018. Author-ing and Verifying Human-Robot Interactions. In Proceedings of the 31st Annual ACM Symposium on User Interface Software and Technology (Berlin, Germany) 
+
+(UIST ’18) . Association for Computing Machinery, New York, NY, USA, 75–86. doi:10.1145/3242587.3242634 [41] Sebastian Ramirez. 2018. FastAPI . https://github.com/fastapi/fastapi [42] Allen Z. Ren, Anushri Dixit, Alexandra Bodrova, Sumeet Singh, Stephen Tu, Noah Brown, Peng Xu, Leila Takayama, Fei Xia, Jake Varley, Zhenjia Xu, Dorsa Sadigh, Andy Zeng, and Anirudha Majumdar. 2023. Robots That Ask For Help: Uncer-tainty Alignment for Large Language Model Planners. arXiv:2307.01928 [cs.RO] https://arxiv.org/abs/2307.01928 [43] Supraja Sankaran, Chao Zhang, Henk Aarts, and Panos Markopoulos. 2021. Exploring Peoples’ Perception of Autonomy and Reactance in Everyday AI Inter-actions. Frontiers in Psychology Volume 12 - 2021 (2021). doi:10.3389/fpsyg.2021. 713074 [44] Andrew Schoen and Bilge Mutlu. 2024. OpenVP: A Customizable Visual Pro-gramming Environment for Robotics Applications. In Proceedings of the 2024 ACM/IEEE International Conference on Human-Robot Interaction (Boulder, CO, USA) (HRI ’24) . Association for Computing Machinery, New York, NY, USA, 944–948. doi:10.1145/3610977.3637477 [45] Skipper Seabold and Josef Perktold. 2010. statsmodels: Econometric and statistical modeling with python. In 9th Python in Science Conference .[46] Emmanuel Senft, Michael Hagenow, Robert Radwin, Michael Zinn, Michael Gleicher, and Bilge Mutlu. 2021. Situated Live Programming for Human-Robot Collaboration. In The 34th Annual ACM Symposium on User Interface Software and Technology (Virtual Event, USA) (UIST ’21) . Association for Computing Machinery, New York, NY, USA, 613–625. doi:10.1145/3472749.3474773 [47] Aaditya Singh, Adam Fry, Adam Perelman, Adam Tart, Adi Ganesh, Ahmed El-Kishky, Aidan McLaughlin, Aiden Low, AJ Ostrow, Akhila Ananthram, et al. 2025. Openai gpt-5 system card. arXiv preprint arXiv:2601.03267 (2025). [48] Ishika Singh, Valts Blukis, Arsalan Mousavian, Ankit Goyal, Danfei Xu, Jonathan Tremblay, Dieter Fox, Jesse Thomason, and Animesh Garg. 2023. ProgPrompt: program generation for situated robot task planning using large language models. 
+
+Auton. Robots 47, 8 (Aug. 2023), 999–1012. doi:10.1007/s10514-023-10135-3 [49] Laura Stegner, Yuna Hwang, David Porfirio, and Bilge Mutlu. 2024. Under-standing On-the-Fly End-User Robot Programming. In Proceedings of the 2024 ACM Designing Interactive Systems Conference (Copenhagen, Denmark) (DIS ’24) . Association for Computing Machinery, New York, NY, USA, 2468–2480. doi:10.1145/3643834.3660721 [50] Manasi Swaminathan, Long-Jing Hsu, Min Min Thant, Kyrie Jig Amon, Anna S. Kim, Katherine M. Tsui, Selma Sabanović, David J. Crandall, and Weslie Khoo. 2024. If [YourName] Can Code, So Can You! End-User Robot Programming For Non-Experts. In Companion of the 2024 ACM/IEEE International Conference on Human-Robot Interaction (Boulder, CO, USA) (HRI ’24) . Association for Computing Machinery, New York, NY, USA, 1033–1037. doi:10.1145/3610978.3640644 [51] Claudio Taesi, Francesco Aggogeri, and Nicola Pellegrini. 2023. COBOT Ap-plications—Recent Advances and Challenges. Robotics 12, 3 (2023). https: //www.mdpi.com/2218-6581/12/3/79 [52] Raphael Vallat. 2018. Pingouin: statistics in Python. Journal of Open Source Software 3, 31 (Nov. 2018), 1026. doi:10.21105/joss.01026 [53] Sai H. Vemprala, Rogerio Bonatti, Arthur Bucker, and Ashish Kapoor. 2024. Chat-GPT for Robotics: Design Principles and Model Abilities. IEEE Access 12 (2024), 55682–55696. doi:10.1109/ACCESS.2024.3387941 SHRIMP : Iterative Refinement of Robot Task Plans UIST ’26, November 02–05, 2026, Detroit, MI, USA 
+
+[54] Pauli Virtanen, Ralf Gommers, Travis E. Oliphant, Matt Haberland, Tyler Reddy, David Cournapeau, Evgeni Burovski, Pearu Peterson, Warren Weckesser, Jonathan Bright, Stéfan J. van der Walt, Matthew Brett, Joshua Wilson, K. Jar-rod Millman, Nikolay Mayorov, Andrew R. J. Nelson, Eric Jones, Robert Kern, Eric Larson, C J Carey, İlhan Polat, Yu Feng, Eric W. Moore, Jake VanderPlas, Denis Laxalde, Josef Perktold, Robert Cimrman, Ian Henriksen, E. A. Quintero, Charles R. Harris, Anne M. Archibald, Antônio H. Ribeiro, Fabian Pedregosa, Paul van Mulbregt, and SciPy 1.0 Contributors. 2020. SciPy 1.0: Fundamental Al-gorithms for Scientific Computing in Python. Nature Methods 17 (2020), 261–272. doi:10.1038/s41592-019-0686-2 [55] Jiaqi Wang, Enze Shi, Huawen Hu, Chong Ma, Yiheng Liu, Xuhui Wang, Yincheng Yao, Xuan Liu, Bao Ge, and Shu Zhang. 2025. Large language models for ro-botics: Opportunities, challenges, and perspectives. Journal of Automation and Intelligence 4, 1 (2025), 52–64. doi:10.1016/j.jai.2024.12.003 [56] Yeping Wang, Pragathi Praveena, Daniel Rakita, and Michael Gleicher. 2023. RangedIK: An Optimization-based Robot Motion Generation Method for Ranged-Goal Tasks. 2023 IEEE International Conference on Robotics and Automation (ICRA) 
+
+(2023), 9700–9706. https://api.semanticscholar.org/CorpusID:257219787 [57] Adam Wathan. 2017. Tailwind CSS . https://github.com/tailwindlabs/tailwindcss [58] Brianna Zitkovich, Tianhe Yu, Sichun Xu, Peng Xu, Ted Xiao, Fei Xia, Jialin Wu, Paul Wohlhart, Stefan Welker, Ayzaan Wahid, Quan Vuong, Vincent Van-houcke, Huong Tran, Radu Soricut, Anikait Singh, Jaspiar Singh, Pierre Ser-manet, Pannag R. Sanketi, Grecia Salazar, Michael S. Ryoo, Krista Reymann, Kanishka Rao, Karl Pertsch, Igor Mordatch, Henryk Michalewski, Yao Lu, Sergey Levine, Lisa Lee, Tsang-Wei Edward Lee, Isabel Leal, Yuheng Kuang, Dmitry Kalashnikov, Ryan Julian, Nikhil J. Joshi, Alex Irpan, Brian Ichter, Jasmine Hsu, Alexander Herzog, Karol Hausman, Keerthana Gopalakrishnan, Chuyuan Fu, Pete Florence, Chelsea Finn, Kumar Avinava Dubey, Danny Driess, Tianli Ding, Krzysztof Marcin Choromanski, Xi Chen, Yevgen Chebotar, Justice Carbajal, Noah Brown, Anthony Brohan, Montserrat Gonzalez Arenas, and Kehang Han. 2023. RT-2: Vision-Language-Action Models Transfer Web Knowledge to Robotic Control. In Proceedings of The 7th Conference on Robot Learning (Proceedings of Ma-chine Learning Research, Vol. 229) , Jie Tan, Marc Toussaint, and Kourosh Darvish (Eds.). PMLR, 2165–2183. https://proceedings.mlr.press/v229/zitkovich23a.html UIST ’26, November 02–05, 2026, Detroit, MI, USA Schroder et al. 
+
+## A Appendix: Questionnaires A.1 Perceived Autonomy Scale 
+
+Participants rated each statement on a 5-point Likert scale (1 = Strongly disagree, 5 = Strongly agree). 
+
+• The system provided choices based on my true interests. 
+
+• The system let me do things my own way. 
+
+• The system helped me take actions that I wanted to do rather than because I was told to. 
+
+• The system let me be in control of what I did. 
+
+• The system helped me make my own decisions. 
+
+## A.2 Transparency Of Robots Scale (TOROS) 
+
+Participants rated each statement on a 7-point Likert scale (1=Strongly disagree, 7=Strongly agree). 
+
+• I am confused about the robot’s general objectives. 
+
+• I cannot explain the robot’s behavior. 
+
+• It is clear to me what the robot does. 
+
+• I have a clear understanding of how the robot operates in general. 
+
+• I feel informed about the robot’s activities. 
+
+• The robot’s behavior is predictable. 
+
+## A.3 NASA-TLX 
+
+Participants rated each item on a 7-point Likert scale (1=Very low, 7=Very high). 
+
+• How mentally demanding was the task? 
+
+• How physically demanding was the task? 
+
+• How hurried or rushed was the pace of the task? 
+
+• How successful were you in accomplishing what you were asked to do? 
+
+• How hard did you have to work to accomplish your level of performance? 
+
+• How insecure, discouraged, irritated, stressed, and annoyed were you? 
+
+## A.4 System Usability Scale (SUS) 
+
+Participants rated each statement on a 5-point Likert scale (1=Strongly disagree, 5=Strongly agree). 
+
+• I think that I would like to use this system frequently. 
+
+• I found the system unnecessarily complex. 
+
+• I thought the system was easy to use. 
+
+• I think that I would need the support of a technical person to be able to use this system. 
+
+• I found the various functions in this system were well inte-grated. 
+
+• I thought there was too much inconsistency in this system. 
+
+• I would imagine that most people would learn to use this system very quickly. 
+
+• I found the system very cumbersome to use. 
+
+• I felt very confident using the system. 
+
+• I needed to learn a lot of things before I could get going with this system. 
+
+## A.5 Open-Ended Questions 
+
+• Across all three trials, how was your overall experience using the system? 
+
+• How would you compare your experience across the three trials? 
+
+• Which trial did you prefer, and what made it better than the others? 
+
+• Across all three trials, which interface features did you find most useful, and why? 
+
+• Do you have any other thoughts or feedback? 
+
+## B Appendix: Plan Examples 
+
+For readability, all numeric plan parameters in this appendix are rounded to at most two decimal places. High-level primitives are numbered as X., and the low-level primitives nested under them are numbered as X.Y. All plans are selected from task history before robot execution. 
+
+## Task 1: Set the Table 
+
+P11, Trial 3 
+
+User Prompt. Move bowl to the center of the table. Move the cup next to the bowl in the upper left side of the bowl. Using the Right Arm of the Robot, move the spoon 5 inches from the center of the table. 
+
+## Task 2: Prepare a Snack 
+
+P37, Trial 3 
+
+User Prompt. Pick up a cup and empty its contents into the bowl. Place the cup upright on the table at its original position. Repeat all actions with the second cup 
+
+## Task 3: Clean the Table 
+
+P13, Trial2 
+
+Prompt. There are four objects on the table, 3 to be cleaned and a fourth to store the items. The items to tidy are two cups and a bowl. The large bin will collect the items. The goal is to place the two cups and bowl in the large bin. SHRIMP : Iterative Refinement of Robot Task Plans UIST ’26, November 02–05, 2026, Detroit, MI, USA 
+
+Sequence Primitive Parameters Arm Object Pose 
+
+1. home 2. pick_and_place (bowl_1) 
+
+arm=left, grasp_pose=[-0.08,0.12,1.01,1,0,0,0], end_position=[0,0,1.03] 2.1 move_to_pose left – [-0.08, 0.12, 1.13, 1, 0, 0, 0] 2.2 move_to_pose left – [-0.08, 0.12, 1.01, 1, 0, 0, 0] 2.3 pincer_grasp left bowl_1 –2.4 move_to_pose left bowl_1 [-0.08, 0.12, 1.13, 1, 0, 0, 0] 2.5 move_to_pose right – [0.4, 0, 1.4, 1, 0, 0, 0] 2.6 move_to_pose left bowl_1 [0.0, 0.0, 1.13, 1, 0, 0, 0] 2.7 move_to_pose left bowl_1 [0.0, 0.0, 1.03, 1, 0, 0, 0] 2.8 release left bowl_1 –2.9 move_to_pose left – [0.0, 0.0, 1.13, 1, 0, 0, 0] 
+
+3. pick_and_place (cup_1) 
+
+arm=left, grasp_pose=[-0.22,0.2,1.02,0.71,0.71,0,0], end_position=[-0.04,0.18,1.04] 3.1 move_to_pose left – [-0.22, 0.2, 1.14, 0.71, 0.71, 0, 0] 3.2 move_to_pose left – [-0.22, 0.2, 1.02, 0.71, 0.71, 0, 0] 3.3 pincer_grasp left cup_1 –3.4 move_to_pose left cup_1 [-0.22, 0.2, 1.14, 0.71, 0.71, 0, 0] 3.5 move_to_pose left cup_1 [-0.04, 0.18, 1.14, 0.71, 0.71, 0, 0] 3.6 move_to_pose left cup_1 [-0.04, 0.18, 1.04, 0.71, 0.71, 0, 0] 3.7 release left cup_1 –3.8 move_to_pose left – [-0.04, 0.18, 1.14, 0.71, 0.71, 0, 0] 
+
+4. pick_and_place (spoon_1) 
+
+arm=right, grasp_pose=[0.17,0.19,1.01,1,0,0,0], end_position=[0.13,0.0,1.11] 4.1 move_to_pose left – [-0.4, 0, 1.4, 1, 0, 0, 0] 4.2 move_to_pose right – [0.17, 0.19, 1.21, 1, 0, 0, 0] 4.3 move_to_pose right – [0.17, 0.19, 1.01, 1, 0, 0, 0] 4.4 pincer_grasp right spoon_1 –4.5 move_to_pose right spoon_1 [0.17, 0.19, 1.21, 1, 0, 0, 0] 4.6 move_to_pose right spoon_1 [0.13, 0.0, 1.21, 1, 0, 0, 0] 4.7 move_to_pose right spoon_1 [0.13, 0.0, 1.11, 1, 0, 0, 0] 4.8 release right spoon_1 –4.9 move_to_pose right – [0.13, 0.0, 1.21, 1, 0, 0, 0] 
+
+Table 4: Plan for Set the Table from P11, Trial 3. Includes high-level and low-level primitives. 
+
+Sequence Primitive Parameters Arm Object Pose 
+
+1. home 2. pick_and_place (cup_1) 
+
+arm=right, grasp_pose=[0.16,0.24,1.02,0.71,0.71,0,0], end_position=[0.0,-0.15,1.21] 2.1 move_to_pose right – [0.16, 0.24, 1.32, 0.71, 0.71, 0, 0] 2.2 move_to_pose right – [0.16, 0.24, 1.02, 0.71, 0.71, 0, 0] 2.3 pincer_grasp right cup_1 –2.4 move_to_pose right cup_1 [0.16, 0.24, 1.32, 0.71, 0.71, 0, 0] 2.5 move_to_pose left – [-0.4, 0, 1.4, 1, 0, 0, 0] 2.6 move_to_pose right cup_1 [0.0, -0.15, 1.32, 0.71, 0.71, 0, 0] 2.7 move_to_pose right cup_1 [0.0, -0.15, 1.21, 0.71, 0.71, 0, 0] 2.8 release right cup_1 –2.9 move_to_pose right – [0.0, -0.15, 1.32, 0.71, 0.71, 0, 0] 
+
+3. pick_and_place (cup_2) 
+
+arm=right, grasp_pose=[0.03,0.18,1.02,0.71,0.71,0,0], end_position=[0.0,-0.15,1.21] 3.1 move_to_pose right – [0.03, 0.18, 1.32, 0.71, 0.71, 0, 0] 3.2 move_to_pose right – [0.03, 0.18, 1.02, 0.71, 0.71, 0, 0] 3.3 pincer_grasp right cup_2 –3.4 move_to_pose right cup_2 [0.03, 0.18, 1.32, 0.71, 0.71, 0, 0] 3.5 move_to_pose right cup_2 [0.0, -0.15, 1.32, 0.71, 0.71, 0, 0] 3.6 move_to_pose right cup_2 [0.0, -0.15, 1.21, 0.71, 0.71, 0, 0] 3.7 release right cup_2 –3.8 move_to_pose right – [0.0, -0.15, 1.32, 0.71, 0.71, 0, 0] 
+
+4. pick_and_place (bowl_1) 
+
+arm=left, grasp_pose=[-0.19,0.1,1.01,1,0,0,0], end_position=[0.0,-0.15,1.2] 4.1 move_to_pose right – [0.4, 0, 1.4, 1, 0, 0, 0] 4.2 move_to_pose left – [-0.19, 0.1, 1.3, 1, 0, 0, 0] 4.3 move_to_pose left – [-0.19, 0.1, 1.01, 1, 0, 0, 0] 4.4 pincer_grasp left bowl_1 –4.5 move_to_pose left bowl_1 [-0.19, 0.1, 1.3, 1, 0, 0, 0] 4.6 move_to_pose left bowl_1 [0.0, -0.15, 1.3, 1, 0, 0, 0] 4.7 move_to_pose left bowl_1 [0.0, -0.15, 1.2, 1, 0, 0, 0] 4.8 release left bowl_1 –4.9 move_to_pose left – [0.0, -0.15, 1.3, 1, 0, 0, 0] 
+
+Table 5: Plan for Clean the Table from P13, Trial 2. Includes high-level and low-level primitives. UIST ’26, November 02–05, 2026, Detroit, MI, USA Schroder et al. 
+
+Sequence Primitive Parameters Arm Object Pose 
+
+1. home 
+
+1 home – – –
+
+2. pick (cup_1) 
+
+arm=left, grasp_pose=[-0.1,0.19,1.02,0.71,0.71,0,0], end_position=[-0.1,0.19,1.04] 2.1 move_to_pose left – [-0.1, 0.19, 1.14, 0.71, 0.71, 0, 0] 2.2 move_to_pose left – [-0.1, 0.19, 1.02, 0.71, 0.71, 0, 0] 2.3 pincer_grasp left cup_1 –2.4 move_to_pose left cup_1 [-0.1, 0.19, 1.14, 0.71, 0.71, 0, 0] 2.5 move_to_pose left cup_1 [-0.1, 0.19, 1.14, 0.71, 0.71, 0, 0] 2.6 move_to_pose left cup_1 [-0.1, 0.19, 1.04, 0.71, 0.71, 0, 0] 
+
+3. pour (cup_1 → bowl_1) 
+
+arm=left, initial_pose=[0.01,-0.09,1.1,1,0,0,0], pour_orientation=[-0.57,0,0,0.82], pour_hold=1.5 3.1 move_to_pose left cup_1 [0.01, -0.09, 1.1, 1, 0, 0, 0] 3.2 tilt_in_hand left cup_1 –3.3 move_to_pose left cup_1 [0.01, -0.09, 1.1, -0.57, 0, 0, 0.82] 3.4 wait – – duration=1.5 3.5 move_to_pose left cup_1 [0.01, -0.09, 1.1, 1, 0, 0, 0] 
+
+4. move_to_pose (cup_1) 
+
+move_to_pose left cup_1 [-0.1, 0.19, 1.1, 1, 0, 0, 0] 
+
+5. release (cup_1) 
+
+release left cup_1 –
+
+6. pick (cup_2) 
+
+arm=left, grasp_pose=[-0.22,0.2,1.02,0.71,0.71,0,0], end_position=[-0.22,0.2,1.04] 6.1 move_to_pose left – [-0.22, 0.2, 1.14, 0.71, 0.71, 0, 0] 6.2 move_to_pose left – [-0.22, 0.2, 1.02, 0.71, 0.71, 0, 0] 6.3 pincer_grasp left cup_2 –6.4 move_to_pose left cup_2 [-0.22, 0.2, 1.14, 0.71, 0.71, 0, 0] 6.5 move_to_pose left cup_2 [-0.22, 0.2, 1.14, 0.71, 0.71, 0, 0] 6.6 move_to_pose left cup_2 [-0.22, 0.2, 1.04, 0.71, 0.71, 0, 0] 
+
+7. pour (cup_2 → bowl_1) 
+
+arm=left, initial_pose=[0.01,-0.09,1.21,1,0,0,0], pour_orientation=[-0.57,0,0,0.82], pour_hold=1.5 7.1 move_to_pose right – [0.4, 0, 1.4, 1, 0, 0, 0] 7.2 move_to_pose left cup_2 [0.01, -0.09, 1.21, 1, 0, 0, 0] 7.3 tilt_in_hand left cup_2 –7.4 move_to_pose left cup_2 [0.01, -0.09, 1.21, -0.57, 0, 0, 0.82] 7.5 wait – – duration=1.5 7.6 move_to_pose left cup_2 [0.01, -0.09, 1.21, 1, 0, 0, 0] 
+
+8. move_to_pose (cup_2) 
+
+move_to_pose left cup_2 [-0.22, 0.2, 1.04, 1, 0, 0, 0] 
+
+9. release (cup_2) 
+
+release left cup_2 –
+
+Table 6: Plan for Prepare a Snack from P37, Trial 3. Includes high-level and low-level primitives. SHRIMP : Iterative Refinement of Robot Task Plans UIST ’26, November 02–05, 2026, Detroit, MI, USA 
+
+## C Appendix: Additional Data Visualizations 
+
+Here we present Figures 9, 10, and 11 as supplementary data visu-alizations. no-plan plan-only plan+edit   
+
+> Condition
+> 12345
+> Perceived Autonomy
+> no-plan plan-only plan+edit
+> Condition
+> 1234567
+> Transparency (TOROS)
+> no-plan plan-only plan+edit
+> Condition
+> 020 40 60 80 100
+> Task Load (NASA-TLX)
+
+Figure 9: Distribution of User Experience Measures — This shows the distribution of data for participants score for Per-ceived Autonomy (control), Transparency, and Task Load. The box plot shows the inter quartile range (IQR) Q1-Q3 with the middle horizontal line showing the mean. The boxplot whiskers show 1.5x IQR. The boxplot is overlaid with dots representing the individual participant scores. 1 2 3            
+
+> Task
+> 1
+> 2
+> 3
+> 4
+> 5** ***
+> Perceived Autonomy
+> 123
+> Task
+> 1
+> 2
+> 3
+> 4
+> 5
+> 6
+> 7
+> Transparency (TOROS)
+> 123
+> Task
+> 0
+> 20
+> 40
+> 60
+> 80
+> 100 ** **** *
+> Task Load (NASA-TLX) 123
+> Task
+> 0
+> 20
+> 40
+> 60
+> 80
+> 100
+> System Usability (SUS)
+> 123
+> Task
+> 0
+> 2
+> 4
+> 6
+> 8
+> 10
+> 12
+> 14 **
+> Time (min)
+> 123
+> Task
+> 0.0
+> 0.5
+> 1.0
+> 1.5
+> 2.0
+> 2.5
+> 3.0 *
+> Task Success
+
+Figure 10: Quantitative Measures Across Tasks — The bar chart shows the mean scores across tasks for participants scores for Perceived Autonomy (control), Transparency, Task Load, System Usability, and mean measures for Time (min-utes) and Task Success (out of 3). For Perceived Autonomy Transparency, System Usability, and Task Success a higher score is better, while for Task Load and Time a lower value is better. Task 1 is Set the Table , 2 is Prepare a Snack ,and 3 is Clean the Table . Horizontal brackets indicate significant pairwise comparison, calculated with a LMM 
+
+(𝑝 < 0.05 ∗, 𝑝 < 0.01 ∗∗ , 𝑝 < 0.001 ∗∗∗ ). Vertical lines on each bar indicate standard error. UIST ’26, November 02–05, 2026, Detroit, MI, USA Schroder et al. Mental Demand Physical Demand Temporal Demand Performance Effort Frustration 1234567Condition no-plan plan-only plan+edit 
+
+Figure 11: Task Load Scores By Question — The bar chart shows the mean participant scores for Task Load (NASA-TLX) per questions. For all questions, a lower score is better.
