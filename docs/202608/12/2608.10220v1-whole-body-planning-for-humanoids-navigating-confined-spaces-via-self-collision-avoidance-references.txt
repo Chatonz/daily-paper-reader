@@ -1,0 +1,380 @@
+Title: Whole-Body Planning for Humanoids Navigating Confined Spaces via Self-Collision Avoidance References
+
+URL Source: https://arxiv.org/pdf/2608.10220v1
+
+Published Time: Wed, 12 Aug 2026 00:15:34 GMT
+
+Number of Pages: 8
+
+Markdown Content:
+# Whole-Body Planning for Humanoids Navigating Confined Spaces via Self-Collision Avoidance References 
+
+Carlos Gonzalez 1 and Luis Sentis 1
+
+Abstract — Humanoid locomotion in highly confined envi-ronments requires navigating dense environmental obstacles and complex self-collision bounds while maintaining multi-contact dynamic feasibility. Traditional trajectory optimizers frequently struggle in these restricted spaces, as navigating the large collision space with splines on particle abstractions is insufficient and leads to poor local minima. To address this, we propose a three-stage whole-body planning framework that formulates kinematic path planning directly over kinematically reachable rigid-body volumes. By integrating differentiable collision avoidance into a reachability-constrained formulation, our framework synthesizes volume-informed guides that reli-ably guide a full-order trajectory optimizer over long horizons. We show that these optimized plans serve as high-quality references to train a residual reinforcement learning policy for robust online execution. We validate our approach on the Unitree G1 humanoid across three benchmark testbeds exceed-ing NIST emergency response standards, achieving restricted confinement ratios (Cr < 1.5). Our framework generates feasible trajectories across 12-to-18-second tasks with complex foot and hand contacts where standard baselines fail, while the learned policy successfully tracks these plans under extensive domain randomization in physics simulation. 
+
+I. I NTRODUCTION 
+
+Legged locomotion on structured terrains has matured rapidly in recent years, with fluid behaviors ranging from human-like walking on flat ground [1] to agile locomo-tion over large obstacles [2]. Learning-based approaches have streamlined the execution of dynamic motions that were traditionally difficult to realize with classical planning schemes, at the expense of relying on high-quality motion data. At the same time, advances in convex optimization and differentiable geometry for motion planning have reduced solve times and minimized manual parameter tuning when generating collision-free trajectories. These developments provide a strong foundation for synthesizing kinematically and dynamically consistent motions in highly constrained environments, such as confined spaces. Navigating confined spaces presents severe challenges for humanoid robots: the collision-free configuration space degrades into narrow, non-convex manifolds where slight posture deviations cause unwanted environmental collisions that risk destabilizing the robot. Furthermore, long-horizon planning is essential, as myopic or short-horizon schemes fail 
+
+> 1Authors are with the Department of Aerospace Engineering and Engi-neering Mechanics, The University of Texas at Austin, TX 78712, USA.
+
+{carlos.gonzalez,lsentis }@utexas.edu                     
+
+> 2Supplementary videos are available at: https://carlosiglezb.github.io/confined-space-wbp-humanoid/ This work has been submitted to the IEEE for possible publication. Copyright may be transferred without notice, after which this version may no longer be accessible.
+> Fig. 1. Whole-body motion through an obstructed hole. The G1 hu-manoid navigates a non-convex aperture in a confined space. Our proposed WBP generates a kinematically and dynamically feasible plan that the robot is able to track online despite the terrain complexities: it balances balances on non-coplanar hand and foot contacts to cross the opening (t= 4 .50 –7.68 s), then lands in a kinematically constrained configuration and resolves into a squared-up stance ( t= 8 .72 –15 .00 s).
+
+to foresee when current footholds or upper-body postures lead to kinematic or dynamic dead-ends. The scarcity of high-quality demonstration data in confined settings limits the direct applicability of data-driven and imitation-based frameworks [3], [4], which require precise motion retargeting that strictly respects the robot’s kinematic reachability and torque limits. Conversely, classical trajectory optimization formulations often struggle with dense obstacle scenes: they typically neglect detailed collisions to maintain reasonable compute times [5], [6], rely on overly simplified bounding volumes [7], or require sophisticated initializations to con-verge to feasible solutions [8]. To address these challenges, we introduce a morphology-aware Whole-Body Planning (WBP) and Control framework for humanoid robots in tight, geometrically complex environ-ments, such as those defined by NIST emergency response standards [9], [10]. At the core of our approach is a novel kinematic seeding mechanism that lifts particle-based convex relaxations [11] to full 3D rigid-body representations. By embedding differentiable collision detection [12] directly into this relaxed geometric search, our planner effectively traverses narrow non-convex configuration manifolds to dis-cover topologically distinct, kinematically feasible posture seeds, automatically uncovering diverse locomotion strate-gies without requiring manual initial guesses. These kine-matic seeds are subsequently transcribed into dynamically consistent whole-body trajectories that push the robot to its arXiv:2608.10220v1 [cs.RO] 10 Aug 2026 Avoid Particle-Env Collisions Include Geometric SCA Find feasible torques for collision-free motion Stage 1 Stage 2 Stage 3 Residual Policy Motion Controller (Sec. IV. A) (Sec. IV. B) (Sec. IV. C) (Sec. IV. E) Fig. 2. Sequential planning pipeline. Stage 1: Environment-aware TO for planning frames. Stage 2: SCA refinement using primitive proxy geometries. The right leg trajectories are notably modified by this stage. Stage 3: Dynamically feasible WBP with more articulated collision model. Motion Controller: Residual policy tracking the computed plan. 
+
+physical limits. Our main contributions are summarized as follows: 1) Geometry-Aware Kinematic Reference Generation. 
+
+We efficiently extend the constrained particle planning strategy in [11] to constrained rigid bodies. Our approach promotes the discovery of kinematically feasible seeds for diverse locomotion styles to guide Self-Collision Avoidance (SCA) motions in confined spaces. 2) Dynamically Consistent Confined-Space Planning. Amorphology-aware optimization pipeline that transcribes complex kinematic collision-free references into dynam-ically consistent whole-body trajectories for humanoids. 3) Closed-Loop Whole-Body Tracking Policy. A fast-converging learned policy that tracks the generated WBPs in simulation under sensor noise, modeling uncertainties, and dynamics randomization. 4) Long-Horizon Benchmark in Standardized Confined Spaces. We validate our framework on the Unitree G1 humanoid, generating stable, long-horizon plans ( 12 –18 s) across three confined environments that meet and exceed NIST emergency response standards [9], [10], where baseline spline-guided planners fail to converge. II. R ELATED WORK 
+
+Finding a feasible motion that moves a robot from an ini-tial to a goal state by making and breaking contacts with the environment is known as the multi-contact planning problem. Existing approaches to solve this problem span optimization-based formulations, imitation learning from demonstrations, and end-to-end reinforcement learning. 
+
+A. Optimization-Based Motion Planning 
+
+Multi-contact motion generation typically follows astance-before-motion paradigm [13], [14]. While dedicated contact planners search for contact sequences using reach-ability graphs [15], mixed-integer optimization [16], or im-plicit sampling [17], this work focuses specifically on WBP given candidate sequences. Our goal is to address the remain-ing continuous non-convex challenge: discovering feasible joint and torque trajectories through narrow passages. State-of-the-art WBP relies on Trajectory Optimization (TO) operating over either reduced-order models [5], [6] or full-body formulations [11]. Reduced Order Models (ROMs) are computationally efficient but neglect link collisions, mak-ing them unsuitable for confined environments. Conversely, full-body TO captures a more representative geometry but struggles with collision enforcement in tight spaces. Exist-ing methods handle collisions either via soft penalty barri-ers [18], which allow residual penetrations, or hard inequality constraints [19], which trap gradient-based solvers in local minima without high-quality initializations. 
+
+B. Imitation-Based Learning 
+
+To overcome the challenges in generating feasible multi-contact trajectories, data-driven and imitation-based learning methods retarget human motion capture data or imitate pre-generated trajectories to synthesize whole-body behav-iors [3], [20]. Recent frameworks use trajectory-tracking imitation [21] to transfer complex whole-body skills to physical humanoids. While imitation learning excels at highly athletic maneu-vers [4], [2], it heavily relies on the availability of rich, physically feasible reference datasets. Acquiring this data in confined spaces is extremely difficult due to unnatural joint configurations needed to traverse them, in addition to potential kinematic constraint mismatches. 
+
+C. End-to-End Deep Reinforcement Learning 
+
+Deep Reinforcement Learning (RL) has demonstrated im-pressive results in dynamic bipedal locomotion and percep-tive navigation [22], [23], [24]. End-to-end policies directly map onboard sensory observations to motor commands, enabling real-time adaptation over uneven terrain and 3D obstacles [25], [26], [27]. Despite these advances, navigating complex and tight spaces requiring self- and environment-collision awareness purely through reward exploration leads to extreme sample inefficiency, local minima, and dynamic instability. This work bridges these gaps by efficiently synthesizing morphology-aware guides that a TO can leverage to lead the robot through the confined space. Our pipeline gener-ates plans directly over kinematically reachable rigid-body volumes using differentiable collision detection [12]. This approach provides the non-myopic seed required to generate high-fidelity reference trajectories that subsequently enables effective RL policy training for online execution. III. P ROBLEM STATEMENT 
+
+In multi-contact legged locomotion, the overall planning problem can be stated as follows: 
+
+minimize   
+
+> x(·),u (·),t1,··· ,t nph ,nph
+> nph
+
+X
+
+> i=1
+> ti
+
+Z
+
+> ti−1
+
+ℓi (x(t), u (t)) d t + Φ i(x(ti)) (1a) 
+
+subject to ˙x(t) = fi(x(t), u (t)) (1b) 
+
+gi(x(t), u (t)) = 0 (1c) 
+
+hi(x(t), u (t)) ≤ 0 (1d) 
+
+x(t+ 
+
+> i
+
+) = ρi(x(t− 
+
+> i
+
+)) (1e) where the optimization variables are the state, x(t), the con-trol input, u(t), the contact phase transition times ti, ∀ i =0, · · · , n ph , and the total number of contact phases, nph . The running and terminal costs are ℓi(·, ·) and Φi(·), respectively. The dynamics of the system are dictated according to its cur-rent contact phase (1a), where a specific set of equality (1c) and inequality (1d) conditions may apply. When a change in contacts occurs, i.e., at t1, . . . , t nph −1, a new state, x(t+ 
+
+> i
+
+),is obtained through some reset map (e.g., impulse dynamics model), as shown in (1e). Problem (1) is computationally intractable due to the high-dimensional continuous state space, the combinatorial complexity of the discrete contact sequences, and the non-convexity of environmental collision constraints. We address this by partitioning (1) into two sub-problems: the contact sequence selection and the whole-body motion synthesis. In this work, we focus on the latter since the former can be effectively explored using existing methods such as tree search methods [28]. Hence, we assume a provided sequence of nph contact phases {ci}nph  
+
+> i=1
+
+with durations Ti := ti −ti−1,where each ci represents the ith contact phase from the set of possible contact combinations C. This modular approach allows the planner to remain agnostic to the contact sequence generator, provided these are kinematically reachable. With these assumptions, we discretize problem (1) and solve the following simplified whole-body planning problem: 
+
+minimize 
+
+> x,u nph
+
+X
+
+> i=1
+> Ni−1
+
+X
+
+> k=Ni−1
+
+ℓk (xk, u k) + Φ Nnph (xNnph ) (2a) 
+
+s.t. xk+1 = f di (xk, u k), ∀ k ∈ [N0, N nph ] (2b) 
+
+xk ∈ X lim , uk ∈ U , λk ∈ K i (2c) 
+
+xk ∈ X cfree ∩ X sca (2d) Contact phase i consists of Ni − Ni−1 knots, where Ni ∈
+
+Z+ is the time index at which contact phase i ends. The dis-crete dynamics (2b) dictates the evolution of the state in each contact phase i. Joint positions and velocities are constrained to be within their respective limits in Xlim . Similarly, torques are constrained to be within their limits, U. The contact forces must remain within their respective friction cones, Ki.Constraint (2d) restricts the robot to configurations that are free of self-collision, Xsca , and environmental interference, 
+
+Xcfree , with the exception of the specific contact patches scheduled for navigation. We highlight here that the sets 
+
+Xcfree and Xsca become more restrictive when navigating confined spaces and are in general non-convex, hence our aim to guide the solver away from local minima induced by these constraints. We omit impulse dynamics under the assumption of negligible impact velocities during the planned contact transitions. The plan obtained from solving (2) to navigate a particular environment must be tracked online to account and correct for model discrepancies in real-time. For this purpose, we seek a controller that outputs action a ∼ π(at|st) given the current state st ∈ S . In practice, this policy is conditioned on noisy observations ot ∈ O , leading to a policy of the form 
+
+π(at|ot).(a) (b)   
+
+> Stage 2 Proxy Collisions Stage 3 WBP Collisions
+> Fig. 3. Collision models used in planning pipeline. (a) Stage 2: Primitive-based (capsules and spheres) geometries for kinematic guides. (b) Stage 3: Refined joint-level bodies (capsules, spheres, and a pelvis box). Red lines denote active collision pairs.
+
+IV. A PPROACH 
+
+The proposed framework to solve (2) is shown in Fig. 2. The planning problem is broken down into three stages. Stage 1 (Sec. IV-A), introduced in [11], generates smooth, environment-collision-free paths for the task-space frames, e.g., torso, feet, palms, while ensuring kinematic reachability. Stage 2 (Sec. IV-B) introduces our refinement process to incorporate proxy collision geometries to steer these trajec-tories away from self-collisions while allowing for desired stylized behaviors. Stage 3 (Sec. IV-C) uses these refined paths as guides in a TO problem to find feasible torque profiles consistent with the full robot dynamics (2b) and that respect the physical limits (1d) and physical interaction with its environment (2d). The pipeline integration is detailed in Sec. IV-D. Lastly, these plans are used to learn an online policy that follows the desired motion online under potential real-world perturbations (Sec. IV-E). 
+
+A. Kinematic Planning Avoiding Environment Collisions [11] 
+
+Stage 1 generates smooth, collision-free task-space refer-ence paths for the torso, feet, and palms while enforcing kinematic reachability. The environment is represented as primitive convex volumes (e.g., IRIS regions [29]) assigned to each planning frame. A search-based planner determines the region traversal sequence, allocating phase durations Ti
+
+proportional to path lengths within each region. Task-space trajectories are parameterized as B´ ezier curves with control points β. The optimal control points are obtained by solving a Second-Order Cone Program (SOCP): 
+
+minimize  
+
+> β
+
+path len dynamics (β; w1) + RigL( β; w2) (3) subject to contact schedule, reachability, and collision-free bounds within the IRIS regions. Here, RigL( β; w2) is a loga-rithmic penalty on knee-to-ankle distance variance, forming a convex relaxation of the rigid link constraint. Non-contacting environment surfaces are padded by link radii, yielding a smooth kinematic reference xdes (t).
+
+B. Differentiable Self-Collision Avoidance 
+
+This module efficiently adjusts the kinematic paths from Sec. IV-A to account for the volumes of the rigid bodies moving along them. Specifically, these bodies must satisfy SCA while preserving their reachability properties. Building upon the differentiable collision framework in [12], the minimum distance between these primitive pairs is computed by solving the following SOCP: 
+
+minimize  
+
+> x,α
+
+α
+
+subject to x ∈ S 1(α)
+
+x ∈ S 2(α)
+
+α ≥ 0
+
+(4) where x ∈ R3, and S1 and S2 are convex shapes expanded by a factor of α. If α∗ > 1, it means that the bodies S1 and 
+
+S2 must be expanded for them to intersect, hence they are not in collision. Alternatively, if α∗ ≤ 1, it means that the bodies are already in collision. The benefit of writing collision detection as (4) is that its gradient w.r.t. position is readily obtained through the Lagrangian and its primal-dual solution. This means that, instead of padding the robot with several spheres to evaluate collisions [26], we can use a single rigid body primitive and perform the required computations on a single body pair. At the same time, instead of numerically estimating the derivatives by finite difference on perturbations at a nominal state, we can simply compute the gradients directly. As illustrated in Fig. 3, we approximate the humanoid’s torso with a capsule and its palms, knees, and ankles with spheres. The capsule and sphere primitives are expressed by 
+
+∥x − (r1 + γˆbz )∥2 ≤ αR, −α L
+
+2 ≤ γ ≤ α L
+
+2 (5) 
+
+∥U (x − r2)∥2 ≤ α, (6) respectively, where ˆbz = Q [0 , 0, 1] ⊤, Q ∈ R3×3 corresponds to the rotation of the capsule w.r.t. world frame, γ ∈ R is an additional slack variable, r1, r 2 ∈ R3 are the coordinates of the origin of the capsule and sphere, respectively, R and L
+
+are the radius and cylinder length of the capsule, and U ∈
+
+R3×3 is the Cholesky factorization of the sphere. These are our corresponding set constraints in (4). We include the rigid body collision detection (4) as a constraint in problem (3), leading to a constraint of the form α(β) ≥ 1 for all control points in (3). Note that this constraint is parameterized by the origin of the primitive shape, which corresponds to our control points, β.Since we are performing gradient-based optimization, we must also provide the solver with the respective gradient of this new constraint w.r.t. the optimization variable β. This is conveniently obtained by invoking the Implicit Function Theorem (IFT), using the KKT condition on the cone con-straint (h − Gx ⋆) ◦ z⋆ = 0 for the corresponding collision pairs as the implicit functions, where (x⋆, z ⋆) are the cor-responding primal-dual solution. The gradients ∂α ∂β are then computed directly from the IFT on parameter β. Applying these constraints at the discrete B´ ezier control points β does not strictly guarantee collision avoidance for the continuous path. However, the convex hull property of B´ ezier curves ensures that the resulting trajectory remains closely bounded by these points. In the constrained environments considered here, this approximation provides a computationally efficient proxy that effectively guides the motion toward a feasible basin for the high-fidelity refinement in Stage 3. In order to solve problem (3) augmented with SCA, we formulate the problem using CasADi, which allows us to perform Automatic Differentiation on the constraints already included therein. The SCA constraints are con-structed through a custom callback that solves (4) within the evaluate call. This stores the corresponding primal-dual variables, which are then used in the call to the gradient of the function. Moreover, in order to make full use of our sequential framework, we employ the warm-starting routine using both primal-dual solution from (3) solved without the SCA, and heuristically zero-pad the dual variables of the SCA constraint. This SCA constraint is applied between the collision pairs indicated in Fig. 3(a). 
+
+C. Full-Order Dynamics Trajectory Optimization 
+
+Once the paths of the planning frames have been adjusted so that they are all kinematically reachable, consistent with the contact plan, and avoid self- and environment collisions, we compute a dynamically feasible plan guided by these trajectories. This amounts to solving problem (2), which we aim to speed-up by guiding the solver’s landscape through the near-feasible paths resulting from Sec. IV-B. We use the whole-body dynamics model of the humanoid, with state vector x = [ q⊤ v⊤]⊤. The generalized configu-ration is q ∈ SE(3) × Rnj representing the floating base and the nj joint, while the generalized velocity is v ∈ Rnv ,where nv = 6 + nj . The control input u ∈ Rnu corresponds to the actuated joint torques. 
+
+1) Costs: To guide the whole-body trajectory optimizer along the Stage 2 references, we formulate running cost ℓk
+
+and terminal cost ΦN as: 
+
+ℓk(xk, u k) = X 
+
+> f∈F
+
+wgoal ∥FK( xk) − xf, des  
+
+> k
+
+∥2
+
+> Wf
+
++ wxReg ∥xk − xref  
+
+> k
+
+∥2 
+
+> Wx
+
++ wuReg ∥uk∥2 
+
+> Wu
+
+,
+
+ΦN (xN ) = X 
+
+> f∈F
+
+wgoal  
+
+> N
+
+∥FK( xN ) − xf, des  
+
+> N
+
+∥2
+
+> Wf
+
++ wxReg  
+
+> N
+
+∥xN − xref  
+
+> N
+
+∥2 
+
+> Wx
+
+.
+
+(7) where FK( ·) evaluates task-space forward kinematics, xf, des 
+
+> k
+
+is the desired positions of task frame f ∈ F obtained from its corresponding B´ ezier curves, and Wf , W x, W u are positive definite weighting matrices. where wgoal , w goal  
+
+> N
+
+∈ R and Wf ∈ R6×6 are weights, 
+
+FK : R7+ nj 7 → R3 × so (3) computes the forward kinematics based on the current state configuration, xf, des  
+
+> k
+
+∈ R3 × so (3) 
+
+is constructed by combining the B´ ezier curves for all frames in F, as computed in Sec. IV-B, and the orientations of the contact surfaces from the environment. Since the B´ ezier curves can be evaluated at any point in time t ∈ [t0, t nph ], it provides the solver with smooth translation references. 
+
+2) Constraints: In order to search over physically possible motions, we apply joint position and velocity limits in the form of box constraints, Xlim , for each joint, excluding the free floating base. Similarly, U correspond to box constraints for the joint torques. Friction is enforced in two different forms: as a contact wrench cone constraint for the feet contact patches and as a friction cone constraint for the hand point contacts. In both cases, the contact surfaces used as references are the one obtained from the segmentation layer, required as inputs to our planning algorithm in Sec. IV-A. In order to strictly account for environment and self-collision avoidance, in addition to the guides created in Sec. IV-B, we use a refined collision representation of the robot (see Fig. 3(b)) for strict collision avoidance. This is implemented as a hard constraint in the refined WBP as in [30] using the signed distance d(A, B ) = σ∥wA − wB ∥,where σ = −1 when in collision and σ = 1 otherwise, and computing its derivative w.r.t. the robot configuration via 
+
+∂d ∂q = σd (wB − wA)
+
+ ∂w B
+
+∂q − ∂w A
+
+∂q 
+
+
+
+(8) where ∂w A 
+
+> ∂q
+
+is the Jacobian of the (closest) witness point attached to body A. We use the Constrained SQP solver [31] to solve (2). The torque, environment, and SCA constraints are enforced as hard constraints while the friction constraints are imple-mented as soft constraints with a Barrier. 
+
+D. Pipeline for Fully SCA Motions 
+
+To ensure robust convergence of the high-fidelity prob-lem (2), we implement a two-pass optimization strategy. In the first pass, we solve for dynamically consistent joint torques and contact forces while tracking the guides from Stage 2 via xf, des  
+
+> k
+
+in (7) while neglecting hard collision constraints. This allows the solver to prioritize satisfying the nonlinear dynamics (2b) and respecting state and torque limits Xlim and U, respectively, while remaining in the proximity of the collision-free space. In the second pass, the resulting trajectory serves as a warm-start for a final optimization where collision avoidance is enforced as hard inequality constraints (8) using the SCA model in Fig. 3. This sequential approach prevents numerical instability and avoids falling in an infeasible start trap since the solver begins the final pass within a basin of attraction that is already both dynamically plausible and nearly collision-free. To initialize Stage 3, target end-effector poses from the contact sequence are solved via Inverse Kinematics to yield nominal joint configurations with orientation preferences along the respective contact surfaces. Corresponding quasi-static torques are then computed under contact friction con-straints, providing a physically grounded seed for the solver. 
+
+E. Motion Tracking Controller 
+
+The motion controller π(at|ot) can take one of several forms. In this work, our aim is to show that the generated plans are realistic enough that a controller can use them to effectively navigate the confined environment. Thus, we present a custom residual RL policy constructed by follow-ing and adding to standard approaches [21], followed by                                                                          
+
+> TABLE I OBSERVATION NOISE TERMS AND DOMAIN RANDOMIZATION
+> Parameter Type Range / Std.
+> Base Vel. (Lin. / Ang.) Additive ±0.15 m/s, ±0.15 rad/s Projected Gravity Additive ±0.05
+> Joint Pos. / Vel. Additive ±0.1rad, ±0.1rad/s Link Mass & Inertia Scaling [0 .85 ,1.15]
+> Tangential Friction Absolute [0 .6,0.9]
+> Base Push Vel. (x, y )Additive (±0.1,±0.4) m/s Hand Push Force Additive [15 ,30] N ( 0.2–0.5s pulse) Spawn Pos. (x, y )Absolute Xdom ×Ydom
+> TABLE II REWARD TERMS FOR THE G1 R ESIDUAL TRACKING POLICY
+> Term Kernel Type Weight
+> Joint Position Gaussian ( σ= 0 .3rad) 1.0
+> Center-of-Mass Pos. Gaussian ( σ= 0 .05 m) 1.5
+> End-Effector Pos. Gaussian ( σ= 0 .05 m) 2.0
+> Contact Force (Foot/Hand) Gaussian ( σ= 60 /20 N) 1.0
+> Friction-Cone Violation Squared-Hinge −0.5
+> Sustained Contact (Hip/Pelvis) Saturating EMA −1.0/−3.0
+> Action / Action Rate Quadratic ( L2)−0.05 /−0.5
+> Alive Bonus Constant Indicator 0.5
+
+simulation experiments under disturbances in the MuJoCo environment. Assuming a skill-based control paradigm [21], we design a learned policy to track the aforementioned plans for confined spaces. We formulate the control task as a Partially Observ-able Markov Decision Process (POMDP) defined by the tuple 
+
+M = ( S, O, A, P, R, Ω, γ ). In an effort to address the sim-to-real gap, we employ an asymmetric actor-critic framework where the policy πθ (at | ot) maps noisy local observations 
+
+ot ∼ Ω( · | st) to residual joint targets δa t ∈ A , while the value network evaluates based on the full, uncorrupted state 
+
+st ∈ S .
+
+Observations & Critic State: The policy observation vector ot contains tracking errors evaluated relative to the reference guide, including base spatial pose and velocity errors, center-of-mass tracking error, joint position and ve-locity errors, and relative end-effector tracking errors for hands, knees, and feet relative to the base. Additionally, ot
+
+incorporates noisy proprioception (base velocities, projected gravity, and joint states (see Table I)), previous residual ac-tions, torque history, local obstacle distances, phase progress, and look-ahead windows for the planned contact schedule, forces, surface normals, and end-effector references. The asymmetric critic additionally receives privileged ground-truth contact forces and contact locations during training. 
+
+Actions & Rewards: The policy outputs specify residual joint position targets qtarget = qref + δa t executed via low-level PD control. The reward terms are listed in Table II. These maximize joint, CoM, and end-effector tracking per-formance, promote contact quality, and penalize residual magnitude and action rates. 127 38 All units are in cm           
+
+> 40 120 120
+> 50 35.5° 20 70
+> 80 35.5°
+> 100
+> 76.5 40 7
+> 90 100 70 100 55 o40 o
+> Our environments NIST
+> (Unobstructed Hole) (Obstructed Hole) (Variable Hurdle) (Stairs/Landing) (Tilted Stairs) Fig. 4. Challenging confined environments for benchmarking our WBP.
+> (Left) Our environments and (right) those proposed by NIST [9], [10]. (Top) The Unobstructed and Obstructed Holes have a step height comparable to the largest hurdle height with a tighter opening width. The obstructing obstacles (shown in red) make the hole area non-convex. (Bottom) The tilted stairs require the use of palm contacts on the vertical surfaces to balance, we also showcase a steeper staircase slope.
+
+Domain Randomization & Terminations: To maxi-mize robustness, episodes undergo the domain randomization shown in Table I that includes ground friction, mass scaling, and continuous perturbations at the base and hands. The mass scaling is applied jointly to the pelvis, torso, and both hip-pitch and knee links via a physically consistent pseudo-inertia perturbation (mass and inertia scale together, center of mass is unchanged). Inspired by [20] we randomize the initial state of the robot to speed up the training. Episodes are terminated on timeout upon guide exhaustion, root falling, or excessive tilt. The policy is trained in the Unitree RL mjlab environ-ment [32] and is optimized by Proximal Policy Optimization (PPO). The actor-critic networks are Multi-Layer Perceptrons (MLPs) with hidden dimensions [1024, 512, 256] and [2048, 1024, 512], respectively. V. R ESULTS 
+
+We evaluate the 27-DoF Unitree G1 humanoid across three confined testbeds exceeding NIST emergency standards [9], [10] (Fig. 4): an Unobstructed Hole , an Obstructed Hole , and 
+
+Tilted Stairs . To quantify difficulty, we adopt the confinement ratio Cr ≜ Eca /A ca [33], comparing the void cross-sectional area, Eca , to that of the robot, Aca , where Cr < 2 denotes restricted maneuverability. In its nominal stance, G1 faces 
+
+Cr = 1 .4 for the Unobstructed Hole , Cr = 1 .5 for the 
+
+Obstructed Hole , and Cr = 2 .0 for the Tilted Stairs . These provide a lower-bound estimate to terrain complexity as terrain verticality is not considered in this metric. The candidate contact sequences consist of non-prehensile palm and foot contacts: the Unobstructed Hole uses 12 s to step over the base and 15 s to cross by stepping on the base. The Obstructed Hole uses two 15 s sequences stepping on the base, left and right of the obstacle. The Tilted Stairs uses an 
+
+18 s sequence with opposing hand-foot support. To evaluate robustness, we randomly assign different knee modalities and sample 10 initial base positions uniformly from environment-specific domains around the nominal starting positions.              
+
+> Fig. 5. Safety margins in planned motions. (Top) Joint margins and (bottom) minimum signed distances across all N= 7 feasible trials for the Obstructed Hole (Left Step) scenario. The top- and bottom-most dashed lines denote limits. All generated trajectories exploit kinematically challenging motions while respecting collision (the largest penetration here is of dsdf = 2 .4 cm ).
+
+For planning, we assign each contact phase a duration of 
+
+3 s, use hardware torque limits, and expand ankle roll limits to ±36 ◦ for stairs. All optimizations prioritize feasibility over optimality and run on an Intel i7-14650HX CPU with an RTX 5060 GPU. Specifically, our experiments demonstrate: (1) locomotion discovery across confined spaces, (2) failure of standard baselines, (3) necessity of each pipeline stage, and (4) closed-loop execution in physics simulation. 
+
+A. Benchmark Performance in Confined Spaces 
+
+We show in Table III the success rates and time it took to solve problem (2) with our proposed framework. This evaluation is done in our benchmark environments, listed in increasing levels of difficulty: Titled Stairs → Obstructed Hole . Our approach generates feasible plans for all starting positions in the Tilted Stairs and the Unobstructed Hole 
+
+while keeping solve times between two and three minutes, on average. In the Obstructed Hole , we find feasible plans in 65% of the trials, with compute times averaging 3 and 6 minutes, depending on the contact sequence. The high variance in the Right Step sequence is explained by one trial that lasted 854 seconds to compute. Without it, the values drop to μ = 227 s , σ = 31 s .Not shown in the table are the Stage 2 compute times. These kinematic guides take (using the (μ, σ ) convention), on average: 70(59) , 78(9) , and 128(61) seconds to compute for each environment, respectively. Representative motions generated by Stages 2 and 3 are provided in the Supplemen-tary Material, showing the corrective characteristics that our constrained rigid body planner provides. The resulting motions exhibit high and smooth dexterity, despite the tight open space. Sample motions of the hips and knees traversing the Obstructed Hole are shown in Fig. 5. The top plot shows the complexity of the task as the robot operates near its joint limits, while remaining close to its other links and the environment, shown in the bottom plot. We allow small penetrations (in the range of a couple of TABLE III                                                                
+
+> BENCHMARK SUCCESS RATES ACROSS MULTIPLE CONFINED SPACES .COMPARISON OF OUR PROPOSED WBP AGAINST BASELINES AND ABLATIONS ACROSS 10 RANDOM INITIAL POSITIONS PER CONTACT SEQUENCE . V ALUES FOR SUCCESS RATE (M EAN SOLVE TIME (S TD . D EV .) [ S]).
+> Tilted Stairs Unobstructed Hole Obstructed Hole Category Pipeline Configuration Opposing Hand-Foot Step Over Step On Left Step Right Step
+> Proposed Full Pipeline (Stage 1+2+3) 10/10 (174 (57)) 10/10 (125 (31)) 10/10 (180 (41)) 7/10 (191 (37)) 6/10 (332 (235))
+> Baselines Spline Avoid Env w/o Knee 9/10 (352 (147)) 0/10 0/10 0/10 0/10 Lin. Frame Interpolation 7/10 (632 (121)) 0/10 0/10 0/10 0/10
+> Ablations w/o Stage 2 10/10 (255(79)) 10/10 (131 (20)) 10/10 (189 (37)) 1/10 (188) 0/10 w/o dyn. pass in Stage 3 10/10 (133 (28)) 7/10 (140 (44)) 10/10 (163 (102)) 4/10 (216 (33)) 5/10 (233 (85))
+
+centimeters), considering that the real-time controller should be able to correct for these and other uncertainties, as shown in Sec. V-D. 
+
+B. Baseline Comparisons 
+
+We consider two families of baseline guides in WBP for comparison: (1) planners that compute kinematically reach-able spline trajectories avoiding environment collisions but excluding knees trajectories, and (2) planners that account for knee trajectories but perform a simple linear interpo-lation between all frames. The former emulates references generated by planners that rely on ROMs, i.e., references that are possibly dynamically feasible but with low-fidelity in collision avoidance as they disregard knee motions which implicitly affect foot trajectories. The latter consists on performing linear interpolation between the contact states: the simplest references possible when considering additional frames like the knees. Table III indicates that planners disregarding knee trajecto-ries 1 can lead to feasible motions in restricted maneuverable spaces such as the Tilted Stairs but largely fail in tighter scenarios such as the Hole environments. This holds for the linear interpolation method at the expense of even higher compute times, indicating that the optimizer has to work harder to find feasible motions further from the poor-quality references. Notably, this suggests that when the end-effectors are within sight from one contact sequence to the next (such as in the Tilted Stairs ), the probability of finding a feasible plan is considerably higher than when the end-effectors are out-of-sight. All of the contact sequences in the 
+
+Hole environments involve a step over the base. Planning foot trajectories without guiding the knees in this tight space imposes a tough challenge to the optimizer. On the other hand, linear interpolation leads to references passing through the base and colliding with it. 
+
+C. Pipeline Ablation Study 
+
+We assess the impact of the different steps of our pipeline. Our first ablation skips the volume-aware SCA planning, which is one of our main contributions. Notably, this ablation is an improved version of [11] due to our collision inflation 
+
+> 1To replicate planners of this form, we remove the knee frames from our planning frames. This results in spline trajectories for the torso, feet, and hands, all of which are kinematically reachable.
+
+heuristic and since our WBP enforces hard inequality con-straints, rather than relying on barrier methods. This ablation surpasses most ROM spline-based planners by including knee trajectories, thus yielding a high success rate across the Tilted Stairs and the Unobstructed Hole , but finds only one feasible plan in the Obstructed Hole . This shows that our volume-aware SCA guides provide more accurate references in tighter settings. Our second ablation bypasses the dynamics feasibility pass. Surprisingly, bypassing it still yields comparable suc-cess rates in the challenging Obstructed Hole at the expense of losing some reliability in the Unobstructed Hole stepping over the base. This indicates that the dynamics feasibility pass increases the reliability of the initial guess before performing a fully constrained WBP. 
+
+D. Closed-Loop Controller in Physics Simulation 
+
+We use the feasible plans and their respective domain of initial base positions to train a residual policy using the structure detailed in Sec. IV-E, without modifying it for each environment. After spawning the robot in its uniformly sam-pled position, the closest plan to its starting position is given as reference for training. All policies train to convergence within 2 × 10 8 environment steps (or 2, 000 iterations when running 4096 environments) thanks to our high-quality plans. At this point, our policy achieves > 95% traversal success rate operating under full domain randomization and external push perturbations. The resulting motions are smooth and confidently traverse the confined spaces, as seen in Fig. 1. This training architecture leads to ample coverage while being able to leverage the different knee styling resulting from our plans, as seen in the simulations included in the Supplementary Material. VI. C ONCLUSION AND FUTURE WORK 
+
+We presented a WBP framework for humanoid locomotion in highly confined environments. Rather than relying on traditional point-particle guide abstractions, our core con-tribution is formulating kinematic path planning directly over kinematically reachable rigid volumes. By integrat-ing differentiable collision avoidance into a reachability-constrained formulation, our framework synthesizes volume-informed guides that successfully guide a full-order trajec-tory optimizer in restricted geometries ( Cr < 1.5) where standard planners fail. We evaluated multiple candidate con-tact sequences per environment and demonstrated that our planner discovers feasible WBPs that can be further explored in parallel. Furthermore, we demonstrated that these plans serve as effective references for training a robust residual RL policy, achieving high traversal success under extensive domain randomization in physics simulation. Future work includes hardware validation on a physical robot, using our planner in efficient contact exploration pipelines in search of a general confined locomotion policy, and extending our strategy to plan loco-manipulation with large objects in restricted maneuverable spaces. ACKNOWLEDGMENT This work was supported by the Office of Naval Research (ONR), Award No. N00014-22-1-2204. REFERENCES [1] A. D. Ames, “Human-Inspired Control of Bipedal Walking Robots,” 
+
+IEEE Transactions on Automatic Control , vol. 59, pp. 1115–1130, May 2014. [2] Z. Wu, X. Huang, L. Yang, Y. Zhang, K. Sreenath, X. Chen, P. Abbeel, R. Duan, A. Kanazawa, C. Sferrazza, G. Shi, and C. K. Liu, “Percep-tive Humanoid Parkour: Chaining Dynamic Human Skills via Motion Matching.” 2 2026. [3] L. Yang, X. Huang, Z. Wu, A. Kanazawa, P. Abbeel, C. Sferrazza, C. K. Liu, R. Duan, and G. Shi, “OmniRetarget: Interaction-Preserving Data Generation for Humanoid Whole-Body Loco-Manipulation and Scene Interaction,” 10 2025. [4] J. Wang, Y. Jiang, H. Zhang, C. Tessler, D. Rempe, J. Hodgins, and X. B. Peng, “HIL: Hybrid Imitation Learning of Diverse Parkour Skills from Videos,” June 2026. arXiv:2505.12619 [cs.GR]. [5] A. W. Winkler, C. D. Bellicoso, M. Hutter, and J. Buchli, “Gait and Trajectory Optimization for Legged Systems Through Phase-Based End-Effector Parameterization,” IEEE Robotics and Automation Letters , vol. 3, no. 3, pp. 1560–1567, 2018. [6] J. Wang, S. Kim, S. Vijayakumar, and S. Tonneau, “Multi-Fidelity Receding Horizon Planning for Multi-Contact Locomotion,” in IEEE-RAS International Conference on Humanoid Robots , pp. 53–60, IEEE, 2020. [7] I. Taouil, H. Zhao, A. Dai, and M. Khadiv, “Physically Consistent Humanoid Loco-Manipulation Using Latent Diffusion Models,” in 
+
+2025 IEEE-RAS 24th International Conference on Humanoid Robots (Humanoids) , (Seoul, Korea, Republic of), pp. 1–8, IEEE, Sept. 2025. [8] H. Dai, A. Valenzuela, and R. Tedrake, “Whole-body Motion Planning with Centroidal Dynamics and Full Kinematics,” in International Conference on Humanoid Robots , pp. 295–302, 2014. [9] “Standard Test Method for Evaluating Emergency Response Robot Capabilities: Mobility: Confined Area Obstacles: Stairs/Landings,” tech. rep., ASTM International, West Conshohocken, PA, 1 2020. [10] “Test Method for Evaluating Response Robot Mobility Using Vari-able Hurdle Obstacles,” tech. rep., ASTM International, West Con-shohocken, PA, 3 2021. [11] C. Gonzalez and L. Sentis, “Guiding Collision-Free Humanoid Multi-Contact Locomotion using Convex Kinematic Relaxations and Dy-namic Optimization,” in IEEE-RAS International Conference on Hu-manoid Robots , pp. 592–599, 2024. [12] K. Tracy, T. A. Howell, and Z. Manchester, “Differentiable Collision Detection for a Set of Convex Primitives,” in IEEE International Conference on Robotics and Automation , vol. 2023-May, pp. 3663– 3670, 2023. [13] P. M. Wensing, M. Posa, Y. Hu, A. Escande, N. Mansard, and A. D. Prete, “Optimization-Based Control for Dynamic Legged Robots,” 
+
+IEEE Transactions on Robotics , vol. 40, pp. 43–63, 2023. [14] T. Bretl, “Motion planning of multi-limbed robots subject to equi-librium constraints: The free-climbing robot problem,” International Journal of Robotics Research , vol. 25, no. 4, pp. 317–342, 2006. [15] S. Tonneau, A. Del Prete, J. Pettre, C. Park, D. Manocha, and N. Mansard, “An Efficient Acyclic Contact Planner for Multiped Robots,” IEEE Transactions on Robotics , vol. 34, no. 3, pp. 586–601, 2018. [16] R. Deits and R. Tedrake, “Footstep Planning on Uneven Terrain with Mixed-Integer Convex Optimization,” in 14th IEEE-RAS International Conference on Humanoid Robots (Humanoids) , IEEE, 2014. [17] T. Howell, N. Gileadi, S. Tunyasuvunakool, K. Zakka, T. Erez, and Y. Tassa, “Predictive Sampling: Real-time Behaviour Synthesis with MuJoCo,” arXiv:212.00541 , 12 2022. [18] J. R. Chiu, J. P. Sleiman, M. Mittal, F. Farshidian, and M. Hutter, “A Collision-Free MPC for Whole-Body Dynamic Locomotion and Manipulation,” in IEEE International Conference on Robotics and Automation , pp. 4686–4693, 2022. [19] J. Schulman, Y. Duan, J. Ho, A. Lee, I. Awwal, H. Bradlow, J. Pan, S. Patil, K. Goldberg, and P. Abbeel, “Motion planning with sequential convex optimization and convex collision checking,” International Journal of Robotics Research , vol. 33, no. 9, pp. 1251–1270, 2014. [20] X. B. Peng, P. Abbeel, S. Levine, and M. Van De Panne, “DeepMimic: Example-guided deep reinforcement learning of physics-based charac-ter skills,” ACM Transactions on Graphics , vol. 37, no. 4, 2018. [21] F. Liu, Z. Gu, Y. Cai, Z. Zhou, H. Jung, J. Jang, S. Zhao, S. Ha, Y. Chen, D. Xu, and Y. Zhao, “Opt2Skill: Imitating Dynamically-Feasible Whole-Body Trajectories for Versatile Humanoid Loco-Manipulation,” IEEE Robotics and Automation Letters , vol. 10, no. 11, pp. 12261–12268, 2025. [22] D. Hoeller, N. Rudin, D. Sako, and M. Hutter, “ANYmal parkour: Learning agile navigation for quadrupedal robots,” Science Robotics ,vol. 9, no. 88, p. eadi7566, 2024. [23] Z. Zhuang, S. Yao, and H. Zhao, “Humanoid Parkour Learning,” in 
+
+Proceedings of The 8th Conference on Robot Learning , PMLR, 2025. [24] I. Kumagai, M. Murooka, M. Morisawa, and F. Kanehiro, “Reinforce-ment Learning of Contact Preferability in Multi-contact Locomotion Planning for Humanoids,” IEEE Robotics and Automation Letters ,2024. [25] Z. Xu, A. H. Raj, X. Xiao, and P. Stone, “Dexterous Legged Locomo-tion in Confined 3D Spaces with Reinforcement Learning,” in IEEE International Conference on Robotics and Automation , pp. 11474– 11480, 2024. [26] R. Buchanan, L. Wellhausen, M. Bjelonic, T. Bandyopadhyay, N. Kot-tege, and M. Hutter, “Perceptive whole-body planning for multilegged robots in confined spaces,” Journal of Field Robotics , vol. 38, pp. 68– 84, 1 2021. [27] T. Miki, J. Lee, L. Wellhausen, and M. Hutter, “Learning to walk in confined spaces using 3D representation,” in Proceedings - IEEE International Conference on Robotics and Automation , pp. 8649–8656, Institute of Electrical and Electronics Engineers Inc., 2024. [28] I. Taouil, M. Ciebelski, S. Omar, H. Zhao, A. Dai, A. M. Johnson, and M. Khadiv, “MotionDisco: Motion Discovery for Extreme Humanoid Loco-Manipulation,” 6 2026. [29] R. Deits and R. Tedrake, “Computing large convex regions of obstacle-free space through semidefinite programming,” in Algorithmic Foundations of Robotics XI: Selected Contributions of the Eleventh International Workshop on the Algorithmic Foundations of Robotics ,vol. Springer I, pp. 109–124, 2015. [30] A. Haffemayer, A. Jordana, M. Fourmy, K. Wojciechowski, F. Lami-raux, and N. Mansard, “Model predictive control under hard collision avoidance constraint for a robotic arm,” in Ubiquitous Robots , 2024. [31] A. Jordana, S. Kleff, A. Meduri, J. Carpentier, N. Mansard, and L. Righetti, “Structure-Exploiting Sequential Quadratic Program-ming for Model-Predictive Control,” IEEE Transactions on Robotics ,vol. 41, pp. 4960–4974, 2025. [32] U. Robotics, “unitree rl mjlab: Reinforcement learning implementa-tion for Unitree robots based on MuJoCo,” 2026. [33] R. R. Murphy, Disaster Robotics . The MIT Press, 2014.

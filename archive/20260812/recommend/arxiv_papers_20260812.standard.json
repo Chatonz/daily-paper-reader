@@ -1,0 +1,446 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-12T21:20:34.418170+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 2,
+    "deep_divecandidates": 4,
+    "deep_cap": 7,
+    "deep_selected": 4,
+    "quick_candidates": 6,
+    "quick_skim_target": 12,
+    "quick_selected": 6
+  },
+  "deep_dive": [
+    {
+      "id": "2608.10780v1",
+      "source": "arxiv",
+      "title": "JEPA-WAM: Stage-Level Joint-Embedding Prediction for World-Action Models in Robot Manipulation",
+      "abstract": "Generalist robot policies aim to map multimodal observations and linguistic task instructions to actions across diverse tasks. However, existing methods typically represent the future as a fixed, short video-action chunk. This short-term future captures local scene evolution for action execution, but it does not explicitly describe the stage-level future that specifies how a task should progress from its current stage to the next. We therefore distinguish two complementary futures for robot manipulation: a short-term physical future to capture local scene evolution and a stage-level semantic future to represent task progress. We introduce JEPA-WAM, which augments a Motus-based World Action Model (WAM) with Stage-JEPA, a goal-conditioned Joint-Embedding Predictive Architecture (JEPA) predictor. Given the current observation and task instruction, Stage-JEPA uses a frozen V-JEPA2 encoder to extract the current-state representation and predicts the latent target of the next inferred stage. Across 50 RoboTwin 2.0 tasks in clean and randomized environments, JEPA-WAM achieves 90.25% overall success and reduces the mean number of execution steps in successful rollouts by 5.97% relative to the strongest baseline.",
+      "authors": [
+        "Xiao Liu",
+        "Yuguang Yang",
+        "Xi Wang",
+        "Kai Jiang",
+        "Cheng Chi",
+        "Yong Xu",
+        "Wenchao Ding",
+        "Yilun Chen",
+        "Yan Wang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-11T10:33:12+00:00",
+      "link": "https://arxiv.org/pdf/2608.10780v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Stage-JEPA for World-Action Model in robot manipulation",
+      "llm_evidence_cn": "面向机器人操作的世界动作模型阶段级联合嵌入预测",
+      "llm_evidence": "面向机器人操作的世界动作模型阶段级联合嵌入预测",
+      "canonical_evidence": "面向机器人操作的世界动作模型阶段级联合嵌入预测",
+      "llm_tldr_en": "JEPA-WAM augments a Motus-based World-Action Model with Stage-JEPA, jointly modeling short-term physical futures and stage-level semantic futures to improve robot manipulation across diverse tasks.",
+      "llm_tldr_cn": "现有通用机器人策略通常把未来表示为一个固定的短视频-动作块，只能捕捉局部场景演化，无法描述任务从当前阶段推进到下一阶段的阶段级语义未来。JEPA-WAM将两种互补的未来引入世界动作模型：短期物理未来刻画局部场景，阶段级语义未来表示任务进展，并通过Stage-JEPA实现目标条件预测。在多种机器人操作任务上，该方法提升了长程任务的阶段进展预测与操作成功率。这项工作为世界动作模型如何理解任务高层进度提供了重要思路。",
+      "llm_tldr": "现有通用机器人策略通常把未来表示为一个固定的短视频-动作块，只能捕捉局部场景演化，无法描述任务从当前阶段推进到下一阶段的阶段级语义未来。JEPA-WAM将两种互补的未来引入世界动作模型：短期物理未来刻画局部场景，阶段级语义未来表示任务进展，并通过Stage-JEPA实现目标条件预测。在多种机器人操作任务上，该方法提升了长程任务的阶段进展预测与操作成功率。这项工作为世界动作模型如何理解任务高层进度提供了重要思路。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.10220v1",
+      "source": "arxiv",
+      "title": "Whole-Body Planning for Humanoids Navigating Confined Spaces via Self-Collision Avoidance References",
+      "abstract": "Humanoid locomotion in highly confined environments requires navigating dense environmental obstacles and complex self-collision bounds while maintaining multi-contact dynamic feasibility. Traditional trajectory optimizers frequently struggle in these restricted spaces, as navigating the large collision space with splines on particle abstractions is insufficient and leads to poor local minima. To address this, we propose a three-stage whole-body planning framework that formulates kinematic path planning directly over kinematically reachable rigid-body volumes. By integrating differentiable collision avoidance into a reachability-constrained formulation, our framework synthesizes volume-informed guides that reliably guide a full-order trajectory optimizer over long horizons. We show that these optimized plans serve as high-quality references to train a residual reinforcement learning policy for robust online execution. We validate our approach on the Unitree G1 humanoid across three benchmark testbeds exceeding NIST emergency response standards, achieving restricted confinement ratios ($C_r < 1.5$). Our framework generates feasible trajectories across 12-to-18-second tasks with complex foot and hand contacts where standard baselines fail, while the learned policy successfully tracks these plans under extensive domain randomization in physics simulation.",
+      "authors": [
+        "Carlos Gonzalez",
+        "Luis Sentis"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-10T20:45:19+00:00",
+      "link": "https://arxiv.org/pdf/2608.10220v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Directly addresses whole-body planning for humanoid robots in confined spaces",
+      "llm_evidence_cn": "直接研究人形机器人在受限空间中的全身规划",
+      "llm_evidence": "直接研究人形机器人在受限空间中的全身规划",
+      "canonical_evidence": "直接研究人形机器人在受限空间中的全身规划",
+      "llm_tldr_en": "Presents a three-stage whole-body planning framework for humanoid robots to navigate confined spaces, integrating differentiable collision avoidance with reachability constraints.",
+      "llm_tldr_cn": "人形机器人在高度受限的环境中运动时，既要避开密集环境障碍又要考虑复杂自碰撞边界，传统轨迹优化器容易陷入局部极小值。本文提出三阶段全身规划框架，直接在运动学可达刚性体体积上进行路径规划。通过将可微碰撞避免融入可达性约束的公式化表达，框架生成体积引导并实现可靠导航。该工作为人形机器人在狭窄空间的控制提供了新思路。",
+      "llm_tldr": "人形机器人在高度受限的环境中运动时，既要避开密集环境障碍又要考虑复杂自碰撞边界，传统轨迹优化器容易陷入局部极小值。本文提出三阶段全身规划框架，直接在运动学可达刚性体体积上进行路径规划。通过将可微碰撞避免融入可达性约束的公式化表达，框架生成体积引导并实现可靠导航。该工作为人形机器人在狭窄空间的控制提供了新思路。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "humanoid robot",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.11204v1",
+      "source": "arxiv",
+      "title": "Surgical WAM: A World-Action Model for Data-Efficient Surgical Robot Learning",
+      "abstract": "Learning reliable surgical manipulation policies is bottlenecked by the scarcity of action-labeled demonstrations: teleoperated surgical robot (e.g., dVRK) trajectories with synchronized kinematics are costly to collect, while surgical tasks demand precise contact handling, long-horizon reasoning, and bimanual coordination. Endoscopic video is comparatively inexpensive and abundant relative to synchronized video--kinematics trajectories, and a natural way to exploit it is to learn world models of surgical scenes. However, existing surgical world models use video primarily for simulation or policy evaluation, and rarely translate the learned dynamics into closed-loop control. This gap raises our central question: under a fixed budget of action-labeled demonstrations, does action-free video pretraining improve closed-loop surgical manipulation? To answer it, we introduce the Surgical World-Action Model (Surgical WAM), a unified generative model built on Cosmos Policy that jointly predicts future endoscopic observations and executable surgical robot action chunks. Surgical WAM first learns surgical visual dynamics from action-free video and is then fine-tuned on the fixed action-labeled budget; at deployment, it acts as a closed-loop, receding-horizon controller that executes a short prefix of each predicted action chunk and replans from the resulting observation. On a suite of four simulated surgical manipulation tasks, video pretraining improves the average success rate from 63.5% to 77.8%, including an absolute gain of 20 percentage points on PegTransfer, with the largest improvements on contact-rich and bimanual tasks. These results demonstrate that action-free video provides transferable visual dynamics priors for learning surgical robot control with limited action supervision, positioning data-efficient video pretraining as a practical path toward scaling up surgical robot learning.",
+      "authors": [
+        "Wenrui Bao",
+        "Tianyun Jiang",
+        "Zhiben Chen",
+        "Ser-Nam Lim",
+        "Peter D. Peng",
+        "Yuzhang Shang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.CV"
+      ],
+      "published": "2026-08-11T17:59:13+00:00",
+      "link": "https://arxiv.org/pdf/2608.11204v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "World-action model for surgical robot learning, leveraging abundant endoscopic video to learn dynamics and control",
+      "llm_evidence_cn": "将世界行动模型应用于外科手术机器人，利用丰富的内窥镜视频学习动力学并控制",
+      "llm_evidence": "将世界行动模型应用于外科手术机器人，利用丰富的内窥镜视频学习动力学并控制",
+      "canonical_evidence": "将世界行动模型应用于外科手术机器人，利用丰富的内窥镜视频学习动力学并控制",
+      "llm_tldr_en": "Introduces Surgical WAM, a world-action model that exploits abundant endoscopic video for data-efficient surgical manipulation, addressing scarcity of action-labeled trajectories and improving closed-loop control.",
+      "llm_tldr_cn": "针对手术机器人缺少动作标注轨迹而内窥镜视频相对丰富的瓶颈，提出Surgical WAM。它在有限动作标签预算下，利用大量视频学习手术场景世界模型，并将学习到的动态转化为闭环控制。实验表明该方法能显著提升手术操作策略的数据效率与精确接触处理能力。",
+      "llm_tldr": "针对手术机器人缺少动作标注轨迹而内窥镜视频相对丰富的瓶颈，提出Surgical WAM。它在有限动作标签预算下，利用大量视频学习手术场景世界模型，并将学习到的动态转化为闭环控制。实验表明该方法能显著提升手术操作策略的数据效率与精确接触处理能力。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.09448v1",
+      "source": "arxiv",
+      "title": "VANE: Reliable Test-Time Training for Vision-Language-Action Models via Future Visual Representation Prediction",
+      "abstract": "Test-time training (TTT) offers a lightweight way to adapt vision--language--action (VLA) policies from unlabeled deployment streams, but it remains difficult to use reliably in closed-loop manipulation. A shared adaptation space can mix incompatible task corrections, while an online update can alter subsequent actions before its consequences are known. We introduce a reliable TTT framework for VLA policies (VANE). VANE conditions prompt adaptation on the current vision--language context and learns from the future visual consequences of executed actions. Candidate updates are isolated from the live policy, evaluated on subsequent observations, and committed only when supported by future evidence, making adaptation selective and reversible. On SimplerEnv WidowX, VANE improves average success by $3.2$ percentage points over the corresponding TTT baseline. Results on Google Robot further show that deployment-time gains remain task- and embodiment-dependent. Together, these results demonstrate a constrained, evidence-based approach to adapting VLA policies during interaction.",
+      "authors": [
+        "Hongjin Ji",
+        "Guoyang Xia",
+        "Luoyang Sun",
+        "Fangxiang Feng",
+        "Lei Ren"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-08-10T11:22:54+00:00",
+      "link": "https://arxiv.org/pdf/2608.09448v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Reliable TTT framework for VLA policies leveraging future visual consequences to adapt closed-loop manipulation",
+      "llm_evidence_cn": "为VLA策略提出可靠的测试时训练框架，利用未来视觉结果进行闭环操作自适应",
+      "llm_evidence": "为VLA策略提出可靠的测试时训练框架，利用未来视觉结果进行闭环操作自适应",
+      "canonical_evidence": "为VLA策略提出可靠的测试时训练框架，利用未来视觉结果进行闭环操作自适应",
+      "llm_tldr_en": "Introduces VANE, a test-time training framework for VLA policies that adapts from future visual consequences, isolating candidate updates and committing them only when supported by future evidence, improving reliable closed-loop manipulation.",
+      "llm_tldr_cn": "针对VLA策略在闭环操作中测试时训练不可靠的问题，提出VANE框架。它基于当前视觉语言上下文提示适应，并从执行动作的未来视觉结果中学习，候选更新与在线策略隔离，仅在得到未来证据支持后才提交。实验显示VANE能够避免共享适应空间混合不一致修正的问题，使策略在部署流中更稳定地提升。",
+      "llm_tldr": "针对VLA策略在闭环操作中测试时训练不可靠的问题，提出VANE框架。它基于当前视觉语言上下文提示适应，并从执行动作的未来视觉结果中学习，候选更新与在线策略隔离，仅在得到未来证据支持后才提交。实验显示VANE能够避免共享适应空间混合不一致修正的问题，使策略在部署流中更稳定地提升。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "vision language action model for humanoid robots",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.07895v1",
+      "source": "arxiv",
+      "title": "Auditing Instruction-Trajectory Mismatches in Multimodal Robot Demonstrations",
+      "abstract": "Robot demonstration datasets used to train vision-language-action policies can contain a subtle but harmful failure mode: trajectories that are behaviorally correct but paired with the wrong language instruction. We study post-hoc auditing of these Instruction-Trajectory Mismatches (ITMs). Unlike failed rollouts, ITMs often look plausible, and can corrupt the language-behavior mapping learned by the policy. We propose Multimodal Probabilistic Fusion (MMPF), a training-free auditing framework that treats each modality as an expert, estimates a task-label distribution from local neighborhood agreement and global prototype similarity, and then fuses modalities with predictive-entropy weighting in a product of experts. Across LIBERO benchmarks with injected instruction mismatches and noisy real-robot data, MMPF achieves the strongest overall ITM detection and label correction accuracy. We also show that auditing improves most downstream policy learning in settings where language is needed to disambiguate the task. We demonstrate in real robot experiments that our method can achieve improved policy performance and show the trade-off of filtering demonstrations compared to relabeling.",
+      "authors": [
+        "Simon Holk",
+        "Ryosuke Takanami",
+        "Tatsuya Matsushima",
+        "Yusuke Iwasawa",
+        "Yutaka Matsuo",
+        "Yueh-Hua Wu",
+        "Kei Ota"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.LG"
+      ],
+      "published": "2026-08-08T03:43:58+00:00",
+      "link": "https://arxiv.org/pdf/2608.07895v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "auditing instruction-trajectory mismatches for VLA policies",
+      "llm_evidence_cn": "为视觉语言动作策略审计指令-轨迹失配",
+      "llm_evidence": "为视觉语言动作策略审计指令-轨迹失配",
+      "canonical_evidence": "为视觉语言动作策略审计指令-轨迹失配",
+      "llm_tldr_en": "MMPF is a training-free auditing framework that fuses multimodal probability estimates to detect instruction-trajectory mismatches in robot demonstrations, protecting vision-language-action policies from corrupted language-behavior mappings.",
+      "llm_tldr_cn": "机器人演示数据集中存在一种隐蔽故障：轨迹行为正确但被配上了错误的语言指令，这会破坏视觉语言动作策略的语言-行为映射。本文提出MMPF，一种无需训练的审计框架，将每个模态视为专家，基于局部邻域一致性和全局原型相似度估计任务标签分布，并用预测熵加权进行乘积融合。在LIBERO基准上的实验表明，该方法能有效检测指令-轨迹失配。这为提升VLA策略训练数据可靠性提供了实用手段。",
+      "llm_tldr": "机器人演示数据集中存在一种隐蔽故障：轨迹行为正确但被配上了错误的语言指令，这会破坏视觉语言动作策略的语言-行为映射。本文提出MMPF，一种无需训练的审计框架，将每个模态视为专家，基于局部邻域一致性和全局原型相似度估计任务标签分布，并用预测熵加权进行乘积融合。在LIBERO基准上的实验表明，该方法能有效检测指令-轨迹失配。这为提升VLA策略训练数据可靠性提供了实用手段。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "vision language action model for humanoid robots",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.04042v1",
+      "source": "arxiv",
+      "title": "Kitchen Robotic Manipulation utilizing Foundation Models",
+      "abstract": "Deploying robots in everyday human environments requires perception systems that are both robust and adaptable to diverse, dynamic conditions. In this work, we present a modular perception pipeline for household manipulation tasks, with a focus on dishware handling in kitchen environments. The pipeline integrates open-vocabulary object detection, multi-view segmentation, instance-aware 3D reconstruction, and a 2D-3D feature fusion strategy for 6D pose estimation and grasp planning. Its modular design enables systematic substitution of multiple visual and geometric foundation models, allowing us to identify the best-performing configuration through extensive evaluation on a custom kitchen dataset. The best-performing configuration (LLMDet + SAMv2 + DINOv2 + GeoTransformer) achieves an ADI of 89.12\\% on the 20-scene kitchen benchmark with cluttered and occluded conditions. Furthermore, real-world demonstrations confirm that the best configuration can be deployed on physical robots without environment-specific retraining, successfully executing tasks such as sink-to-dishwasher transfer and cup stacking. It validates the adaptability and scalability of the pipeline and highlights its potential as a practical framework for household robotic systems. Our code and supplementary materials are available at https://raivlab.github.io/FM_kitchen .",
+      "authors": [
+        "Myung-Hwan Jeon",
+        "Sankalp Yamsani",
+        "Joohyung Kim"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-04T05:07:45+00:00",
+      "link": "https://arxiv.org/pdf/2608.04042v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Modular perception pipeline for dishware handling and grasp planning, transferable to humanoid manipulation",
+      "llm_evidence_cn": "面向餐具处理与抓取规划的模块化感知管线，可迁移至人形机器人操作",
+      "llm_evidence": "面向餐具处理与抓取规划的模块化感知管线，可迁移至人形机器人操作",
+      "canonical_evidence": "面向餐具处理与抓取规划的模块化感知管线，可迁移至人形机器人操作",
+      "llm_tldr_en": "Presents a modular perception pipeline integrating open-vocabulary detection, multi-view segmentation, 3D reconstruction, and 2D-3D feature fusion for robust kitchen dishware grasping, with systematic model substitution evaluation.",
+      "llm_tldr_cn": "针对日常厨房环境下机器人操作对感知鲁棒性和适应性的需求，提出一个模块化感知管线，集成开放词汇检测、多视角分割、实例感知三维重建与2D-3D特征融合，实现6D位姿估计与抓取规划。通过系统替换视觉与几何基础模型，在自定义厨房数据集上找出最优配置。实验表明该配置可有效支撑餐具抓取，且模块化设计使其易于迁移到其他操作场景。",
+      "llm_tldr": "针对日常厨房环境下机器人操作对感知鲁棒性和适应性的需求，提出一个模块化感知管线，集成开放词汇检测、多视角分割、实例感知三维重建与2D-3D特征融合，实现6D位姿估计与抓取规划。通过系统替换视觉与几何基础模型，在自定义厨房数据集上找出最优配置。实验表明该配置可有效支撑餐具抓取，且模块化设计使其易于迁移到其他操作场景。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "manipulation skills for humanoid robots",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.09771v1",
+      "source": "arxiv",
+      "title": "SLIM-0.5B: Learning Action-Grounded Predictive Latents for Robot Manipulation",
+      "abstract": "Vision-language-action policies rely on large multimodal backbones to jointly perform perception, language conditioning, and action generation at every control step. Much of this capacity supports open-domain semantics, whereas continuous robot manipulation primarily requires compact representations of observations, actions, and the transitions induced by actions. Pixel-level world models provide another route, but predicting visual details irrelevant to control can be unnecessarily expensive. We propose SLIM (Self-supervised Latent Interaction Model), a compact 0.5B-parameter latent interaction policy. SLIM learns action-grounded predictive latents that capture both action-conditioned future transitions and the actions that explain observed changes. SLIM learns these representations through self-supervised masked trajectory prediction, combining action reconstruction with future-latent prediction. A compact Mixture-of-Transformers (MoT) backbone models interactions between observation latents and action tokens. The resulting policy is trained with flow matching for language-conditioned action generation. Across simulation benchmarks and real-world evaluation, SLIM matches or exceeds representative large-scale VLA and world-action-model baselines with fewer parameters, no additional embodied pretraining, lower inference latency, and substantially lower GPU memory usage.",
+      "authors": [
+        "Jingkai Wang",
+        "Zihan Tang",
+        "Gu Zhang",
+        "Mingyu Cao",
+        "Jiapeng Chen",
+        "Jingjiao Zhao",
+        "Xiansheng Chen",
+        "Pengwei Wang",
+        "Lemao Liu",
+        "Dejing Dou"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-10T15:58:39+00:00",
+      "link": "https://arxiv.org/pdf/2608.09771v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "compact VLA policy with action-grounded predictive latents",
+      "llm_evidence_cn": "带动作接地预测潜变量的紧致VLA策略，桥接VLA与世界模型",
+      "llm_evidence": "带动作接地预测潜变量的紧致VLA策略，桥接VLA与世界模型",
+      "canonical_evidence": "带动作接地预测潜变量的紧致VLA策略，桥接VLA与世界模型",
+      "llm_tldr_en": "SLIM-0.5B learns compact action-grounded predictive latents that capture future transitions and explaining actions, yielding a lightweight latent interaction policy for continuous robot manipulation without expensive pixel prediction.",
+      "llm_tldr_cn": "针对大型VLA骨干网络在连续操作中计算开销大、像素级世界模型预测与控制无关细节的问题，本文提出SLIM-0.5B紧致潜在交互策略。它自监督学习动作grounded的预测潜变量，同时表征动作条件未来转移和产生观察变化的动作，无需预测像素级细节。0.5B参数规模即可执行连续操作，实验表明其能高效堆叠长期交互并保持控制相关的状态表示。这为VLA策略与轻量世界模型的融合提供了新思路。",
+      "llm_tldr": "针对大型VLA骨干网络在连续操作中计算开销大、像素级世界模型预测与控制无关细节的问题，本文提出SLIM-0.5B紧致潜在交互策略。它自监督学习动作grounded的预测潜变量，同时表征动作条件未来转移和产生观察变化的动作，无需预测像素级细节。0.5B参数规模即可执行连续操作，实验表明其能高效堆叠长期交互并保持控制相关的状态表示。这为VLA策略与轻量世界模型的融合提供了新思路。",
+      "llm_tags": [
+        "query:vla-humanoid:composite"
+      ],
+      "matched_query_tag": "query:vla-humanoid:composite",
+      "matched_query_text": "Papers central to VLA，Humanoid，WAM, especially work that connects or combines: w; vision language action model for humanoid robots; humanoid robot control and manipulation; embodied artificial intelligence for humanoid robots; action generation in robotics using language models; manipulation skills for humanoid robots; how do vision language action models improve humanoid robot manipulation; task planning for humanoid robots using language models.",
+      "matched_requirement_id": "req-composite-vla-humanoid",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.04692v1",
+      "source": "arxiv",
+      "title": "Suppression Sticks, Locality Is Fragile: A Closed-Loop Target-and-Control Audit of Task-Vector Negation in VLA Policies",
+      "abstract": "Task-vector arithmetic offers a closed-form way to modify a model, yet its behavioral locality remains unclear in closed-loop robot control. We present a target-and-control audit of per-skill task-vector subtraction from multitask vision-language-action (VLA) policies. Across all ten LIBERO-Goal skills, subtraction produces three qualitatively different regimes: target-control separation for five skills, resistance for three, and global collapse for two. On held-out initial states, the five suppressible targets remain at 0% success; however, mean baseline-normalized control retention is only 52%, and each target-suppressing edit materially harms at least one nominally unrelated control. Additional Goal panels show separation across tested policies with continuous-regression, discrete-token, and flow-matching action heads, whereas we observe no clean separation on Spatial and control collapse on the tested Object and Long-horizon panels. Mean task-vector cosine does not account for this variation. A matched-norm control identifies a local sign asymmetry around one Goal anchor, while multi-vector outcomes vary with anchor and scale. Retain-aware gradient baselines provide data-dependent comparators but require removal-time data and optimization; subtraction is data- and gradient-free only at edit time, assuming precomputed expert deltas. Finally, a single-skill relearning probe is consistent with behavioral masking, not certified unlearning. These results characterize task-vector subtraction as a fast but brittle intervention and underscore the need for closed-loop target-and-control evaluation when assessing locality in embodied model editing.",
+      "authors": [
+        "Shaoguang Wang",
+        "Weiyu Guo",
+        "Rushi Dai",
+        "Yiren Zhao",
+        "Yandong Guo",
+        "Hui Xiong"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.LG"
+      ],
+      "published": "2026-08-05T10:59:53+00:00",
+      "link": "https://arxiv.org/pdf/2608.04692v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "audit of VLA policy task-vector editing",
+      "llm_evidence_cn": "VLA策略任务向量编辑审计",
+      "llm_evidence": "VLA策略任务向量编辑审计",
+      "canonical_evidence": "VLA策略任务向量编辑审计",
+      "llm_tldr_en": "Audits per-skill task-vector subtraction in multitask VLA policies, revealing three behavioral regimes and showing that target suppression leaves 0% success while control retention is only 52% and edits harm unrelated controls.",
+      "llm_tldr_cn": "任务向量算术可闭式修改模型，但其在闭环机器人控制中的行为局部性尚不清楚。本文对多任务视觉-语言-动作（VLA）策略进行逐技能任务向量减法审计，覆盖十个LIBERO-Goal技能，发现目标-控制分离、抵抗和全局崩溃三种模式。在未见过初始状态下，可抑制目标成功率仍为0%，但基线归一化控制保留率仅52%，且每次抑制编辑都会伤害至少一个无关控制。该工作揭示了任务向量编辑在闭环VLA策略中的脆弱性。",
+      "llm_tldr": "任务向量算术可闭式修改模型，但其在闭环机器人控制中的行为局部性尚不清楚。本文对多任务视觉-语言-动作（VLA）策略进行逐技能任务向量减法审计，覆盖十个LIBERO-Goal技能，发现目标-控制分离、抵抗和全局崩溃三种模式。在未见过初始状态下，可抑制目标成功率仍为0%，但基线归一化控制保留率仅52%，且每次抑制编辑都会伤害至少一个无关控制。该工作揭示了任务向量编辑在闭环VLA策略中的脆弱性。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "action generation in robotics using language models",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.10484v1",
+      "source": "arxiv",
+      "title": "Lost in Reconstruction: Aligning Action Representations with Language in Vision-Language-Action Models",
+      "abstract": "Action verbs describe not only the physical outcomes of actions, but also how those actions are performed. Yet action representations in vision-language-action models (VLAs) are typically optimized for reconstruction under L1/L2 losses in raw action space, where numerical proximity need not reflect linguistically meaningful distinctions. On BridgeV2, we show that action trajectories contain verb-grounding information beyond visual state changes, and that reconstruction-only discrete tokenization systematically erodes this information. To address this problem, we introduce SALT, a Semantically ALigned action Tokenizer that augments a VQ-VAE-style tokenizer with an auxiliary objective requiring a frozen vision-language model to recover the episode instruction from quantized action latents. Policies trained with SALT achieve 71.9% average success in SimplerEnv, compared with 42.7% for a reconstruction-only VQ-VAE tokenizer and 31.2% for FAST. SALT also develops verb-specialized codes while maintaining reconstruction fidelity. These results show that robot action trajectories provide a source of language grounding and that preserving this structure in action representations can substantially improve language-conditioned control.",
+      "authors": [
+        "Li Wenjie",
+        "Yash Jangir",
+        "Ignacy Stepka",
+        "Yash Agarwal",
+        "Marion Kipsang",
+        "Yonatan Bisk"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-08-11T04:57:17+00:00",
+      "link": "https://arxiv.org/pdf/2608.10484v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "action tokenizer aligning VLA representation with language",
+      "llm_evidence_cn": "对齐VLA动作表示与语言的分词器",
+      "llm_evidence": "对齐VLA动作表示与语言的分词器",
+      "canonical_evidence": "对齐VLA动作表示与语言的分词器",
+      "llm_tldr_en": "SALT is a semantically aligned action tokenizer that augments VQ-VAE with an auxiliary vision-language objective, preserving verb-grounding information in VLA action representations that reconstruction-only tokenization erodes.",
+      "llm_tldr_cn": "动作动词不仅描述动作的物理结果，还描述动作的执行方式，但VLA中的动作表示通常在原始动作空间用L1/L2重建损失优化，数值接近未必对应语言上有意义的区分。在BridgeV2上发现动作轨迹包含超出视觉状态变化的动词接地信息，重建式离散分词会系统侵蚀这些信息。为此提出SALT语义对齐动作分词器，在VQ-VAE式分词器中加入辅助目标，要求冻结的视觉语言模型保持语言语义，从而保留动作表示的语言信息。",
+      "llm_tldr": "动作动词不仅描述动作的物理结果，还描述动作的执行方式，但VLA中的动作表示通常在原始动作空间用L1/L2重建损失优化，数值接近未必对应语言上有意义的区分。在BridgeV2上发现动作轨迹包含超出视觉状态变化的动词接地信息，重建式离散分词会系统侵蚀这些信息。为此提出SALT语义对齐动作分词器，在VQ-VAE式分词器中加入辅助目标，要求冻结的视觉语言模型保持语言语义，从而保留动作表示的语言信息。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "action generation in robotics using language models",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.10449v1",
+      "source": "arxiv",
+      "title": "PBD-AG: Persistent Baseline-Delta Active Graphs with Uncertainty-Aware Inspection for Long-Horizon Service Robots",
+      "abstract": "Long-horizon service robots require persistent world models that can be built autonomously in unseen environments and revised as task-relevant objects change. Existing methods rely on online mapping, which accumulates localization and observation errors, static scene representations that cannot capture persistent object changes, or holistic vision-language predictions that lack verifiable 3D geometric evidence. We present PBD-AG, a persistent baseline-delta active graph framework that decouples robot-verified stable fixtures from revisable dynamic object events. Under our framework, the robot autonomously bootstraps the structural baseline from onboard exploration and inspects discovered fixtures to ground hierarchical object beliefs. PBD-AG maintains reliability-weighted object states over geometry, semantics, identity, existence, and support relations, utilizing a geometric visibility gate to mitigate false deletions under occlusion. Inspection viewpoints are selected by a graph-conditioned policy that balances target coverage, travel cost, collision risk, and redundant observation. Simulation experiments in multiple environments and under controlled dynamic evaluation show higher aggregate coarse-fixture F1 than capability-matched controls, as well as stronger identity continuity and event recall. A qualitative physical-robot demonstration further illustrates integration with onboard sensing, providing a traceable world model for long-horizon robotic perception.The project page of PBD-AG is available at https://shuobao214.github.io/PBD-AG/",
+      "authors": [
+        "Shuo Bao",
+        "Wei Dong",
+        "Shuyue Zhang",
+        "Ming Shang",
+        "Yuchen Huang",
+        "Han Yu",
+        "Chengjie Xu",
+        "Yiheng Bi",
+        "Kai Sun",
+        "Fuchun Sun",
+        "Xinzhou Wang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-11T04:03:54+00:00",
+      "link": "https://arxiv.org/pdf/2608.10449v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Proposes persistent world models for long-horizon service robots, related to world model research",
+      "llm_evidence_cn": "提出面向长期服务机器人的持久世界模型，与世界模型研究相关",
+      "llm_evidence": "提出面向长期服务机器人的持久世界模型，与世界模型研究相关",
+      "canonical_evidence": "提出面向长期服务机器人的持久世界模型，与世界模型研究相关",
+      "llm_tldr_en": "PBD-AG autonomously builds and revises persistent world models using baseline-delta graphs and uncertainty-aware inspection, avoiding error accumulation in long-horizon tasks.",
+      "llm_tldr_cn": "长期服务机器人需要持久世界模型，能够在陌生环境中自主构建并根据对象变化修订。现有在线建图会累积误差，静态场景表示无法反映对象变化，语言-视觉预测缺乏可验证的3D几何证据。PBD-AG框架将机器人验证的稳定结构与可修订的动态对象事件解耦，自主启动结构基线并检查发现的固定设施。这种基线-增量设计支持长期自主操作。",
+      "llm_tldr": "长期服务机器人需要持久世界模型，能够在陌生环境中自主构建并根据对象变化修订。现有在线建图会累积误差，静态场景表示无法反映对象变化，语言-视觉预测缺乏可验证的3D几何证据。PBD-AG框架将机器人验证的稳定结构与可修订的动态对象事件解耦，自主启动结构基线并检查发现的固定设施。这种基线-增量设计支持长期自主操作。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
