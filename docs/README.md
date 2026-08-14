@@ -6,52 +6,43 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-13
-- 运行时间：2026-08-13 21:28:35 UTC
+- 最新运行日期：2026-08-14
+- 运行时间：2026-08-14 21:28:28 UTC
 - 运行状态：成功
-- 本次总论文数：10
-- 精读区：7
-- 速读区：3
+- 本次总论文数：7
+- 精读区：3
+- 速读区：4
 
 ### 今日简报（AI）
-今日聚焦具身智能与VLA模型，精读世界模型与动作预测潜变量两篇高分论文。  
-最值得关注的是训练期世界建模（World Tokens）与轻量动作预测模型（SLIM-0.5B），均获9.0分，导向机器人操作效率提升。  
-普通读者可优先跟进“世界模型+操作学习”方向，留意后续VLA安全攻击与导航规划工作。
-- 详情：[/202608/13/README](/202608/13/README)
+1) 今日聚焦具身智能与自动驾驶，人形机器人视觉语言导航基准高分领跑。  
+2) 最值得精读：HumanoidVLN 打造物理仿真跨形态导航基准，BrainWAM 以动作空间协调语义先验优化驾驶决策。  
+3) 建议先看这两篇，并关注世界模型在机器人操作与手术场景的后续应用。
+- 详情：[/202608/14/README](/202608/14/README)
 
 ### 精读区论文标签
-1. [World Tokens: Enhancing Embodied Policies with Training-Time World Modeling](/202608/13/2608.09730v1-world-tokens-enhancing-embodied-policies-with-training-time-world-modeling)  
-   标签：评分：9.0/10、query:human-aigc
-   evidence：将世界建模与VLA动作生成结合以增强具身策略，属于世界行动模型路线
-2. [SLIM-0.5B: Learning Action-Grounded Predictive Latents for Robot Manipulation](/202608/13/2608.09771v1-slim-05b-learning-action-grounded-predictive-latents-for-robot-manipulation)  
-   标签：评分：9.0/10、query:human-aigc
-   evidence：以动作为基础的学习预测潜在状态，形成紧凑世界动作模型
-3. [Keep the Future, Drop the Rollout: RIFT for World Action Models](/202608/13/2608.11521v1-keep-the-future-drop-the-rollout-rift-for-world-action-models)  
-   标签：评分：9.0/10、query:human-aigc
-   evidence：直接研究世界行动模型与未来缓存复用
-4. [Foresight Without Seeing: Latent Futures for World Action Models](/202608/13/2608.11605v1-foresight-without-seeing-latent-futures-for-world-action-models)  
-   标签：评分：9.0/10、query:human-aigc
-   evidence：提出ForeWAM，以潜在未来为条件的世界动作模型，实现高效动作生成
-5. [G0.5: One Autoregressive Stream for Robot Reasoning and Action](/202608/13/2608.11739v1-g05-one-autoregressive-stream-for-robot-reasoning-and-action)  
-   标签：评分：9.0/10、query:vla-humanoid
-   evidence：用自回归方式统一生成推理与动作令牌的VLA模型
-6. [Policy-Induced Hand Priors in Humanoid Dual-Arm Manipulation: Diagnosing and Mitigating Initial-Pose Dependence](/202608/13/2608.11769v1-policy-induced-hand-priors-in-humanoid-dual-arm-manipulation-diagnosing-and-mitigating-initial-pose-dependence)  
-   标签：评分：9.0/10、query:vla-humanoid
-   evidence：VLA人形双臂操作与初始姿态依赖诊断
-7. [Embodied Multimodal Grounding for Open-Vocabulary Mobile Manipulation via Semantic 3D Gaussian Splatting](/202608/13/2608.10756v1-embodied-multimodal-grounding-for-open-vocabulary-mobile-manipulation-via-semantic-3d-gaussian-splatting)  
-   标签：评分：8.0/10、query:vla-humanoid
-   evidence：基于扩散的视觉-语言-动作策略实现语言引导的移动操作
+1. [HumanoidVLN: A Physics-Grounded Simulator and Benchmark for Vision-Language Navigation Across Diverse Humanoid Embodiments](/202608/14/2608.12860v1-humanoidvln-a-physics-grounded-simulator-and-benchmark-for-vision-language-navigation-across-diverse-humanoid-embodiments)  
+   标签：评分：10.0/10、query:human-aigc
+   evidence：面向人形机器人的视觉-语言导航仿真器与基准
+2. [BrainWAM: Action-Space Coordination of Semantic Priors and Predictive Dynamics for Autonomous Driving](/202608/14/2608.12854v1-brainwam-action-space-coordination-of-semantic-priors-and-predictive-dynamics-for-autonomous-driving)  
+   标签：评分：8.0/10、query:human-aigc
+   evidence：将视觉-语言-动作模型与世界行动模型结合实现统一规划，直接涉及世界行动模型概念
+3. [DreamX-Phi 1.0: Action-Conditioned Video World Model for Robotic Manipulation](/202608/14/2608.13489v1-dreamx-phi-10-action-conditioned-video-world-model-for-robotic-manipulation)  
+   标签：评分：8.0/10、query:human-aigc
+   evidence：结合PRoPE式几何编码的动作条件视频世界模型，用于机器人操作预测
 
 ### 速读区论文标签
-1. [StellaVLA: In-Context Structured Demonstration for Generalizable Vision-Language-Action Models](/202608/13/2608.11671v1-stellavla-in-context-structured-demonstration-for-generalizable-vision-language-action-models)  
-   标签：评分：8.0/10、query:vla-humanoid
-   evidence：含任务计划和子目标推理的结构化演示提升VLA泛化，可应用于人形机器人任务规划
-2. [Hidden in Plain Sight: Diffusion-Based Unrestricted Robotic Attacks on Vision-Language-Action Models](/202608/13/2608.10393v1-hidden-in-plain-sight-diffusion-based-unrestricted-robotic-attacks-on-vision-language-action-models)  
+1. [H2R-Bench: Benchmarking Human-to-Robot Manipulation Video Generation in World Models](/202608/14/2608.13049v1-h2r-bench-benchmarking-human-to-robot-manipulation-video-generation-in-world-models)  
+   标签：评分：7.0/10、query:human-aigc
+   evidence：世界模型中跨具身人体到机器人操作视频生成基准
+2. [S2-HWM: Sparse Event-Structured Hierarchical World Model for Long-Horizon Surgical Robot Manipulation](/202608/14/2608.13103v1-s2-hwm-sparse-event-structured-hierarchical-world-model-for-long-horizon-surgical-robot-manipulation)  
+   标签：评分：7.0/10、query:human-aigc
+   evidence：面向长时程机器人操作的分层世界模型与稀疏事件结构
+3. [Decoding Task Progress from VLA Representations](/202608/14/2608.13474v1-decoding-task-progress-from-vla-representations)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：视觉-语言-动作模型；基于扩散的对抗攻击
-3. [DreamFly: Causal Memory and Receding-Horizon Diffusion Planning for Aerial Vision-Language Navigation](/202608/13/2608.12308v1-dreamfly-causal-memory-and-receding-horizon-diffusion-planning-for-aerial-vision-language-navigation)  
+   evidence：面向动作生成模型的VLA可解释性研究
+4. [Adaptation of Generalist Robot Policies with Minimal Data](/202608/14/2608.11363v1-adaptation-of-generalist-robot-policies-with-minimal-data)  
    标签：评分：6.0/10、query:vla-humanoid
-   evidence：基于VLA的空中导航，结合因果对齐记忆与渐缩视界扩散规划
+   evidence：通用机器人策略最小数据自适应
 
 
 <div class="dpr-home-promo-card">
