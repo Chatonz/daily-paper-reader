@@ -6,43 +6,41 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-14
-- 运行时间：2026-08-14 21:28:28 UTC
+- 最新运行日期：2026-08-15
+- 运行时间：2026-08-15 20:37:22 UTC
 - 运行状态：成功
 - 本次总论文数：7
-- 精读区：3
-- 速读区：4
+- 精读区：2
+- 速读区：5
 
 ### 今日简报（AI）
-1) 今日聚焦具身智能与自动驾驶，人形机器人视觉语言导航基准高分领跑。  
-2) 最值得精读：HumanoidVLN 打造物理仿真跨形态导航基准，BrainWAM 以动作空间协调语义先验优化驾驶决策。  
-3) 建议先看这两篇，并关注世界模型在机器人操作与手术场景的后续应用。
-- 详情：[/202608/14/README](/202608/14/README)
+今日精读聚焦接触前执行监控与世界模型、人体运动追踪基准两项高分工作；速读覆盖双机械臂手术子任务、VLA对抗纹理及多模态规划。最值得关注ContactGuard的潜在世界模型规划能力和HumanTracker对齐人类认知的追踪评估思路。下一步可探索这两项技术在安全交互与具身智能评估中的实际应用。
+- 详情：[/202608/15/README](/202608/15/README)
 
 ### 精读区论文标签
-1. [HumanoidVLN: A Physics-Grounded Simulator and Benchmark for Vision-Language Navigation Across Diverse Humanoid Embodiments](/202608/14/2608.12860v1-humanoidvln-a-physics-grounded-simulator-and-benchmark-for-vision-language-navigation-across-diverse-humanoid-embodiments)  
-   标签：评分：10.0/10、query:human-aigc
-   evidence：面向人形机器人的视觉-语言导航仿真器与基准
-2. [BrainWAM: Action-Space Coordination of Semantic Priors and Predictive Dynamics for Autonomous Driving](/202608/14/2608.12854v1-brainwam-action-space-coordination-of-semantic-priors-and-predictive-dynamics-for-autonomous-driving)  
+1. [ContactGuard: Pre-Contact Execution Monitoring with Action-Conditioned Latent World Models](/202608/15/2608.13438v1-contactguard-pre-contact-execution-monitoring-with-action-conditioned-latent-world-models)  
    标签：评分：8.0/10、query:human-aigc
-   evidence：将视觉-语言-动作模型与世界行动模型结合实现统一规划，直接涉及世界行动模型概念
-3. [DreamX-Phi 1.0: Action-Conditioned Video World Model for Robotic Manipulation](/202608/14/2608.13489v1-dreamx-phi-10-action-conditioned-video-world-model-for-robotic-manipulation)  
+   evidence：用于接触丰富操作的动作条件潜在世界模型
+2. [HumanTracker: Towards Comprehensive and Human-Aligned Motion Tracking Benchmark](/202608/15/2608.13555v1-humantracker-towards-comprehensive-and-human-aligned-motion-tracking-benchmark)  
    标签：评分：8.0/10、query:human-aigc
-   evidence：结合PRoPE式几何编码的动作条件视频世界模型，用于机器人操作预测
+   evidence：人形运动跟踪基准，用于遥操作与全身模仿
 
 ### 速读区论文标签
-1. [H2R-Bench: Benchmarking Human-to-Robot Manipulation Video Generation in World Models](/202608/14/2608.13049v1-h2r-bench-benchmarking-human-to-robot-manipulation-video-generation-in-world-models)  
-   标签：评分：7.0/10、query:human-aigc
-   evidence：世界模型中跨具身人体到机器人操作视频生成基准
-2. [S2-HWM: Sparse Event-Structured Hierarchical World Model for Long-Horizon Surgical Robot Manipulation](/202608/14/2608.13103v1-s2-hwm-sparse-event-structured-hierarchical-world-model-for-long-horizon-surgical-robot-manipulation)  
-   标签：评分：7.0/10、query:human-aigc
-   evidence：面向长时程机器人操作的分层世界模型与稀疏事件结构
-3. [Decoding Task Progress from VLA Representations](/202608/14/2608.13474v1-decoding-task-progress-from-vla-representations)  
+1. [Trajectory Divergence Horizon Decision for Reliable Dual-Arm Surgical Subtask Manipulation](/202608/15/2608.09125v1-trajectory-divergence-horizon-decision-for-reliable-dual-arm-surgical-subtask-manipulation)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：面向动作生成模型的VLA可解释性研究
-4. [Adaptation of Generalist Robot Policies with Minimal Data](/202608/14/2608.11363v1-adaptation-of-generalist-robot-policies-with-minimal-data)  
+   evidence：面向手术子任务操作的VLA模型，通过轨迹发散时界决策提升操作可靠性，可迁移至类人操作
+2. [UniTexture: Cross-Task Universal Adversarial Textures for Vision-Language-Action Models](/202608/15/2608.13453v1-unitexture-cross-task-universal-adversarial-textures-for-vision-language-action-models)  
+   标签：评分：7.0/10、query:vla-humanoid
+   evidence：针对VLA动作模型的对抗纹理攻击
+3. [Discovering Diverse Planning Policies for Multimodal Embodied Agents with Quality-Diversity Optimization](/202608/15/2608.08523v1-discovering-diverse-planning-policies-for-multimodal-embodied-agents-with-quality-diversity-optimization)  
    标签：评分：6.0/10、query:vla-humanoid
-   evidence：通用机器人策略最小数据自适应
+   evidence：面向多模态具身智能体的多样化规划策略发现，支撑长时程任务规划
+4. [Chain of Spatial Thoughts: Modality-Agnostic Spatial Grounding for Vision Language Models](/202608/15/2608.10278v1-chain-of-spatial-thoughts-modality-agnostic-spatial-grounding-for-vision-language-models)  
+   标签：评分：6.0/10、query:vla-humanoid
+   evidence：为VLM提供模态无关空间接地能力，支撑机器人操作与具身导航等具身智能任务
+5. [Motion-as-Prompt: Enhancing Motion Reasoning in Multimodal Large Language Models via Motion-Guided Cross-Frame Visual Prompting](/202608/15/2608.11655v1-motion-as-prompt-enhancing-motion-reasoning-in-multimodal-large-language-models-via-motion-guided-cross-frame-visual-prompting)  
+   标签：评分：6.0/10、query:vla-humanoid
+   evidence：面向MLLM的运动引导视觉提示，服务于机器人操作推理
 
 
 <div class="dpr-home-promo-card">
