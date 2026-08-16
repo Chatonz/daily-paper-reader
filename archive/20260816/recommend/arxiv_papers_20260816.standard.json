@@ -1,0 +1,360 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-16T19:32:14.448226+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 2,
+    "deep_divecandidates": 1,
+    "deep_cap": 7,
+    "deep_selected": 1,
+    "quick_candidates": 7,
+    "quick_skim_target": 12,
+    "quick_selected": 7
+  },
+  "deep_dive": [
+    {
+      "id": "2608.10860v2",
+      "source": "arxiv",
+      "title": "Flex-$π$: A Multi-Stream World-Action Model with Compute Flexibility",
+      "abstract": "World-action models (WAMs) predict the future to act better, but nearly all of them predict only RGB latents, trained purely for pixel reconstruction, with no explicit signal for the 3D geometry or object semantics manipulation needs. We find a surprising free lunch: the same frozen video-generation VAE that encodes RGB also encodes 3D pointmaps almost losslessly, with no pointmap-specific training at all. This lets us supervise Flex-$π$, a 6B-parameter WAM, on 3D geometry and object-centric DINO semantics alongside RGB, at no cost in new sensors, new pre-training, or inference latency. Every visual signal is projected into this shared latent space and denoised jointly with actions inside a Mixture-of-Transformers backbone; per-stream dropout with cross-modality forcing then lets a single trained checkpoint run on any subset of these streams, from a fast action-only mode to full joint generation. The result is a policy that is exceptionally demonstration-efficient and generalizes well, beating the strongest baselines by up to 2-7$\\times$ on dexterous, precise, real-world bimanual manipulation tasks both in and out of distribution, all while running faster than $π_{0.5}$. Our project website: https://flex-pi.github.io/",
+      "authors": [
+        "Ge Yan",
+        "Jinghao Liu",
+        "Yuzhi Fan",
+        "Lei Cai",
+        "Minwen Liao",
+        "Jesse Zhang",
+        "Dieter Fox"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-08-11T12:33:51+00:00",
+      "link": "https://arxiv.org/pdf/2608.10860v2",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "multi-stream world-action model",
+      "llm_evidence_cn": "多流世界动作模型",
+      "llm_evidence": "多流世界动作模型",
+      "canonical_evidence": "多流世界动作模型",
+      "llm_tldr_en": "Flex-π trains a 6B-parameter world-action model that jointly denoises RGB, 3D pointmaps, and DINO semantics in a shared latent space, improving manipulation with no extra sensors or inference cost.",
+      "llm_tldr_cn": "现有世界动作模型仅预测RGB潜变量，缺乏操作所需的3D几何与物体语义。Flex-π发现冻结的视频生成VAE能几乎无损编码3D点图，因此在不增加传感器、预训练或推理延迟的情况下，联合监督RGB、3D几何和物体中心语义。通过混合Transformer骨干和逐流dropout在共享潜空间内与动作联合去噪，训练出60亿参数的多流世界动作模型，显著增强了机器人操作的几何与语义理解能力。",
+      "llm_tldr": "现有世界动作模型仅预测RGB潜变量，缺乏操作所需的3D几何与物体语义。Flex-π发现冻结的视频生成VAE能几乎无损编码3D点图，因此在不增加传感器、预训练或推理延迟的情况下，联合监督RGB、3D几何和物体中心语义。通过混合Transformer骨干和逐流dropout在共享潜空间内与动作联合去噪，训练出60亿参数的多流世界动作模型，显著增强了机器人操作的几何与语义理解能力。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.13026v1",
+      "source": "arxiv",
+      "title": "Temporal GRPO: Beyond Trajectory-Level Credit in Vision-Language-Action Reinforcement Learning",
+      "abstract": "Outcome-driven reinforcement learning offers a scalable way to post-train vision-language-action (VLA) policies from sparse task-success feedback. In common GRPO-based VLA post-training, one rollout-level advantage is applied to every action in the trajectory. A rollout that completes several valid stages but fails later can therefore penalize the actions that produced its earlier progress. We call this trajectory-level credit aliasing. Temporal GRPO addresses this problem by constructing detectable task stages, aligning each rollout with stage-specific action intervals, and comparing only rollouts that have entered the same stage. The resulting stage advantages are applied to their corresponding intervals in a single policy update. On RoboTwin 2.0, Temporal GRPO improves task success and sample efficiency, with consistent gains across task horizons. Controlled updates on LIBERO-Long preserve shared prerequisite stages and concentrate improvement at the first stage where rollout outcomes diverge.",
+      "authors": [
+        "Yao Zhou",
+        "Hang Gao",
+        "Fengge Wu",
+        "Changwen Zheng",
+        "Wenwen Qiang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-13T09:54:14+00:00",
+      "link": "https://arxiv.org/pdf/2608.13026v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Improving VLA policies with stage-level credit assignment in reinforcement learning",
+      "llm_evidence_cn": "通过阶段级信用分配改进视觉语言动作策略",
+      "llm_evidence": "通过阶段级信用分配改进视觉语言动作策略",
+      "canonical_evidence": "通过阶段级信用分配改进视觉语言动作策略",
+      "llm_tldr_en": "Temporal GRPO replaces trajectory-level credit in VLA RL with stage-aware advantages, mitigating credit aliasing and improving post-training from sparse rewards.",
+      "llm_tldr_cn": "基于GRPO的VLA后训练把整个回滚的优势平均分配给每个动作，早期成功阶段会被后期失败错误惩罚，形成轨迹级信用混叠。文章提出Temporal GRPO，通过构建可检测任务阶段并将回滚对齐到阶段动作区间，只比较进入相同阶段的回滚并施加阶段优势。该策略在稀疏任务反馈下改善了VLA策略后训练的样本效率和最终性能。",
+      "llm_tldr": "基于GRPO的VLA后训练把整个回滚的优势平均分配给每个动作，早期成功阶段会被后期失败错误惩罚，形成轨迹级信用混叠。文章提出Temporal GRPO，通过构建可检测任务阶段并将回滚对齐到阶段动作区间，只比较进入相同阶段的回滚并施加阶段优势。该策略在稀疏任务反馈下改善了VLA策略后训练的样本效率和最终性能。",
+      "llm_tags": [
+        "query:vla-humanoid:composite"
+      ],
+      "matched_query_tag": "query:vla-humanoid:composite",
+      "matched_query_text": "Papers central to VLA，Humanoid，WAM, especially work that connects or combines: w; vision language action model for humanoid robots; humanoid robot control and manipulation; embodied artificial intelligence for humanoid robots; action generation in robotics using language models; manipulation skills for humanoid robots; how do vision language action models improve humanoid robot manipulation; task planning for humanoid robots using language models.",
+      "matched_requirement_id": "req-composite-vla-humanoid",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.09125v1",
+      "source": "arxiv",
+      "title": "Trajectory Divergence Horizon Decision for Reliable Dual-Arm Surgical Subtask Manipulation",
+      "abstract": "Surgical robotic systems are increasingly being adopted as clinical workload rises, motivating autonomous solutions for repetitive manipulation subtasks. Learning-based controllers improve generalization compared with rule-based and analytic approaches, but most are trained for individual tasks and remain difficult to reuse across procedures. Vision-Language-Action (VLA) models provide a unified framework that integrates visual perception, language grounding, and action generation, offering a promising path toward more composable surgical autonomy. However, existing VLA policies rely on fixed-length open-loop action sequences, where changing scene conditions can lead to accumulated errors and potential risks in surgical manipulation. To mitigate this issue, we formulate surgical VLA deployment as an adaptive execution-horizon decision problem and propose Trajectory Divergence Horizon Decision (TDHD), a test-time mechanism that estimates step-wise action reliability by measuring the divergence between two flow-matching-generated trajectories under small noise perturbations and truncates execution using a dual-threshold rule to trigger timely replanning. We further establish a real-world da Vinci-like dual-arm benchmark with synchronized multi-view perception and language instructions, and collect 600 teleoperated demonstrations across needle (reach, pick, regrasp) and tissue (reach, lift, resection) manipulation suites. On real hardware with 20 trials per task setting, TDHD consistently improves performance over the latest VLA baselines: success increases from 55\\% to 60\\% for needle manipulation and from 55\\% to 80\\% for tissue manipulation, with the largest gains observed in the final manipulation stages. These results highlight the importance of adaptive execution control for reliable deployment of VLA models in surgical robotic manipulation.",
+      "authors": [
+        "Mingwu Su",
+        "Guankun Wang",
+        "Jinsong Lin",
+        "Rulin Zhou",
+        "Ziyi Hao",
+        "Zhiwei Fang",
+        "Huxin Gao",
+        "Jiewen Lai",
+        "Jiazheng Wang",
+        "Fan Zhang",
+        "Hongliang Ren"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-10T05:04:02+00:00",
+      "link": "https://arxiv.org/pdf/2608.09125v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "vision-language-action model for action generation",
+      "llm_evidence_cn": "用于动作生成的视觉-语言-动作模型",
+      "llm_evidence": "用于动作生成的视觉-语言-动作模型",
+      "canonical_evidence": "用于动作生成的视觉-语言-动作模型",
+      "llm_tldr_en": "Proposes trajectory divergence horizon decision to improve reliability of VLA policies for dual-arm surgical manipulation, addressing accumulated errors in open-loop action sequences.",
+      "llm_tldr_cn": "外科机器人采用VLA模型实现组合式自主操作，但现有策略依赖固定长度开环动作序列，场景变化会导致误差累积。本文提出轨迹发散时域决策方法，根据场景动态决定动作执行长度，增强双机械臂外科子任务操作的可靠性。在手术操作场景中验证了该方法能减少累积误差并提升安全性，为VLA模型在精密操作中的应用提供了改进方向。",
+      "llm_tldr": "外科机器人采用VLA模型实现组合式自主操作，但现有策略依赖固定长度开环动作序列，场景变化会导致误差累积。本文提出轨迹发散时域决策方法，根据场景动态决定动作执行长度，增强双机械臂外科子任务操作的可靠性。在手术操作场景中验证了该方法能减少累积误差并提升安全性，为VLA模型在精密操作中的应用提供了改进方向。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "action generation in robotics using language models",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.09857v1",
+      "source": "arxiv",
+      "title": "Agentic Harnesses: LLM-Driven Verification Layers for Robot Autonomy",
+      "abstract": "Advances in advanced artificial intelligence tools have sparked research in robot autonomy, but the development of such systems has largely focused on execution rather than verifying the feasibility actions planning models propose. Like general-purpose LLMs, robotics planning models carry risks: biased toward user-specified goals, they may suggest actions misaligned with scientific ethics, they may be unsafe due to an inability to \"remember\" prior safety risks, or they may be vulnerable to adversarial attacks on the autonomy ecosystem. We propose a LLM-driven verification layer between planning and execution to evaluate action permissibility. Our LLM-as-a-Judge ensemble combines chain-of-thought reasoning across models and synthesizes those expert judge outputs, mirroring a combination of a mixture of experts and self-consistency approach. This layer serves as middleware, gating plans from the server's planning module before they reach the MCP server and therefore the robot's low-level controls: plans are approved, rejected for reformulation, or escalated for human review. With this system, we achieve near 85% precision across accept/escalate/reject categories 97% containment of adversarial attacks, with negligible errors between accepting and rejecting tasks, and errors mostly manifesting at the escalate boundary.",
+      "authors": [
+        "Rohan Bhagra",
+        "Mahantesh Halapannavar",
+        "Uddhav Bhattarai"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-08-10T17:15:55+00:00",
+      "link": "https://arxiv.org/pdf/2608.09857v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "LLM-based verification for robot action planning",
+      "llm_evidence_cn": "基于LLM的机器人动作验证机制",
+      "llm_evidence": "基于LLM的机器人动作验证机制",
+      "canonical_evidence": "基于LLM的机器人动作验证机制",
+      "llm_tldr_en": "Proposes LLM-as-a-Judge ensemble verification layer between robot planning and execution to evaluate action permissibility, addressing safety, ethics, and adversarial threats.",
+      "llm_tldr_cn": "机器人自主系统的研究大多关注执行而忽略验证规划模型所提出动作的可行性。本文提出在规划与执行之间加入LLM驱动的验证层，采用LLM-as-a-Judge集成与思维链推理评估动作许可性，以应对偏置、安全记忆缺失和对抗攻击等风险。该方法综合多个模型专家判断，为机器人自主性增加安全校验。实验表明该验证层能有效提高动作安全性与伦理合规性，是机器人系统的重要安全组件。",
+      "llm_tldr": "机器人自主系统的研究大多关注执行而忽略验证规划模型所提出动作的可行性。本文提出在规划与执行之间加入LLM驱动的验证层，采用LLM-as-a-Judge集成与思维链推理评估动作许可性，以应对偏置、安全记忆缺失和对抗攻击等风险。该方法综合多个模型专家判断，为机器人自主性增加安全校验。实验表明该验证层能有效提高动作安全性与伦理合规性，是机器人系统的重要安全组件。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "action generation in robotics using language models",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.09876v1",
+      "source": "arxiv",
+      "title": "Energy-Structured Latent World Models with Neural Time Fields for Physically Constistent Open-World Motion Planning",
+      "abstract": "Physically consistent motion planning remains a fundamental challenge in embodied AI, as generated trajectories must strictly conform to real-world execution dynamics. While latent world models offer a promising approach by predicting these dynamics, existing methods learn unconstrained future representations where absorbed physics remains implicit. Therefore, they fail to form reusable physical knowledge, which compromises reliability in unpredictable open-world navigation. To address this, we propose a novel Energy-Structured Latent World Model (ELWM). Our key idea is to structure the ELWM latent state to explicitly carry energy and momentum, ensuring strictly causal transitions via dissipation and control ports. Trained on multimodal RGB-D and inertial interaction histories, our model guarantees physically consistent predictions. We further implement this for motion planning by constructing Physics-Conditioned Neural Time Fields (PC-NTF), a key technical cornerstone that integrates ELWM into an arrival time field via the Eikonal equation to yield a physically-informed navigation policy. Across held-out scenes, our evaluation reveals significant improvements. Compared to generic latent models, PC-NTF reduces 0.8-s motion-prediction NRMSE from 0.36 to 0.29. Against Active Neural Time Fields, it improves navigation success from 81.3% to 89.7% and SPL from 0.64 to 0.73, while cutting the physical collision rate from 12.1% to 5.8% and the Eikonal residual from 0.083 to 0.031. Beyond these targeted gains, our results demonstrate that embedding explicit physical structures into latent spaces intrinsically bridges the gap between predictive world models and safe, dynamically feasible motion planning.",
+      "authors": [
+        "Yapeng Liu",
+        "Yuanzhao Zhai",
+        "Bo Ding",
+        "Huaimin Wang",
+        "Lin Wang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-08-10T17:31:18+00:00",
+      "link": "https://arxiv.org/pdf/2608.09876v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Latent world model structured with physics for motion planning",
+      "llm_evidence_cn": "用于运动规划的物理结构化潜在世界模型",
+      "llm_evidence": "用于运动规划的物理结构化潜在世界模型",
+      "canonical_evidence": "用于运动规划的物理结构化潜在世界模型",
+      "llm_tldr_en": "ELWM structures latent world models with energy and momentum to enforce causal transitions, improving physically consistent open-world motion planning.",
+      "llm_tldr_cn": "现有潜在世界模型学习无约束未来表示，物理知识隐式且难以复用，导致开放世界运动规划可靠性不足。文章提出能量结构潜在世界模型ELWM，在潜状态中显式携带能量和动量，通过耗散和控制实现严格因果转移。该方法使轨迹规划更严格遵循真实执行动力学，增强物理一致性和开放世界导航的可靠性。",
+      "llm_tldr": "现有潜在世界模型学习无约束未来表示，物理知识隐式且难以复用，导致开放世界运动规划可靠性不足。文章提出能量结构潜在世界模型ELWM，在潜状态中显式携带能量和动量，通过耗散和控制实现严格因果转移。该方法使轨迹规划更严格遵循真实执行动力学，增强物理一致性和开放世界导航的可靠性。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.10886v1",
+      "source": "arxiv",
+      "title": "GESTO: Human-Centric Spatio-Temporal Memory for Reasoning in Dynamic Scenes",
+      "abstract": "Robots operating in human environments need memories that capture not only what objects exist and where, but also how people use them over time and how individual interactions compose into goal-directed activities. Existing 4D scene graphs preserve object and place histories but omit activity structure, whereas activity representations are either not grounded in persistent 3D scenes or rely on externally provided event boundaries and object associations. We present GESTO (Grounded Event and Spatio-Temporal memOry), a spatio-temporal memory that couples a persistent 4D scene graph with a two-level hierarchy of atomic human--object interactions and goal-driven events. From an RGB-D observation stream, GESTO automatically extracts timestamped interactions, grounds them to persistent scene entities, groups them into events, and uses event context to refine uncertain object associations. A relation-aware tool-calling agent queries the resulting memory for activity-centric spatio-temporal reasoning. We evaluate GESTO on the reproducible text, binary, and time categories of an existing benchmark, together with 40 new Space2Event and Event2Space queries. GESTO achieves scores of 0.71, 0.75, and 0.70 on the standard categories, approaching a method supplied with ground-truth event and object grounding, while substantially outperforming the same reasoning framework when these inputs are removed. It further achieves 0.73 and 0.75 on Space2Event and Event2Space queries. Ablations show that hierarchical event structure and context-aware grounding refinement provide complementary benefits, supporting activity-grounded hierarchical memory for retrospective reasoning in dynamic human environments.",
+      "authors": [
+        "Ermanno Bartoli",
+        "Buwei He",
+        "Dennis Rotondi",
+        "Sebastian Koch",
+        "Federico Tombari",
+        "Kai O. Arras",
+        "Patric Jensfelt",
+        "Yixi Cai",
+        "Iolanda Leite"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-08-11T13:03:33+00:00",
+      "link": "https://arxiv.org/pdf/2608.10886v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "spatio-temporal memory for robots in human environments supporting embodied reasoning",
+      "llm_evidence_cn": "面向人类环境的机器人时空记忆，支撑具身推理",
+      "llm_evidence": "面向人类环境的机器人时空记忆，支撑具身推理",
+      "canonical_evidence": "面向人类环境的机器人时空记忆，支撑具身推理",
+      "llm_tldr_en": "GESTO couples a persistent 4D scene graph with hierarchical human-object interactions and goal-driven events for human-centric robot memory.",
+      "llm_tldr_cn": "现有4D场景图保留了物体与地点历史，但缺少活动结构。GESTO将持久4D场景图与原子人机交互及目标驱动事件的层级结构结合，从RGB-D流自动提取带时间戳的交互。该记忆支持机器人在动态人类环境中进行长期推理，并避免依赖外部事件边界。这为具身AI的记忆与推理提供了新组件。",
+      "llm_tldr": "现有4D场景图保留了物体与地点历史，但缺少活动结构。GESTO将持久4D场景图与原子人机交互及目标驱动事件的层级结构结合，从RGB-D流自动提取带时间戳的交互。该记忆支持机器人在动态人类环境中进行长期推理，并避免依赖外部事件边界。这为具身AI的记忆与推理提供了新组件。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "embodied artificial intelligence for humanoid robots",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.12308v1",
+      "source": "arxiv",
+      "title": "DreamFly: Causal Memory and Receding-Horizon Diffusion Planning for Aerial Vision-Language Navigation",
+      "abstract": "Aerial vision-language navigation (VLN) requires an embodied agent to integrate visual evidence over time, plan future actions, and determine when it has reached a navigation goal under partial observability. Although recent VLA models offer a promising perception-to-action paradigm, adapting them to aerial navigation remains challenging due to limited historical context, short planning horizons, and unreliable implicit termination. To address these challenges, we propose DreamFly, a diffusion-based aerial VLN framework built on Dream-VLA. DreamFly introduces a causally aligned historical memory that augments the current visual representation using only observations preceding the current decision step, enabling temporal reasoning without future information leakage. We further formulate navigation as receding-horizon diffusion planning, where the policy predicts a $K$-step action chunk but executes only the first action before replanning. This plan-$K$, execute-one strategy uses future actions as auxiliary planning targets while preserving closed-loop visual feedback. Finally, LiteStop estimates the stop probability directly from action logits at the initial all-mask state, decoupling explicit termination from action generation. Experiments on the OpenFly benchmark demonstrate consistent improvements in seen and unseen environments. DreamFly achieves 32.04%/29.46% SR and 28.22%/23.54% SPL on the test-seen/test-unseen splits, respectively, outperforming all compared methods on both metrics while attaining the lowest navigation error. These results demonstrate the effectiveness of jointly modeling historical context, future action structure, and explicit termination for aerial VLN.",
+      "authors": [
+        "Yan Deng",
+        "Fei Xu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-08-12T17:54:33+00:00",
+      "link": "https://arxiv.org/pdf/2608.12308v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "VLA model with diffusion planning for embodied navigation; relevant to language-based action generation.",
+      "llm_evidence_cn": "面向空中视觉语言导航，将VLA与扩散规划结合生成动作，符合语言模型驱动的动作生成主题。",
+      "llm_evidence": "面向空中视觉语言导航，将VLA与扩散规划结合生成动作，符合语言模型驱动的动作生成主题。",
+      "canonical_evidence": "面向空中视觉语言导航，将VLA与扩散规划结合生成动作，符合语言模型驱动的动作生成主题。",
+      "llm_tldr_en": "DreamFly adapts VLA models to aerial vision-language navigation by augmenting current visual observation with a causally aligned historical memory and using receding-horizon diffusion planning, tackling limited context and unreliable implicit termination.",
+      "llm_tldr_cn": "将VLA模型用于空中视觉-语言导航时，存在历史上下文有限、规划视野短和终止判定不可靠等问题。DreamFly在Dream-VLA基础上引入因果对齐的历史记忆以增强当前视觉表示，并采用滚动时域扩散规划生成未来动作序列。实验结果验证了该方法在部分可观测环境下提升导航决策与终止判断的能力。这项工作为语言模型驱动的具身动作生成提供了新的规划范式。",
+      "llm_tldr": "将VLA模型用于空中视觉-语言导航时，存在历史上下文有限、规划视野短和终止判定不可靠等问题。DreamFly在Dream-VLA基础上引入因果对齐的历史记忆以增强当前视觉表示，并采用滚动时域扩散规划生成未来动作序列。实验结果验证了该方法在部分可观测环境下提升导航决策与终止判断的能力。这项工作为语言模型驱动的具身动作生成提供了新的规划范式。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "action generation in robotics using language models",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.12743v1",
+      "source": "arxiv",
+      "title": "Spatial Memory Agent: Experience-Grounded Procedure Memory for Spatial Intelligence",
+      "abstract": "Spatial intelligence is becoming a foundation for embodied agents, robotic planning, and multimodal assistants. To improve the spatial reasoning ability of VLM agents, existing work has mainly followed two lines. One line uses post-training methods, such as supervised fine-tuning and reinforcement learning. Another line adopts an agentic paradigm in which the model calls external spatial tools, such as depth estimation and 3D reconstruction tools, to gather intermediate spatial evidence. We study a complementary and underexplored route: Can a frozen VLM agent improve its spatial reasoning through \\textbf{parameter-update-free self-evolution}, without depending on external expert spatial tools at inference time? We present \\textbf{Spatial Memory Agent (SMA)}, an \\textbf{experience-grounded runtime framework} that converts verified spatial experience into reusable transferable lessons. In a verifiable spatial environment, SMA queries the frozen VLM, obtains a predicted answer and reward, and uses \\textbf{verifier-guided reflection} to distill compact transferable lessons from spatial experience. SMA further assigns each lesson a \\textbf{Transfer Reliability Score (TRS)}, which is initialized uniformly and calibrated from later retrieval outcomes as visit evidence of future transfer reliability. During \\textbf{read-only deployment}, SMA retrieves lessons by semantic filter and similarity-TRS combined ranking, allowing the retrieved memory to guide frozen model inference. Across five representative spatial benchmarks and four base VLMs, SMA achieves the highest macro average in every base-model block and the best accuracy among the evaluated methods in most of the 20 evaluations, establishing a practical parameter-update-free path for spatial self-evolution across the evaluated frozen model scales and environments.",
+      "authors": [
+        "Haokai Zhang",
+        "Yuhang Ding",
+        "Yunshu Zhou",
+        "Xinze Du",
+        "Shengtao Zhang",
+        "Zhiyue Zhao",
+        "Yuling Xi",
+        "Hao Chen"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-13T02:42:35+00:00",
+      "link": "https://arxiv.org/pdf/2608.12743v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "spatial reasoning self-evolution for VLM agents",
+      "llm_evidence_cn": "VLM智能体空间推理自进化",
+      "llm_evidence": "VLM智能体空间推理自进化",
+      "canonical_evidence": "VLM智能体空间推理自进化",
+      "llm_tldr_en": "Spatial Memory Agent improves spatial reasoning of frozen VLM agents via parameter-update-free self-evolution without external spatial tools, building experience-grounded procedure memory.",
+      "llm_tldr_cn": "空间智能是具身智能体与机器人规划的基础，现有提升VLM空间推理的方法要么需要监督微调，要么依赖外部空间工具。本文提出参数不更新的自进化方法，让冻结VLM智能体通过经验构建的程序记忆逐步改进空间推理，无需外部工具。实验证明该方法能有效提升空间推理能力，为空间智能提供了一条轻量且通用的增强路径，对机器人规划具有实用价值。",
+      "llm_tldr": "空间智能是具身智能体与机器人规划的基础，现有提升VLM空间推理的方法要么需要监督微调，要么依赖外部空间工具。本文提出参数不更新的自进化方法，让冻结VLM智能体通过经验构建的程序记忆逐步改进空间推理，无需外部工具。实验证明该方法能有效提升空间推理能力，为空间智能提供了一条轻量且通用的增强路径，对机器人规划具有实用价值。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "embodied artificial intelligence for humanoid robots",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

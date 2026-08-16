@@ -6,41 +6,48 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-15
-- 运行时间：2026-08-15 20:37:22 UTC
+- 最新运行日期：2026-08-16
+- 运行时间：2026-08-16 19:39:29 UTC
 - 运行状态：成功
-- 本次总论文数：7
-- 精读区：2
-- 速读区：5
+- 本次总论文数：8
+- 精读区：1
+- 速读区：7
 
 ### 今日简报（AI）
-今日精读聚焦接触前执行监控与世界模型、人体运动追踪基准两项高分工作；速读覆盖双机械臂手术子任务、VLA对抗纹理及多模态规划。最值得关注ContactGuard的潜在世界模型规划能力和HumanTracker对齐人类认知的追踪评估思路。下一步可探索这两项技术在安全交互与具身智能评估中的实际应用。
-- 详情：[/202608/15/README](/202608/15/README)
+今日精读1篇、速读7篇，聚焦视觉-语言-动作模型与机器人操控强化学习。
+
+最值得看的是《Flex-π: A Multi-Stream World-Action Model with Compute Flexibility》（9.0），其多流世界-动作架构与计算弹性设计极具启发性；另有《Temporal GRPO》将奖励扩展到轨迹级以上的信用分配，值得关注。
+
+建议普通读者优先浏览Flex-π的思路，并留意后续在双臂手术子任务与LLM验证层方面的应用延伸。
+- 详情：[/202608/16/README](/202608/16/README)
 
 ### 精读区论文标签
-1. [ContactGuard: Pre-Contact Execution Monitoring with Action-Conditioned Latent World Models](/202608/15/2608.13438v1-contactguard-pre-contact-execution-monitoring-with-action-conditioned-latent-world-models)  
-   标签：评分：8.0/10、query:human-aigc
-   evidence：用于接触丰富操作的动作条件潜在世界模型
-2. [HumanTracker: Towards Comprehensive and Human-Aligned Motion Tracking Benchmark](/202608/15/2608.13555v1-humantracker-towards-comprehensive-and-human-aligned-motion-tracking-benchmark)  
-   标签：评分：8.0/10、query:human-aigc
-   evidence：人形运动跟踪基准，用于遥操作与全身模仿
+1. [Flex-$π$: A Multi-Stream World-Action Model with Compute Flexibility](/202608/16/2608.10860v2-flex--a-multi-stream-world-action-model-with-compute-flexibility)  
+   标签：评分：9.0/10、query:human-aigc
+   evidence：多流世界动作模型
 
 ### 速读区论文标签
-1. [Trajectory Divergence Horizon Decision for Reliable Dual-Arm Surgical Subtask Manipulation](/202608/15/2608.09125v1-trajectory-divergence-horizon-decision-for-reliable-dual-arm-surgical-subtask-manipulation)  
+1. [Temporal GRPO: Beyond Trajectory-Level Credit in Vision-Language-Action Reinforcement Learning](/202608/16/2608.13026v1-temporal-grpo-beyond-trajectory-level-credit-in-vision-language-action-reinforcement-learning)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：面向手术子任务操作的VLA模型，通过轨迹发散时界决策提升操作可靠性，可迁移至类人操作
-2. [UniTexture: Cross-Task Universal Adversarial Textures for Vision-Language-Action Models](/202608/15/2608.13453v1-unitexture-cross-task-universal-adversarial-textures-for-vision-language-action-models)  
-   标签：评分：7.0/10、query:vla-humanoid
-   evidence：针对VLA动作模型的对抗纹理攻击
-3. [Discovering Diverse Planning Policies for Multimodal Embodied Agents with Quality-Diversity Optimization](/202608/15/2608.08523v1-discovering-diverse-planning-policies-for-multimodal-embodied-agents-with-quality-diversity-optimization)  
+   evidence：通过阶段级信用分配改进视觉语言动作策略
+2. [Trajectory Divergence Horizon Decision for Reliable Dual-Arm Surgical Subtask Manipulation](/202608/16/2608.09125v1-trajectory-divergence-horizon-decision-for-reliable-dual-arm-surgical-subtask-manipulation)  
    标签：评分：6.0/10、query:vla-humanoid
-   evidence：面向多模态具身智能体的多样化规划策略发现，支撑长时程任务规划
-4. [Chain of Spatial Thoughts: Modality-Agnostic Spatial Grounding for Vision Language Models](/202608/15/2608.10278v1-chain-of-spatial-thoughts-modality-agnostic-spatial-grounding-for-vision-language-models)  
+   evidence：用于动作生成的视觉-语言-动作模型
+3. [Agentic Harnesses: LLM-Driven Verification Layers for Robot Autonomy](/202608/16/2608.09857v1-agentic-harnesses-llm-driven-verification-layers-for-robot-autonomy)  
    标签：评分：6.0/10、query:vla-humanoid
-   evidence：为VLM提供模态无关空间接地能力，支撑机器人操作与具身导航等具身智能任务
-5. [Motion-as-Prompt: Enhancing Motion Reasoning in Multimodal Large Language Models via Motion-Guided Cross-Frame Visual Prompting](/202608/15/2608.11655v1-motion-as-prompt-enhancing-motion-reasoning-in-multimodal-large-language-models-via-motion-guided-cross-frame-visual-prompting)  
+   evidence：基于LLM的机器人动作验证机制
+4. [Energy-Structured Latent World Models with Neural Time Fields for Physically Constistent Open-World Motion Planning](/202608/16/2608.09876v1-energy-structured-latent-world-models-with-neural-time-fields-for-physically-constistent-open-world-motion-planning)  
+   标签：评分：6.0/10、query:human-aigc
+   evidence：用于运动规划的物理结构化潜在世界模型
+5. [GESTO: Human-Centric Spatio-Temporal Memory for Reasoning in Dynamic Scenes](/202608/16/2608.10886v1-gesto-human-centric-spatio-temporal-memory-for-reasoning-in-dynamic-scenes)  
    标签：评分：6.0/10、query:vla-humanoid
-   evidence：面向MLLM的运动引导视觉提示，服务于机器人操作推理
+   evidence：面向人类环境的机器人时空记忆，支撑具身推理
+6. [DreamFly: Causal Memory and Receding-Horizon Diffusion Planning for Aerial Vision-Language Navigation](/202608/16/2608.12308v1-dreamfly-causal-memory-and-receding-horizon-diffusion-planning-for-aerial-vision-language-navigation)  
+   标签：评分：6.0/10、query:vla-humanoid
+   evidence：面向空中视觉语言导航，将VLA与扩散规划结合生成动作，符合语言模型驱动的动作生成主题。
+7. [Spatial Memory Agent: Experience-Grounded Procedure Memory for Spatial Intelligence](/202608/16/2608.12743v1-spatial-memory-agent-experience-grounded-procedure-memory-for-spatial-intelligence)  
+   标签：评分：6.0/10、query:vla-humanoid
+   evidence：VLM智能体空间推理自进化
 
 
 <div class="dpr-home-promo-card">
