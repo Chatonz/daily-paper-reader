@@ -1,0 +1,349 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-17T19:58:54.981764+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 2,
+    "deep_divecandidates": 7,
+    "deep_cap": 7,
+    "deep_selected": 7,
+    "quick_candidates": 1,
+    "quick_skim_target": 12,
+    "quick_selected": 1
+  },
+  "deep_dive": [
+    {
+      "id": "2608.13924v1",
+      "source": "arxiv",
+      "title": "BICPO-VLA: Behavior-Identified Continuation Preference Optimization for Smooth Asynchronous Vision-Language-Action Control",
+      "abstract": "The request-to-handoff gap has three coupled sources: ambiguity about the behavior intended at request time, physical-state drift accumulated during action generation, and residual incompatibility when the new action finally assumes control. BICPO-VLA addresses them in sequence. First, an instruction-aware causal history encoder identifies the behavior supported by the command and current task progress. Second, sequential Haar subspace generation decomposes each action chunk into complementary pairwise scaffold and residual coefficients, enabling two specialized generation stages followed by exact reconstruction. By reducing iterative refinement in the original action space, it shortens the interval over which the robot continues moving before the new chunk becomes available. Finally, BICPO rolls the known outgoing actions to the actual handoff state and applies reference-relative Flow-DPO among behaviorally matched candidates, adapting the generated chunk to the remaining request-to-handoff mismatch without changing its intended behavior.",
+      "authors": [
+        "Ming Shang",
+        "Yuchen Huang",
+        "Jiaoyang Chen",
+        "Haoyuan Hu",
+        "Han Yu",
+        "Liping Song",
+        "Luyun Feng",
+        "Shuo Bao",
+        "Wei Dong",
+        "Xinzhou Wang",
+        "Fuchun Sun"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-14T03:51:27+00:00",
+      "link": "https://arxiv.org/pdf/2608.13924v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Behavior-identified continuation preference optimization for smooth VLA control",
+      "llm_evidence_cn": "面向平滑VLA控制的行为识别延续偏好优化",
+      "llm_evidence": "面向平滑VLA控制的行为识别延续偏好优化",
+      "canonical_evidence": "面向平滑VLA控制的行为识别延续偏好优化",
+      "llm_tldr_en": "BICPO-VLA improves smooth asynchronous VLA control by identifying behavior via causal history encoding, decomposing action chunks into Haar subspaces, and applying continuation preference optimization.",
+      "llm_tldr_cn": "针对VLA控制中请求到交接间隔导致的歧义、物理状态漂移和残余不兼容问题，提出BICPO-VLA。利用指令感知的因果历史编码器识别当前行为意图，再通过序列Haar子空间生成将动作块分解为互补的脚手架与残差系数，并采用延续偏好优化。实验表明该方法可以缩短异步控制间隔，提高交接过程的平滑性和任务成功率。",
+      "llm_tldr": "针对VLA控制中请求到交接间隔导致的歧义、物理状态漂移和残余不兼容问题，提出BICPO-VLA。利用指令感知的因果历史编码器识别当前行为意图，再通过序列Haar子空间生成将动作块分解为互补的脚手架与残差系数，并采用延续偏好优化。实验表明该方法可以缩短异步控制间隔，提高交接过程的平滑性和任务成功率。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "vision language action model for humanoid robots",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.14028v1",
+      "source": "arxiv",
+      "title": "AdvDex: Learning Dexterous Manipulation from Human Demonstrations via Joint-Aligned Actions and Adversarial Learning",
+      "abstract": "Dexterous manipulation is a fundamental capability for embodied intelligence, but scaling it remains difficult because robot demonstrations are expensive to collect and action spaces vary across embodiments. Policies trained on heterogeneous data can also entangle task-relevant visual cues with embodiment-specific appearance, limiting cross-embodiment generalization. We present AdvDex, a unified Vision-Language-Action framework for learning dexterous manipulation from human and robot demonstrations. First, we introduce OmniShare, a large-scale multimodal dataset of human manipulation demonstrations that provides high-quality kinematic supervision and tactile measurements while reducing reliance on robot teleoperation. Second, we propose the Joint-Aligned Action Space (JAAS), a canonical action representation comprising an $\\mathrm{SE}(3)$ wrist pose and 15 finger joints, thereby functionally aligning human hands, dexterous robot hands, and parallel grippers. Finally, we use domain-adversarial learning to reduce embodiment-specific information in the learned visual representation. Experiments on hand-action prediction and real-world dexterous manipulation show consistent improvements over baselines, effective zero-shot human-to-robot skill transfer, generalization to unseen objects and environments, and data-efficient few-shot adaptation.",
+      "authors": [
+        "Zhiyue Zhao",
+        "Jingyi Wu",
+        "Hairuo Liu",
+        "Mingyu Liu",
+        "Liyang Li",
+        "Hengdi Zhang",
+        "Tong He",
+        "Zhengxue Cheng"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-08-14T07:19:06+00:00",
+      "link": "https://arxiv.org/pdf/2608.14028v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Vision-Language-Action framework for dexterous manipulation from human demonstrations with cross-embodiment generalization",
+      "llm_evidence_cn": "基于人类示教的灵巧操作视觉-语言-动作框架，支持跨形态泛化",
+      "llm_evidence": "基于人类示教的灵巧操作视觉-语言-动作框架，支持跨形态泛化",
+      "canonical_evidence": "基于人类示教的灵巧操作视觉-语言-动作框架，支持跨形态泛化",
+      "llm_tldr_en": "Proposes AdvDex, a unified VLA framework for dexterous manipulation learned from human and robot demonstrations, introducing OmniShare dataset and adversarial training.",
+      "llm_tldr_cn": "灵巧操作是具身智能的核心能力，但机器人示教数据昂贵且跨形态泛化困难。作者提出AdvDex，一个统一的视觉-语言-动作（VLA）学习框架，从人类和机器人示教中学习灵巧操作。方法引入OmniShare大规模多模态人类操作数据集，并通过关节对齐动作与对抗训练缓解视觉与形态相关信息纠缠的问题。实验表明该框架能有效提升跨形态泛化能力，为人形等不同机器人学习复杂操作技能提供了可扩展的解决方案。",
+      "llm_tldr": "灵巧操作是具身智能的核心能力，但机器人示教数据昂贵且跨形态泛化困难。作者提出AdvDex，一个统一的视觉-语言-动作（VLA）学习框架，从人类和机器人示教中学习灵巧操作。方法引入OmniShare大规模多模态人类操作数据集，并通过关节对齐动作与对抗训练缓解视觉与形态相关信息纠缠的问题。实验表明该框架能有效提升跨形态泛化能力，为人形等不同机器人学习复杂操作技能提供了可扩展的解决方案。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "manipulation skills for humanoid robots",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.14379v1",
+      "source": "arxiv",
+      "title": "Reflex: Enabling Fast and Predictive Vision-Language-Action Models for Reaction-Critical Manipulation",
+      "abstract": "Vision-Language-Action (VLA) models have recently achieved promising performance in robotic manipulation. However, existing benchmarks mainly evaluate generalization on static manipulation tasks and largely overlook dynamic interaction scenarios. To address this gap, we present ReflexBench, a benchmark for reaction-critical manipulation. ReflexBench contains six dynamic tasks and introduces an evaluation framework that decouples simulator stepping from robot control while supporting configurable latency under synchronous and asynchronous inference. Building upon ReflexBench, we propose ReflexVLA, an efficient VLA model designed for reaction-critical manipulation without large-scale robot-data pretraining. ReflexVLA enhances temporal reasoning through latent future prediction and multi-frame temporal fusion within the vision backbone, while reducing deployment latency through batched visual encoding and CUDA Graph replay. Experiments show that ReflexVLA consistently improves dynamic manipulation performance while maintaining competitive accuracy on standard static manipulation benchmarks, and real-world experiments further demonstrate its effectiveness under practical deployment conditions. Project website: https://reflexvla.github.io",
+      "authors": [
+        "Yuxuan Chen",
+        "Wanruo Zhang",
+        "Xiao Li"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-08-14T15:19:04+00:00",
+      "link": "https://arxiv.org/pdf/2608.14379v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "VLA models for robot manipulation action generation",
+      "llm_evidence_cn": "用于机器人操作动作生成的视觉-语言-行动模型",
+      "llm_evidence": "用于机器人操作动作生成的视觉-语言-行动模型",
+      "canonical_evidence": "用于机器人操作动作生成的视觉-语言-行动模型",
+      "llm_tldr_en": "Introduces ReflexBench, a benchmark for reaction-critical manipulation, and ReflexVLA, an efficient vision-language-action model enabling fast predictive control without large-scale pretraining.",
+      "llm_tldr_cn": "现有VLA模型多在静态操作任务上评测，缺乏对动态交互场景的评估。为此提出ReflexBench反应关键操作基准，包含六个动态任务并支持可配置延迟的异步/同步推理。进一步提出ReflexVLA，面向反应关键操作的高效VLA模型，无需大规模机器人数据预训练即可实现快速预测控制。实验表明该模型在动态任务上具有优越的响应能力与泛化性。",
+      "llm_tldr": "现有VLA模型多在静态操作任务上评测，缺乏对动态交互场景的评估。为此提出ReflexBench反应关键操作基准，包含六个动态任务并支持可配置延迟的异步/同步推理。进一步提出ReflexVLA，面向反应关键操作的高效VLA模型，无需大规模机器人数据预训练即可实现快速预测控制。实验表明该模型在动态任务上具有优越的响应能力与泛化性。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "action generation in robotics using language models",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.13678v1",
+      "source": "arxiv",
+      "title": "hint$^2$: Hierarchical World Models for Inference-Time Temporal Logic Guidance",
+      "abstract": "A central goal of robot learning is to enable robots to execute rich instructions specified at runtime. Large-scale language-conditioned policies have made substantial progress toward this goal, yet still struggle with temporal structure and safety constraints. Linear Temporal Logic (LTL) provides a powerful language to express complex, non-Markovian instructions. However, guiding learned manipulation policies toward LTL satisfaction remains challenging because modern policies generate short-horizon action chunks and replan in closed loop, while almost all LTL specifications are evaluated over long-horizon trajectories. In this paper, we introduce hint$^2$, a method for guiding short-horizon policies toward satisfying complex LTL specifications at inference time using hierarchical world models. Our key idea is to derive two separate guidance objectives using each world model's abstraction level. A high-level model predicts future action-induced transitions in task-relevant atomic propositions to guide progress through the LTL automaton, while a low-level dynamics model predicts immediate state evolution for accurate local safety guidance. Our results show that hint$^2$ overcomes the limitations of current LTL-guided diffusion methods, outperforms existing inference-time steering methods in CALVIN, and successfully completes instructions with complex liveness and safety constraints more elegantly than language-conditioned alternatives. Finally, we demonstrate that hint$^2$ can handle complex instructions on a real UR5e manipulator.",
+      "authors": [
+        "Moritz Zoellner",
+        "Anastasios Manganaris",
+        "Ahmed H. Qureshi",
+        "Rohan Paleja"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.LG"
+      ],
+      "published": "2026-08-13T18:22:08+00:00",
+      "link": "https://arxiv.org/pdf/2608.13678v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Hierarchical world models for satisfying temporal logic in robot manipulation",
+      "llm_evidence_cn": "分层世界模型用于操作策略满足时序逻辑约束",
+      "llm_evidence": "分层世界模型用于操作策略满足时序逻辑约束",
+      "canonical_evidence": "分层世界模型用于操作策略满足时序逻辑约束",
+      "llm_tldr_en": "hint2 uses hierarchical world models to guide short-horizon robot policies toward satisfying complex linear temporal logic at inference time, addressing temporal structure and safety constraints.",
+      "llm_tldr_cn": "针对大规模语言条件策略难以处理时序结构和安全约束的问题，提出hint^2方法。它利用分层世界模型在推理时引导短视界操作策略，使其满足线性时序逻辑（LTL）规格，具备复杂指令的执行能力与安全保障。实验表明该方法可有效提升策略对非马尔可夫任务的符合度。",
+      "llm_tldr": "针对大规模语言条件策略难以处理时序结构和安全约束的问题，提出hint^2方法。它利用分层世界模型在推理时引导短视界操作策略，使其满足线性时序逻辑（LTL）规格，具备复杂指令的执行能力与安全保障。实验表明该方法可有效提升策略对非马尔可夫任务的符合度。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.13026v1",
+      "source": "arxiv",
+      "title": "Temporal GRPO: Beyond Trajectory-Level Credit in Vision-Language-Action Reinforcement Learning",
+      "abstract": "Outcome-driven reinforcement learning offers a scalable way to post-train vision-language-action (VLA) policies from sparse task-success feedback. In common GRPO-based VLA post-training, one rollout-level advantage is applied to every action in the trajectory. A rollout that completes several valid stages but fails later can therefore penalize the actions that produced its earlier progress. We call this trajectory-level credit aliasing. Temporal GRPO addresses this problem by constructing detectable task stages, aligning each rollout with stage-specific action intervals, and comparing only rollouts that have entered the same stage. The resulting stage advantages are applied to their corresponding intervals in a single policy update. On RoboTwin 2.0, Temporal GRPO improves task success and sample efficiency, with consistent gains across task horizons. Controlled updates on LIBERO-Long preserve shared prerequisite stages and concentrate improvement at the first stage where rollout outcomes diverge.",
+      "authors": [
+        "Yao Zhou",
+        "Hang Gao",
+        "Fengge Wu",
+        "Changwen Zheng",
+        "Wenwen Qiang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-13T09:54:14+00:00",
+      "link": "https://arxiv.org/pdf/2608.13026v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Reinforcement learning for VLA action policies",
+      "llm_evidence_cn": "面向VLA动作策略的强化学习改进",
+      "llm_evidence": "面向VLA动作策略的强化学习改进",
+      "canonical_evidence": "面向VLA动作策略的强化学习改进",
+      "llm_tldr_en": "Introduces Temporal GRPO to assign stage-level advantages in VLA reinforcement learning, avoiding penalizing earlier progress when later failures occur.",
+      "llm_tldr_cn": "基于结果的强化学习常用轨迹级优势更新VLA策略，但整条轨迹失败会错误惩罚早期有效动作。Temporal GRPO通过构建可检测任务阶段、对齐阶段动作区间并仅比较同阶段轨迹，为各阶段分配独立优势。实验证明该方法在稀疏奖励下提升策略学习效率，为VLA后训练提供更精细的信用分配方案。",
+      "llm_tldr": "基于结果的强化学习常用轨迹级优势更新VLA策略，但整条轨迹失败会错误惩罚早期有效动作。Temporal GRPO通过构建可检测任务阶段、对齐阶段动作区间并仅比较同阶段轨迹，为各阶段分配独立优势。实验证明该方法在稀疏奖励下提升策略学习效率，为VLA后训练提供更精细的信用分配方案。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "action generation in robotics using language models",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.14462v1",
+      "source": "arxiv",
+      "title": "THRIVE: Therapeutic Humanoid Robot In Virtual Environment",
+      "abstract": "This paper presents THRIVE (Therapeutic Humanoid Robot In Virtual Environment), an at-home rehabilitation platform that integrates a suite of virtual-reality upper-body rehabilitation games, a real-time camera-based motion-tracking system, and a socially interactive robot therapist. The system is designed for therapy and intervention in children with upper-limb motor impairments, which can be improved through consistent, task-specific practice. THRIVE features a set of newly designed, engaging games that target functional reaching, grasping, and object-manipulation movements through customizable popping, hitting, catching, and grabbing tasks, while the camera-based tracking system captures the child's kinematic performance during play. A robot therapist - deployable either as a physical robotic coach or as a remote-presence virtual agent - delivers adaptive, dynamic feedback to motivate the child and guide their movements toward therapeutic goals. THRIVE decouples the therapeutic games from the robot embodiment, extending the platform to support various embodiments and different robots within one modular system. This robot-agnostic design makes THRIVE affordable, scalable, and readily adaptable for sustained use in the home, offering a practical pathway to more consistent and engaging upper-limb therapy for children with motor function impairments.",
+      "authors": [
+        "Jin Xu",
+        "Yu-Ping Chen",
+        "Ayanna Howard"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-14T16:42:58+00:00",
+      "link": "https://arxiv.org/pdf/2608.14462v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Humanoid robot in virtual environment for rehabilitation",
+      "llm_evidence_cn": "虚拟环境中的治疗性人形机器人康复平台",
+      "llm_evidence": "虚拟环境中的治疗性人形机器人康复平台",
+      "canonical_evidence": "虚拟环境中的治疗性人形机器人康复平台",
+      "llm_tldr_en": "THRIVE integrates VR rehabilitation games, camera tracking, and a socially interactive robot therapist for at-home upper-limb therapy in children, targeting reaching and object manipulation.",
+      "llm_tldr_cn": "本文针对儿童上肢运动障碍的居家康复问题，提出THRIVE平台，将虚拟现实上肢康复游戏、基于摄像头的实时动作追踪和社交互动机器人治疗师集成在一起。系统通过弹出、击打、抓取等可定制游戏任务，训练功能性触及和物体操控动作，并同步采集儿童运动学数据。该方案为人形机器人在医疗康复领域的应用提供了新的交互范式。",
+      "llm_tldr": "本文针对儿童上肢运动障碍的居家康复问题，提出THRIVE平台，将虚拟现实上肢康复游戏、基于摄像头的实时动作追踪和社交互动机器人治疗师集成在一起。系统通过弹出、击打、抓取等可定制游戏任务，训练功能性触及和物体操控动作，并同步采集儿童运动学数据。该方案为人形机器人在医疗康复领域的应用提供了新的交互范式。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "humanoid robot",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2608.14047v1",
+      "source": "arxiv",
+      "title": "Evolve Vision-Language-Action Model into an Agent with On-the-fly Tool-use",
+      "abstract": "This paper integrates end-to-end Visual-Language-Action (VLA) models with agentic tool-use to propose Agentic Robot with Tool-use (ART). ART is a tool-injection framework that tunes any VLA model to leverage off-the-shelf tool modules for low-level vision, high-level affordance, and embodiment enhancement. Compared to vanilla VLA models with a whole continuous action solution space, ART reduces the complexity of the action solution space through tool-use, which not only improves generalizability across different tasks but also reduces data dependency. To demonstrate the advantages (high generalizability and low data dependency) of this framework, we first built a dataset of 30K tool-use trajectories and action demonstrations, which is much smaller than those used by baseline methods. We then designed a training regimen for long-trajectory tool-use reasoning in challenging environments. Experiments show that ART achieves a 20% higher success rate than mainstream baselines on simulation and real-world tasks, such as pick-and-place in the dark at novel viewpoints. Empirical results highlight the benefits of an agent-based approach: modular tool utilization enables more efficient training, lightweight deployment, and scalable integration of new tools. This design fosters robustness, adaptability, and extensibility, paving the way for the practical deployment of VLA systems in complex real-world scenarios.",
+      "authors": [
+        "Yi Ding",
+        "Yanzhao Yu",
+        "Xili Dai",
+        "Xianbiao Qi",
+        "Peiwen Sun",
+        "Xueqian Wang",
+        "Xiangyu Yue",
+        "Jianan Wang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.CV"
+      ],
+      "published": "2026-08-14T07:53:18+00:00",
+      "link": "https://arxiv.org/pdf/2608.14047v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "VLA models for action generation in robotics with tool-use",
+      "llm_evidence_cn": "面向机器人动作生成的VLA模型与工具使用",
+      "llm_evidence": "面向机器人动作生成的VLA模型与工具使用",
+      "canonical_evidence": "面向机器人动作生成的VLA模型与工具使用",
+      "llm_tldr_en": "Proposes ART, a tool-injection framework that improves VLA models by using off-the-shelf tools, reducing action complexity and data needs, improving generalizability with a 30K trajectory dataset.",
+      "llm_tldr_cn": "针对视觉-语言-动作模型在动作空间中搜索复杂度高和数据依赖强的问题，本文提出ART框架，通过注入现成工具模块来降低动作求解空间并增强泛化能力与数据效率。实验基于30K轨迹演示数据集，验证了该框架相比原始VLA模型在多样任务上的优势，为具身智能体提供了一种低成本增强方案。",
+      "llm_tldr": "针对视觉-语言-动作模型在动作空间中搜索复杂度高和数据依赖强的问题，本文提出ART框架，通过注入现成工具模块来降低动作求解空间并增强泛化能力与数据效率。实验基于30K轨迹演示数据集，验证了该框架相比原始VLA模型在多样任务上的优势，为具身智能体提供了一种低成本增强方案。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "action generation in robotics using language models",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2608.09073v1",
+      "source": "arxiv",
+      "title": "Latent World Models with Monotone Planning Costs for Image-Goal Navigation",
+      "abstract": "Image-goal navigation with latent world models requires not only accurate future prediction, but also a planning cost that reliably ranks candidate action sequences. We define the cost as the cosine distance between the predicted future embedding and the goal embedding, and show that poor cost ordering can mislead sampling-based planners such as Cross-Entropy Method (CEM). To address this, we propose a latent world model built on a frozen DINO-family encoder and train it with two complementary objectives. An autoregressive rollout loss reduces the gap between training and multi-step planning rollouts, while a Monotone Cost Ranking (MCR) loss directly encourages increasingly perturbed action sequences to receive higher planning costs. We also study InfoNCE-based action-contrastive training and find that temporal permutation negatives distort the latent geometry and degrade planning performance. On the GNM navigation dataset, our method outperforms Navigation World Models (NWM), DINO-WM, OmniVLA, and NoMaD, achieving state-of-the-art image-goal navigation performance while reducing orientation error by $2.7\\times$ over the same-encoder DINO WM baseline. We also deploy the model zero-shot on a physical robot, where it follows goal-directed paths in unseen indoor and outdoor environments.",
+      "authors": [
+        "Amirhosein Chahe",
+        "Siwei Cai",
+        "Lifeng Zhou"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-10T03:23:26+00:00",
+      "link": "https://arxiv.org/pdf/2608.09073v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Latent world models with planning costs for navigation",
+      "llm_evidence_cn": "用于导航规划的潜在世界模型与代价学习",
+      "llm_evidence": "用于导航规划的潜在世界模型与代价学习",
+      "canonical_evidence": "用于导航规划的潜在世界模型与代价学习",
+      "llm_tldr_en": "Improves latent world models via monotone cost ranking, ensuring planning costs rank perturbed action sequences correctly for image-goal navigation.",
+      "llm_tldr_cn": "潜在世界模型用于图像目标导航时，规划的代价函数需要可靠地排序候选动作序列，否则会误导采样规划器。本文提出在冻结DINO族编码器上构建潜在世界模型，并辅以自回归展开损失和单调代价排序损失，直接鼓励更大扰动对应更高代价。实验表明该方法改善了多步规划质量，为潜在世界模型的规划适应性提供新手段。",
+      "llm_tldr": "潜在世界模型用于图像目标导航时，规划的代价函数需要可靠地排序候选动作序列，否则会误导采样规划器。本文提出在冻结DINO族编码器上构建潜在世界模型，并辅以自回归展开损失和单调代价排序损失，直接鼓励更大扰动对应更高代价。实验表明该方法改善了多步规划质量，为潜在世界模型的规划适应性提供新手段。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

@@ -6,48 +6,44 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-16
-- 运行时间：2026-08-16 19:39:29 UTC
+- 最新运行日期：2026-08-17
+- 运行时间：2026-08-17 20:05:38 UTC
 - 运行状态：成功
 - 本次总论文数：8
-- 精读区：1
-- 速读区：7
+- 精读区：7
+- 速读区：1
 
 ### 今日简报（AI）
-今日精读1篇、速读7篇，聚焦视觉-语言-动作模型与机器人操控强化学习。
-
-最值得看的是《Flex-π: A Multi-Stream World-Action Model with Compute Flexibility》（9.0），其多流世界-动作架构与计算弹性设计极具启发性；另有《Temporal GRPO》将奖励扩展到轨迹级以上的信用分配，值得关注。
-
-建议普通读者优先浏览Flex-π的思路，并留意后续在双臂手术子任务与LLM验证层方面的应用延伸。
-- 详情：[/202608/16/README](/202608/16/README)
+今日精读7篇、速读1篇，聚焦机器人操作与视觉语言动作控制前沿方法。最值得关注的是《BICPO-VLA》与《AdvDex》两篇高分论文，分别解决异步视觉语言动作控制的平滑性问题，以及基于人类演示的灵巧操作对抗学习。建议普通读者优先阅读这两篇，把握带分数最高的研究方向。
+- 详情：[/202608/17/README](/202608/17/README)
 
 ### 精读区论文标签
-1. [Flex-$π$: A Multi-Stream World-Action Model with Compute Flexibility](/202608/16/2608.10860v2-flex--a-multi-stream-world-action-model-with-compute-flexibility)  
-   标签：评分：9.0/10、query:human-aigc
-   evidence：多流世界动作模型
+1. [BICPO-VLA: Behavior-Identified Continuation Preference Optimization for Smooth Asynchronous Vision-Language-Action Control](/202608/17/2608.13924v1-bicpo-vla-behavior-identified-continuation-preference-optimization-for-smooth-asynchronous-vision-language-action-control)  
+   标签：评分：9.0/10、query:vla-humanoid
+   evidence：面向平滑VLA控制的行为识别延续偏好优化
+2. [AdvDex: Learning Dexterous Manipulation from Human Demonstrations via Joint-Aligned Actions and Adversarial Learning](/202608/17/2608.14028v1-advdex-learning-dexterous-manipulation-from-human-demonstrations-via-joint-aligned-actions-and-adversarial-learning)  
+   标签：评分：9.0/10、query:vla-humanoid
+   evidence：基于人类示教的灵巧操作视觉-语言-动作框架，支持跨形态泛化
+3. [Reflex: Enabling Fast and Predictive Vision-Language-Action Models for Reaction-Critical Manipulation](/202608/17/2608.14379v1-reflex-enabling-fast-and-predictive-vision-language-action-models-for-reaction-critical-manipulation)  
+   标签：评分：9.0/10、query:vla-humanoid
+   evidence：用于机器人操作动作生成的视觉-语言-行动模型
+4. [Temporal GRPO: Beyond Trajectory-Level Credit in Vision-Language-Action Reinforcement Learning](/202608/17/2608.13026v1-temporal-grpo-beyond-trajectory-level-credit-in-vision-language-action-reinforcement-learning)  
+   标签：评分：8.0/10、query:vla-humanoid
+   evidence：面向VLA动作策略的强化学习改进
+5. [hint$^2$: Hierarchical World Models for Inference-Time Temporal Logic Guidance](/202608/17/2608.13678v1-hint2-hierarchical-world-models-for-inference-time-temporal-logic-guidance)  
+   标签：评分：8.0/10、query:human-aigc
+   evidence：分层世界模型用于操作策略满足时序逻辑约束
+6. [Evolve Vision-Language-Action Model into an Agent with On-the-fly Tool-use](/202608/17/2608.14047v1-evolve-vision-language-action-model-into-an-agent-with-on-the-fly-tool-use)  
+   标签：评分：8.0/10、query:vla-humanoid
+   evidence：面向机器人动作生成的VLA模型与工具使用
+7. [THRIVE: Therapeutic Humanoid Robot In Virtual Environment](/202608/17/2608.14462v1-thrive-therapeutic-humanoid-robot-in-virtual-environment)  
+   标签：评分：8.0/10、query:human-aigc
+   evidence：虚拟环境中的治疗性人形机器人康复平台
 
 ### 速读区论文标签
-1. [Temporal GRPO: Beyond Trajectory-Level Credit in Vision-Language-Action Reinforcement Learning](/202608/16/2608.13026v1-temporal-grpo-beyond-trajectory-level-credit-in-vision-language-action-reinforcement-learning)  
-   标签：评分：7.0/10、query:vla-humanoid
-   evidence：通过阶段级信用分配改进视觉语言动作策略
-2. [Trajectory Divergence Horizon Decision for Reliable Dual-Arm Surgical Subtask Manipulation](/202608/16/2608.09125v1-trajectory-divergence-horizon-decision-for-reliable-dual-arm-surgical-subtask-manipulation)  
-   标签：评分：6.0/10、query:vla-humanoid
-   evidence：用于动作生成的视觉-语言-动作模型
-3. [Agentic Harnesses: LLM-Driven Verification Layers for Robot Autonomy](/202608/16/2608.09857v1-agentic-harnesses-llm-driven-verification-layers-for-robot-autonomy)  
-   标签：评分：6.0/10、query:vla-humanoid
-   evidence：基于LLM的机器人动作验证机制
-4. [Energy-Structured Latent World Models with Neural Time Fields for Physically Constistent Open-World Motion Planning](/202608/16/2608.09876v1-energy-structured-latent-world-models-with-neural-time-fields-for-physically-constistent-open-world-motion-planning)  
+1. [Latent World Models with Monotone Planning Costs for Image-Goal Navigation](/202608/17/2608.09073v1-latent-world-models-with-monotone-planning-costs-for-image-goal-navigation)  
    标签：评分：6.0/10、query:human-aigc
-   evidence：用于运动规划的物理结构化潜在世界模型
-5. [GESTO: Human-Centric Spatio-Temporal Memory for Reasoning in Dynamic Scenes](/202608/16/2608.10886v1-gesto-human-centric-spatio-temporal-memory-for-reasoning-in-dynamic-scenes)  
-   标签：评分：6.0/10、query:vla-humanoid
-   evidence：面向人类环境的机器人时空记忆，支撑具身推理
-6. [DreamFly: Causal Memory and Receding-Horizon Diffusion Planning for Aerial Vision-Language Navigation](/202608/16/2608.12308v1-dreamfly-causal-memory-and-receding-horizon-diffusion-planning-for-aerial-vision-language-navigation)  
-   标签：评分：6.0/10、query:vla-humanoid
-   evidence：面向空中视觉语言导航，将VLA与扩散规划结合生成动作，符合语言模型驱动的动作生成主题。
-7. [Spatial Memory Agent: Experience-Grounded Procedure Memory for Spatial Intelligence](/202608/16/2608.12743v1-spatial-memory-agent-experience-grounded-procedure-memory-for-spatial-intelligence)  
-   标签：评分：6.0/10、query:vla-humanoid
-   evidence：VLM智能体空间推理自进化
+   evidence：用于导航规划的潜在世界模型与代价学习
 
 
 <div class="dpr-home-promo-card">
