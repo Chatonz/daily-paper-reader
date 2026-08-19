@@ -1,0 +1,1092 @@
+Title: HODAgent: Towards On-Demand, Responsive Humanoids for Physical World Human Interaction
+
+URL Source: https://arxiv.org/pdf/2608.17584v1
+
+Published Time: Wed, 19 Aug 2026 00:46:52 GMT
+
+Number of Pages: 46
+
+Markdown Content:
+XPENG ROBOTICS HODAgent: Towards On-Demand, Responsive Humanoids for Physical World Human Interaction 
+
+Wang Warren Chen *, Jiahao Zhang *, Zhenjiang Li *, Mingxu Wang *, Lei Yi *† , Yuchen Kang, Shuo Sun, Ziping Chen, Jie Chen †
+
+> *
+
+Core contributors. †Correspondence. 
+
+Abstract 
+
+Humanoid robots operating in service settings must understand situated user intent, remain re-sponsive during physical execution, preserve valid task progress when requests change, and verify outcomes from observable evidence. To meet these requirements, we propose HODA GENT , a System-2 embodied agent for on-demand human–humanoid interaction. Its semi-duplex archi-tecture coordinates an Env-Interactor, Planner, Executor, and hierarchical Memory to maintain interaction, planning, execution, and task state within a coherent service episode. This design enables the agent to handle new requests during robot motion, retain completed and pending work, revise active behavior, and ground service closure in execution outcomes. A shared observation and execution interface connects the same high-level agent to simulation and physical-robot platforms while keeping platform-specific control and safety below the agent boundary. We further propose an interactive simulation evaluation framework in which a case–constrained User Agent issues state–aware requests and independent evaluators assess physical task completion and service quality from aligned dialogue, action, trajectory, and terminal-state evidence. Across 164 cases, HODA-
+
+GENT achieves 84.8% and 91.5% Joint Success under two vision language models, outperforming the corresponding baseline by 9.8 and 18.9 percentage points. We also instantiate the agent on a physical Unitree G1 in real world, where it achieves pass rates of 92% for atomic capabilities, 72% for composite capabilities, and 63.3% for complete tasks, demonstrating the feasibility of the shared agent–robot pathway. To further examine general embodied planning and state understanding, we evaluate the agent on multiple established embodied benchmarks, where it improves aggregate performance over the corresponding baselines by 0.7–9.0 percentage points. These results pro-vide evidence for responsive service interaction, cross-embodiment integration, and transferable embodied reasoning, demonstrating the potential of a unified System-2 agent to support adaptive humanoid service across simulated and physical environments. Hello! Do you have ...     
+
+> Human Request Show me the district map.
+> Show me the apartment model.
+> I’m tired. Take me to rest area!
+> Thanks for your service!
+> Interrupt XPeng IRON UniTree G1
+> HODAgent
+> wave_hand Embodiment navigation
+> Response Hello, We have ...
+> Got it. I’ll take you to see the map
+> Let me bring you to the model display
+> navigation
+> No problem. I’ll take you to nearest rest area
+> navigation cancel wave_hand
+> We have arrived. Bye!
+
+Figure 1: Illustration of on-demand human–humanoid interaction in simulation. When the user changes the destination during navigation, the agent revises the active behavior while retaining the valid context and progress of the interaction. 
+
+† Correspondence: Jie Chen at chenj81@xiaopeng.com 
+
+1arXiv:2608.17584v1 [cs.RO] 18 Aug 2026 1 Introduction 
+
+Robotics has progressed from fixed, task-specific automation toward autonomous embodied systems that integrate perception, planning, control, and learning. Brooks’s layered mobile-robot control [1] established an influential reactive alternative to monolithic sense–plan–act pipelines, while end-to-end visuomotor policies [2] later showed that perception and control could be learned jointly from robot experience. These developments reflect a broader shift from executing predefined motions in structured settings to adapting actions from sensory feedback in less constrained environments. Furthermore, humanoid robots extend this trajectory to platforms whose morphology and action space are suited to environments, objects, and interactions designed for people. The Honda humanoid program [3] demonstrated an early full-scale bipedal system, and the Atlas locomotion system [4] showed how optimization–based planning, estimation, and whole-body control could support dynamic operation in complex terrain. More recently, Humanoid Locomotion and Manipulation [5] identifies a transition from predominantly model–based locomotion toward learning–enhanced, integrated loco-manipulation, while GR00T N1 [6] illustrates the emerging use of foundation models for generalist humanoid skills. The overall trend is therefore toward humanoids that combine increasingly versatile physical capabilities with higher-level perception and decision making. With these advances, humanoid and humanlike robots have been introduced and evaluated across a growing range of service environments, including professional and domestic services [7], socially assistive settings such as teaching and personal assistance [8], and hospitality [9]. A review of humanoid service robots [10] identifies mechanical design, control, perception, and interaction as jointly necessary system capabilities. However, current service-robot studies commonly evaluate individual interaction functions or bounded tasks; they do not fully address how a robot should incorporate a new user request while a physical task is already in progress. To characterize this requirement, we define human–humanoid interaction in service settings as a situated loop in which a robot interprets user intent from language, visual context, and execution state; responds through communication and embodied action; and adapts the active task when the user’s needs or the environment change. This definition treats dialogue, perception, and physical execution as parts of a single service episode and motivates our focus on on-demand response :the ability to accept and appropriately handle a new request during physical execution—by replying, continuing, stopping, or replanning as appropriate—without losing the current goal, valid progress, or pending work. More specifically, realizing the interaction pattern defined above requires more than fluent conversation or successful execution of isolated physical commands. It requires three coupled agent-level capabilities: • Grounded intent and situation understanding. The robot should interpret each request jointly with visual observations, service context, and current execution state so that both its verbal and physical responses are appropriate to the situation. • On-demand interaction and long-horizon task continuity. The robot should remain available while physical execution is in progress and preserve the episode goal, valid progress, and pending work when the user asks a question, interrupts, or changes a requirement. • Execution-state awareness and outcome–grounded closure. The robot should track execution and its physical consequences, distinguish command acceptance from task completion, and recover or replan when an outcome is failed or incomplete. When the available evidence is insufficient, it should retain the unresolved obligation rather than prematurely declaring success. Figure 1 illustrates these capabilities in a single service episode. A user first requests information and guidance, then changes the destination while the robot is navigating. The agent must interpret the new request with respect to the active motion and current task state, recognize that the remaining plan is no longer valid, preserve progress that is still relevant, and redirect execution toward the new destination. It must then verify the revised physical outcome before closing the interaction. This example shows that on-demand response is not an isolated dialogue function; it requires interaction, planning, execution, and outcome review to remain consistent throughout the service episode. Humanoid systems are commonly organized as a hierarchy that separates high-level cognition and task 2orchestration from reusable robot skills and hardware-level execution. We use the System-2/1/0 hierarchy as a functional abstraction of this organization. System-2 provides interaction, task decomposition, planning, and outcome review; System-1 provides reusable robot skills and policies; and System-0 
+
+provides platform-specific sensing, state estimation, low-level control, actuation, and safety–constrained execution. The three layers form a feedback loop: System-2 invokes System-1 skills through agent-facing tools, System-1 realizes those skills through System-0, and observations and execution outcomes return to System-2 for review. Recent advances in physical AI have primarily strengthened the System-1 boundary. Vision–language– action (VLA) models [6, 11–14] connect language and perception to reusable robot actions, while vision–language navigation (VLN) models [15–17] extend visual reasoning to navigation. SayCan [18] grounds language-level skill selection in learned affordances, and RT-2 [19] transfers vision–language representations to robot actions. These models provide increasingly capable policies and skill-selection mechanisms, but they do not by themselves define how an evolving service goal should be managed when a request arrives during an active skill. Conversely, LLM–powered agent systems provide System-2-like reasoning, task decomposition, memory, and tool orchestration in digital environments. Representative systems include ReAct [20], AutoGen [21], LangGraph [22], the OpenAI Agents SDK [23], Codex [24], OpenClaw [25], and Eigent [26]. Harness engineering further emphasizes the runtime surrounding a model, including workflows, tools, memory, state, feedback, and verification [27, 28]. For example, [29] reviews this model–harness relationship through six coupled runtime responsibilities: observation, context, control, action, state, and verification. HarnessX [30] makes this runtime explicit as typed, composable primitives that can be adapted from execution traces, while HARBOR [31] applies related harness concepts to robot-learning workflows. These systems provide strong orchestration substrates, but their default abstractions do not by themselves provide continuous robot-state events, time-extended skill lifecycles and cancellation, physical outcome verification, or user interaction that remains available while an embodied action is active. These two lines of work leave a complementary gap: embodied policies do not by themselves provide the service–oriented System-2 loop considered here, whereas general digital agents provide deliberation without embodiment-specific execution semantics. We therefore present HODA GENT , a System-2 em-bodied agent for on-demand human–humanoid interaction in service settings. Its semi-duplex architecture coordinates an Env-Interactor , Planner , Executor , and hierarchical Memory . This organization keeps observation and request handling active during physical execution, preserves task context across inter-ruptions, dispatches service-level skills, and reviews their outcomes. A shared agent–facing observation and execution contract connects the high-level loop to System-1 skills and System-0 backends, while platform-specific control and safety remain within each embodiment. The following comparisons clarify how this design addresses the three target abilities and how it differs from related embodied and digital-agent systems. 
+
+Fixed-goal embodied task execution. Many embodied policies and planners are evaluated with a task goal fixed before execution. In addition to SayCan [18] and RT-2 [19], Language Models as Zero-Shot Planners [32] maps goals to admissible action sequences, while SayPlan [33] uses hierarchical 3D scene graphs and simulator feedback to revise infeasible long-horizon plans. HODA GENT operates above such skills and policies. Its System-2 state preserves the service goal, completed progress, and remaining work when a later user turn refines, adds, or supersedes a requirement. The same high-level protocol also remains applicable to fixed-goal tasks: Section 6 evaluates it on EmbodiedBench [34] and VIGIL [35] without task-specific adaptation. 
+
+Interactive and adaptive embodied agents. Inner Monologue [36] incorporates environment and human feedback into planning, MonTA [37] separates high-frequency monitoring from lower-frequency adaptation, and REAL [38] combines interactive disambiguation with simulation and physical mobile manipulation. These systems establish important components of feedback–aware embodied reasoning. The focus of HODA GENT is the temporal unit over which these components remain coherent: an evolving 3service episode in which a request may arrive during an active skill, and the response, execution decision, retained progress, revised plan, and subsequent outcome review must be coordinated together. 
+
+Full-stack embodiment and streaming interaction. HoloAgent-0 [39] couples monitored skills with persistent 3D memory and physical deployment, while JoyAI-VL-Interaction [40] supports event–driven multimodal interaction and response timing in streaming visual settings. HODA GENT does not claim either full-stack embodiment or streaming interaction in isolation. It connects continuous interaction to a System-2/1/0 execution path: the same high-level agent contract is used in simulation and on the physical platforms, while the embodiment adapter exposes the actions, observations, and execution outcomes available on each platform. 
+
+General agent loops and harnesses. General agent frameworks organize reasoning, tool use, state, and recovery, and recent harness work makes these runtime mechanisms first-class and adaptable [27, 28, 30]. HODA GENT specializes this abstraction for physical service tasks by adding robot-state events, interaction during execution, asynchronous skill-lifecycle and cancellation semantics, and outcome review based on observations rather than command receipts. Section 4 compares HODA GENT with ReAct [20] under a shared closed-loop protocol to demonstrate the characteristics of HODA GENT in detail. 
+
+Interactive users and embodied evaluation. Interactive benchmarks increasingly combine multimodal context, tools, and simulated users. For example, EgoBench [41] provides process- and result-level validation for interactive egocentric tasks. Our protocol instead focuses on workflow–conditioned service episodes. Specifically, a User Agent issues requests according to the frozen workflow and execution state; a recorder aligns requests, decisions, actions, observations, and outcomes; and an agent-blind post-run verifier evaluates the resulting evidence. This organization separates valid-run coverage, evidence coverage, grounded task success, and in-task interaction success, preventing missing evidence or a command receipt from being treated as physical completion. The principal contributions of this report are summarized as follows: • An on-demand interaction formulation and semi-duplex System-2 architecture. The formulation identifies grounded situation understanding, task continuity under execution-time requests, and outcome– grounded closure as coupled requirements of service-oriented human–humanoid interaction. The corresponding architecture coordinates interaction, planning, asynchronous execution, and hierarchical memory within a single service episode. • An embodiment–independent observation and execution contract. The contract separates high-level agent semantics from platform-specific sensing, control, and safety, enabling the same agent logic to operate in simulation and on a physical robot. Progressive physical evaluation yields pass rates of 92% for atomic trials, 72% for composite trials, and 63.3% for complete-task trials, providing initial evidence of cross-embodiment feasibility. • A workflow–conditioned User Agent and evidence–grounded evaluation framework. The proposed User Agent generates reproducible, state–aware requests from a frozen service workflow: its policy selects the permitted act, and its persona controls how that act is expressed, including while a physical action is active. The evaluation methodology aligns these requests with agent decisions, embodied actions, observations, and independently verified outcomes. On our proposed simulation benchmark, HODA GENT outperforms the baseline by 9.8 and 18.9 percentage points in Joint Success across two backbone settings. It also improves aggregate performance by 0.7–9.0 points across multiple established general benchmarks, demonstrating that its benefits extend from interactive service episodes to diverse embodied planning and state-understanding tasks. The remainder of this report develops HODA GENT as an on-demand responsive embodied agent. Section 2 presents the system-level data and control paths, and Section 3 describes the semi-duplex agent design. Section 4 introduces the interactive embodied evaluation in simulation and evidence-grounded evaluation protocol. Section 5 presents the Unitree G1 integration and progressive physical-robot evaluation, and 4Section 6 evaluates general embodied planning and state understanding. Section 7 concludes the report, summarizes the limitations, and identifies the future directions. It is worth noting that the scope of this report is the high-level System-2 runtime and its interfaces to System-1 skills and System-0 backends. In other words, we do not introduce a low-level control policy or a general-purpose VLA model. The current evidence also does not establish a full-duplex or hard real-time interaction guarantee, broad cross-robot generalization, or task-level sim-to-real transfer. 
+
+# 2 System Overview User Interface     
+
+> Human / User agent
+> Env-Interactor Planner Executor
+> Memory
+> HODAgent
+> Response Request
+> Embodiment
+> Real robot Simulation
+> Observation / State / Outcome Action
+> Automated Evaluation
+> Runtime Offline
+> Runtime execution Evaluation logging
+
+Figure 2: System overview. A human user in deployment, or a User Agent during controlled simulation, interacts with HODA GENT through the User Interface. The agent sends actions to either a physical robot or a simulator and receives observations, state, and execution outcomes. Figure 2 presents the system-level view of HODA GENT , which consists of four ele-ments: the User Interface , the HODA GENT ,the Embodiment , and Automated Evaluation .The solid arrows denote the deployed runtime loop: a user provides a request, the agent is-sues an action to the selected embodiment, and observations, state, and execution out-comes return to the agent. The dashed arrows denote the evaluation path, which records in-teraction and execution evidence without re-placing the agent’s runtime decisions. This separation is important because the human or simulated user, embodiment backend, and evaluator may change across experiments, whereas the high-level agent design remains the same. 
+
+2.1 Agent Core 
+
+As shown in Figure 2, HODA GENT provides the embodiment–independent System-2 loop. It comprises four modules: Env-Interactor , Planner , Executor , and hierarchical Memory . The Env-Interactor interprets user input together with the current observation and task state, and determines whether an event can be handled conversationally or requires planning. The Planner decomposes an embodied request, selects a short sequence of available tools, and reviews execution evidence before continuing or declaring completion. The Executor dispatches these tools and reports their lifecycle and outcomes. Memory preserves the overall goal, subtask progress, recent observations, actions, and outcomes so that the other modules can resume from a consistent state after an interruption or replanning event. These modules are independently scheduled but share the same task context. Consequently, interaction and observation can continue while an embodied action is active, while planning and execution are invoked only at the decision points that require them. Section 3 specifies this semi-duplex coordination and the four modules in detail. 
+
+2.2 Runtime Interaction and Embodiment 
+
+The solid paths in Figure 2 form a closed request–action–feedback loop. In physical deployment, a human user communicates through the robot’s language and perceptual channels. In controlled simulation, a User Agent follows a predefined interaction policy and can issue requests at specified workflow states, including while an action is active. Both sources enter the same User Interface and are presented to HODA GENT in the same agent-facing form. For a request that requires embodied behavior, the Planner selects from the capabilities exposed by the active platform, and the Executor sends the resulting action through an embodiment adapter. The adapter 5maps shared task-level operations to either simulator services or physical-robot control interfaces. It also converts camera observations, robot or simulator state, and execution outcomes into the representation consumed by the agent. This contract permits the same interaction, planning, execution, and memory logic to operate across embodiments. Also, it does not require the simulator and robot to offer identical capabilities or low-level controls. Platform-specific action admissibility, control transitions, and safety remain below the agent-facing boundary. Section 4 introduces how the user agent as well as the entire agent system is implemented in simulation. Also, Section 5 describes how this design is instantiated on a real robot. 
+
+2.3 Evaluation Path 
+
+The dashed paths in Figure 2 represent evidence collection. Specifically, requests, agent decisions, dispatched actions, observations, execution outcomes, and available media are correlated at the episode level. Then, Automated Evaluation consumes this record to assess whether the requested verbal and physical outcomes occurred and to identify where an unsuccessful episode first diverged from its task contract. The evaluator therefore does not allow the agent or embodiment to validate its own success. The form of this evidence depends on the evaluation setting. In the closed-loop simulation protocol (see Section 4), frozen cases and a workflow–conditioned User Agent support controlled in-task interaction, while an agent-blind post-run verifier evaluates sealed episode records. The physical evaluation (see Section 5) instead uses synchronized audio, video, robot state, and controller outcomes to assess real-robot behaviors progressively. In addition, Section 6 further complements these service–oriented evaluations by adapting the same agent design to established embodied benchmarks while retaining each benchmark’s original environment, action constraints, and evaluator. 
+
+# 3 Semi-Duplex Agent Design 
+
+As illustrated in Figure 3, we design HODA GENT , a semi-duplex embodied agent, that can execute long-horizon tasks while remaining responsive to the user and the environment. The agent consists of four decoupled modules: Env-Interactor , Planner , Executor , and Memory . Each module has a distinct responsibility and can operate independently, while their exchange of interaction events, plans, execution feedback, and stored context forms a closed perception–reasoning–action loop. This modularity avoids a rigid pipeline in which perception, planning, and execution must wait for one another: continuous interaction and state updates can proceed during robot motion, whereas reasoning and control are activated only when required. The system is therefore on demand : simple conversational inputs can be handled directly, task-level instructions can initiate planning, and corrections or relevant scene changes can interrupt execution and trigger replanning. The four modules jointly provide three system-level capabilities. First, semi-duplex interaction allows the robot to act and listen concurrently, so a user can refine, redirect, or stop an ongoing task instead of waiting for the current action sequence to finish. Second, short-horizon planning and asynchronous execution permit the next plan to be prepared during eligible robot motions, reducing the idle time between successive actions while retaining closed-loop feedback. Third, the agent core is independent of a particular embodiment. The same interaction, planning, execution, and memory mechanisms are used in both simulations (e.g., Isaac Sim) and the physical robots (e.g., Unitree G1 and XPeng IRON); platform-specific adapters only translate observations and actions between the shared agent interface and the corresponding simulator or robot controller. By combining these properties, the architecture supports responsive and context-aware task execution in both simulated and physical environments without requiring separate high-level agent designs. 
+
+Env-Interactor. The Env-Interactor maintains the agent’s continuous connection to the user and the environment. This module receives spoken or textual input together with the latest visual observation and current task state. At its core, the Env-Interactor employs a multimodal Omni model to jointly interpret 6Streaming Input   
+
+> Observations
+> Camera / Robot state
+> Voice
+> Continuous listening
+> Text
+> New instructions
+> CONTINUOUS STREAM
+> t−2 t−1 t
+> Sampled at fixed frequency
+
+Agent Core 
+
+Planner     
+
+> PLANNING PIPELINE
+> Task
+> decomposition Plan Task review
+> REPRESENTATIVE TOOLS
+> robot_act look_around
+> robot_wbc say_something
+
+Executor  
+
+> Asynchronous action orchestration
+> Dispatch tool
+> Asynchronous runtime call
+> Monitor action
+> Execution + Robot feedback
+> Return status
+> Result + Updated progress
+> Traj
+> PLAN WHILE ACTING
+> Execute action t
+> Infer next plan t+1
+> Robot / Simulator
+> Simulation
+> IsaacSim
+> Real robot
+> Physical platform
+> Same agent core & runtime-specific adapters
+> MM Actions
+> Memory
+> Task-level memory
+> Prior tasks · Goal · Summary
+> Sub-task-level memory
+> Subtasks · Current progress
+> Action-level memory
+> Observations · Actions · Results Planning actions to implement tasks
+
+Env-Interactor  
+
+> Interact with environment
+> Omni
+> Launch Planner
+> Interrupt & replan
+> Keep running while planning and executing actions
+> Reply to user
+> Observe Env
+> Task Env Stream
+> Record Reference
+
+Figure 3: Architecture of HODA GENT . The semi-duplex streaming embodied agent consists of four independently scheduled modules: the Env-Interactor handles continuous multimodal interaction, the Planner decomposes tasks and generates action plans, the Executor carries them out through shared simu-lation and real-robot interfaces, and these three modules coordinate through hierarchical Memory. Their on-demand coordination supports online interruption, closed-loop replanning, and planning–execution overlap. these signals. Based on this interpretation, the module selects the appropriate system response: it may ignore an irrelevant event, answer a conversational query directly, initiate the Planner for a new embodied task, or interrupt an active task and request a revised plan. Omni is therefore an internal reasoning component of the Env-Interactor, whereas the Env-Interactor itself is responsible for maintaining the interaction state and translating the model’s interpretation into a system-level routing decision. This separation between interaction routing and task planning is central to the on-demand design. Inputs that do not require physical action are resolved without activating the full planning–execution loop, while action-related instructions are forwarded with the relevant goal and perceptual context. During an active task, the Env-Interactor continues to process new input rather than becoming suspended by robot motion. It can consequently incorporate a changed user intention or a newly observed condition into the ongoing task, either by updating the goal or by stopping an invalid action sequence. The same interaction logic is used for simulation and the real robot because observations and robot states are presented through a common interface. 
+
+Planner. The Planner transforms a routed task instruction into executable robot behavior while preserv-ing the ability to revise that behavior as new information becomes available. It follows a decomposition– planning–review organization. Task decomposition first converts a potentially long or ambiguous goal into an ordered set of semantically meaningful subtasks. The Planner then focuses on the current subtask and generates a short trajectory composed of available robot and interaction tools, such as whole-body control and speech. Its input combines the user goal, subtask progress, recent observations, relevant memory, and feedback from previously executed actions. This context grounds the plan in both the long-term objective and the robot’s current situation. After a trajectory has been executed, the Planner can continue the current subtask, advance to the next one, or replace the intended behavior if execution feedback or an interruption reveals that the previous plan is no longer appropriate. Planning is activated only at these decision points, which preserves the independence of the other modules and avoids repeated reasoning when the current action can proceed unchanged. Before declaring the overall task complete, the Planner can also review the achieved state against the original goal and the recorded subtask progress. If the available evidence is insufficient or 7the goal has only been partially satisfied, the review produces a corrective planning request rather than a premature success decision, ensuring that the overall goal can be truly implemented. 
+
+Executor and streaming inference. The Executor converts each planned tool trajectory into time-extended behavior on the selected platform. It dispatches actions, monitors their progress, and reports their outcomes to the Planner and Memory. Keeping execution separate from planning allows robot control to continue while the other modules receive input, update context, or perform inference. It also gives the system a consistent point at which to handle interruption, execution failure, and safety-related termination. High-level tool semantics remain identical across embodiments: a runtime adapter maps them either to Isaac Sim services or to the physical robot control interface, and returns observations and execution status in a shared representation. The Planner can therefore reason about task-level actions without depending on platform-specific control details. The Executor also enables streaming inference by selectively overlapping planning with ongoing action. Near the end of an eligible non-terminal trajectory, the system begins generating the next plan after obtaining evidence that the current motion has started and the view has been changed. The new planning context includes the portion of the action that is still expected to occur, so the subsequent trajectory can be aligned with the robot’s future state rather than duplicate motion already in progress. Once the current action finishes, the prepared plan can be executed with little additional reasoning delay. 
+
+Hierarchical memory. The Memory module maintains a shared representation of task history across three temporal levels. Task-level memory preserves the overall goal and summaries of previous tasks, providing continuity over long interactions. Subtask-level memory records the task decomposition and distinguishes completed, current, and remaining work, enabling the agent to resume from the correct stage after replanning. Action-level memory retains recent observations, executed actions, and their outcomes, providing the fine-grained evidence required to select and evaluate the next behavior. The hierarchy prevents long-term context from being lost while avoiding the need to expose the complete execution history at every planning step. Memory also serves as the coordination medium among the other three modules. As a task proceeds, the Env-Interactor contributes new interaction and perceptual information, the Planner updates task and subtask progress, and the Executor records action outcomes. When a module is activated, it retrieves the part of this accumulated context required for its decision. Because the record is updated throughout the task, a newly invoked or interrupted Planner can recover the current goal, progress, and recent environment state without requiring the modules to run in lockstep. The same memory representation is used in simulation and on the real robot, providing a consistent basis for replanning and completion assessment across both platforms. 
+
+# 4 Interactive Embodied Evaluation in Simulation 
+
+To comprehensively assess HODA GENT , we propose an interactive embodied evaluation framework and implement it in simulation. As shown in Figure 4, each evaluation case fixes the scene, ordered goals, User Agent persona, and permitted interaction policy. A case–constrained, state–conditioned User Agent 
+
+then interacts with the agent under test through natural language, while the simulator (we use the Isaac Sim platform) executes the agent’s embodied tools and returns their physical outcomes. The framework records the resulting dialogue, actions, trajectory, and terminal state in a common episode record. It can therefore assess both whether the requested embodied task is completed and whether the agent provides an appropriate, factually grounded service interaction. 8Persona     
+
+> Interaction Policy
+> Agent under Test
+> Shared tool interface
+> navigate say_something cancel
+> User Agent
+> Case–constrained State–conditioned
+> Isaac Sim
+> Physics–based execution
+> Example execution-time interaction Navigate Interrupt / Cancel Resume
+> Episode Record
+> Dialogue · Actions · Trajectory · Terminal state
+> Task Verifier
+> Rule–based
+> Task PASS
+> Service Judge
+> Service quality
+> Judge PASS
+> Joint Success
+> Both verdicts, same episode
+> Interactive Runtime
+> Turns repeat until the case terminates or the step budget ends.
+> ...
+> Episode Verdict Evaluation Setup
+> Novice–guided Time–limited Neutral–cooperative Evidence–cautious
+> Request Response Tool call Outcome Observable progress and scene state
+
+Figure 4: Interactive embodied-agent evaluation in simulation. Left: each evaluation case fixes the scene, ordered goals, User Agent persona, and permitted interaction policy. Middle: the User Agent exchanges dialogue turns with the agent under test, while Isaac Sim executes embodied skills and exposes observable progress and scene state; the highlighted sequence illustrates an optional execution-time interruption. Right: dialogue, actions, trajectory, and terminal state are aligned in one episode record and assessed independently by a rule–based Task Verifier and a Service Judge. Joint Success requires both verdicts to pass for the same episode. 
+
+4.1 Interactive Simulation Framework 
+
+User Agent. The User Agent receives the dialogue and public action updates from the agent under test, together with observable scene and task-state updates from the simulation runtime. It therefore provides natural-language user turns that respond to the evolving service episode. To simulate diverse users in real-world service settings, as shown in Figure 4, we design four personas for the User Agent: Novice-guided, Time-limited, Neutral-cooperative, and Evidence-cautious, representing users who require step-by-step guidance, prefer efficient service, interact cooperatively without additional constraints, and require explicitly grounded information, respectively. In addition, we design a policy for the User Agent that covers ordered goal progression, clarification and follow-up, interruption and resumption, recap requests, and service termination, thereby controlling which user act may be issued and when. These designs enable repeatable yet diverse state-dependent interactions without changing the goals, admissible references, or success requirements fixed by the case specification. Specifically, at each eligible turn, the policy conditions on the assigned persona and case specification, dialogue history, public action status and outcomes, observable scene and task progress, and remaining interaction budget to select a permitted user act; the persona then realizes that act using its designated communication style and service expectations. Appendix A.1 details the persona definitions, observable inputs, policy state and action set, interruption rules, prompt, and deterministic conformance checks. 
+
+Simulation runtime. As illustrated in Figure 4, the agent under test interacts with the User Agent through natural-language turns and invokes embodied skills through a shared interface to Isaac Sim. Later user turns are conditioned on observable execution progress, enabling requests such as interruption, cancellation, and resumption to occur while the embodied task is unfolding. The resulting interaction and execution history is retained as an aligned episode record for post-evaluation. Implementation-level event semantics and evidence fields are provided in Appendix A.2. 
+
+Post-evaluation. After an episode terminates, the framework aligns four evidence streams: dialogue turns, agent decisions and tool calls, navigation traces, and action outcomes and terminal state. A rule– based Task Verifier determines whether the required embodied outcomes were achieved, whereas a Service 9Judge assesses whether the responses are relevant, clear, factually grounded, and appropriate for the specified User Agent persona. Keeping these verdicts separate prevents fluent dialogue from masking incomplete physical execution and prevents task completion from masking an inadequate service response. Their evidence hierarchy and verdict construction are detailed in Appendix A.3. 
+
+4.2 Evaluation Settings 
+
+Evaluation benchmark. We construct 164 evaluation cases across 22 indoor service environments instantiated from SAGE-3D [42]. As summarized in Table 1, the benchmark contains 39 physically admitted routes and four User Agent personas. Each route contains two or three semantic targets, with an average of 2.23 targets per route, excluding the initial robot position. The cases cover five types of embodied interaction: ordered multi-target navigation, follow-up service requests, interruption and resumption, route recap, and service-completion confirmation. Among the 164 cases, 15 enable a conditional interruption policy that issues a user turn during active navigation and subsequently requests resumption of the same unfinished target. The benchmark therefore tests whether language interaction remains grounded in sustained embodied behavior rather than an isolated instruction. Please refer to Appendix A.4 for more details. Table 1: Statistics of the interactive simulation benchmark. Routes are unique ordered semantic-target sequences after physical admission; the average target count excludes the initial robot position.        
+
+> Dimension Statistics
+> Evaluation scale 164 cases across 22 indoor scenes Spatial grounding 39 physically admitted routes Route complexity 2.23 semantic targets per route (2–3) Interaction coverage 5 embodied interaction mechanisms Interruption coverage 15 cases with an execution-time interruption User variation 4 User Agent personas
+
+Baselines. We compare HODA GENT with ReAct [20], which selects its next response or embodied action from the current request, observation, and previous action outcome. In contrast, HODA GENT 
+
+coordinates interaction, planning, execution, and memory while maintaining task progress and pending obligations across the episode. Within each backbone condition, both methods use the same model checkpoint, evaluation cases, User Agent, embodied tool interface, simulation runtime, and post-evaluation procedure. 
+
+Metrics. We report three complementary metrics. Task PASS measures whether the required navigation, action, and final-response outcomes are supported by recorded execution evidence. Judge PASS measures whether the interaction satisfies the requirements on relevance, clarity, factual grounding, persona-aware service behavior, and compliance with execution-time user requests. Joint Success requires Task PASS and Judge PASS for the same episode and is therefore the strictest measure of end-to-end embodied service quality. Formal definitions and retained diagnostic labels are provided in Appendix A.3. 
+
+Implementation details. We evaluate both agent loops with two models, Qwen3.6-35B-A3B [43] and 
+
+Qwen3.6-27B [44]. Within each backbone condition, they share the model checkpoint, User Agent, admitted evaluation cases, simulator and scene resources, embodied tool interface, execution conditions, inference request settings, and post-evaluation procedure. The User Agent and Service Judge use 
+
+qwen3.7-plus . These controls make the comparison primarily reflect how the agent loops organize decisions and retain task progress. Complete controls and inference configurations are reported in Appendix A.5. 10 Table 2: Interactive simulation results on the complete 164-case evaluation set. Higher is better for all metrics. The best result within each backbone condition is shown in bold. 
+
+Model Agent Task PASS Judge PASS Joint Success 
+
+Qwen3.6-35B-A3B ReAct 87.2% 75.6% 75.0% 
+
+Qwen3.6-35B-A3B HODA GENT 92.1% 91.5% 84.8% 
+
+Qwen3.6-27B ReAct 75.0% 76.8% 72.6% 
+
+Qwen3.6-27B HODA GENT 96.3% 94.5% 91.5% 
+
+4.3 Results 
+
+Quantitative results. Table 2 reports the completed results on the proposed benchmark. HODA GENT 
+
+outperforms the ReAct-style baseline on all three metrics under both backbone configurations. Specifically, with the 35B-A3B backbone, HODA GENT exceeds the baseline by 4.9 percentage points in Task PASS, 15.9 points in Judge PASS, and 9.8 points in Joint Success. With the 27B backbone, the corresponding improvements are 21.3, 17.7, and 18.9 points. The consistent Joint Success advantage is important because it requires physical task completion and satisfactory service behavior to occur in the same episode. The gap between the individual verdicts and Joint Success further shows that an agent may complete the physical route yet fail to provide a response that is sufficiently grounded, complete, or appropriate to the assigned persona. Overall, these results demonstrate that HODA GENT more reliably coordinates grounded physical execution with persona-aware service responses while maintaining completed, active, and pending obligations throughout an evolving service episode. 
+
+Qualitative case studies. We further demonstrate the grounded interaction and task-continuity capa-bilities of HODA GENT in Appendix C using multiple paired comparisons and failure analyses from the benchmark. Specifically, the paired episodes compare HODA GENT and ReAct on grounded route recap and execution-time interruption and resumption, while the failure cases illustrate how physical falls and repeated responses are exposed by the task and service verdicts. These results further validate HODA GENT ’s advantages in preserving unfinished obligations, respecting user control over ongoing execution, and closing long-horizon service episodes with evidence–grounded responses. 
+
+# 5 Embodiment Integration 
+
+Section 3 introduces HODA GENT as a System-2 agent whose Env-Interactor, Planner, Executor, and Memory communicate through embodiment-independent observations, tools, and execution outcomes. Section 4 then deployed and evaluated the agent in a closed-loop simulation platform, where interactive requests, planned actions, environmental observations, and execution evidence can be generated under controlled and repeatable conditions. To further examine whether the same agent design can operate through a physical embodiment without modification, we now instantiate it on a Unitree G1. The interaction, planning, execution orchestration, and memory logic remain unchanged, while an embodiment adapter accounts for differences in sensing, action realization, and safety. This separation makes the approach applicable to a new robot when its observations, supported actions, and execution feedback can be expressed through the common abstractions used by the agent. This section first presents the complete integration pathway from an action selected by HODA GENT to its execution on the G1 and from physical sensing back to the agent. We then describe the physical capabilities enabled by this pathway and the embodiment-specific constraints imposed below the agent level. Finally, we define a progressive validation protocol, report the resulting agent-in-the-loop performance, and examine a representative episode. 11 HODAgent   
+
+> Simulation backend Agent-Sim runtime adapter
+> IsaacSim runtime bridge IsaacSim SONIC execution
+> Physical G1 backend Agent-Sim real-robot facade
+> GR00T runtime bridge G1 SONIC deployment & execution
+> Capability filter ·Bounded motion · Halt
+> Common return path to Agent
+> Observation · Robot state · Execution outcome
+> Shared agent–facing backend contract
+> Shared interaction, planning, execution, and memory
+
+Figure 5: Integration of the shared agent with simulation and the physical G1. HODA GENT selects actions and interprets feedback through a common embodiment interface. The simulation adapter executes these actions in Isaac Sim, whereas the G1 adapter connects them to the GR00T/SONIC control stack. Camera observations, robot state, and execution outcomes are converted back into the representation used by the same agent. Platform-specific capability and safety constraints are enforced below the shared agent. 
+
+5.1 Integration Architecture and Physical Capabilities 
+
+Figure 5 illustrates the integration as a closed perception–action loop with three levels. At the top, the shared HODA GENT agent interprets user input and visual context, maintains task progress, and selects an abstract action. At the middle level, an embodiment adapter translates between this common agent representation and the interface provided by the selected platform. At the bottom, the simulator or physical robot executes the action and returns new observations and execution status. The agent therefore reasons about the intended effect of an action—for example, moving forward, turning left, stopping, or performing a wave—rather than about platform-specific joint commands. For the physical G1, the middle layer in Figure 5 comprises two components with distinct roles. The real-robot facade is the embodiment adapter: it maps the agent’s common actions to G1-compatible requests and converts physical feedback into the agent’s observation representation. The GR00T bridge [6] connects this adapter to SONIC [45], the deployed whole-body control system that realizes the requested motion on the robot. Along the downward action path, a locomotion request specifies a desired local translation or rotation over a bounded duration, whereas a whole-body request specifies a named reference motion, such as waving or returning to a standing posture. SONIC converts the selected request into whole-body feedback control and motor actuation. Along the upward feedback path, first-person camera images, joint and locomotion state, heading or pose when available, and controller status are converted into the observations and execution outcomes used by the Executor and Memory. Spoken input and output follow the same principle: the G1 microphone and speaker provide the physical channels, while the existing Env-Interactor retains responsibility for interpreting utterances and generating responses. The resulting system can observe the physical environment, converse with a user, execute bounded locomotion, stop ongoing motion, and perform a configured set of whole-body motions. Because these capabilities are presented through the same abstractions used in simulation, they can be combined with the semi-duplex interaction, task-memory, and replanning mechanisms described in Section 3. The adapter also makes differences between simulation and physical deployment explicit. Operations that depend on privileged simulator state—such as teleportation-based reset—are not made available on the G1. The set of actions available to the Planner is therefore determined by the capabilities enabled on the active embodiment. This capability-aware design permits the same planning procedure to operate across platforms without implying that every simulator operation has a physical counterpart. Physical execution further requires constraints that are unnecessary or less critical in simulation. Before 12 Task capability Atomic capability 1 Composite capability 2 3    
+
+> Talk / Turn Move + Wave Find a guy in green and give him a high five
+> Select & Verify ✓Sequence & Coordinate ∞Plan, Observe & Replan ★
+
+Figure 6: Progressive physical-robot evaluation. Atomic trials isolate individual interaction and motion capabilities, as illustrated by speaking or turning. Composite trials require capabilities to be sequenced, such as moving forward and then waving. Task trials assess a goal-directed assistance episode that combines visual grounding, locomotion, and whole-body interaction, as illustrated by finding a person in green and giving that person a high five. motion is enabled, the integration layer verifies controller readiness and the availability of the required sensing and audio channels. It rejects malformed or unsupported requests, constrains translation, rotation, speed, and duration to configured ranges, and prevents incompatible physical motions from executing concurrently. Stop and halt commands can preempt ongoing motion. Whole-body reference motions include transitions from and back toward a stable standing configuration, and locomotion resumes only after controller readiness has been re-established. These mechanisms define a safety boundary below System-2: HODA GENT selects task-level behavior, whereas the robot integration layer and deployed controller retain responsibility for command admissibility, control-mode transitions, and motor-level execution. A returned execution receipt therefore confirms command handling but not task completion; the latter must be established from subsequent visual or robot-state evidence and confirmed by the agent. 
+
+5.2 Progressive Physical-Robot Evaluation 
+
+Figure 6 organizes physical validation into three levels of increasing behavioral scope: atomic capability, composite capability, and task capability. The progression controls which aspect of the integrated system is being examined. Atomic trials isolate the selection and physical realization of one principal capability; composite trials require multiple capabilities to be coordinated within a short action sequence; and task trials require the agent to maintain a goal across perception, interaction, planning, and physical execution. This hierarchy prevents successful execution of an individual command from being interpreted as evidence of complete embodied task competence. In every admitted trial, HODA GENT receives the user’s spoken instruction and current physical observa-tion, invokes the Planner when an embodied action is required, and reviews the resulting observation and execution feedback. Qwen3.6-27B [44], from the Qwen model family [46], and Qwen3-Omni [47] are fixed as the System-2 reasoning backbone and the multimodal model of the Env-Interactor, respectively, while GR00T/SONIC [6, 45] remains responsible for low-level control. User input, Planner output, exe-cuted actions, audio, video, robot state, timing, and execution outcomes are synchronized for subsequent assessment. All commands are given by user audio. 13 Table 3: Progressive agent-in-the-loop evaluation of HODA GENT on the physical G1.                           
+
+> Agent-on-G1 task Primary reported measures Passes / trials
+> Atomic capability
+> Spoken interaction Spoken-output correctness; audio evidence 9 / 10 Forward locomotion Capability selection; physical outcome; motion error; safety 10 / 10 Left/right turning Direction correctness; heading change; safety 9 / 10 Whole-body waving Motion completion; controller state; safety 9 / 10 Halt and stand recovery Motion preemption; stable recovery; safety 9 / 10
+> Atomic total 92% Composite capability
+> Perception-to-response Visual grounding; response correctness 8 / 10 Speech during physical execution Cross-channel coordination; task continuity 7 / 10 Move-forward-then-wave sequence Sequence completion; control-mode handoff; safety 8 / 10 Continuous multi-action execution Action ordering; completion; retained progress 7 / 10 Verbal correction during movement Correction handling; replanning; safe continuation 6 / 10
+> Composite total 72% Complete task
+> Find a person wearing clothing of a specified color and give that person a high five Search; target grounding; subtask completion; replanning; grounded closure; safety 5 / 10 Move to a person, wave, and say hello Target grounding; subtask completion; grounded closure; safety 8 / 10 Bypass an obstacle, move to a person, wave, and say hello Target grounding; trajectory planning; subtask completion; grounded closure; safety 6 / 10
+> Complete-task total 63.3%
+
+Atomic capabilities. An atomic trial contains a single capability objective and is used to verify the correctness of the agent–robot interface. The evaluation covers observation with robot state, microphone input and spoken output, bounded locomotion and whole-body control, and halt followed by recovery to a stable stand. For example, the instructions “Talk” and “Turn” test whether the system selects the corresponding interaction or motion capability and realizes it on the physical robot. An atomic trial passes only when the intended outcome is confirmed through the relevant synchronized evidence: audio for spoken output, video and robot state for motion, and controller state for halt and stand recovery. A command receipt alone is not counted as success. 
+
+Composite capabilities. Composite trials examine whether individually available capabilities can be coordinated across time. They include perception-to-response behavior, speech during physical execution, and continuous execution of action sequences. In the example “Move forward and wave your hand” in Figure 6, the Planner must order locomotion and whole-body motion, while the Executor must complete the transition between their control modes. Other composite trials introduce a verbal correction during movement, requiring the semi-duplex interaction path to interpret the new request, stop or complete the current motion safely, and continue from the valid portion of the preceding plan. Passing therefore requires both the component outcomes and their correct temporal coordination. 
+
+Task capabilities. Task trials evaluate whether the integrated system can fulfill a goal-directed, multi-step assistance episode. The example “Find a guy in green and give him a high five” requires visual grounding, target search or approach, locomotion, and a socially appropriate whole-body action. The protocol may additionally introduce a user correction during motion to test whether the agent preserves completed progress while revising the remaining plan. In contrast to a composite trial with a prescribed 14 local sequence, the Planner must decompose the overall objective, select subsequent actions from new observations, and determine when the physical goal has been achieved. A task passes only when the requested physical objective and the required spoken or gestural closure are both grounded in recorded evidence and no safety violation occurs. 
+
+5.3 Evaluation Results 
+
+Overall results. Table 3 reports the physical-robot evaluation at the three levels defined in Figure 6. For each Agent-on-G1 task, the table lists the primary assessment criteria and the pass rate. A trial is counted as a pass only when all level-specific behavioral criteria are satisfied and no safety violation occurs. At the atomic level, HODA GENT achieves a 92% pass rate: forward locomotion reaches 100%, and each of the other four capabilities reaches 90%. The composite pass rate is 72%; perception-to-response and the move-forward-then-wave sequence reach 80%, speech during execution and continuous multi-action execution reach 70%, and verbal correction during movement reaches 60%. At the complete-task level, the aggregate pass rate is 63.3%, with 80% for moving to a person, waving, and greeting; 60% when obstacle avoidance is added; and 50% for finding a person by clothing color and giving a high five. Failures arise from both embodiment and model limitations. The relatively low-quality onboard sensing hardware on the G1 constrains perception: its narrow camera field of view cannot capture the full environment and can leave a search target outside the observed region, while the onboard audio recorder does not always capture user input accurately. Model errors include losing action state over longer sequences and hallucinating or miscounting repeated actions. The progressive reduction in pass rate suggests that the main remaining challenge is coordinating capabilities over longer temporal horizons. The relatively low success rates for continuous multi-action execution and verbal correction during movement further point to action handoff and preemption as important sources of error. It should be noted that, unlike the simulation evaluation, the real-robot implementation does not integrate a semantic map . Search and navigation tasks are instead accomplished by composing atomic capabilities based solely on the robot’s current visual observations. This setting requires the agent to continually ob-serve, act, and update its plan without relying on prior environment-specific spatial knowledge, indicating its potential for deployment in previously unseen environments. Moreover, no additional sensors are installed on the G1; the entire evaluation uses only the robot’s original onboard hardware. More capable cameras, microphones, or other sensing hardware could further improve performance, and investigating such hardware enhancements is left for future work. 
+
+Case study. Figure 7 illustrates a human–initiated termination during an active approach-and-wave task. At t0, the user asks the robot to find the person in black and wave to him, and the robot grounds the request and forms an approach-and-wave plan. At t1, it navigates toward the target using bounded forward motions. At t2, the target says “Stop approaching me!” while the Env-Interactor is processing the new input. During this inference interval, the Planner–Executor path continues the previously active approach and starts one additional 0 .3 m forward motion. At t3, the new stop intent takes effect, the original task is terminated, and no subsequent navigation or waving action is executed. Appendix D illustrates a complementary long-horizon case. 15 OK, I will find and wave to the person in BLACK. USER at t0: Can you find the person in BLACK and wave to him?  
+
+> TARGET IN BLACK
+> TARGET at t3: Stop approaching me! t0 Understand
+> Dialogue + Plan
+> t1 Navigate
+> Move towards target
+> t2 Interrupted
+> Interruption recognition
+> t3 Terminated
+> Stop
+> I‘ve stopped my task.
+> The TARGET let me stop
+
+Figure 7: A case of human–initiated termination during an active approach. The episode proceeds from instruction grounding at t0 through target–directed navigation at t1, recognition of the stop request at 
+
+t2, and task termination at t3.
+
+t0–t1: Instruction grounding and target–directed navigation Third-person view 
+
+Robot ego-view placeholder 
+
+Add the image at the path specified in the source. 
+
+Robot ego view 
+
+Robot ego-view placeholder 
+
+Add the image at the path specified in the source. 
+
+Active instruction / goal Find the person in black and wave to him. 
+
+Model rollout excerpts 
+
+Env-Interactor. Input: “Can you find the person in BLACK and wave to him?” Reasoning: Reasoning not retained. Output: launch_planner ; “OK, I will find and wave to the person in BLACK.” 
+
+Planner (27B Instruct). Input: The active approach goal and current robot observation. Reasoning: Reasoning not retained ( think=null ); logged descriptions include “. . . Move forward toward the person in black . . . ” and “. . . Move forward a shorter distance . . . ” Output: three 0 .5 m commands; then a 0 .3 m command 
+
+Executed action Completed three 0 .5 m forward commands; the approach task remained active when the stop request arrived. 
+
+16 t2–t3: Stop recognition and task termination Third-person view 
+
+Robot ego-view placeholder 
+
+> Add the image at the path specified in the source.
+
+Robot ego view 
+
+Robot ego-view placeholder 
+
+> Add the image at the path specified in the source.
+
+Active instruction / goal Stop approaching the TARGET. 
+
+Model rollout excerpts              
+
+> Env-Interactor. Input: “Stop approaching me!” Reasoning: Reasoning not retained. Output: launch_planner ;planner goal: stop moving ; “I’ve stopped my task.”
+> Planner (27B Instruct). Input: The stop goal and current execution state. Reasoning: Reasoning not retained (think=null ). Output: stop ; no later Planner action logged
+
+Executed action Because the Env-Interactor had not yet completed inference on the stop input, one additional 0 .3 m command began 1 .46 s after the request. After the stop intent took effect, no further navigation or waving action was logged. 
+
+# 6 General Ability Testing 
+
+Beyond evaluating our agent in the targeted interactive-assistance scenarios, we assess it on established embodied-agent benchmarks to determine whether its capabilities generalize to diverse environments, task formulations, and action spaces. Such evaluation helps distinguish broadly applicable embodied intelligence from performance that may depend on the specific tasks or system settings used in our main experiments. In particular, we examine whether the agent can perceive its surroundings, interpret instructions, reason about spatial and task states, construct and execute plans, and determine when a task has been completed under partial observability. We use Qwen3.6-35B-A3B [43] as the Planner for all benchmark tests. 
+
+Benchmarks. We select EmbodiedBench (EB) [34] and VIGIL [35] because they provide complemen-tary evaluations of general embodied capabilities. EB evaluates vision-conditioned embodied planning at different action granularities, with episodes organized around commonsense reasoning, complex-instruction understanding, spatial reasoning, visual perception, and long-horizon planning. We use EB-Navigation, EB-ALFRED, and EB-Habitat, which collectively cover low-level navigation and high-level household-task planning. These tasks allow us to evaluate whether the agent can adapt its reasoning and planning across different environments and action interfaces. Note that we exclude the dedicated EB-Manipulation environment because our human-humanoid interaction agent is not designed for low-level manipulation. VIGIL, on the other hand, isolates an agent’s ability to infer task progress from egocentric RGB obser-vations and terminate with an accurate semantic report, without access to privileged state information or action-success feedback. Its tasks are particularly relevant to our setting because our agent must continuously interpret visual observations, track execution progress, and decide when sufficient evidence has been obtained to report task completion. VIGIL therefore evaluates not only task execution, but also progress estimation and terminal commitment under partial observability. It should be noted that we exclude VIGIL pixel grounding (PG) tasks because our agent jointly reasons over the current observation and multiple historical images and may resize these images to reduce visual-token costs, which may not correspond to the coordinate system of VIGIL’s original current frame [48]. 17 Benchmark adaptation. For both benchmarks, we retain the original simulator, episode definitions, action constraints, and evaluators, and replace only the agent policy. A thin adapter converts benchmark observations and legal actions to and from the agent’s visual–language interface. On EB, the agent receives the task, current RGB observation, and benchmark feedback, and emits actions in each environment’s native schema. On VIGIL, it emits the native navigate , look , interact , and report actions; neither hidden simulator state nor judge progress is exposed. All comparisons use the same planner backbone. Original denotes the benchmark-original agent protocol: the official EB prompt and bounded chat history for EB, and the VIGIL native instruction-following prompt for VIGIL. Ours denotes our generic agent protocol, which performs task decomposition before planning and maintains structured memory of the overall task, current subtask, recent actions, and observation-grounded progress. An observer produces compact descriptions of the visual state, while the planner also receives the current image and selected recent images. We do not tune or revise the agent settings for individual environments or task subsets: in particular, the task-decomposition prompt, memory organization, and planning interface are kept unchanged for all evaluated tasks. In practical deployment, the observer continuously processes incoming frames in parallel with the ongoing planner–executor cycle, so its result is available for the next planning step without adding observer inference to the critical-path latency. Table 4: EmbodiedBench accuracy (%). “Success” is the fraction of episodes in which the benchmark task-success predicate is satisfied. Original uses the benchmark agent protocol, whereas Ours uses the proposed agent. Parenthesized values on overall rows are absolute improvements in percentage points. Best results in each row are bold .                                                 
+
+> Environment Task subset Original Ours Navigation Base 63.3 76.7
+> Commonsense 51.7 55.0
+> Complex instruction 60.0 68.3
+> Long horizon 13.3 36.7
+> Visual appearance 58.3 55.0
+> Overall 49.3 58.3 (+9.0)
+> ALFRED Base 34.0 38.0
+> Commonsense 34.0 32.0 Complex instruction 28.0 42.0
+> Long horizon 48.0 38.0 Spatial 30.0 30.0
+> Visual appearance 32.0 30.0
+> Overall 34.3 35.0 (+0.7)
+> Habitat Base 68.0 72.0
+> Commonsense 20.0 28.0
+> Complex instruction 40.0 28.0 Long horizon 10.0 22.0
+> Spatial relation 26.0 30.0
+> Visual appearance 30.0 24.0
+> Overall 32.3 34.0 (+1.7)
+
+Comparison with the original agent. Table 4 reports EB task success. Our agent improves overall success in all three environments: from 49.3% to 58.3% on Navigation, from 34.3% to 35.0% on ALFRED, and from 32.3% to 34.0% on Habitat. The Navigation gain is particularly pronounced on base and long-horizon tasks (+13.4 and +23.4 percentage points, respectively). On ALFRED, the largest gain occurs for complex instructions, whereas on Habitat the improvements are concentrated in commonsense, long-horizon, and spatial-relation tasks. The apparently opposite behavior of the complex-instruction and long-horizon subsets reflects differences in their task composition rather than identical capabilities behaving inconsistently. ALFRED complex instructions are mostly verbose, unconditional household 18 Table 5: VIGIL accuracy (%) on the seven evaluated task families. Accuracy is benchmark success B:the world-state goal must be satisfied and the episode must end with a matching semantic report. Overall accuracy is computed over 875 episodes after excluding pixel grounding. The parenthesized value on the overall row is the absolute improvement in percentage points. Best results in each row are bold .                   
+
+> Task family Original Ours Distance approach (DA) 11.2 35.2
+> View search (VS) 36.0 36.8
+> State verification (SV) 81.6 85.6
+> Approach and interact (AI) 7.2 15.2
+> Search and interact (SI) 0.0 0.0
+> Sequential manipulation (SM) 2.4 1.6 Constraint resolving (CR) 2.4 4.0 Overall 20.1 25.5 (+5.4)
+
+requests, for which generic decomposition removes narrative or distractor language and exposes the required object-state sequence. Its long-horizon tasks instead contain tightly coupled operations such as slicing, heating, cooling, and transporting an object in a fixed temporal order, leaving less room for a generic decomposition to help. Habitat complex instructions contain many conditional branches and contrastive distractors, which must remain unresolved until the relevant state is observed; thus, decomposition is less beneficial. On the contrary, Habitat long-horizon tasks mainly comprise several independent object transfers, for which an ordered task list and cross-step memory are particularly effective. Performance is therefore not uniformly higher for every subset, but our agent design improves the aggregate result in every EB environment without task-specific prompt or setting changes. Table 5 reports VIGIL benchmark success. Our agent improves overall accuracy from 20.1% to 25.5% (+5.4%). The main improvements are on distance approach (+24.0 points), approach and interact (+8.0 points), and state verification (+4.0 points). These gains indicate that structured cross-step memory and observation summaries help the agent both execute visual tasks and recognize when their terminal conditions have been met. Table 6: Observer ablation for our agent. Values are overall accuracy (%): EB task success for 300 episodes per environment and VIGIL benchmark success B over the 875 non-PG episodes. ∆ is the absolute gain from adding the observer, in percentage points.                
+
+> Benchmark No observer Observer ∆
+> EB-Navigation 51.7 58.3 +6.6 EB-ALFRED 30.3 35.0 +4.7 EB-Habitat 33.3 34.0 +0.7 VIGIL 23.2 25.5 +2.3
+
+Observer ablation. To isolate the observer’s contribution, we compare our full agent with an otherwise identical variant that omits observer captions. As shown in Table 6, the observer improves aggregate accuracy on every evaluated benchmark: +6.6 points on EB-Navigation, +4.7 on EB-ALFRED, +0.7 on EB-Habitat, and +2.3 on VIGIL. Because task decomposition, structured memory, planner, image history, and benchmark protocol remain unchanged, these consistent aggregate gains provide direct evidence that the observer contributes useful visual state abstraction, which is consistent with [49]. It should be noted that, in the practical agent system, observation runs in parallel with the planner–executor cycle and therefore does not introduce an additional observer-inference delay on the critical path. 
+
+Conclusion. Across complementary tests of navigation, household planning, visual reasoning, interac-tion, and terminal commitment, our agent consistently improves aggregate accuracy over the corresponding 19 benchmark-original agent. The ablation further shows that the observer is an effective component across both EB and VIGIL. These results demonstrate that task decomposition, structured progress memory, multi-image visual context, and observer-based state abstraction transfer beyond the robot’s native deploy-ment setting. The large Navigation gain and the consistent overall improvements on ALFRED, Habitat, and VIGIL show that the proposed design improves not only navigation but also general embodied planning, interaction, and terminal-commitment tasks without task-specific adaptation. 
+
+# 7 Conclusion 
+
+This report formulates on-demand human–humanoid interaction as an evolving service loop in which grounded understanding, continuity under execution-time requests, and outcome-grounded closure must be maintained together. To support this loop, HODA GENT organizes the System-2 runtime into an Env-Interactor, Planner, Executor, and hierarchical Memory. Semi-duplex coordination keeps interaction and observation active during physical execution, while a shared observation and execution contract connects the same agent logic to simulation and physical-robot backends without moving platform-specific control and safety into the high-level agent. The evaluation provides complementary evidence at the interface, task, and general-ability levels. On the physical Unitree G1, HODA GENT passes 92% atomic-capability trials, 72% composite-capability trials, and 63.3% complete-task trials, indicating that the shared agent–robot pathway supports individual operations with higher pass rates than trials requiring longer-horizon coordination. On EmbodiedBench, aggregate success increases from 49.3% to 58.3% on Navigation, from 34.3% to 35.0% on ALFRED, and from 32.3% to 34.0% on Habitat. VIGIL accuracy increases from 20.1% to 25.5%. These results support the utility of task decomposition, structured progress memory, multi-image context, and visual-state abstraction across multiple embodied task formulations. These findings suggest that the main value of HODA GENT lies not only in selecting individual robot actions, but in maintaining a coherent service relationship while those actions unfold. This capability is relevant to reception, exhibition guidance, retail assistance, facility navigation, and other service settings in which a humanoid must answer questions, accept corrections, and preserve unfinished work during motion. The shared embodiment contract also offers a practical deployment path in which new robot platforms can reuse the high-level agent loop while adapting sensing, skills, control limits, and safety enforcement below the interface. 
+
+Limitations. Several aspects define the present scope of this study and provide useful context for interpreting its results. The interaction protocol adopts a semi-duplex design, and a more extensive latency analysis will be conducted to characterize hard real-time performance. The physical evaluation focuses on the Unitree G1 platform, a selected set of locomotion, whole-body, speech, and observation capabilities, and a limited number of trials; consequently, the results primarily demonstrate the feasibility of the proposed agent–robot interface, while broader physical reliability, cross-platform transfer, and task-level sim-to-real generalization warrant further study. Longer tasks also remain more challenging because they require sustained temporal coordination. Finally, the present system intentionally builds on existing foundation models and configured robot skills, placing the emphasis on the high-level agent harness rather than on training a new low-level policy or general-purpose VLA model; personalized long-term memory and explicit obligation tracking are likewise promising extensions beyond the current scope. 
+
+Future work. Future work will strengthen the controlled simulation study through repeated-seed evaluation, broader interruption coverage, explicit version logging, and calibration of the semantic evaluator against human judgments. We will complement task success with measurements of response latency, computational cost, safety events, recovery behavior, evidence coverage, and failure attribution, and will extend the physical evaluation to additional scenes, users, task families, and repeated trials, particularly for longer assistance episodes, in-task corrections, manipulation, and safety-critical recovery. 20 In addition, we will deploy the same agent interface on XPENG robots, evaluate its cross-platform transfer and required platform-specific adaptation, and release the corresponding results. We will also train and adapt models using the interaction and execution traces collected through the evaluation pipeline, with emphasis on multimodal intent and situation understanding, progress and completion estimation, long-horizon planning, and grounded recovery. Further directions include jointly optimizing the models and agent harness, investigating an embodied omni model that integrates speech, visual context, gesture, and action, extending the System-1 skill set with learned manipulation and whole-body policies, and developing explicit obligation tracking and longer-term personalized memory. Collectively, these efforts are expected to advance the system toward more reliable, adaptive, and continuously improving humanoid service agents. 21 References 
+
+[1] Rodney A. Brooks. A robust layered control system for a mobile robot. IEEE Journal on Robotics and Automation , 2(1):14–23, 1986. URL https://ieeexplore.ieee.org/document/1087032 .[2] Sergey Levine, Chelsea Finn, Trevor Darrell, and Pieter Abbeel. End-to-end training of deep visuomotor policies. Journal of Machine Learning Research , 17(39):1–40, 2016. URL https: //www.jmlr.org/papers/v17/15-522.html .[3] Kazuo Hirai, Masato Hirose, Yuji Haikawa, and Toru Takenaka. The development of Honda humanoid robot. In Proceedings of the 1998 IEEE International Conference on Robotics and Au-tomation , volume 2, pages 1321–1326, 1998. URL https://ieeexplore.ieee.org/document/ 677288 .[4] Scott Kuindersma, Robin Deits, Maurice Fallon, Andrés Valenzuela, Hongkai Dai, Frank Permenter, Twan Koolen, Pat Marion, and Russ Tedrake. Optimization-based locomotion planning, estimation, and control design for the Atlas humanoid robot. Autonomous Robots , 40(3):429–455, 2016. URL 
+
+https://link.springer.com/article/10.1007/s10514-015-9479-3 .[5] Zhaoyuan Gu, Junheng Li, Wenlan Shen, Wenhao Yu, Zhaoming Xie, Stephen McCrory, Xianyi Cheng, Abdulaziz Shamsah, Robert Griffin, C. Karen Liu, Abderrahmane Kheddar, Xue Bin Peng, Yuke Zhu, Guanya Shi, Quan Nguyen, Gordon Cheng, Huijun Gao, and Ye Zhao. Humanoid locomotion and manipulation: Current progress and challenges in control, planning, and learning. 
+
+arXiv preprint arXiv:2501.02116 , 2025. URL https://arxiv.org/abs/2501.02116 .[6] Johan Bjorck, Fernando Castañeda, Nikita Cherniadev, Xingye Da, Runyu Ding, Linxi Fan, Yu Fang, Dieter Fox, Fengyuan Hu, Spencer Huang, et al. GR00T N1: An open foundation model for generalist humanoid robots. arXiv preprint arXiv:2503.14734 , 2025. URL https://arxiv.org/ abs/2503.14734 .[7] In Lee. Service robots: A systematic literature review. Electronics , 10(21):2658, 2021. URL 
+
+https://www.mdpi.com/2079-9292/10/21/2658 .[8] Floris Erich, Masakazu Hirokawa, and Kenji Suzuki. A systematic literature review of experiments in socially assistive robotics using humanoid robots. arXiv preprint arXiv:1711.05379 , 2017. URL 
+
+https://arxiv.org/abs/1711.05379 .[9] Jiaji Yang and Esyin Chew. A systematic review for service humanoid robotics model in hospitality. 
+
+International Journal of Social Robotics , 13:1397–1410, 2021. URL https://link.springer. com/article/10.1007/s12369-020-00724-y .[10] Yunhui Yan, Jing Xu, Zhiguo Lu, Kechen Song, and Bohang Liu. Development and research status of humanoid service robots. Robot , 39(4):551–564, 2017. URL https://robot.sia.cn/en/ article/doi/10.13973/j.cnki.robot.2017.0551 .[11] Moo Jin Kim, Karl Pertsch, Siddharth Karamcheti, Ted Xiao, Ashwin Balakrishna, Suraj Nair, Rafael Rafailov, Ethan Foster, Grace Lam, Pannag Sanketi, et al. OpenVLA: An open-source vision-language-action model. arXiv preprint arXiv:2406.09246 , 2024. URL https://arxiv. org/abs/2406.09246 .[12] Kevin Black, Noah Brown, James Darpinian, Karan Dhabalia, Danny Driess, Adnan Esmail, Michael Robert Equi, Chelsea Finn, Niccolo Fusai, Manuel Y. Galliker, et al. π0.5: A vision-language-action model with open-world generalization. In 9th Annual Conference on Robot Learning ,2025. [13] Octo Model Team, Dibya Ghosh, Homer Walke, Karl Pertsch, Kevin Black, Oier Mees, Sudeep Dasari, Joey Hejna, Tobias Kreiman, Charles Xu, et al. Octo: An open-source generalist robot policy. 
+
+arXiv preprint arXiv:2405.12213 , 2024. URL https://arxiv.org/abs/2405.12213 .22 [14] Mustafa Shukor, Dana Aubakirova, Francesco Capuano, Pepijn Kooijmans, Steven Palma, Adil Zouitine, Michel Aractingi, Caroline Pascal, Martino Russi, Andres Marafioti, et al. SmolVLA: A vision-language-action model for affordable and efficient robotics. arXiv preprint arXiv:2506.01844 ,2025. URL https://arxiv.org/abs/2506.01844 .[15] Amir Bar, Gaoyue Zhou, Danny Tran, Trevor Darrell, and Yann LeCun. Navigation world models. 
+
+arXiv preprint arXiv:2412.03572 , 2024. URL https://arxiv.org/abs/2412.03572 .[16] Jiazhao Zhang, Kunyu Wang, Rongtao Xu, Gengze Zhou, Yicong Hong, Xiaomeng Fang, Qi Wu, Zhizheng Zhang, and He Wang. NaVid: Video-based VLM plans the next step for vision-and-language navigation. In Robotics: Science and Systems , 2024. [17] Ainaz Eftekhar, Rose Hendrix, Luca Weihs, Jiafei Duan, Ege Caglar, Jordi Salvador, Alvaro Herrasti, Winson Han, Eli VanderBil, Aniruddha Kembhavi, et al. The one ring: A robotic indoor navigation generalist. arXiv preprint arXiv:2412.14401 , 2024. URL https://arxiv.org/abs/2412.14401 .[18] Michael Ahn, Anthony Brohan, Noah Brown, et al. Do as i can, not as i say: Grounding language in robotic affordances. arXiv preprint arXiv:2204.01691 , 2022. URL https://arxiv.org/abs/ 2204.01691 .[19] Anthony Brohan, Noah Brown, Justice Carbajal, et al. RT-2: Vision-language-action models transfer web knowledge to robotic control. arXiv preprint arXiv:2307.15818 , 2023. URL https: //arxiv.org/abs/2307.15818 .[20] Shunyu Yao, Jeffrey Zhao, Dian Yu, Nan Du, Izhak Shafran, Karthik Narasimhan, and Yuan Cao. ReAct: Synergizing reasoning and acting in language models. In International Conference on Learning Representations , 2023. URL https://arxiv.org/abs/2210.03629 .[21] Qingyun Wu, Gagan Bansal, Jieyu Zhang, Yiran Wu, Beibin Li, Erkang Zhu, Li Jiang, Xiaoyun Zhang, Shaokun Zhang, Ahmed Awadallah, Ryen W. White, Doug Burger, and Chi Wang. AutoGen: Enabling next-gen LLM applications via multi-agent conversation. In Conference on Language Modeling , 2024. URL https://arxiv.org/abs/2308.08155 .[22] LangChain. LangGraph overview. Official documentation, 2026. URL https://docs.langchain. com/oss/python/langgraph/overview . Accessed 2026-07-19. [23] OpenAI. A practical guide to building agents. OpenAI guide, 2026. URL https://openai.com/ business/guides-and-resources/a-practical-guide-to-building-ai-agents/ . Ac-cessed 2026-07-19. [24] OpenAI. Codex: Ai coding agent. Software repository, 2025. URL https://github.com/ openai/codex . Accessed 2026-07-24. [25] OpenClaw Contributors. Openclaw: Your personal ai assistant. Software repository, 2026. URL 
+
+https://github.com/openclaw/openclaw . Accessed 2026-07-24. [26] Eigent AI. Eigent: Open source cowork desktop. Project website, 2026. URL https://www. eigent.ai/ . Accessed 2026-07-27. [27] Ryan Lopopolo. Harness engineering: Leveraging Codex in an agent-first world. OpenAI En-gineering Blog, 2026. URL https://openai.com/index/harness-engineering/ . Published 2026-02-11; accessed 2026-07-19. [28] Xinyu Tang, Han Peng, Guoxin Chen, Yuze Shi, Zitao Su, Peiyu Liu, Wayne Xin Zhao, Yawen Li, and Zhe Xue. Agent systems with harness engineering. OpenReview preprint, 2026. URL 
+
+https://openreview.net/forum?id=nM5tDHrQsx .23 [29] Jianyuan Guo, Zhiwei Hao, Chengcheng Wang, Cheng Fan, Tingzhang Luo, Hongguang Li, Ying Gao, Hefei Mei, Jiankun Peng, Rongjian Xu, Minjing Dong, Han Wu, Mengyu Zheng, Kai Han, Shiqi Wang, Chang Xu, and Yunhe Wang. From question answering to task completion: A survey on agent system and harness design. arXiv preprint arXiv:2606.20683 , 2026. URL https: //arxiv.org/abs/2606.20683 .[30] Tingyang Chen, Shuo Lu, Kang Zhao, Weicheng Meng, Hanlin Teng, Tianhao Li, Chao Li, Xule Liu, Jian Liang, Zhizhong Zhang, Yuan Xie, Heng Qu, Kun Shao, and Jian Luan. HarnessX: A composable, adaptive, and evolvable agent harness foundry. arXiv preprint arXiv:2606.14249 , 2026. URL https://arxiv.org/abs/2606.14249 .[31] Zechu Li, Yufeng Jin, Xiaoyang Liu, Puze Liu, Vignesh Prasad, Carlo D’Eramo, and Georgia Chalvatzaki. HARBOR: A harness framework for agentic robot reinforcement learning. arXiv preprint arXiv:2606.08610 , 2026. URL https://arxiv.org/abs/2606.08610 .[32] Wenlong Huang, Pieter Abbeel, Deepak Pathak, and Igor Mordatch. Language models as zero-shot planners: Extracting actionable knowledge for embodied agents. In Proceedings of the 39th International Conference on Machine Learning , volume 162 of Proceedings of Machine Learn-ing Research , pages 9118–9147. PMLR, 2022. URL https://proceedings.mlr.press/v162/ huang22a.html .[33] Krishan Rana, Jesse Haviland, Sourav Garg, Jad Abou-Chakra, Ian Reid, and Niko Sünderhauf. SayPlan: Grounding large language models using 3d scene graphs for scalable robot task planning. In Conference on Robot Learning , 2023. URL https://arxiv.org/abs/2307.06135 .[34] Rui Yang, Hanyang Chen, Junyu Zhang, Mark Zhao, Cheng Qian, Kangrui Wang, Qineng Wang, Teja Venkat Koripella, Marziyeh Movahedi, Manling Li, Heng Ji, Huan Zhang, and Tong Zhang. EmbodiedBench: Comprehensive benchmarking multi-modal large language models for vision-driven embodied agents. arXiv preprint arXiv:2502.09560 , 2025. URL https://arxiv.org/abs/ 2502.09560 .[35] Ying Chen, Lihuang Fang, Rui Jiang, Mingxu Wang, Zhifeng Gu, Lei Yi, and Jie Chen. Done, but not sure: Disentangling world completion from self-termination in embodied agents. arXiv preprint arXiv:2605.08747 , 2026. URL https://arxiv.org/abs/2605.08747 .[36] Wenlong Huang, Fei Xia, Ted Xiao, Harris Chan, Jacky Liang, Pete Florence, Andy Zeng, Jonathan Tompson, Brian Ichter, et al. Inner monologue: Embodied reasoning through planning with language models. In Proceedings of the 6th Conference on Robot Learning , volume 205 of Proceedings of Machine Learning Research , pages 1769–1782. PMLR, 2023. URL https://proceedings.mlr. press/v205/huang23c.html .[37] Shipeng Liu, Boshen Zhang, and Zhehui Huang. Benchmark real-time adaptation and communication capabilities of embodied agents in collaborative scenarios. arXiv preprint arXiv:2412.00435 , 2024. URL https://arxiv.org/abs/2412.00435 .[38] Boyu Mi, Mengchen Ma, Yifei Yao, Xing Gao, Junting Chen, Yangzi Li, Zihou Zhu, Guohao Li, Zhenfei Yin, Tai Wang, Yao Mu, Jiangmiao Pang, and Hanqing Wang. Exploratory, communicative, and deployable: Vision-driven embodied agents for open-world mobile manipulation. arXiv preprint arXiv:2607.13653 , 2026. URL https://arxiv.org/abs/2607.13653 .[39] Xiaolin Zhou, Liu Liu, Tingyang Xiao, Wei Feng, Fa Fu, Xinrui Meng, Xinjie Wang, Jialiang Han, Boyang Yu, Yun Du, Wei Sui, and Zhizhong Su. HoloAgent-0: A unified embodied agent framework with 3d spatial memory. arXiv preprint arXiv:2606.23565 , 2026. URL https://arxiv.org/abs/ 2606.23565 .24 [40] Dingyu Yao, Junhao Zhou, Chenxu Yang, Chuanyu Qin, Haowen Hou, Zheming Liang, Congcong Wang, Yuhang Cao, Shenglong Ye, Shuai Xie, Shuhuan Gu, Haoyang Huang, Qingyi Si, Nan Duan, and Jiaqi Wang. JoyAI-VL-Interaction: Real-time vision-language interaction intelligence. arXiv preprint arXiv:2606.14777 , 2026. URL https://arxiv.org/abs/2606.14777 .[41] Yunqi Liu, Tong Niu, Zitong Wang, Zhenlong Dai, Yuqi Qing, Weiqiang Wang, and Jian Liu. EgoBench: An interactive egocentric multimodal benchmark for tool-using agents. arXiv preprint arXiv:2605.27820 , 2026. URL https://arxiv.org/abs/2605.27820 .[42] Hongchi Xia, Xuan Li, Zhaoshuo Li, Qianli Ma, Jiashu Xu, Ming-Yu Liu, Yin Cui, Tsung-Yi Lin, Wei-Chiu Ma, Shenlong Wang, Shuran Song, and Fangyin Wei. SAGE: Scalable agentic 3d scene generation for embodied AI. arXiv preprint arXiv:2602.10116 , 2026. URL https: //arxiv.org/abs/2602.10116v1 .[43] Qwen Team. Qwen3.6-35B-A3B: Agentic coding power, now open to all. Official model release, April 2026. URL https://qwen.ai/blog?id=qwen3.6-35b-a3b .[44] Qwen Team. Qwen3.6-27B model card. Official model release, 2026. URL https://huggingface. co/Qwen/Qwen3.6-27B .[45] Zhengyi Luo, Ye Yuan, Tingwu Wang, Chenran Li, Sirui Chen, Fernando Castañeda, Zi-Ang Cao, Jiefeng Li, David Minor, Qingwei Ben, Xingye Da, Runyu Ding, Cyrus Hogg, Lina Song, Edy Lim, Eugene Jeong, Tairan He, Haoru Xue, Wenli Xiao, Zi Wang, Simon Yuen, Jan Kautz, Yan Chang, Umar Iqbal, Linxi Fan, and Yuke Zhu. SONIC: Supersizing motion tracking for natural humanoid whole-body control. arXiv preprint arXiv:2511.07820 , 2025. URL https: //arxiv.org/abs/2511.07820 .[46] An Yang, Anfeng Li, Baosong Yang, Beichen Zhang, Binyuan Hui, Bo Zheng, Bowen Yu, Chang Gao, Chengen Huang, Chenxu Lv, et al. Qwen3 technical report. arXiv preprint arXiv:2505.09388 ,2025. URL https://arxiv.org/abs/2505.09388 .[47] Jin Xu, Zhifang Guo, Hangrui Hu, Yunfei Chu, Xiong Wang, Jinzheng He, Yuxuan Wang, Xian Shi, Ting He, Xinfa Zhu, et al. Qwen3-Omni technical report. arXiv preprint arXiv:2509.17765 , 2025. URL https://arxiv.org/abs/2509.17765 .[48] Wenhan Yu, Wang Chen, Guanqiang Qi, Weikang Li, Yang Li, Lei Sha, Deguo Xia, and Jizhou Huang. BBox-DocVQA: A large-scale bounding-box-grounded dataset for enhancing reasoning in document visual question answer. arXiv preprint arXiv:2511.15090 , 2025. URL https://arxiv. org/abs/2511.15090 .[49] Wang Chen, Wenhan Yu, Guanqiang Qi, Weikang Li, Yang Li, Lei Sha, Deguo Xia, and Jizhou Huang. CMRAG: Co-modality-based visual document retrieval and question answering. arXiv preprint arXiv:2509.02123 , 2025. URL https://arxiv.org/abs/2509.02123 .25 A Details of Interactive Simulation Evaluation 
+
+This appendix supplements the interactive simulation evaluation in Section 4 with operational and implementation details. Specifically, Appendix A.1 defines the User Agent, personas, policy, prompt, and conformance checks; Appendix A.2 describes the simulation runtime and recorded episode evidence; Appendix A.3 specifies the post-evaluation verdicts; Appendix A.4 details benchmark construction and interaction coverage; and Appendix A.5 reports the controlled baseline and inference configurations. 
+
+A.1 User Agent 
+
+User agent policy. The User Agent interacts with the agent under test only through the public runtime boundary. It has no access to private planner state, hidden memory, or reasoning traces. At an eligible turn, its policy conditions on the configured profile and case specification together with the following observable state: • the user–robot dialogue and current service request; • public tool and action-status updates; • observable scene, robot, and task progress; • completed, cancelled, or failed action outcomes; and • the remaining turn budget and episode termination state. The policy can issue the next request, acknowledge or clarify a response, introduce a permitted follow-up, request a recap, or end the service. A turn is therefore selected from the evolving episode state rather than replayed from a fixed dialogue transcript. Language realization is conditioned on the assigned profile, while the underlying task obligations are specified by the case. 
+
+User Agent Persona. Table 7 lists the four personas and the service expectation associated with each one. These expectations affect both turn realization and the Service Judge’s persona-aware assessment; they do not change Task PASS conditions. Table 7: User profiles used by the User Agent.      
+
+> Profile Interaction requirement
+> Novice-guided Requests step-by-step guidance and explicit progress confirmation. Time-limited Prefers concise, direct responses and avoids unnecessary elaboration. Neutral-cooperative Provides clear feedback and confirms transitions when appropriate. Evidence-cautious Requests factually grounded summaries and explicit disclosure of incomplete or uncertain outcomes.
+
+Interruption and resumption. In a designated interruption case, the User Agent issues a new turn while a time–extended navigation skill is active. The runtime delivers the turn and requests cancellation of the active skill. After cancellation is observed, the agent must acknowledge the stopped state without claiming arrival. A subsequent user turn requests continuation, and the interrupted target remains an unfinished obligation. The episode passes this requirement only if execution resumes toward the retained target and the later physical and conversational outcomes remain consistent with the interruption. 
+
+User agent prompt. One LLM call realizes each eligible user turn using the fixed episode configuration and the current observable state. Prompt A.1 shows a concise English translation of the operational template; request settings are listed in Table 10. The returned act is dispatched only if it has a valid 26 schema, uses at most one admissible goal reference, and introduces no off-case target. Otherwise, the runtime sends a fixed case-derived fallback and retains the rejected output in the episode record. Prompt A.1: User Agent system prompt (translated) 
+
+You are a simulated user in a robot simulation. Below are this episode’s fixed and immutable user identity, task, and global behavior contract; the dynamic step and environment observation for each turn appear only in the user message. Strictly follow the contract and output JSON. 
+
+{"persona": { "role": "a visitor in a car showroom, mainly exploring on site", "background": "broadly interested in the scene, but adjusts focus based on what is actually seen", "knowledge_boundaries": [ "does not know the spatial relations between targets", "accepts only explanations the robot can support from the current scene" ], "interaction_style": "natural, cooperative; limited clarification and rephrasing allowed", "friction_points": [ "wants a clear explanation when a target is unreachable", "willing to add visible cues when a reference may be unclear" ]}, "episode_intent": { "context": "The user is in a car showroom. Vehicle visits, on-site appearance comparison, display-information lookup, and rest-area guidance are supported.", "user_goal": "The user wants the robot to lead them, in order, to the red-and-white compact car, the white sports car, and the white multi-seat sofa." }, "behavior_script": [ {"act_type": "request_guidance", "request_goal": "Please take me to the red-and-white compact car; if it is unreachable on site, say so directly -- do not pretend to have arrived." }, {"act_type": "request_guidance", "request_goal": "Please take me to the white sports car; ..." }, {"act_type": "request_guidance", "request_goal": "Please take me to the white multi-seat sofa; ..." }, {"act_type": "request_result", "request_goal": "After the guided visits, review the three targets in visiting order and, using only on-site confirmable information, report: arrival at the display cars, a comparison based on visible appearance, and the final stopping area." }], "global_budgets": { "max_dialogue_rounds": 10, "max_episode_duration_s": 300, "max_no_progress_rounds": 2, "max_retry_per_step": 1}, "global_rules": [ "You follow the robot; based on this turn’s robot reply, action results, and the follow-camera view, decide the next user behavior.", "You only express needs, answer necessary questions, and choose to continue, retry, or end based on the service result; you must not execute, compare, summarize, explain, or confirm on the robot’s behalf.", "Advance only the goal specified by current_step this turn; do not add, replace, skip, or reorder goals.", 
+
+27 "If the robot proposes an alternative, accept only options listed in current_step.allowed_alternatives; if that list is empty, do not accept any other goal.", "Retry, resume, and termination are authorized by the runtime through this turn’s runtime_state; without authorization, remaining retries, or an allowed alternative, end the interaction.", "Do not judge completion from the robot’s verbal claim of success; the runtime switches current_step after success.", "Do not repeat any user utterance from recent_dialogue verbatim.", "Do not mention goal references, nodes, tools, scores, tests, or information only the system knows.", "The first turn may open with a natural greeting, but greeting and request must be in the same message." ], "interrupt_policy": {"enabled": false, "max_interrupts": 0, "trigger_event": ""}, "output_contract": { "format": "JSON object", "fields": ["action", "act_type", "goal_ref", "query", "reason"], "actions": ["speak", "stop"], "goal_rule": "when speak involves a goal, goal_ref must come from this turn’s current_step.allowed_goal_refs"} }
+
+A.2 Runtime Event Semantics and Evidence Schema 
+
+The runtime connects the User Agent, the agent under test, and simulator through their public interfaces. A user turn enters through the same natural-language channel used during deployment. The agent can respond directly or dispatch an embodied skill through the shared tool interface. During execution, the simulator returns observable state and action status to the agent and the evaluation harness. A subsequent User Agent turn may be generated whenever the case policy permits it, including while a time-extended action is active. All runtime events are written to one episode record and aligned by episode and event order. Table 8 lists the evidence exposed to post-evaluation. This alignment preserves the temporal relation between a request, the decision it triggers, the resulting physical execution, and any later response. It also allows post-evaluation to distinguish an issued command from a completed outcome and an execution-time statement from a retrospective claim. Table 8: Evidence used for post-evaluation. 
+
+Evidence stream Representative content 
+
+Dialogue User requests, agent responses, clarifications, and confirmations. Decisions and tool calls Selected actions, tool arguments, status transitions, and returned outcomes. Navigation trace Executed trajectory, visited targets, visitation order, and interruption loca-tion when applicable. Outcome and terminal state Final robot state, completed or cancelled actions, and episode status. 
+
+A.3 Post-Evaluation and Verdict Construction 
+
+Post-evaluation applies two independent evaluators to the aligned episode record. Simulator–grounded outcomes take precedence over agent self-report: issuing a tool call is not evidence that its intended physical outcome occurred, and a fluent completion statement cannot substitute for a missing target visit. Conversely, the service judge evaluates each utterance in the context of the request, task progress, and physical evidence available at that point. 28 Task PASS. The rule–based task verifier evaluates the required embodied outcomes, including target reach, visitation order, required actions, terminal location, and delivery of the required final response. Task PASS is assigned when all blocking task outcomes and constraints are satisfied. Additional interaction-policy requirements, such as whether an execution-time interruption is acknowledged and respected, are retained in the aligned service assessment and contribute to Judge PASS. 
+
+Judge PASS. The service judge assesses the interaction under the assigned user profile. It checks relevance to the current request, clarity, factual grounding, and service behavior. Unsupported claims, omitted requested information, or a response style that violates an explicit profile requirement yield a non-PASS verdict. The judge does not override the rule–based physical verdict. 
+
+Joint Success. For episode i, let Ti and Ji denote the binary Task PASS and Judge PASS verdicts. Joint Success is their conjunction, 
+
+Ci = TiJi, JointSuccess = 100 
+
+N
+
+> N
+
+# ∑
+
+> i=1
+
+Ci, (1) where N = 164 for the complete evaluation set. Task PASS and Judge PASS rates are computed analo-gously from Ti and Ji. Retained diagnostic labels—for example, missing target reach, incorrect ordering, failed resumption, unsupported completion, or incomplete recap—support error analysis but do not form an additional score. 
+
+A.4 Evaluation Benchmark Construction 
+
+Each evaluation case binds four elements: an indoor scene, an ordered sequence of grounded semantic targets, a User Agent persona, and an interaction policy. Before evaluation, a route is admitted only if its targets are exposed through the embodied tool interface and are reachable under the simulator configuration. The 164 cases are selected coverage configurations rather than a complete Cartesian product of scenes, routes, personas, and interaction requirements. Across the 22 indoor scenes, the benchmark contains 39 physically admitted routes. Each route comprises two or three semantic targets, with an average of 2.23 targets per route; the initial robot position is not counted as a target. Table 9: Five types of embodied interaction covered by the simulation benchmark. Individual evaluation cases may combine multiple types.       
+
+> Interaction type Description
+> Ordered multi-target navigation The user requests visits to two or three grounded semantic targets in a specified order, requiring the agent to preserve completed, current, and pending route obligations. Follow-up service requests The user issues a permitted additional request as the episode evolves, requiring the agent to incorporate the new request without losing relevant dialogue or task context. Interruption and resumption The user interrupts an active time-extended skill and later requests continuation, requiring the agent to stop safely and retain the interrupted target as an unfinished obligation. Route recap The user asks the agent to summarize the executed route, requiring the response to follow recorded navigation outcomes rather than intended or merely mentioned targets. Service-completion confirmation The user requests a final status response, requiring the agent to distin-guish completed, incomplete, cancelled, and uncertain outcomes using the available execution evidence.
+
+29 Table 9 defines the five types of embodied interaction covered by the benchmark. A case may combine multiple types within one service episode. Consequently, success depends not only on reaching a destination but also on preserving unfinished obligations, maintaining the requested order, and describing the executed route consistently with the simulator record. 
+
+A.5 Baselines and Implementation Details 
+
+Controlled comparison. Within each backbone condition, HODA GENT and ReAct share the model checkpoint, User Agent, admitted cases, simulator build, semantic scene resources, embodied tool schemas, execution conditions, and post-evaluation procedure. They also share the runtime mechanism that delivers a new user turn during an active skill. ReAct can therefore receive an interruption through the same public interface; the comparison concerns how the complete agent loop organizes observations, actions, progress, and pending obligations rather than whether interruption delivery is available to only one method. 
+
+Model and inference configuration. Table 10 reports the inference request configuration. Within a backbone condition, HODA GENT and ReAct use the same checkpoint and base request settings; their difference lies in agent-loop organization. Agent-side temperature and top-p were not explicitly passed and therefore followed model-service defaults. The reported values are reconstructed from the frozen runtime configuration because per-call logs retain inputs and outputs but do not duplicate every model identity and sampling parameter. Future runs can persist the model identifier, endpoint version, sampling settings, thinking mode, tool-choice mode, streaming mode, and timeout with each call. Table 10: Model and inference settings. “Service default” means that the parameter was not explicitly overridden in the reported runs.             
+
+> Role Model Sampling Max tokens Other request settings
+> Agent loops Qwen3.6-35B-A3B ;
+> Qwen3.6-27B
+> Temperature / top-p: ser-vice default 4096 Thinking off; non-streaming; tool choice auto; 60-s timeout User Agent qwen3.7-plus Temperature 0.4; top-p:service default 160 Thinking off; non-streaming; 60-s timeout Service judge qwen3.7-plus Temperature 0.0; top-p:service default 600 Post-episode evaluation
+
+# B Details of G1 Integration 
+
+This appendix complements Section 5 by specifying the execution hierarchy below the common embod-iment interface. The main text describes the closed perception–action pathway, the available physical capabilities, and their evaluation; here we define the System 2–1–0 boundary and describe how bounded locomotion and whole-body actions are realized in simulation and on the physical G1. 
+
+B.1 Implementation of the System 2–1–0 Execution Architecture 
+
+We organize embodied execution into three operational layers. System 2 is the shared multimodal agent: it interprets the user request and current observation, selects a task-level action, evaluates the resulting evidence, and decides whether to continue, stop, or replan. System 1 is the motion-command planner between this decision process and the robot controller. It converts an accepted action, such as moving a specified distance or turning through a specified angle, into a finite-horizon command trajectory. System 0 is SONIC in its entirety, including its kinematic motion-generation module and learned whole-body feedback controller. System 0 converts the command trajectory into future whole-body references, tracks 30 those references from measured robot state, and produces joint-level motor targets. This definition keeps the layer boundary at the task-to-motion interface: SONIC’s internal trajectory generator is part of System 0 rather than a separate System 1 planner. The embodiment adapter implements the boundary between System 2 and System 1. It validates the selected action against the active platform, applies embodiment-specific limits, and presents the result to System 1 in a common local-motion representation. Changing from simulation to the physical G1 therefore does not introduce a different agent or task-planning procedure. It changes the calibration, state estimates, actuation channel, and safety checks used below that boundary. Operations that have no physical realization, such as teleportation-based reset, are omitted from the physical capability set. For locomotion, let the System 2 action be a requested translation distance d or signed rotation angle θ .System 1 compiles this request into one or more bounded chunks, 
+
+C (a) = {Ck}Kk=1, Ck = {vt }Hk−1 
+
+> t=0
+
+, vt = ( mt , ft , st ), (2) where mt is the desired planar movement direction, ft is the desired facing direction, and st is the commanded speed. Thus, vt denotes a directional motion command rather than a vector of joint velocities. For a translation, mt points forward or backward in the robot frame and ft preserves the intended heading. For an in-place turn, mt is zero and the signed change of orientation is expressed through ft . A nominal chunk duration can be initialized as Td = d/s for translation or Tθ = |θ |/ω for rotation, where s and ω
+
+are bounded embodiment-specific rates. Each active chunk is followed by an idle command and a settling interval, and a long request may be divided into multiple chunks. The two embodiments use the same chunk semantics but do not use identical numerical mappings. On the physical G1, the local translation or rotation is issued for its bounded duration and then replaced by an idle command. In simulation, measured calibration profiles compensate the requested distance or angle before selecting the command magnitude and active duration; large requests are segmented, and left and right turns may use different compensation. The simulator reads physical state for safety monitoring and for evaluating the resulting displacement, but the active chunk is not terminated by privileged ground-truth arrival. Consequently, neither implementation treats the requested distance or angle as an exact position target. The realized motion must be established from subsequent observation and robot-state evidence. Named whole-body actions use the same finite-horizon boundary. System 1 selects a configured motion reference, constructs a smooth entry from the current configuration, and appends a return toward a stable standing reference. System 0 then tracks the resulting reference under feedback control. Planner-generated locomotion and configured gestures therefore differ in the source of their finite-horizon reference, not in the responsibility of System 0. The hierarchy described here concerns the locomotion and whole-body capabilities shared by the reported simulation and physical deployments; simulation-only manipulation policies are not used to define the System 1 or System 0 boundary. 
+
+B.2 System 0 Realization and Physical-Robot Execution 
+
+Within System 0, SONIC’s kinematic motion generator consumes the active locomotion command together with the current robot configuration. It is updated at 10 Hz, generates future whole-body configurations at 30 Hz, and resamples them to the 50 Hz reference consumed by the feedback controller. At 50 Hz, the controller combines this reference with recent proprioceptive state and produces targets for the 29 body joints. In simulation, these targets are applied within a 200 Hz physics loop. On the physical G1, they are converted into position-and-damping motor commands and published through the robot interface at 500 Hz. Recorded whole-body motions are therefore not replayed as open-loop motor commands; they are tracked by the same feedback controller used for generated locomotion. For physical execution, each System 1 chunk is expressed in the robot-local frame. Immediately before dispatch, the integration layer uses the latest estimated heading to transform its movement and facing directions into the planner frame. This preserves the intended semantics after a turn: a subsequent forward request follows the robot’s current orientation rather than a fixed world axis. The command is refreshed 31 throughout its finite horizon and is followed by an idle interval. Reliable global planar position is not assumed, and heading derived from inertial state is treated as an estimate rather than ground truth. Locomotion chunks and streamed whole-body references are mutually exclusive physical control modes. Before a configured gesture, the integration layer checks controller readiness and robot stability, constructs a smooth transition from the measured pose, and prevents a locomotion command from being issued concurrently. After the motion completes or is cancelled, the robot is returned toward a standing reference and the locomotion generator is re-established from the current physical heading. This prevents the controller from recovering toward a stale orientation after the whole-body reference has changed the robot configuration. The physical runtime maintains an execution lifecycle below System 2. Motion remains disabled until it is explicitly enabled and the required command, state, camera, and audio channels are ready. Requests are validated and serialized; translation, rotation, speed, and duration are constrained to configured ranges; and stop or halt can preempt an active chunk. A pause transition stops policy inference while retaining state reporting, whereas resume reacquires the current state before feedback control is re-enabled. Halting motion is kept distinct from releasing communication resources, because closing an interface does not by itself guarantee that the deployed controller has stopped. Feedback follows the reverse path through the embodiment adapter. Egocentric images, joint state, body orientation, relative heading, angular velocity, controller health, and execution faults are normalized into the observations and outcomes used by the shared agent. A successful response for a bounded chunk confirms that the request was admitted, dispatched for its finite horizon, and transitioned toward idle; a successful response for a named motion confirms that its reference was transferred to the controller. Neither response alone establishes completion of the physical objective. System 2 determines task completion from subsequent visual, robot-state, audio, and interaction evidence, preserving the separation between task-level reasoning, motion-command planning, and feedback-controlled execution. 
+
+# C Case Studies in Simulation 
+
+This appendix presents two paired comparisons between HODA GENT and ReAct, followed by two additional failure analyses. All episodes are selected from the 164-case benchmark reported in Section 4. At each key decision point, an external third-person view is paired with the corresponding robot ego view. The accompanying text reports the user request, recorded execution evidence, and post-evaluation verdicts. 
+
+C.1 Paired Comparisons between HODAgent and ReAct 
+
+We use the simulation evaluation benchmark and post-evaluation procedure described in Appendix A. HODA GENT and ReAct share the model checkpoint, User Agent, admitted evaluation cases, simulator and scene resources, embodied tool interface, and execution conditions. Each service episode is shown from the initial user request to the final response or episode termination. A light-gray outline marks a regular interaction point, whereas a blue outline marks the key decision point most directly associated with the reported verdicts. 
+
+Case 1: Reception guidance with route recap. Case 1 illustrates reception guidance followed by a grounded route recap. The case overview shows the initial request, two ordered target visits, and the final recap. Specifically, stages 1.1–1.3 show that both agents acknowledge the user and reach the reception desk and multi-person sofa; stage 1.4 then compares whether the final response states the route order, terminal location, and completion status consistently with the recorded trajectory. This case demonstrates that reaching the requested targets is insufficient when the terminal response does not accurately close the service episode. 32 Case 1: Reception guidance with route recap SERVICE EPISODE 
+
+Interaction requirements. The user first asks for assistance, then requests guidance to the reception desk and the multi-person sofa. The final request requires the visitation order, terminal location, and confirmation of whether the route is complete, using only confirmed information. 
+
+Decision sequence. Initial user request → Reception desk → Multi-person sofa → Route recap 
+
+HODA GENT verdicts 
+
+> Task PASS; Judge PASS
+
+ReAct verdicts 
+
+> Task FAIL; Judge FAIL
+
+Controlled comparison. Both agents reach the requested targets. The reported task verdicts differ on the required final response and terminal location. 
+
+1.1: Initial user request 
+
+Active instruction / goal. The user asks whether the robot is available to provide assistance. 
+
+HODA GENT Third-person view 
+
+> Image unavailable
+> Robot ego view
+> Image unavailable
+
+Acknowledges the request and asks how she can assist. 
+
+ReAct 
+
+> Third-person view
+> Image unavailable
+> Robot ego view
+> Image unavailable
+
+Acknowledges the request and asks how she can assist. 
+
+1.2: Reception desk reached 
+
+Active instruction / goal. The user requests guidance to the reception desk and asks the agent to state only information that can be confirmed on site. 
+
+HODA GENT Third-person view 
+
+> Image unavailable
+> Robot ego view
+> Image unavailable
+
+Reaches the reception desk and reports arrival. 
+
+ReAct 
+
+> Third-person view
+> Image unavailable
+> Robot ego view
+> Image unavailable
+
+Reaches the reception desk and reports arrival near the requested target. 
+
+Recorded evidence. The navigation trace shows that both agents reach the first target. 
+
+1.3: Multi-person sofa reached 
+
+Active instruction / goal. The user next requests guidance to the multi-person sofa and again asks the agent to state only information that can be confirmed on site. 
+
+HODA GENT Third-person view 
+
+> Image unavailable
+> Robot ego view
+> Image unavailable
+
+Reaches the multi-person sofa and reports arrival. 
+
+ReAct 
+
+> Third-person view
+> Image unavailable
+> Robot ego view
+> Image unavailable
+
+Reaches the multi-person sofa and reports arrival near the requested target. 
+
+Recorded evidence. The navigation trace shows that both agents reach the second target. 
+
+33 1.4: Final response and terminal location KEY DECISION POINT 
+
+Active instruction / goal. The user asks for the visited places in order, the terminal location, and whether the route is complete. 
+
+HODA GENT Third-person view 
+
+> Image unavailable
+> Robot ego view
+> Image unavailable
+
+The delivered response states the route order, identifies the terminal location as at the multi-person sofa , and confirms that the route is complete. 
+
+> Task PASS; Judge PASS
+
+ReAct 
+
+> Third-person view
+> Image unavailable
+> Robot ego view
+> Image unavailable
+
+The generated responses describe the robot as near the multi-person sofa , which does not state the required terminal location. The terminal-location requirement is not satisfied after either user request, and no final response is delivered. 
+
+> Task FAIL; Judge FAIL
+
+Post-evaluation. Task PASS requires the terminal location and the final response to be consistent with the completed route. This requirement is satisfied by HODA GENT and not by ReAct. 
+
+Case 2: Interruption and resumption during reception guidance. Case 2 illustrates interruption and resumption during the second leg of a two-target route. The overview shows the initial request, both target goals, the execution-time interruption, resumption, and route recap. Specifically, stages 2.1–2.3 establish the shared progress before interruption; stage 2.4 records whether active navigation is cancelled; stage 2.5 checks whether the unfinished target is resumed only after user authorization; and stage 2.6 compares the final grounded recaps and verdicts. This case demonstrates that task continuity requires both preservation of the unfinished goal and compliance with the timing of the user’s stop and resume requests. 
+
+Case 2: Interruption and resumption during reception guidance SERVICE EPISODE 
+
+Interaction requirements. The user first requests guidance to the multi-person sofa and then to the reception-hall entrance. During the second navigation leg, the user requests an immediate stop, asks the agent to wait for a subsequent continuation request, and later asks for a factually grounded route recap. 
+
+Decision sequence. Initial request → Multi-person sofa → Entrance requested → Interruption → Resumption →
+
+Route recap 
+
+HODA GENT verdicts 
+
+> Task PASS; Judge PASS
+
+ReAct verdicts 
+
+> Task PASS; Judge FAIL
+
+Controlled comparison. Both agents physically reach the requested targets and provide a final response. The Judge verdicts differ on whether the execution-time interruption and subsequent continuation request are respected. 
+
+2.1: Initial user request 
+
+Active instruction / goal. The user asks whether the robot is available to provide assistance. 
+
+HODA GENT Third-person view 
+
+> Image unavailable
+> Robot ego view
+> Image unavailable
+
+Acknowledges the request and asks how she can assist. 
+
+ReAct 
+
+> Third-person view
+> Image unavailable
+> Robot ego view
+> Image unavailable
+
+Acknowledges the request and asks how she can assist. 
+
+34 2.2: Multi-person sofa reached 
+
+Active instruction / goal. The user requests the multi-person sofa as the first target. 
+
+HODA GENT Third-person view 
+
+> Image unavailable
+> Robot ego view
+> Image unavailable
+
+Reaches the multi-person sofa and reports arrival. 
+
+ReAct 
+
+> Third-person view
+> Image unavailable
+> Robot ego view
+> Image unavailable
+
+Reaches the multi-person sofa and reports arrival beside the target. 
+
+Recorded evidence. The navigation trace shows that both agents reach the first target. 
+
+2.3: Reception-hall entrance requested 
+
+Active instruction / goal. The user next requests guidance to the reception-hall entrance. 
+
+HODA GENT Third-person view 
+
+> Image unavailable
+> Robot ego view
+> Image unavailable
+
+Acknowledges the request and begins navigation to the entrance. 
+
+ReAct 
+
+> Third-person view
+> Image unavailable
+> Robot ego view
+> Image unavailable
+
+Begins navigation to the same entrance target. 
+
+Recorded evidence. Both agents begin the second navigation leg. 
+
+2.4: Execution-time interruption during navigation KEY DECISION POINT 
+
+Active instruction / goal. During navigation, the user requests an immediate stop, cancellation of the current movement, and no continuation until a subsequent user request. 
+
+HODA GENT Third-person view 
+
+> Image unavailable
+> Robot ego view
+> Image unavailable
+
+Cancels the active navigation skill, confirms the stopped state, and waits; the entrance remains an unfinished obligation. 
+
+ReAct 
+
+> Third-person view
+> Image unavailable
+> Robot ego view
+> Image unavailable
+
+Does not cancel the active navigation skill and continues moving toward the entrance during the requested waiting period. 
+
+Post-evaluation. The episode record shows cancellation and waiting for HODA GENT , but no cancellation for ReAct. 
+
+2.5: Task resumption and second-target arrival 
+
+Active instruction / goal. The interrupted target should be resumed only after the user requests continuation. 
+
+HODA GENT Third-person view 
+
+> Image unavailable
+> Robot ego view
+> Image unavailable
+
+Receives the continuation request, resumes the interrupted task, reaches the entrance, and reports arrival. 
+
+ReAct 
+
+> Third-person view
+> Image unavailable
+> Robot ego view
+> Image unavailable
+
+Reaches the entrance before any continuation request and only then confirms that it has stopped. 
+
+Recorded evidence. Both navigation traces reach the entrance, but only HODA GENT performs the required interruption and subsequent resumption. 
+
+35 2.6: Route recap and post-evaluation verdicts 
+
+Active instruction / goal. The user requests the visitation order, observable differences, terminal location, and route-completion status using only confirmed information. 
+
+HODA GENT Third-person view 
+
+> Image unavailable
+> Robot ego view
+> Image unavailable
+
+The final response reports the visited targets, terminal location, and route completion after the required continuation request. 
+
+> Task PASS; Judge PASS
+
+ReAct 
+
+> Third-person view
+> Image unavailable
+> Robot ego view
+> Image unavailable
+
+The final response reports the route as complete even though navigation continued during the requested waiting period and no continuation request occurred. 
+
+> Task PASS; Judge FAIL
+
+Recorded evidence. The Task verdict records the completed target reaches and final response. The Judge verdict reflects whether the execution-time interruption and subsequent continuation requirement are respected. 
+
+C.2 Failed Cases 
+
+The following cases show one episode in which the required physical outcome is not completed and one in which the physical task is completed but the service judge assigns a non-PASS verdict. The records describe only observed actions, outcomes, and post-evaluation verdicts. 
+
+Case 3: Fall during navigation to the second target. Case 3 illustrates a physical failure during the second navigation leg. Specifically, trace 3.1 shows the robot upright after reaching the service desk and dispatching navigation toward the round-table seat; trace 3.2 records the base-height drop, rotated ego view, fall-detector event, and termination before the target and final response are completed. This case demonstrates that issued navigation is not evidence of task completion when the physical trajectory terminates in a fall. 
+
+3.1: Navigation to the second target begins Third-person view 
+
+Robot ego-view placeholder 
+
+Add the image at the path specified in the source. 
+
+Robot ego view 
+
+Robot ego-view placeholder 
+
+Add the image at the path specified in the source. 
+
+Active instruction / goal Guide the user from the service desk to the seat beside the round table. 
+
+Model rollout excerpts 
+
+Planner / Executor. Input: The active second-target instruction and current observation. Reasoning: Internal reasoning is not retained for this event. Output: Navigation toward the round-table seating target is dispatched. 
+
+Execution evidence. Input: The dispatched navigation and recorded robot state. Reasoning: Not applicable. Output: 
+
+Before the fall, the recorded base height is 0 .788 m; the paired views show the robot upright near the service desk, and navigation to the second target is active. 
+
+Executed action Began navigation to the second target, with the target reach and final response still incomplete. 
+
+36 3.2: Fall terminates navigation Third-person view 
+
+Robot ego-view placeholder 
+
+> Add the image at the path specified in the source.
+
+Robot ego view 
+
+Robot ego-view placeholder 
+
+> Add the image at the path specified in the source.
+
+Active instruction / goal Continue navigation to the seat beside the round table. 
+
+Model rollout excerpts             
+
+> Execution evidence. Input: The active navigation and recorded robot-state stream. Reasoning: Not applicable. Output: The base height decreases from 0 .788 m to 0 .101 m; the robot ego view rotates sharply and the external third-person view shows the robot on the floor; the fall detector is triggered, and navigation terminates before the second target is reached.
+> Post-evaluation. Input: The aligned trajectory, terminal state, and response record. Reasoning: Not applicable. Output: Task FAIL .
+
+Executed action Terminated navigation before reaching the round-table seat; no final response followed the termination. 
+
+Case 4: Repeated arrival responses. Case 4 illustrates a service failure despite physical task completion. Specifically, trace 4.1 records the requested brief confirmation and the first valid arrival response; trace 4.2 records seven arrival responses over 22 .1 s and the resulting non-PASS service verdict despite both target visits and the later route recap. This case demonstrates that persona–aware service quality can fail even when the physical route and requested recap are complete. 
+
+4.1: First arrival response at the multi-person sofa Third-person view 
+
+Robot ego-view placeholder 
+
+> Add the image at the path specified in the source.
+
+Robot ego view 
+
+Robot ego-view placeholder 
+
+> Add the image at the path specified in the source.
+
+Active instruction / goal Confirm arrival briefly, consistent with the explicit brevity requirement of the Time-limited persona. 
+
+Model rollout excerpts      
+
+> Env-Interactor. Input: The user states . . . “I have limited time” . . . and “Please confirm briefly.” . . . Reasoning:
+> Internal reasoning is not retained. Output: “Arrived at the multi-person sofa.”
+
+Executed action Provided the requested brief arrival response after reaching the sofa. 
+
+37 4.2: Repeated arrival responses violate the brevity requirement Third-person view 
+
+Robot ego-view placeholder 
+
+> Add the image at the path specified in the source.
+
+Robot ego view 
+
+Robot ego-view placeholder 
+
+> Add the image at the path specified in the source.
+
+Active instruction / goal After the brief arrival response, wait for the next user request. 
+
+Model rollout excerpts              
+
+> Env-Interactor. Input: No new user request follows the first arrival confirmation. Reasoning: Internal reasoning is not retained for the repeated responses. Output: Five instances of “Arrived at the multi-person sofa,” followed by two instances of the extended response mentioning nearby plants. The seven arrival responses span 22 .1 s.
+> Post-evaluation. Input: The completed route and recorded dialogue under the Time-limited persona. Reasoning: The target visits and recap satisfy the physical requirements, but the repeated responses violate the brevity requirement. Output: Task PASS ;Judge FAIL .
+
+Executed action Remained at the sofa while providing seven arrival responses. The physical task remains complete, but the interaction does not satisfy the assigned User Agent persona. 
+
+# D Additional Real-Robot Case Study 
+
+Figure 8 illustrates a long-horizon interaction with concurrent requests, where Qwen3.6-35B-A3B with thinking mode is used as the backend of the Planner. Specifically, at t0, the user asks the robot to find the person in pink and wave to him. The robot grounds the target and decomposes the request into approach and greeting stages. At t1, it navigates to bypass the black chair and toward the target. At t2, the user asks for a joke; the Env-Interactor answers the conversational request while the original approach goal remains active. At t3, after the person leaves the ego view, the agent searches the surroundings, reacquires the target, and realigns the approach. At t4, it completes the remaining approach, waves, and says hello. The following traces report the input, reasoning, output, and executed action at each stage shown in Figure 8. This case demonstrates that HODA GENT can preserve and complete a long-horizon embodied goal while handling a concurrent conversational request, avoiding an obstacle, recovering a temporarily unseen target, and replanning from updated visual evidence. 38 TARGET IN PINK t0 Understand  
+
+> Dialogue + Plan
+> t1 Navigate
+> Bypass the chair
+> t2 Multitask
+> Conversation in task
+> t3 Search + approach
+> Search, confirm, & continue
+> t4 Complete
+> Wave + Say hi
+> OBSTACLE
+> OK, I will find and wave to the person in PINK.
+> USER at t0: Hi, can you find the person in PINK and wave to him? OK, let me tell you a joke about …
+> USER at t2: Can you tell me a joke? … Isn’t it funny? Hi there, how are you…
+
+Figure 8: Illustration of long-horizon interaction with concurrent requests. The episode proceeds from instruction grounding at t0 through obstacle-aware navigation at t1, concurrent conversation at t2,target search and a renewed approach at t3, and the final wave and greeting at t4. Overlaid robot poses and trajectory segments show that the original task remains active across dialogue and replanning. 
+
+t0: Instruction grounding and task planning Third-person view 
+
+Robot ego-view placeholder 
+
+Add the image at the path specified in the source. 
+
+Robot ego view 
+
+Robot ego-view placeholder 
+
+Add the image at the path specified in the source. 
+
+Active instruction / goal Find the person in pink and wave to him. 
+
+Model rollout excerpts 
+
+Env-Interactor. Input: “Hi, can you find the person in PINK and wave to him?” Reasoning: Reasoning not retained. Output: launch_planner ; “OK, I will find and wave to the person in PINK.” 
+
+Planner (35B-A3B think). Input: The grounded target, greeting goal, and current observation containing the black chair. Reasoning: “The user asks ..., thus I need to acknowledge ...” Output: “. . . approach the person while avoiding the chair; wave hello . . . ” 
+
+Executed action Acknowledged the request and launched the two-stage task plan. 
+
+39 t1: Obstacle–aware navigation Third-person view 
+
+Robot ego-view placeholder 
+
+Add the image at the path specified in the source. 
+
+Robot ego view 
+
+Robot ego-view placeholder 
+
+Add the image at the path specified in the source. 
+
+Active instruction / goal Approach the man while avoiding the black chair. 
+
+Model rollout excerpts 
+
+Planner (35B-A3B think). Input: The active approach goal and current ego view. Reasoning: “. . . The path to the person is clearly to the left of the black chair, so turning left is the correct initial move. . . . ” Output: “. . . 
+
+turn_left (30); move_forward (0 .5 m) . . . ” 
+
+Executed action Turned left by 30 degrees, then issued two 0 .5 m forward commands. 
+
+t2: Concurrent conversation during navigation Third-person view 
+
+Robot ego-view placeholder 
+
+Add the image at the path specified in the source. 
+
+Robot ego view 
+
+Robot ego-view placeholder 
+
+Add the image at the path specified in the source. 
+
+Active instruction / goal Tell a joke while continuing the active navigation task. 
+
+Model rollout excerpts 
+
+Env-Interactor. Input: “Can you tell me a joke?” Reasoning: Reasoning not retained. Output: reply_only ; “OK, let me tell you a joke about computers ... Isn’t it funny?” 
+
+Planner (35B-A3B think). Input: The retained navigation goal and current ego view. Reasoning: “. . . the space between the black object on the left and the office chair on the right looks open . . . ” Output: “. . . 
+
+move_forward (0 .5 m); turn_right (30) . . . ” 
+
+Executed action Spoke the joke, continued forward in 0 .5 m increments, and turned right by 30 degrees to realign with the man. 
+
+40 t3: Target search and approach realignment Third-person view 
+
+Robot ego-view placeholder 
+
+> Add the image at the path specified in the source.
+
+Robot ego view 
+
+Robot ego-view placeholder 
+
+> Add the image at the path specified in the source.
+
+Active instruction / goal Locate the man sitting on the yellow stool. 
+
+Model rollout excerpts         
+
+> Planner (35B-A3B think). Input: The retained greeting goal and current ego view. Reasoning: “. . . The person is not in the current image. I should use look_around . . . . ” Output: look_around ; then turn_right (15)
+
+Executed action Scanned left and right, ending 60 degrees to the right of the original heading, then turned right by 15 degrees toward the reacquired target. 
+
+t4: Approach completion, wave, and greeting Third-person view 
+
+Robot ego-view placeholder 
+
+> Add the image at the path specified in the source.
+
+Robot ego view 
+
+Robot ego-view placeholder 
+
+> Add the image at the path specified in the source.
+
+Active instruction / goal Greet the man sitting on the yellow stool. 
+
+Model rollout excerpts         
+
+> Planner (35B-A3B think). Input: The remaining greeting subtask and the reacquired target observation. Reasoning:
+> “. . . The remaining subtask is to wave. I should use robot_wbc with the motion kimodo_wave . . . . ” Output:
+> kimodo_wave ;say_something (“Hi there, how are you?”)
+
+Executed action Moved forward 0 .5 m and 0 .3 m, turned left by 15 degrees, executed kimodo_wave 
+
+for 5 .68 s, and said “Hi there, how are you?” 
+
+# E Agent Prompts 
+
+This appendix reports the prompt templates used by the agent implementation. Each template contains a fixed system instruction and a runtime-populated user message. Text enclosed by <@...> denotes a field supplied from the current service episode; attached images or audio are passed through the model request rather than serialized into the text. The templates retain the output contracts and operational constraints of the implementation while consolidating repeated schema-validation reminders for readability. 41 E.1 HODA GENT 
+
+Env-Interactor routing. The Env-Interactor first transcribes or reads the current user input and de-cides whether to answer directly, launch the Planner, interrupt and replan, or ignore an unusable input. Prompt E.1 preserves the current goal unless the user explicitly stops, redirects, or replaces it. Prompt E.1: Env-Interactor routing template 
+
+[SYSTEM] You are the Env-Interactor of an embodied robot. Understand the attached text or spoken audio and decide whether to reply directly or involve the Planner. Return one valid JSON object only: {"transcript": "recognized input in the original language", "decision": "reply_only | launch_planner | interrupt_and_replan | ignore", "reply": "brief response in the user’s language", "planner_goal": "self-contained embodied goal, or empty", "reason": "brief routing reason" }Rules: 1. Use reply_only only when no physical action is required. 2. Use launch_planner for any new embodied action, including one motion, search, inspection, gesture, or stop command when no task is active. 3. Use interrupt_and_replan only when an active task must be stopped, redirected, or replaced. 4. Preserve direction, amount, target, order, and other explicit constraints in planner_goal. 5. For progress questions, answer from Current task progress. If an X/Y completion count is provided, reproduce it exactly and name the current or next unfinished subtask. Never claim completion while work remains. 6. For questions about the active task, state the overall objective and the current subtask without exposing low-level actions unless requested. 7. If the input is unclear or unusable, choose ignore and ask the user to repeat. Return valid JSON only. [USER] Current task active: <@task_active> Current task: <@current_task> Robot status: <@robot_status> Current task progress: <@current_task_progress> Previous overall tasks: <@previous_overall_tasks> Input mode: <@text_or_voice> Understand the attached user input and return the routing JSON. Use the attached current observation, when available, to ground task-related input. 
+
+Task decomposition. Before iterative planning, Prompt E.2 converts the overall request into the smallest useful ordered set of outcome-level subtasks. Prompt E.2: Task-decomposition template 
+
+[SYSTEM] Decompose one embodied robot task into an ordered list of subtasks. Return one valid JSON object only: {"subtasks": ["subtask 1", "subtask 2"] }Rules: 1. Each subtask must be concrete, executable, and have an observation-grounded 
+
+42 completion condition. 2. Preserve the language and every explicit ordering constraint of the user’s original request. Never reorder clauses for convenience or efficiency. 3. Use as few meaningful phases as possible. Do not decompose into individual tool calls, turns, or short movements unless the user explicitly orders a maneuver before a later phase. 4. Separate reaching a search area from searching or interacting when they are meaningfully different outcomes. 5. Navigation is complete when the intended vicinity or interaction pose is reached, not merely when the destination becomes visible. 6. Do not create a separate acknowledgement subtask and do not output tools. [USER] Previous overall tasks: <@previous_tasks> Overall task: <@user_intent> Decompose the task into ordered subtasks now. 
+
+Planner and skill matching. Prompt E.3 supplies the Planner with the ordered task state, current and retained observations, execution progress, and the capability catalog. Tool descriptions and JSON parameter schemas are inserted into <@available_tools> ; skill matching therefore occurs within the same grounded planning decision rather than through a separate model call. Prompt E.3: Planner and skill-matching template 
+
+[SYSTEM] You are an embodied robot Planner. Plan a short sub-trajectory for the Current subtask. The Executor will run the steps and return updated perception and progress. Use only the supplied tools. Return one valid JSON object only: {"steps": [{ "description": "reason for this action", "tool_name": "one supplied tool name", "parameters": {} }], "is_terminal": false }Core planning rules: 1. Treat the Current subtask as a hard boundary. Never execute a Remaining subtask early. Plan only one or two reliable actions per call. 2. Select a skill only from Available tools and satisfy its parameter schema. Do not invent tools or treat a command receipt as physical completion. 3. Account once for completed and in-progress actions. Do not repeat an action already listed as executing or completed. 4. For an exact quantitative motion, preserve the requested total, subtract completed and in-progress amounts, and issue only the remaining amount up to the per-action limit. 5. The attached current image is authoritative. Captions and previous images are auxiliary evidence and must not override it. 6. Apply navigation priorities in this order: collision safety, expected state after any active action, traversable topology, route choice, alignment, forward approach, and completion. 7. Use look_around alone when the target or safe route is uncertain. Do not move blindly toward a stale or off-center target. 8. Distinguish direct target approach from corridor following. Direct approach requires an approximately centered target and a visibly clear path; corridor following requires a visibly clear corridor and a concrete route purpose such as reaching an opening or safe turning area. 9. To bypass an obstacle, first choose the visibly clearer side, turn to create lateral clearance, advance conservatively, obtain a new observation, and verify clearance before returning toward the target. 
+
+43 10. Set is_terminal=true only when successful execution of these steps should complete the Current subtask. A visible target or issued tool call alone is insufficient evidence. 11. Avoid repeated identical motions. After repeated unchanged actions, obtain fresh evidence, select a materially different action, finish, or report an objective blockage. 12. Every say_something text must use the language of the original overall task and must not claim unsupported completion. [USER] Previous overall tasks: <@previous_tasks> Current overall task: <@user_intent> Completed subtasks: <@completed_subtasks> Current subtask: <@current_subtask> Remaining subtasks: <@remaining_subtasks> Current subtask progress: <@current_subtask_progress> Current observation: <@current_observation> Previous key observations: <@previous_observation_images> Previous observation captions: <@previous_observations> Image rule: the attached current image is authoritative. Older images and captions provide temporal context only. Available tools: <@available_tools_with_descriptions_and_parameter_schemas> Plan the next sub-trajectory. Before returning, validate the JSON, tool names, parameters, subtask boundary, and user-facing language. 
+
+Completion review. After all nominal subtasks finish, Prompt E.4 performs an evidence-grounded review of the original request. It may accept the task, identify an objective blockage, or return one focused continuation goal. Prompt E.4: Overall-task completion-review template 
+
+[SYSTEM] Review an embodied robot task after its planned subtasks have been attempted. Decide whether the overall request is achieved, objectively blocked, or needs one focused continuation. Return one valid JSON object only: {"review_outcome": "achieved | blocked | continue", "next_task": "one focused continuation task, or empty", "response": "grounded user-facing closure, or empty", "reason": "concise evidence-based reason" }Rules: 1. Judge the original overall task; completed subtask labels are attempts, not proof of success. 2. Use the current image as primary evidence. Older images and captions are supporting history and cannot override the current image. 3. Choose achieved only when the requested outcome is clearly supported. 4. Choose blocked only for an objective external constraint, such as a missing target, unreachable area, persistent blockage, or unavailable capability. 5. Choose continue when a useful navigation, search, positioning, inspection, or interaction step can still close the gap. Return exactly one next_task. 6. For achieved or blocked, leave next_task empty and provide one concise response in the language of the overall task. For continue, normally leave response empty. [USER] Overall task: <@user_intent> 
+
+44 Completed subtasks: <@completed_subtasks> Remaining subtasks: <@remaining_subtasks> Recent trajectory: <@trajectory> Current observation: <@current_observation> Previous key observations: <@previous_observation_images> Previous observation captions: <@previous_observations> Review whether the overall task is truly complete. 
+
+Task summary and completion speech. The final templates in Prompt E.5 produce a compact record and, when needed, a grounded completion utterance. Prompt E.5: Task-summary and completion-speech templates 
+
+[TASK-SUMMARY SYSTEM] Summarize an embodied task after execution in one to five short sentences. State the outcome first, then the key action sequence when needed. Do not add commentary, unsupported detail, or speculation. [TASK-SUMMARY USER] User goal: <@user_intent> Time used (seconds): <@time_used> Trajectory: <@trajectory> [COMPLETION-SPEECH SYSTEM] The embodied task has been marked completed. Generate exactly one short user-facing completion message in the language of the overall task. State that the requested task is complete, but do not add actions, distances, or outcomes unsupported by the supplied record. Do not expose internal components. [COMPLETION-SPEECH USER] Overall task: <@user_intent> Completed subtasks: <@completed_subtasks> Recent task record: <@trajectory_summary> 
+
+E.2 ReAct 
+
+ReAct is implemented as the sequential observe–reason–act baseline described in Section 4. The prompt supplied to the model consists of a system message and a turn-specific user message. Text in angle brackets denotes a field populated from the current service episode. The available tool descriptions and the receipt-use instruction are selected according to the current interaction phase. Prompt E.6: ReAct system prompt (translated) 
+
+# ROLE 
+
+You are the Planner of a robot control system. Given the user’s intent, dialogue context, visual observations, and execution trajectory, plan the next executable sub-trajectory. Treat each user request as an independent execution boundary. End the current turn as soon as the request has been completed. Do not repeat a successful tool call, and do not advance to a goal that the user has not yet requested. The semantic scene catalog describes what is present in the scene; it does not record which places have been visited. When recapping a route, use only successful navigation receipts. Do not add visited places from the scene catalog. 
+
+# AVAILABLE TOOLS 
+
+The following entries are inserted when the corresponding tools are available in the current interaction phase. 
+
+<@tools> 
+
+Prompt E.7: ReAct user prompt template (translated) 
+
+# User instruction 
+
+<@current_user_instruction> 
+
+# Prior user messages delivered in this service episode 
+
+45 <@prior_user_messages> 
+
+Use these messages only as dialogue memory. Preserve explicit user preferences that remain relevant, but let the current instruction determine the current action. 
+
+# Authoritative navigation receipts for this service episode 
+
+<@navigation_receipts> 
+
+# Prior robot utterances delivered in this service episode 
+
+<@prior_robot_utterances> 
+
+These utterances preserve what the robot has already told the user. They are not physical-success receipts and must not override navigation outcomes. 
+
+# Runtime interaction control 
+
+<@interruptions> 
+
+Internal node and target identifiers are tool parameters only and must never appear in user-facing speech. 
+
+# Scene context 
+
+<@semantic_scene_entries> 
+
+Complete the current instruction. Use tools only when the task requires a physical action, audible speech, or authoritative simulator state. 
+
+46
