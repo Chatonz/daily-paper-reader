@@ -6,77 +6,77 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-20
-- 运行时间：2026-08-20 21:04:41 UTC
+- 最新运行日期：2026-08-21
+- 运行时间：2026-08-21 20:40:08 UTC
 - 运行状态：成功
 - 本次总论文数：19
 - 精读区：7
 - 速读区：12
 
 ### 今日简报（AI）
-今日19篇论文聚焦机器人操作与VLA模型，精读两篇高分工作均围绕视觉-语言-动作融合。最值得关注NebulaVLA的双频动作引导与τ0-VLA的分层世界模型推理，分别在操作精度和长时任务中表现突出。建议延伸阅读速读中LIBERO-VIFO的视觉提示安全评测与Embodied-Navigator的导航记忆对齐。
-- 详情：[/202608/20/README](/202608/20/README)
+今日精读7篇、速读12篇，聚焦机器人基础模型与触觉操作两大前沿；最亮眼的是《τ₀-VLA》用世界模型引导测试时计算，以及《HiTac-WAM》实现层次化触觉动作生成，均获9分高分。下一步建议优先关注VLA模型的测试时扩展与触觉反馈融合方向，这可能是具身智能落地的关键突破口。
+- 详情：[/202608/21/README](/202608/21/README)
 
 ### 精读区论文标签
-1. [NebulaVLA: A Dual-Frequency Vision-Language-Action Model With Guide Action for Robotic Manipulation](/202608/20/2608.16503v1-nebulavla-a-dual-frequency-vision-language-action-model-with-guide-action-for-robotic-manipulation)  
-   标签：评分：9.0/10、query:vla-humanoid
-   evidence：用于机器人操作的双频VLA模型
-2. [$τ_0$-VLA: a Hierarchical Robot Foundation Model with World-Model-Guided Test-Time Computation](/202608/20/2608.16885v1-0-vla-a-hierarchical-robot-foundation-model-with-world-model-guided-test-time-computation)  
-   标签：评分：9.0/10、query:vla-humanoid
-   evidence：结合世界模型测试时计算的层级VLA模型
-3. [FetchMan: Learning Visual Humanoid Loco-Manipulation Policies from Simulated Experiences](/202608/20/2608.17027v1-fetchman-learning-visual-humanoid-loco-manipulation-policies-from-simulated-experiences)  
-   标签：评分：9.0/10、query:vla-humanoid
-   evidence：从仿真经验学习视觉人形移动操作策略
-4. [Calibrated Predictive Safety for Heterogeneous Robots: An Action-Conditioned JEPA Framework with Model-Based Safety Shields](/202608/20/2608.17496v1-calibrated-predictive-safety-for-heterogeneous-robots-an-action-conditioned-jepa-framework-with-model-based-safety-shields)  
+1. [$τ_0$-VLA: a Hierarchical Robot Foundation Model with World-Model-Guided Test-Time Computation](/202608/21/2608.16885v1-0-vla-a-hierarchical-robot-foundation-model-with-world-model-guided-test-time-computation)  
    标签：评分：9.0/10、query:human-aigc
-   evidence：动作条件JEPA世界模型与模型基安全护盾保障VLA策略
-5. [GigaBrain-WBC-0.5: A Behavior World Model for Robust Whole-Body Control with Environment Interaction](/202608/20/2608.18234v1-gigabrain-wbc-05-a-behavior-world-model-for-robust-whole-body-control-with-environment-interaction)  
+   evidence：基于世界模型引导的测试时计算用于长程操作
+2. [HiTac-WAM: A Hierarchical Tactile World Action Model for Contact-Rich Robot Manipulation](/202608/21/2608.19574v1-hitac-wam-a-hierarchical-tactile-world-action-model-for-contact-rich-robot-manipulation)  
    标签：评分：9.0/10、query:human-aigc
-   evidence：首个用于人形全身控制与环境交互的行为世界模型
-6. [Unified Condition-Action Modeling for Accurate One-Step Action Generation](/202608/20/2608.16153v1-unified-condition-action-modeling-for-accurate-one-step-action-generation)  
+   evidence：面向接触丰富操作的分层触觉世界行动模型
+3. [DECOWAM: Decoupled Whole-Body World-Action Model for Legged Mobile Manipulation](/202608/21/2608.20114v1-decowam-decoupled-whole-body-world-action-model-for-legged-mobile-manipulation)  
+   标签：评分：9.0/10、query:human-aigc
+   evidence：用于腿式移动操作的解耦全身世界动作模型
+4. [PhaseLoRA: Control-Regime-Conditioned Low-Rank Adaptation for Continuous-Action Vision-Language-Action Policies](/202608/21/2608.15285v1-phaselora-control-regime-conditioned-low-rank-adaptation-for-continuous-action-vision-language-action-policies)  
    标签：评分：8.0/10、query:vla-humanoid
-   evidence：面向机器人操作的统一条件-动作建模实现单步动作生成
-7. [Reinforced Planning with Latent World Models](/202608/20/2608.18669v1-reinforced-planning-with-latent-world-models)  
+   evidence：面向连续动作VLA策略的控制阶段条件低秩自适应
+5. [GigaBrain-0.7: Scaling Embodied Foundation Models to Emergent Capabilities with a Three-System Architecture](/202608/21/2608.15875v1-gigabrain-07-scaling-embodied-foundation-models-to-emergent-capabilities-with-a-three-system-architecture)  
+   标签：评分：8.0/10、query:vla-humanoid
+   evidence：通过三系统架构统一理解、预测与动作，面向视觉-语言-动作模型
+6. [Teach and Grow: An Agent-Centered Architecture for General Robot Learning](/202608/21/2608.17209v1-teach-and-grow-an-agent-centered-architecture-for-general-robot-learning)  
    标签：评分：8.0/10、query:human-aigc
-   evidence：利用潜在世界模型进行动作序列的强化规划
+   evidence：明确讨论世界动作模型并提出智能体中心架构以降低再训练成本
+7. [Fine-Tuning VLAs with Self-Demonstrated Generative Control for Multi-Task Manipulation](/202608/21/2608.19490v1-fine-tuning-vlas-with-self-demonstrated-generative-control-for-multi-task-manipulation)  
+   标签：评分：8.0/10、query:vla-humanoid
+   evidence：针对新具身的VLA微调提升多任务操作
 
 ### 速读区论文标签
-1. [PDDL-ART: Autonomous Symbolic Abstraction From Demonstration For Long-Horizon Robotic Manipulation Using Vision-Language Models](/202608/20/2608.17146v1-pddl-art-autonomous-symbolic-abstraction-from-demonstration-for-long-horizon-robotic-manipulation-using-vision-language-models)  
+1. [OrthoSkillVLA: Continual Skill Learning via Gradient-Informed Skill Subspace Adaptation](/202608/21/2608.19589v1-orthoskillvla-continual-skill-learning-via-gradient-informed-skill-subspace-adaptation)  
    标签：评分：8.0/10、query:vla-humanoid
-   evidence：基于视觉语言模型自动生成PDDL规划描述以支持长时程操作
-2. [Embodied-Navigator: Point, Think, Memorize, and Align for Efficient Navigation](/202608/20/2608.17512v1-embodied-navigator-point-think-memorize-and-align-for-efficient-navigation)  
+   evidence：面向预训练视觉-语言-动作模型的持续技能学习
+2. [EXIMO: VLM Guided Exploration of VLA Policies](/202608/21/2608.19891v1-eximo-vlm-guided-exploration-of-vla-policies)  
    标签：评分：8.0/10、query:vla-humanoid
-   evidence：基于大视觉语言模型的具身导航，将二维像素点选映射为三维机器人动作
-3. [LIBERO-VIFO: Benchmarking the Capability and Safety of Visual Cue Following in Vision-Language-Action Models](/202608/20/2608.17600v1-libero-vifo-benchmarking-the-capability-and-safety-of-visual-cue-following-in-vision-language-action-models)  
+   evidence：用视觉语言模型引导探索，微调大规模 VLA 操控策略
+3. [Evidence-Gated Task and Motion Planning with Vision-Language Models](/202608/21/2608.20084v1-evidence-gated-task-and-motion-planning-with-vision-language-models)  
    标签：评分：8.0/10、query:vla-humanoid
-   evidence：面向VLA模型视觉线索跟随与安全性的基准
-4. [The Embodiment Gap in Robot Foundation Models](/202608/20/2608.18433v1-the-embodiment-gap-in-robot-foundation-models)  
+   evidence：基于VLM的证据门控任务规划用于长时程操作
+4. [Towards Professional Tennis Styles for Humanoid Robots with Adaptive Motion Planning and Tracking](/202608/21/2608.20087v1-towards-professional-tennis-styles-for-humanoid-robots-with-adaptive-motion-planning-and-tracking)  
    标签：评分：8.0/10、query:vla-humanoid
-   evidence：关于VLA策略与机器人基础模型具身差距的综述
-5. [ForceU-VLA: A Force-Aware Vision-Language-Action Model for Embodied Ultrasound Scanning](/202608/20/2608.15009v1-forceu-vla-a-force-aware-vision-language-action-model-for-embodied-ultrasound-scanning)  
+   evidence：人形机器人网球自适应运动规划与跟踪
+5. [EcoVLA: Energy-Efficient Device-Edge Co-Inference for Vision-Language-Action Models under Real-Time Constraints](/202608/21/2608.15502v1-ecovla-energy-efficient-device-edge-co-inference-for-vision-language-action-models-under-real-time-constraints)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：面向具身超声扫描的VLA动作生成模型
-6. [EcoVLA: Energy-Efficient Device-Edge Co-Inference for Vision-Language-Action Models under Real-Time Constraints](/202608/20/2608.15502v1-ecovla-energy-efficient-device-edge-co-inference-for-vision-language-action-models-under-real-time-constraints)  
+   evidence：面向具身AI中VLA模型的设备边缘协同推理框架
+6. [Neurosymbolic Embodied Agents](/202608/21/2608.16794v2-neurosymbolic-embodied-agents)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：面向VLA模型实时能效部署的端边协同推理系统
-7. [GigaBrain-0.7: Scaling Embodied Foundation Models to Emergent Capabilities with a Three-System Architecture](/202608/20/2608.15875v1-gigabrain-07-scaling-embodied-foundation-models-to-emergent-capabilities-with-a-three-system-architecture)  
+   evidence：结合语言模型与符号规划实现可执行的具身智能体
+7. [The Embodiment Gap in Robot Foundation Models](/202608/21/2608.18433v1-the-embodiment-gap-in-robot-foundation-models)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：面向VLA的可扩展具身基础模型，具备广泛泛化能力
-8. [HaReCAP: Habitual-action Grounding for Recursive Large Language Model Agents](/202608/20/2608.16447v1-harecap-habitual-action-grounding-for-recursive-large-language-model-agents)  
-   标签：评分：7.0/10、query:vla-humanoid
-   evidence：LLM叶子动作落地减少重复调用，用于具身任务动作生成
-9. [SkillComposer: Learning Reusable Skills for Natural-Language Robot Programming](/202608/20/2608.14944v1-skillcomposer-learning-reusable-skills-for-natural-language-robot-programming)  
+   evidence：关于机器人基础模型中具身鸿沟的综述，涵盖VLA策略
+8. [World-Model-Grounded LLM Planning for AUV and ASV Navigation Near Offshore Wind Farms](/202608/21/2608.19661v1-world-model-grounded-llm-planning-for-auv-and-asv-navigation-near-offshore-wind-farms)  
+   标签：评分：7.0/10、query:human-aigc
+   evidence：用世界模型为大语言模型规划提供物理接地
+9. [CompCPZ: Preserving Multi-Modal Intent in Language-Guided Robot Manipulation](/202608/21/2608.17717v1-compcpz-preserving-multi-modal-intent-in-language-guided-robot-manipulation)  
    标签：评分：6.0/10、query:vla-humanoid
-   evidence：利用LLM生成可复用技能的自然语言机器人编程，与人形机器人任务规划相关
-10. [MistyPilot: Enabling Social-Robot Control through Multi-Agent LLM Skill Orchestration](/202608/20/2608.15549v1-mistypilot-enabling-social-robot-control-through-multi-agent-llm-skill-orchestration)  
+   evidence：为语言条件机器人操控保留析取指令多模式语义的代数层
+10. [Revisiting the "Push-T" Robot Manipulation Task with Agentic Robotics](/202608/21/2608.18227v1-revisiting-the-push-t-robot-manipulation-task-with-agentic-robotics)  
    标签：评分：6.0/10、query:vla-humanoid
-   evidence：多智能体LLM框架从自然语言编排机器人技能
-11. [AlloEgo-VLM: Disambiguating Allocentric and Egocentric Reference Frames in Vision-Language Models](/202608/20/2608.15605v1-alloego-vlm-disambiguating-allocentric-and-egocentric-reference-frames-in-vision-language-models)  
+   evidence：LLM编码智能体为Push-T任务生成操作策略
+11. [Vision-Language Models for Egocentric Video: From Hand-Object Interaction to Embodied AI](/202608/21/2608.18671v1-vision-language-models-for-egocentric-video-from-hand-object-interaction-to-embodied-ai)  
    标签：评分：6.0/10、query:vla-humanoid
-   evidence：提升具身AI机器人的空间语义理解
-12. [PROBE: Manipulation-Grounded Visual Question Answering with VLM Agents](/202608/20/2608.17129v1-probe-manipulation-grounded-visual-question-answering-with-vlm-agents)  
+   evidence：综述自我中心视频中的VLM及其在具身AI中的应用
+12. [APPROVE: Visual End-User-in-the-Loop Robot Programming with LLMs](/202608/21/2608.19281v1-approve-visual-end-user-in-the-loop-robot-programming-with-llms)  
    标签：评分：6.0/10、query:vla-humanoid
-   evidence：基于操作落地的VLM代理用于动态场景视觉问答
+   evidence：基于大语言模型从自然语言生成机器人程序，并纳入视觉端用户反馈
 
 
 <div class="dpr-home-promo-card">

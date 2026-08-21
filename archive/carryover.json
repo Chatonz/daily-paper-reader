@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-08-20T20:54:30.879228+00:00",
-  "updated_date": "20260820",
+  "generated_at": "2026-08-21T20:28:04.723043+00:00",
+  "updated_date": "20260821",
   "carryover_days": 9,
   "tag_states": {
     "human-aigc": {
-      "updated_date": "20260820",
+      "updated_date": "20260821",
       "carryover_days": 9,
       "items": []
     },
     "VLA-Humanoid": {
-      "updated_date": "20260820",
+      "updated_date": "20260821",
       "carryover_days": 9,
       "items": []
     }
