@@ -1,0 +1,451 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-08-22T20:33:50.834206+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 2,
+    "deep_divecandidates": 0,
+    "deep_cap": 7,
+    "deep_selected": 0,
+    "quick_candidates": 9,
+    "quick_skim_target": 12,
+    "quick_selected": 9
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2608.16697v1",
+      "source": "arxiv",
+      "title": "FabriMAE I Trust Myself? Self-Evaluating VLA Action Generation with Markov Attention Entropy",
+      "abstract": "Vision-Language-Action models (VLAs) integrate visual perception, language instruction, and action generation into end-to-end policies across heterogeneous architectures. However, enabling VLAs to self-evaluate their action generation reliability without external supervision remains a major challenge. Existing methods either rely on expert annotations or estimate uncertainty only from output statistics, largely ignoring internal signals. In this work, we observe that internal visual modality entropy exhibits consistent distinctions between successful and failed tasks across heterogeneous VLAs. Although VLAs' architectures differ in their action generation, we show that they share a common latent action generation abstraction evolving under visual perception, language instruction, and state input, which we formulate as a Conditional Generative Markov Chain. Based on this formulation, we propose MAE (Markov Attention Entropy), a self-evaluation framework that directly converts internal attention signals into architecture-aware reliability scores, and introduce LIBERO-Reflect, a 4,000-episode benchmark combining 2,000 standard episodes and 2,000 challenging episodes across four subsets. Extensive experiments across heterogeneous VLA architectures and diverse scenarios show that MAE consistently outperforms state-of-the-art baselines on AUPR, AUROC, and FPR@95. We further instantiate FabriMAE for verifier-free test-time action selection, showing that MAE-guided multiple sampling improves PI-family robustness on LIBERO-Plus with small observed runtime overhead.",
+      "authors": [
+        "Aniri",
+        "Chen Yilin",
+        "Jinhe Bi",
+        "Junfei Guo",
+        "Donglai Ran",
+        "Xu Bian",
+        "Zengjie Jin",
+        "Yujun Wang",
+        "Yijun Tian",
+        "Volker Tresp",
+        "Fei Shen",
+        "Tat-Seng Chua",
+        "Yunpu Ma"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-08-17T15:14:53+00:00",
+      "link": "https://arxiv.org/pdf/2608.16697v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Self-evaluating VLA action generation with Markov attention entropy",
+      "llm_evidence_cn": "利用马尔可夫注意力熵对VLA动作生成进行自评估",
+      "llm_evidence": "利用马尔可夫注意力熵对VLA动作生成进行自评估",
+      "canonical_evidence": "利用马尔可夫注意力熵对VLA动作生成进行自评估",
+      "llm_tldr_en": "Enables VLA models to self-evaluate action generation reliability without external supervision by leveraging internal visual modality entropy and a shared latent action generation abstraction.",
+      "llm_tldr_cn": "视觉-语言-动作（VLA）模型将感知、语言与动作生成整合为端到端策略，但如何让VLA在没有外部监督下自评估动作生成可靠性仍是难题。现有方法依赖专家标注或仅从输出统计估计不确定性。本文观察到跨异构VLA的内部视觉模态熵在成功与失败任务间呈现一致区分性，并发现它们共享一个潜在动作生成抽象过程。基于此，该方法利用马尔可夫注意力熵来追踪动作生成的可信度。实验表明该自评估指标能有效区分成功与失败，且无需外部标签。该工作为VLA的可靠部署提供了内部信号驱动的自评估机制。",
+      "llm_tldr": "视觉-语言-动作（VLA）模型将感知、语言与动作生成整合为端到端策略，但如何让VLA在没有外部监督下自评估动作生成可靠性仍是难题。现有方法依赖专家标注或仅从输出统计估计不确定性。本文观察到跨异构VLA的内部视觉模态熵在成功与失败任务间呈现一致区分性，并发现它们共享一个潜在动作生成抽象过程。基于此，该方法利用马尔可夫注意力熵来追踪动作生成的可信度。实验表明该自评估指标能有效区分成功与失败，且无需外部标签。该工作为VLA的可靠部署提供了内部信号驱动的自评估机制。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "action generation in robotics using language models",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.14284v1",
+      "source": "arxiv",
+      "title": "PRM-as-a-Judge 1.5: A Toolkit for Robot Process Assessment",
+      "abstract": "Fine-grained robotic evaluation matters for understanding embodied models, going beyond binary success rates and rule-based process scores. We present PRM-as-a-Judge 1.5, a toolkit for robot process assessment that turns rollout videos into dense progress curves and derives multiple fine metrics. PRM-as-a-Judge 1.5 introduces three metrics, building on version 1.0, that characterize failure-side progress, post-drawdown recovery, and success-side execution quality, helping users understand embodied model capability. Based on the rollout videos from benchmarks, we perform a comprehensive assessment of the embodied models, providing some fine-grained metric results and key findings. We further introduce RoboPulse++ to evaluate the reliability of process reward models (PRM), providing evaluators with a more accurate testing platform. Moreover, we release a user-friendly assessment suite, including the benchmark, metric implementation, and visualization tools, to support reproducible manipulation process evaluation. We call on the community to rethink how robots are evaluated and establish transparent, procedural, and reproducible assessment as a foundation for the next generation of embodied intelligence.",
+      "authors": [
+        "Yuyang Liu",
+        "Yanqing Shen",
+        "Ruike Chen",
+        "Jifan Zhao",
+        "Yuxuan Tian",
+        "Yichi Zhang",
+        "Tianfeng Long",
+        "Zixuan Yin",
+        "Yipu Wang",
+        "Ziheng Qin",
+        "Wenxing Tan",
+        "Yang Shi",
+        "Mingyu Cao",
+        "Runze Xiao",
+        "Ziqi Wang",
+        "Zhixin Yin",
+        "Shiwei Chu",
+        "Yi-Fan Zhang",
+        "Yao Mu",
+        "Yuheng Ji",
+        "Yihao Wang",
+        "Jun Yan",
+        "Zhongyuan Wang",
+        "Pengwei Wang",
+        "Xiaolong Zheng"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-08-14T13:10:02+00:00",
+      "link": "https://arxiv.org/pdf/2608.14284v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "fine-grained process assessment toolkit for embodied models",
+      "llm_evidence_cn": "面向具身模型的细粒度过程评估工具",
+      "llm_evidence": "面向具身模型的细粒度过程评估工具",
+      "canonical_evidence": "面向具身模型的细粒度过程评估工具",
+      "llm_tldr_en": "PRM-as-a-Judge 1.5 turns rollout videos into dense progress curves and adds failure-side progress, post-drawdown recovery, and success-side quality metrics for evaluating embodied robots.",
+      "llm_tldr_cn": "具身模型评估不能只看二值成功率，需要细粒度的过程信号。PRM-as-a-Judge 1.5将测评中的rollout视频转换为密集进度曲线，并引入灾难侧进度、回撤后恢复和成功侧执行质量三类指标。基于基准rollout视频的全面评测为具身模型能力提供了比规则化过程分数更细的刻画，并引入RoboPulse++检验过程奖励模型的可靠性。",
+      "llm_tldr": "具身模型评估不能只看二值成功率，需要细粒度的过程信号。PRM-as-a-Judge 1.5将测评中的rollout视频转换为密集进度曲线，并引入灾难侧进度、回撤后恢复和成功侧执行质量三类指标。基于基准rollout视频的全面评测为具身模型能力提供了比规则化过程分数更细的刻画，并引入RoboPulse++检验过程奖励模型的可靠性。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "embodied artificial intelligence for humanoid robots",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.18292v1",
+      "source": "arxiv",
+      "title": "GuideFetch: A Task Coordination Framework for Concurrent Navigation and Object Retrieval in Assistive Robot Dogs",
+      "abstract": "Consider a robot guide dog escorting a blind user to an available seat while a second assistive robot dog concurrently retrieves a cup of coffee and delivers it to the same seat. This setting motivates concurrent execution because navigation and object retrieval can overlap. A syntactically valid Large Language Model (LLM) plan may still violate embodiment constraints, and successful-looking controller motion does not by itself establish task completion. We introduce \\textsc{GuideFetch}, a coordination framework for concurrent navigation and object retrieval by a heterogeneous guider and fetcher team. An LLM instantiates a schedule-conditioned four-action schema from a natural-language instruction. Before execution, robot, skill, and target aliases are normalized, and proposed actions are validated against registered targets, robot capabilities, and the selected schedule. Robot and object states then govern sequential and parallel execution. In a matched $2\\times2$ study across 90 combinations of scene and seed (360 executions), all 180 online LLM responses validate without fallback or replay and match the corresponding scripted plans. For each planner source, sequential and parallel execution achieve $72/90$ and $71/90$ operational successes, respectively. Among the 56 cases completed by both schedules, parallel execution reduces mean makespan by 41.3\\%. Within this controlled setting, role specialization and action overlap shorten completed missions, while state checks distinguish plan validity from verified mission completion. Source code will be available.",
+      "authors": [
+        "Qian Yin",
+        "Ruiping Liu",
+        "Kunyu Peng",
+        "Jianxiang Man",
+        "Isik Baran Sandan",
+        "Junwei Zheng",
+        "Yufan Chen",
+        "Di Wen",
+        "Kailun Yang",
+        "Rainer Stiefelhagen"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-08-18T20:16:57+00:00",
+      "link": "https://arxiv.org/pdf/2608.18292v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "LLM-based task coordination and planning for concurrent robot navigation and retrieval",
+      "llm_evidence_cn": "基于大语言模型的并发导航与取物任务协调规划",
+      "llm_evidence": "基于大语言模型的并发导航与取物任务协调规划",
+      "canonical_evidence": "基于大语言模型的并发导航与取物任务协调规划",
+      "llm_tldr_en": "GuideFetch introduces an LLM-instantiated schedule-conditioned schema plus verification for concurrent navigation and object retrieval in a robot dog team, addressing embodiment constraints and task completion.",
+      "llm_tldr_cn": "在辅助导盲犬与取物机器人并发执行导航和取物任务时，仅语法正确的LLM规划可能违反具身约束。本文提出GuideFetch，一种面向异构导盲与取物双机协作的任务协调框架，由LLM从自然语言指令实例化带调度的四动作模式，并在执行前进行约束校验。该框架关注任务完成的确认而非仅看运动是否成功，提升了并发任务协调的鲁棒性。",
+      "llm_tldr": "在辅助导盲犬与取物机器人并发执行导航和取物任务时，仅语法正确的LLM规划可能违反具身约束。本文提出GuideFetch，一种面向异构导盲与取物双机协作的任务协调框架，由LLM从自然语言指令实例化带调度的四动作模式，并在执行前进行约束校验。该框架关注任务完成的确认而非仅看运动是否成功，提升了并发任务协调的鲁棒性。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "task planning for humanoid robots using language models",
+      "matched_requirement_id": "req-12",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.15502v1",
+      "source": "arxiv",
+      "title": "EcoVLA: Energy-Efficient Device-Edge Co-Inference for Vision-Language-Action Models under Real-Time Constraints",
+      "abstract": "Vision-Language-Action (VLA) models have emerged as a promising foundation for Embodied AI, but their high inference cost poses significant challenges for deployment in robotic systems. In practice, on-device inference is constrained by limited compute capacity and energy budgets, struggling to simultaneously satisfy real-time control and energy efficiency requirements. Alternatively, offloading the inference workload to an edge server is susceptible to fluctuations in system conditions, introducing unpredictable latency risks. Device-edge co-inference offers a promising solution, but systematic research tailored to VLA models remains scarce, particularly a unified co-inference framework that jointly addresses real-time constraints and system-level energy efficiency. Thus, we propose EcoVLA, an adaptive device-edge co-inference framework for VLA models that maximizes system energy efficiency under real-time constraints. EcoVLA first introduces a unified stage-level abstraction over different VLA paradigms, establishing an architecture-agnostic co-inference design space. It then formulates a joint device-edge-network latency and energy prediction model to enable rapid runtime evaluation of candidate co-inference schemes. Building on this, EcoVLA continuously selects the energy-optimal scheme satisfying real-time constraints with millisecond-level overhead, adapting to runtime variations in network and system states. Furthermore, EcoVLA incorporates a lightweight transmission mechanism for inter-stage intermediate tensors to reduce the communication overhead incurred by cross-device collaboration. Experimental results across VLA models show that EcoVLA improves system energy efficiency by up to 236% over existing co-inference approaches under a 20 Hz action output frequency constraint, while consistently maintaining SLO satisfaction under dynamic network and edge workload conditions.",
+      "authors": [
+        "Ao Zhou",
+        "Bo Dai",
+        "Le Yu",
+        "Xingyu Liu",
+        "Zeyu Hao",
+        "Lingkun Long",
+        "Chunming Hu",
+        "Jianlei Yang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.RO"
+      ],
+      "published": "2026-08-16T03:08:40+00:00",
+      "link": "https://arxiv.org/pdf/2608.15502v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Energy-efficient device-edge co-inference for Vision-Language-Action models",
+      "llm_evidence_cn": "面向VLA模型的能效设备-边缘协同推理",
+      "llm_evidence": "面向VLA模型的能效设备-边缘协同推理",
+      "canonical_evidence": "面向VLA模型的能效设备-边缘协同推理",
+      "llm_tldr_en": "Addresses real-time and energy constraints in deploying VLA models via a unified device-edge co-inference framework, balancing latency and energy efficiency for Embodied AI.",
+      "llm_tldr_cn": "VLA模型在具身AI中潜力巨大，但其高推理成本给机器人系统部署带来挑战。设备端推理受算力与能耗限制，边缘卸载又存在延迟波动风险。针对这一矛盾，本文提出EcoVLA，一个面向VLA模型的设备-边缘协同推理框架，联合优化实时控制与能量效率。该框架在系统条件波动下仍能控制延迟风险，同时降低能耗。实验证明EcoVLA在满足实时约束的同时实现了显著的能效提升，为VLA模型在机器人上的实际部署提供了系统工程方案。",
+      "llm_tldr": "VLA模型在具身AI中潜力巨大，但其高推理成本给机器人系统部署带来挑战。设备端推理受算力与能耗限制，边缘卸载又存在延迟波动风险。针对这一矛盾，本文提出EcoVLA，一个面向VLA模型的设备-边缘协同推理框架，联合优化实时控制与能量效率。该框架在系统条件波动下仍能控制延迟风险，同时降低能耗。实验证明EcoVLA在满足实时约束的同时实现了显著的能效提升，为VLA模型在机器人上的实际部署提供了系统工程方案。",
+      "llm_tags": [
+        "query:vla-humanoid:composite"
+      ],
+      "matched_query_tag": "query:vla-humanoid:composite",
+      "matched_query_text": "Papers central to VLA，Humanoid，WAM, especially work that connects or combines: w; vision language action model for humanoid robots; humanoid robot control and manipulation; embodied artificial intelligence for humanoid robots; action generation in robotics using language models; manipulation skills for humanoid robots; how do vision language action models improve humanoid robot manipulation; task planning for humanoid robots using language models.",
+      "matched_requirement_id": "req-composite-vla-humanoid",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.18948v1",
+      "source": "arxiv",
+      "title": "RoboEdit: Turning Human Manipulation Videos into Scalable Robot Experience",
+      "abstract": "Collecting robot hand-object interaction data is costly and embodiment-specific, yet abundant human-object videos remain unusable for robot training. We present RoboEdit, a human-to-robot video editing suite that transforms human manipulation videos into action-consistent, physically plausible robot videos with aligned 3D hand states. To enable scalable supervision, we introduce RoboEdit-ADC, an automatic pipeline that reconstructs and retargets 3D interactions from RGB videos across embodiments. This pipeline generates RoboEdit-14M, a large-scale dataset of 174K aligned video pairs (14M frames) spanning seven robot embodiments, diverse scenes, and interaction types. The core editing engine, RoboEdit-Trans, employs cross-embodiment adaptation modules to preserve temporal coherence while adapting appearance and motion. It further integrates a 3D Robot-State Decoder to recover per-frame hand states for structured motion supervision. Experiments show that RoboEdit achieves state-of-the-art editing quality and supports downstream robot control policies in real-world manipulation tasks. Ultimately, the RoboEdit suite unlocks the vast potential of unlabeled human videos, providing scalable, high-fidelity visual and 3D motion supervision for generalizable robot learning.",
+      "authors": [
+        "Yaowei Guo",
+        "Zeng Tao",
+        "Yuxin Jiang",
+        "Yunuo Chen",
+        "Zhiyang Dou",
+        "Yuxiang Ma",
+        "Yin Yang",
+        "Demetri Terzopoulos",
+        "Ying Jiang",
+        "Chenfanfu Jiang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-19T14:15:36+00:00",
+      "link": "https://arxiv.org/pdf/2608.18948v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "human-to-robot video editing suite generating scalable robot manipulation experience across embodiments",
+      "llm_evidence_cn": "将人类操作视频转化为跨本体机器人操作数据，支持可扩展的机器人操作技能学习",
+      "llm_evidence": "将人类操作视频转化为跨本体机器人操作数据，支持可扩展的机器人操作技能学习",
+      "canonical_evidence": "将人类操作视频转化为跨本体机器人操作数据，支持可扩展的机器人操作技能学习",
+      "llm_tldr_en": "RoboEdit transforms human manipulation videos into physically plausible robot videos with aligned 3D hand states, generating a 14M-frame dataset across seven robot embodiments for scalable robot experience.",
+      "llm_tldr_cn": "针对机器人手-物交互数据采集成本高且具身特异的问题，RoboEdit提出将人类操作视频转化为与动作一致且物理可行的机器人视频，并配准3D手部状态。通过自动流水线RoboEdit-ADC重构并重定向跨本体的3D交互，构建包含174K视频对、1400万帧的RoboEdit-14M数据集。实验表明该套件可跨7种机器人本体、多场景生成高质量训练数据，为机器人操作技能学习提供可扩展的经验来源。",
+      "llm_tldr": "针对机器人手-物交互数据采集成本高且具身特异的问题，RoboEdit提出将人类操作视频转化为与动作一致且物理可行的机器人视频，并配准3D手部状态。通过自动流水线RoboEdit-ADC重构并重定向跨本体的3D交互，构建包含174K视频对、1400万帧的RoboEdit-14M数据集。实验表明该套件可跨7种机器人本体、多场景生成高质量训练数据，为机器人操作技能学习提供可扩展的经验来源。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "manipulation skills for humanoid robots",
+      "matched_requirement_id": "req-10",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.16555v1",
+      "source": "arxiv",
+      "title": "Co-design of Neural and Muscle Network based on Embodied Perceptron Representation",
+      "abstract": "Recent advances in AI technologies have enabled the advanced design of complex control policies. In contrast, focusing on the body, many robots still employ simple bodies that can limit adaptability to environments. Studies in embodied robotics have shown that well-designed bodies can partially replace the role of control and computation with physical body-environment interactions, yet such designs still depend heavily on expert intuition. There is a need for a systematic theoretical framework for body design, as well as a method for joint optimization of the body and controller. To address this, we introduce the Embodied Perceptron, a theoretical framework that unifies neural networks and physical body systems. In this view, the body itself acts as a perceptron: mechanical parameters correspond to weights, and physical nonlinearities play the role of activation functions. By representing physical constraints as weights and nonlinear properties as activation functions, a physical body can be modeled in neural-network form. The system representation enables us to explicitly and theoretically explain that the body can substitute for part of the neural control. As an application, we co-optimize control policy and muscle configuration in a musculoskeletal robot and show that the resulting embodied intelligence can provide inherent stability, improve learning efficiency, and drastically reduce model size-even with a single-neuron controller. The results bridge the informational and physical worlds and provide a pathway toward understanding and systematic design of embodied AI systems.",
+      "authors": [
+        "Siyuan Tao",
+        "Yoichi Masuda",
+        "Hiroyuki Nabae",
+        "Masato Ishikawa"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-17T13:25:09+00:00",
+      "link": "https://arxiv.org/pdf/2608.16555v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "embodied perceptron framework for co-design of body and controller, relevant to embodied AI for humanoid robots",
+      "llm_evidence_cn": "面向具身智能体的身体与控制器协同设计理论，适用于人形机器人具身AI",
+      "llm_evidence": "面向具身智能体的身体与控制器协同设计理论，适用于人形机器人具身AI",
+      "canonical_evidence": "面向具身智能体的身体与控制器协同设计理论，适用于人形机器人具身AI",
+      "llm_tldr_en": "Introduces Embodied Perceptron, a theoretical framework unifying neural networks and physical body systems, enabling joint optimization of robot body and controller, reducing reliance on expert intuition and improving adaptability to environments.",
+      "llm_tldr_cn": "针对机器人身体设计依赖专家直觉、缺乏系统理论框架的问题，提出Embodied Perceptron理论，统一神经网络与物理身体系统。该框架支持身体与控制器联合优化，使身体通过物理环境交互部分替代控制计算。该工作为具身机器人的身体设计提供了一般性方法，对人形机器人等复杂本体的具身AI研究具有参考价值。",
+      "llm_tldr": "针对机器人身体设计依赖专家直觉、缺乏系统理论框架的问题，提出Embodied Perceptron理论，统一神经网络与物理身体系统。该框架支持身体与控制器联合优化，使身体通过物理环境交互部分替代控制计算。该工作为具身机器人的身体设计提供了一般性方法，对人形机器人等复杂本体的具身AI研究具有参考价值。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "embodied artificial intelligence for humanoid robots",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.19794v1",
+      "source": "arxiv",
+      "title": "Towards general embodied intelligence: integrating large language models, knowledge bases, and reasoning capabilities to build the next generation of AI agents",
+      "abstract": "The convergence of large language models (LLMs), structured knowledge bases (KBs), and reasoning ability (RA) presents a promising trajectory toward general embodied intelligence (GEI). This paper reviews the evolution of LLM-centered intelligent systems, emphasising their integration with knowledge representation, logical reasoning, and physical embodiment. We analyse LLM architectures, pre-training methods, and inference mechanisms, along with their interaction with external knowledge sources and structured reasoning frameworks. Furthermore, we examine embodied intelligence (EI) paradigms wherein agents learn and act in physical environments. To synthesise these dimensions, we present a conceptual framework that illustrates the synergy among LLMs, KBs, RA, and embodiment, serving as a guiding model for perception, reasoning, and action rather than an implemented engineering architecture. To advance toward GEI, we identify five key challenges: efficient LLM deployment, closed-loop knowledge integration, hybrid symbolic-neural reasoning, perception-action grounding, and continual learning. This survey provides a comprehensive roadmap for developing adaptive, multimodal agents capable of operating in complex, dynamic settings.",
+      "authors": [
+        "Fujiang Yuan",
+        "Xia Huang",
+        "Lusheng Wang",
+        "Jun Ding",
+        "Zhen Tian",
+        "Yuxin Wang",
+        "Shaojie Gu",
+        "Yuki Funabora",
+        "Yanhong Peng",
+        "Zebing Mao"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.RO"
+      ],
+      "published": "2026-08-20T08:45:51+00:00",
+      "link": "https://arxiv.org/pdf/2608.19794v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "General embodied intelligence survey integrating LLMs, knowledge bases, and reasoning with physical embodiment, relevant to embodied AI for humanoid robots.",
+      "llm_evidence_cn": "面向通用具身智能的综述，融合大语言模型、知识库与推理能力并强调物理实体化，与具身人工智能需求相关。",
+      "llm_evidence": "面向通用具身智能的综述，融合大语言模型、知识库与推理能力并强调物理实体化，与具身人工智能需求相关。",
+      "canonical_evidence": "面向通用具身智能的综述，融合大语言模型、知识库与推理能力并强调物理实体化，与具身人工智能需求相关。",
+      "llm_tldr_en": "A survey tracing progress from LLM-centered agents to general embodied intelligence, integrating knowledge bases and reasoning with physical embodiment, and analyzing architectures, pretraining, inference, and embodied intelligence paradigms.",
+      "llm_tldr_cn": "系统性综述了从以大型语言模型为中心的智能体迈向通用具身智能的技术路径，提出融合知识库、逻辑推理与物理实体化能力。文章梳理了LLM架构、预训练与推理机制，并探讨了智能体在物理环境中学习与行动的具身智能范式。该工作为构建面向复杂任务的具身人工智能系统提供了整合性视角。",
+      "llm_tldr": "系统性综述了从以大型语言模型为中心的智能体迈向通用具身智能的技术路径，提出融合知识库、逻辑推理与物理实体化能力。文章梳理了LLM架构、预训练与推理机制，并探讨了智能体在物理环境中学习与行动的具身智能范式。该工作为构建面向复杂任务的具身人工智能系统提供了整合性视角。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "embodied artificial intelligence for humanoid robots",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2608.19613v1",
+      "source": "arxiv",
+      "title": "What Matters for Latent Actions in Robot Learning",
+      "abstract": "Latent Action Models (LAMs) have emerged as a promising paradigm for enabling robot learning to leverage large-scale unlabeled videos through latent actions that serve as compact surrogates for physical actions. Despite rapid progress, research on LAM remains highly fragmented, with existing methods evaluating different design choices in isolation under inconsistent experimental settings, making it difficult to identify the factors that truly determine downstream robotic manipulation performance. In this work, we present the first comprehensive empirical study of latent action learning for robotic manipulation. We unify representative LAM methods within a common autoencoding framework and systematically investigate 41 LAM design choices across three dimensions, including latent action modeling paradigms, learning objectives and regularization methods, and latent action integration strategies. We further examine four proxy metrics for evaluating latent action quality and assess their ability to reliably predict downstream robotic manipulation performance. Extensive experiments on three widely used benchmarks provide strong empirical evidence that fine-tuning vision-language model (VLM) backbones with latent actions provides a stronger initialization for downstream policy learning, with further validation on real-world robot manipulation tasks.",
+      "authors": [
+        "Xizhou Bu",
+        "Qingda Hu",
+        "Lei Zhou",
+        "Lingfeng Zhang",
+        "Yingbo Tang",
+        "Zihao Liu",
+        "Xinyi Tao",
+        "Zhiqiang Ma",
+        "Qingqiu Huang",
+        "Chufeng Tang",
+        "Hongbo Wang",
+        "Jing Zhang",
+        "Jiayi Ma",
+        "Hangjun Ye",
+        "Wei Li",
+        "Xiaoshuai Hao"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-08-20T03:54:51+00:00",
+      "link": "https://arxiv.org/pdf/2608.19613v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "empirical study of latent action models as action surrogates for robot learning",
+      "llm_evidence_cn": "对潜在动作模型作为机器人学习动作替代物的实证研究",
+      "llm_evidence": "对潜在动作模型作为机器人学习动作替代物的实证研究",
+      "canonical_evidence": "对潜在动作模型作为机器人学习动作替代物的实证研究",
+      "llm_tldr_en": "Presents a comprehensive empirical study of latent action models for robotic manipulation, unifying 41 design choices in a common autoencoding framework to identify key factors.",
+      "llm_tldr_cn": "潜在动作模型(LAM)研究零散且实验设置不一致，难以判断真正影响下游机器人操作性能的设计因素。该工作首次系统梳理LAM方法，在统一自编码框架下比较41种设计选择，涵盖三个维度，为机器人从无标签视频学习动作提供了可靠的实证结论和标准化评估基础。",
+      "llm_tldr": "潜在动作模型(LAM)研究零散且实验设置不一致，难以判断真正影响下游机器人操作性能的设计因素。该工作首次系统梳理LAM方法，在统一自编码框架下比较41种设计选择，涵盖三个维度，为机器人从无标签视频学习动作提供了可靠的实证结论和标准化评估基础。",
+      "llm_tags": [
+        "query:human-aigc"
+      ],
+      "matched_query_tag": "query:human-aigc",
+      "matched_query_text": "world action model",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2608.19955v1",
+      "source": "arxiv",
+      "title": "MILD: Tractable Terrain Modeling for Learning Improved Bipedal Locomotion on Deformable Surfaces",
+      "abstract": "Enabling robots to walk on yielding terrain is vital for applications ranging from disaster response to planetary exploration. While bipedal robots hold immense potential, their locomotion on deformable surfaces remains limited as current simulators fail to capture the spatiotemporal heterogeneity of such yielding substrates. We present MILD, featuring a physics-grounded discrete-element contact solver that accurately simulates spatially varying foot-terrain interactions. Complementing this model, we train a terrain-aware locomotion controller via deep reinforcement learning with latent modulation and proprioceptive estimation. Quantitative comparisons against state-of-the-art methods show our approach generates more diverse and realistic contact scenarios during training, resulting in controllers that exhibit natural adaptation on real deformable surfaces. Through hardware experiments, we demonstrate the system's capability for online terrain identification and adaptation across a wide range of surface stiffness.",
+      "authors": [
+        "Zeren Luo",
+        "Jiahui Zhang",
+        "Zhe Xu",
+        "Wanyue Li",
+        "Xinqi Li",
+        "Xuechao Chen",
+        "Zhangguo Yu",
+        "Annan Tang",
+        "Peng Lu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-08-20T12:24:34+00:00",
+      "link": "https://arxiv.org/pdf/2608.19955v1",
+      "tags": [
+        "keyword:VLA-Humanoid",
+        "keyword:human-aigc",
+        "query:VLA-Humanoid",
+        "query:human-aigc"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "bipedal locomotion controller on deformable terrain for legged robots",
+      "llm_evidence_cn": "面向双足/腿足机器人控制的地形建模与强化学习控制器",
+      "llm_evidence": "面向双足/腿足机器人控制的地形建模与强化学习控制器",
+      "canonical_evidence": "面向双足/腿足机器人控制的地形建模与强化学习控制器",
+      "llm_tldr_en": "MILD models spatially varying deformable terrain with a physics-grounded discrete-element contact solver and trains a terrain-aware locomotion controller via deep RL, improving bipedal walking over yielding substrates.",
+      "llm_tldr_cn": "双足机器人在松软地面行走时，现有仿真器难以刻画土体时空异质性，导致行走能力受限。MILD提出物理驱动的离散元接触求解器以准确模拟空间变化的地面交互，并配合潜在调制与本体感估计训练地形感知的深度强化学习控制器。实验表明该方法比现有技术产生更多样、更鲁棒的双足行走行为，并有效泛化到未接触的地形条件。这项工作为双足/人形机器人在非结构化环境中的运动控制提供了有力支撑。",
+      "llm_tldr": "双足机器人在松软地面行走时，现有仿真器难以刻画土体时空异质性，导致行走能力受限。MILD提出物理驱动的离散元接触求解器以准确模拟空间变化的地面交互，并配合潜在调制与本体感估计训练地形感知的深度强化学习控制器。实验表明该方法比现有技术产生更多样、更鲁棒的双足行走行为，并有效泛化到未接触的地形条件。这项工作为双足/人形机器人在非结构化环境中的运动控制提供了有力支撑。",
+      "llm_tags": [
+        "query:vla-humanoid"
+      ],
+      "matched_query_tag": "query:vla-humanoid",
+      "matched_query_text": "humanoid robot control and manipulation",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
