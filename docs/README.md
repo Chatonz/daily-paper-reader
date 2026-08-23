@@ -6,50 +6,47 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-08-22
-- 运行时间：2026-08-22 20:38:51 UTC
+- 最新运行日期：2026-08-23
+- 运行时间：2026-08-23 20:30:20 UTC
 - 运行状态：成功
-- 本次总论文数：9
-- 精读区：0
-- 速读区：9
+- 本次总论文数：8
+- 精读区：4
+- 速读区：4
 
 ### 今日简报（AI）
-今日速读9篇论文，聚焦机器人具身智能前沿，全部为快速浏览。
-最值得关注的是VLA动作生成的自我评估新思路，以及机器人狗并发导航与取物、从人类视频学习操作的7分亮点工作。
-建议优先精读这三篇高分论文，深入理解其方法对比与实验细节。
-- 详情：[/202608/22/README](/202608/22/README)
+- 今日共生成 8 篇推荐（精读 4 篇，速读 4 篇）
+- 精读：《SparkVLA: Stop-Aware Hierarchical VLA with Adaptive Action Chunking for Long-Horizon Manipulation》（8.0/10）, 《VLCP: Vision Language Control Policy Closed-Loop Code Replanning for Robot Manipulation》（8.0/10）
+- 速读：《EcoVLA: Energy-Efficient Device-Edge Co-Inference for Vision-Language-Action Models under Real-Time Constraints》（7.0/10）, 《Dream2Reward: Transition-Alignment Reward Models from Positive Demonstrations for Robotic Manipulation》（7.0/10）, 《SafeBranch: Branch-Pair Safety Alignment for Embodied Agents》（7.0/10）
+- 这些结果覆盖了当下较热的方向，建议先看精读区论文的关键问题与方法。
+- 详情：[/202608/23/README](/202608/23/README)
 
 ### 精读区论文标签
-- 本次无精读推荐。
+1. [SparkVLA: Stop-Aware Hierarchical VLA with Adaptive Action Chunking for Long-Horizon Manipulation](/202608/23/2608.16172v1-sparkvla-stop-aware-hierarchical-vla-with-adaptive-action-chunking-for-long-horizon-manipulation)  
+   标签：评分：8.0/10、query:vla-humanoid
+   evidence：带有自适应动作分块的停止感知分层VLA
+2. [VLCP: Vision Language Control Policy Closed-Loop Code Replanning for Robot Manipulation](/202608/23/2608.16978v1-vlcp-vision-language-control-policy-closed-loop-code-replanning-for-robot-manipulation)  
+   标签：评分：8.0/10、query:vla-humanoid
+   evidence：VLM闭环编写并重规划控制代码以实现机器人操作
+3. [Prism-GRPO: Faster VLA Policy Optimization via Splitting Same-outcome Groups](/202608/23/2608.17423v1-prism-grpo-faster-vla-policy-optimization-via-splitting-same-outcome-groups)  
+   标签：评分：8.0/10、query:vla-humanoid
+   evidence：加速视觉语言动作策略的强化学习优化
+4. [Reuse Before You Retrieve: Diagnosing Headroom and Complementarity for Test-Time Augmentation of Embodied Multimodal Policies](/202608/23/2608.17484v1-reuse-before-you-retrieve-diagnosing-headroom-and-complementarity-for-test-time-augmentation-of-embodied-multimodal-policies)  
+   标签：评分：8.0/10、query:vla-humanoid
+   evidence：关于VLA策略测试时增强与检索的具身多模态控制研究
 
 ### 速读区论文标签
-1. [FabriMAE I Trust Myself? Self-Evaluating VLA Action Generation with Markov Attention Entropy](/202608/22/2608.16697v1-fabrimae-i-trust-myself-self-evaluating-vla-action-generation-with-markov-attention-entropy)  
+1. [EcoVLA: Energy-Efficient Device-Edge Co-Inference for Vision-Language-Action Models under Real-Time Constraints](/202608/23/2608.15502v1-ecovla-energy-efficient-device-edge-co-inference-for-vision-language-action-models-under-real-time-constraints)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：利用马尔可夫注意力熵对VLA动作生成进行自评估
-2. [GuideFetch: A Task Coordination Framework for Concurrent Navigation and Object Retrieval in Assistive Robot Dogs](/202608/22/2608.18292v1-guidefetch-a-task-coordination-framework-for-concurrent-navigation-and-object-retrieval-in-assistive-robot-dogs)  
+   evidence：面向实时VLA部署的设备-边缘协同推理框架
+2. [Dream2Reward: Transition-Alignment Reward Models from Positive Demonstrations for Robotic Manipulation](/202608/23/2608.18787v1-dream2reward-transition-alignment-reward-models-from-positive-demonstrations-for-robotic-manipulation)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：基于大语言模型的并发导航与取物任务协调规划
-3. [RoboEdit: Turning Human Manipulation Videos into Scalable Robot Experience](/202608/22/2608.18948v1-roboedit-turning-human-manipulation-videos-into-scalable-robot-experience)  
+   evidence：基于示范的语言条件转换对齐奖励模型
+3. [SafeBranch: Branch-Pair Safety Alignment for Embodied Agents](/202608/23/2608.19729v1-safebranch-branch-pair-safety-alignment-for-embodied-agents)  
    标签：评分：7.0/10、query:vla-humanoid
-   evidence：将人类操作视频转化为跨本体机器人操作数据，支持可扩展的机器人操作技能学习
-4. [Towards general embodied intelligence: integrating large language models, knowledge bases, and reasoning capabilities to build the next generation of AI agents](/202608/22/2608.19794v1-towards-general-embodied-intelligence-integrating-large-language-models-knowledge-bases-and-reasoning-capabilities-to-build-the-next-generation-of-ai-agents)  
-   标签：评分：7.0/10、query:vla-humanoid
-   evidence：面向通用具身智能的综述，融合大语言模型、知识库与推理能力并强调物理实体化，与具身人工智能需求相关。
-5. [MILD: Tractable Terrain Modeling for Learning Improved Bipedal Locomotion on Deformable Surfaces](/202608/22/2608.19955v1-mild-tractable-terrain-modeling-for-learning-improved-bipedal-locomotion-on-deformable-surfaces)  
-   标签：评分：7.0/10、query:vla-humanoid
-   evidence：面向双足/腿足机器人控制的地形建模与强化学习控制器
-6. [PRM-as-a-Judge 1.5: A Toolkit for Robot Process Assessment](/202608/22/2608.14284v1-prm-as-a-judge-15-a-toolkit-for-robot-process-assessment)  
+   evidence：面向VLM具身代理的分支对安全对齐
+4. [Planning-Oriented End-to-End Autonomous Driving: Architectures, Evaluation, and Emerging Paradigms](/202608/23/2608.20111v1-planning-oriented-end-to-end-autonomous-driving-architectures-evaluation-and-emerging-paradigms)  
    标签：评分：6.0/10、query:vla-humanoid
-   evidence：面向具身模型的细粒度过程评估工具
-7. [EcoVLA: Energy-Efficient Device-Edge Co-Inference for Vision-Language-Action Models under Real-Time Constraints](/202608/22/2608.15502v1-ecovla-energy-efficient-device-edge-co-inference-for-vision-language-action-models-under-real-time-constraints)  
-   标签：评分：6.0/10、query:vla-humanoid
-   evidence：面向VLA模型的能效设备-边缘协同推理
-8. [Co-design of Neural and Muscle Network based on Embodied Perceptron Representation](/202608/22/2608.16555v1-co-design-of-neural-and-muscle-network-based-on-embodied-perceptron-representation)  
-   标签：评分：6.0/10、query:vla-humanoid
-   evidence：面向具身智能体的身体与控制器协同设计理论，适用于人形机器人具身AI
-9. [What Matters for Latent Actions in Robot Learning](/202608/22/2608.19613v1-what-matters-for-latent-actions-in-robot-learning)  
-   标签：评分：6.0/10、query:human-aigc
-   evidence：对潜在动作模型作为机器人学习动作替代物的实证研究
+   evidence：综述自动驾驶中的世界模型规划器与VLA系统，为人类形机器人VLA与世界行动模型提供可迁移架构参考
 
 
 <div class="dpr-home-promo-card">

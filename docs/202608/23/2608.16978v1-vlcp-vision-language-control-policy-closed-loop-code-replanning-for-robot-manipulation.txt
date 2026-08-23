@@ -1,0 +1,279 @@
+Title: VLCP: Vision Language Control Policy Closed-Loop Code Replanning for Robot Manipulation
+
+URL Source: https://arxiv.org/pdf/2608.16978v1
+
+Published Time: Wed, 19 Aug 2026 00:04:37 GMT
+
+Number of Pages: 18
+
+Markdown Content:
+# VLCP: Vision Language Control Policy Closed-Loop Code Replanning for Robot Manipulation 
+
+Dhia Naouali 1, Minghan Wu 2, Claudia Wong 3, Abhinav Puthran 4, and Omar G. Younis 56 
+
+> 1
+
+University of Monastir, 2St. Mildred’s-Lightbourn School, 3Cornell University, 
+
+> 4
+
+Carnegie Mellon University, 5Silverstream AI, 6Mila – Quebec AI Institute 
+
+Abstract. Turning a frontier vision-language model into a robot policy usually means fine-tuning it to emit an action representation it never saw in pretraining, which throws away much of the reasoning that made the model worth reaching for. We go the other way and keep the VLM 
+
+frozen . It writes the policy as a short Python control function, with no demonstrations and no fine-tuning. Writing that code once is open-loop, though. Existing closed-loop methods react at the wrong level: they retry a fixed policy or pick a different subtask, but never rewrite the code that failed. VLCP closes the loop where the failure actually lives, on the control code, within a single episode. Every K steps the VLM re-observes the scene from multi-view RGB, proprioceptive state, and a state delta, then rewrites the control function from what it just saw, so a failure is caught before it compounds. We evaluate on a 57-task MuJoCo/RoboVerse sweep. This training-free policy reaches 35 .1% pooled success, against 3.5% for the identical system queried once per episode. That tenfold gap holds with non-overlapping confidence intervals in every scene family. The gain traces to a 27 .3% 
+
+within-episode recovery rate on failed grasps: a miss an open-loop con-troller would carry to the end of the episode gets re-observed and fixed at the next replan. And the loop stays cheap. A median 84% of input tokens hit cache, an episode needs only about 10 compact queries, and control blocks written during any replan persist to a cross-episode skill library reused in later prompts. 
+
+Keywords: robot manipulation · code-as-policy · vision-language mod-els · closed-loop control · replanning 
+
+## 1 Introduction 
+
+The dominant way to put multimodal LLMs to work in robotics has been the vision-language-action model (VLA), which adapts a pretrained vision-language  
+
+> 0
+
+Corresponding author: dhia12naouali@gmail.com arXiv:2608.16978v1 [cs.RO] 17 Aug 2026 2 D. Naouali et al. OBSERVE                       
+
+> view 1 view 2
+> state EE pose, q,object poses +∆state
+> FROZEN VLM
+> Adocs ·API ·examples
+> Bskill library
+> Cgoal pin
+> + replan history prompt-cached
+> CODE
+> def control(obs, J): ee = obs.ee pos tgt = grasp pose(obs) return move to( ee, tgt, grip=0.0)
+> editable hypothesis
+> EXECUTE Ksteps
+> ×✓
+> replan
+> block n
+> miss grasp block n+1
+> recovered writes runs
+> closed loop on code: rewrite control() every Ksteps
+> SKILL LIBRARY
+> persisted across episodes
+> persist inject (B)
+
+Fig. 1: VLCP closes the loop at the level of the control code. A frozen VLM observes synchronized multi-view RGB, numeric state, and an explicit state delta ( observe ), then writes a short-horizon Python control(obs, J) function ( code )that runs open-loop for K steps ( execute ). At each block boundary the VLM is re-queried and rewrites the function from what it just saw, so a failure is caught and corrected within the same episode (block n+1 ). The prompt is structured for cache reuse (A docs/API/examples, B skill library, C goal pin), and helper modules written during any replan are saved to a cross-episode skill library and re-injected into later prompts. 
+
+backbone to emit low-level robot actions [1, 6]. That adaptation is not free. The model has to be fine-tuned on large demonstration datasets to map observations onto an action representation it never saw during pretraining, and every step away from the pretraining distribution risks throwing away the reasoning ability that motivated reaching for an LLM in the first place. VLA-0 [3] put a number on this cost: representing actions as plain text instead of specialized tokens shrinks the distribution mismatch and yields a markedly stronger policy. The lesson is general. The less an adaptation drags a pretrained model away from what it is already fluent in, the more of its capability survives. So what are today’s frontier LLMs most fluent in? Code. Rather than teach the model a new action language, we let it control the robot in a language it already commands: the policy is a short Python control function that the model 
+
+writes . This stays inside the pretraining distribution, keeps essentially all of the model’s coding and reasoning ability, and needs no fine-tuning. It is the promise of code as an action representation [8, 10]. Writing code once, before the arm moves, is blind to everything after execu-tion begins. A gripper that fails to grasp and proceeds as though it had carries that failure silently to the end of the episode. To close the loop, manipulation needs two things at once: control code expressive enough to inspect and revise, VLCP: Vision Language Control Policy 3
+
+and observation close enough to catch failures as they happen. Current methods give one or the other (Table 1). (1) Code-generation methods [8–10] pro-duce interpretable programs but never re-query during execution, so a runtime failure is unrecoverable. (2) Monitoring and replanning methods [4, 5, 13] close the loop only at the task or language level: they retry the same policy or reselect a subtask without rewriting the control code. (3) Vision-language-action models [1, 3, 6] react to observations but emit opaque motor tokens, lean on large demonstration datasets, and expose no point for mid-execution reasoning. None of them close the loop on the control code itself within a single episode. The closest work, Act-Observe-Rewrite [7], also treats the full controller as the unit of revision, but it rewrites between trials: an episode runs to completion under a fixed controller before the model sees what happened. VLCP (Vision 
+
+Language Control Policy) re-queries a frozen VLM every K steps from runtime multi-view RGB, proprioceptive state, and a state delta, rewriting the control function from what it observes while the episode is still unfolding. When the first function misses a grasp, the next replan boundary sees the miss, rewrites the function with a corrected approach, and grasps on the retry, all inside the same episode. Our contributions: 1. VLCP , a training-free closed-loop manipulation framework that re-queries a frozen VLM every K steps to rewrite the control function from live multi-view RGB, proprioceptive state, and an explicit state delta. 2. A cross-episode skill-library mechanism. Control code blocks written during any replan are extracted, saved to a shared on-disk directory, and re-injected verbatim into every subsequent replan’s prompt, so a later control 
+
+function can import a skill written earlier. 3. A controlled ablation that isolates the replanning loop. Compared against its own open-loop degenerate case ( K=T ), which shares VLCP’s simulator, API, task set, model, and episode budget and differs only in within-episode replanning, closed-loop VLCP lifts pooled success from 3.5% 
+
+to 35 .1% : a tenfold gain, with non-overlapping confidence intervals in every scene family. That 35 .1% is a strong absolute number for a zero-demonstration method; a concurrent training-free code agent lands near 18 –22% on a harder, perturbed benchmark. But that agent also closes the loop on code, so it is the matched K=T ablation, not the cross-benchmark number, that pins the gain to the loop itself (Section 4.3). 4. A direct measurement of within-episode recovery. Computed from the logged replan traces, 27 .3% of failed grasps are re-approached and lifted by a later replan, a transition the open-loop variant cannot make by con-struction. This is the mechanism behind the gain (Section 4.5). 5. A feasibility analysis of the loop. Prompt caching keeps within-episode replanning affordable: a median 84% of input tokens are served from cache, at only ∼10 compact VLM calls per episode (Section 4.6). 4 D. Naouali et al.                                                             
+
+> Table 1: Where prior families sit along the axes VLCP unifies. Code policy :the executed controller is human-readable code. Runtime re-obs. : the method senses the scene during the episode. Edits code : the revision mechanism rewrites the control program that failed, instead of retrying it, swapping in a library entry, or escalating to a planner. Within-ep. : revision happens mid-episode, not only between trials. Train-free :no demonstration fine-tuning. Closing the loop on the control code within an episode (all five columns) is a very recent frontier. To our knowledge, VLCP and the concurrent CaP-Agent0 [2] are among the few methods that occupy it, and of the two it is VLCP that contributes the controlled ablation isolating the loop (Section 4.3) and a direct measurement of within-episode recovery (Section 4.5). Method Code Runtime Edits Within-Train-policy re-obs. code ep. free CaP / ProgPrompt / ELLMER [8–10] ✓✗✗✗✓
+> Robotic Programmer [12] ✓✗✗✗✓
+> Code-as-Monitor / DoReMi [4, 13] ✓✓✗✓✓
+> Inner Monologue [5] ✗✓✗✓✓
+> VLA-0 / OpenVLA / π0[1, 3, 6] ✗✓✗✓✗
+> Act-Observe-Rewrite [7] ✓✓✓✗✓
+> CaP-Agent0 (CaP-X, concurrent) [2] ✓✓✓✓✓
+> VLCP (ours) ✓✓✓✓✓
+
+## 2 Related Work 
+
+Code generation for robot control. Code-as-Policies [8] established code as a viable action representation by prompting a language model to compose per-ception and control primitives into executable programs. ProgPrompt [10] added control flow, ELLMER [9] added retrieval and contact-rich feedback checks, and Robotic Programmer [12] generates code from video demonstrations. All of them query the model once, before execution, so any error after the arm starts mov-ing goes uncorrected. VLCP re-queries at a fixed, short control horizon, so a deviation is caught before it compounds. 
+
+Closed-loop monitoring and replanning. A second line keeps the policy fixed and adds failure detection. Code-as-Monitor [13] writes constraint-checking code that triggers a retry, DoReMi [4] checks language-derived constraints vi-sually and falls back to a fixed recovery routine, and Inner Monologue [5] feeds success detection and scene descriptions back into a high-level planner. None of them edit the control code that produced the failure. They retry it, swap in a library entry, or escalate to a planner, and none of those repairs a low-level behav-ior with no plan-level correlate. The closest work, Act-Observe-Rewrite [7], does rewrite the full controller, but between trials: after a rollout, an LLM inspects key frames and outcomes and writes a new controller for the next trial. VLCP rewrites within an episode, every K steps, interrupting a failure mid-execution. Concurrent work, CaP-Agent0 [2], reaches the same design point from the bench-marking side, which is independent evidence that within-episode code rewriting VLCP: Vision Language Control Policy 5
+
+is the right locus. VLCP’s distinct contribution is the controlled K=T ablation isolating the loop (Section 4.3) and a direct measurement of the recovery it buys (Section 4.5). 
+
+Vision-language-action models. VLA-0 [3], OpenVLA [6], and π0 [1] map observations straight to actions. They are reactive, but their action representa-tion, whether specialized tokens [1,6] or plain text [3], leaves no point to inspect or correct the model’s reasoning mid-task, and they depend on large demonstra-tion datasets the training-free methods above do not need. 
+
+Skill library. Outside robotics, Voyager [11] showed an LLM agent can accumulate a library of self-verified skills over an open-ended curriculum. VLCP borrows that accumulate-and-reuse idea at a finer grain: helper modules written during any replan are saved to a shared on-disk library and surfaced verbatim in later prompts, without the curated library, promotion criteria, or curriculum Voyager maintains. 
+
+## 3 Method 
+
+3.1 Problem formulation 
+
+We consider episodic manipulation tasks over a horizon T . At each step t the agent receives a multi-view RGB observation from two fixed cameras, a pro-prioceptive state vector (end-effector pose, joint positions), and the poses of task-relevant objects read from the simulator. A task is solved when a binary terminal predicate G is satisfied. Instead of mapping observations directly to motor commands, VLCP rep-resents the policy as a Python function control (obs , J ) → actions , where 
+
+J ∈ R3×7 is the end-effector Jacobian and actions is a dict of per-joint position targets consumed by the simulator’s PD controller. The Jacobian is computed analytically at each step and passed to the policy alongside the observation. This hands velocity-IK to the generated code as a ready-made primitive. 
+
+3.2 Closed-loop code as a recovery mechanism 
+
+VLCP’s central claim is that recovering from an execution failure means closing the loop at the level of the control code , within the episode. It helps to separate the two loops the policy runs on. Within a block, the compiled control function is closed-loop on observations: it gets fresh obs and J every step and can react to numeric state. Its logic , though, is frozen. If that logic is wrong, say a mistimed gripper close or a lateral offset that misses the object, no amount of within-block feedback can fix it, because the error lives in the code, not in the inputs. So VLCP adds a second, slower loop across blocks: every K steps the VLM re-observes the scene and rewrites the function itself . That is the loop that makes recovery possible. This is exactly what open-loop and monitor-based methods cannot do (Sec-tion 2). An open-loop code policy never re-observes, so a failed grasp rides silently 6 D. Naouali et al. 
+
+through the rest of the rollout. A monitor sees the failure but has no code to change: it can only retry the same policy or escalate to a higher-level planner. VLCP is the one design where the failing artifact, the control function, is both observed and rewritten mid-episode, at whatever granularity the failure calls for. 
+
+3.3 Visual closed-loop replanning 
+
+The role of vision. Since VLCP is handed privileged object poses, it is fair to ask what the RGB observations are for. Two things. First, the poses only seed the reach. They locate objects for the initial control block, but they say nothing about how the attempt then unfolds. The failure signatures the VLM has to read to recover are diagnosed from the synchronized multi-view RGB at each replan boundary, not from a coordinate list: a gripper that closed a centimetre short and lifted empty, an approach angle that clips the object, a grasp that slips, an object nudged out of place (Section 4.5). It is the images that let the model see 
+
+the miss and rewrite the controller around it. Second, the privileged poses take object localization off the table on purpose, so the question we actually test, whether closing the loop on the control code within an episode enables recovery, stays isolated from perception error rather than tangled up with it. Vision is the channel that drives the closed-loop correction this paper is about; the poses only bootstrap the reach it corrects. Swapping them for a learned detector (Section 5) is an engineering substitution that leaves this mechanism intact. 
+
+Replan cadence. The episode is split into blocks of K steps (default K=50 ). At the start of each block the VLM is queried once to generate a new control 
+
+function, which then runs for every remaining step in the block with no further VLM queries. The policy is thus closed-loop on observations within a block (the same compiled function gets fresh obs and J each step) and closed-loop on code across blocks (the VLM can rewrite the function at every block boundary). 
+
+K trades correction latency against query cost. A smaller K re-observes more often and catches a failure sooner, but spends more VLM calls per episode; a larger K is cheaper but lets a failed block run longer before the loop can intervene. We set K=50 so that the 500 -step episode horizon divides into about 
+
+10 replans (Section 4.6): enough boundaries that a missed grasp is re-observed within roughly one block of the manipulation timescale, while keeping the per-episode query count and the cumulative frontier-model latency (a median 18 .8 sper replan) within a practical budget. We did not sweep K; a systematic study of the cadence–cost trade-off, including task-adaptive schedules that replan more densely around contact events, is left as future work. 
+
+Prompt structure. Each replan assembles a three-part system prompt followed by a conversation history and a fresh user turn. 
+
+– Block A, static prefix : robot and environment documentation, the skills API source, and three worked single-phase control examples. VLCP: Vision Language Control Policy 7
+
+– Block B, learned skill library : the source of every module currently in the on-disk skill library, sorted by recency and capped at 12 entries. 
+
+– Block C, goal pin : the task identifier and natural-language goal, placed in the system prompt rather than the conversation history so it survives history truncation. The prompt is structured to maximise cache reuse. The user turn for replan n contains four things: (i) the previous block’s start-of-block RGB images (two views), the generated code, and the K action dicts it produced, which give the VLM a concrete trace of what was attempted; (ii) the current synchronized RGB images from both cameras; (iii) a JSON numeric observation summary (EE pose, joint positions, object poses); and (iv) a prompt asking for a control function for the next K steps. Images appear only in the live API turn. The history copy of each turn drops the images and the prose that refers to them, so no dangling pointers accumulate in the context window. 
+
+History and truncation. The conversation history is the sequence of prior user/ assistant replan pairs, kept up to a maximum of H turns (default 20 pairs). Once the limit is passed, the oldest pairs are dropped from the front. Goal and task identity live in Block C, so they are never truncated. A cache breakpoint sits on the last assistant turn, so the prefix through the most recent generated code is served from cache on the next call. 
+
+3.4 Skill library 
+
+During any replan the VLM may emit one or more labeled helper modules along-side the control block: 
+
+# skills/move_to_grasp.py def move_to_grasp(obs, J, target, ...): ... 
+
+Each such block is written atomically to a shared on-disk directory ( control_ policies/skills/ ) and imported right away. If the import fails, the file is reverted and the error is surfaced to the VLM on the next replan. Skill files persist across episodes and are shared across concurrent LLMPolicy instances, coordinated with a process-level lock. At every replan, Block B is rebuilt: scan the skills directory, sort by modi-fication time (most recent first), and inject up to 12 module sources verbatim into the system prompt. So any control function, in this episode or a later one, can import a skill written earlier. 
+
+## 4 Experiments 
+
+4.1 Setup 
+
+We evaluate in MuJoCo via RoboVerse (Franka Panda 7-DoF arm with a paral-lel gripper). VLCP uses GPT-5.5 as the replanning model, queried every K=50 8 D. Naouali et al. 
+
+steps as described in Section 3. Beyond the LIBERO-Object generalization study (Section 4.4), we run a broad 57 -task sweep across three scene families: Ob-ject Picks (the 10 LIBERO-Object pick tasks), Kitchen Scenes (30 tasks), and 
+
+Living-Room Scenes (17 tasks). The latter two come from LIBERO-90 and cover articulated actions, pick-and-place, distractor disambiguation, elevated and drawer placement, stacking, and multi-step sequences. Each task runs for a single episode, with the skill library reset beforehand to keep trials independent, and is pooled within its family, and we report per-family and overall pooled success rate with Wilson 95% confidence intervals throughout. The sweep con-tributes 57 closed-loop episodes (one per task) that, with a matched 57 -episode open-loop ( K=T ) run, form the main comparison of Section 4.3. The recovery and cost analyses (Sections 4.5 and 4.6) run instead over our full logged cor-pus of closed-loop episodes, a superset of the sweep that also includes the extra closed-loop rollouts logged during the instruction-reframing study (Section 4.4). Their denominators ( 75 pick-and-place episodes and 81 closed-loop episodes) are therefore larger than the 57 -task sweep. 
+
+4.2 Baselines Open-loop VLCP ( K=T ) is our primary controlled baseline: the same system queried once per episode with no within-episode replan. It is the only comparison that isolates the replanning loop, because it holds the simulator, control API, privileged poses, task set, model, and episode budget exactly fixed and varies the single bit this paper is about. Whatever gap it opens cannot be pinned on any other difference. An external code agent, run on another benchmark through another API, cannot make that attribution however strong it is (Section 4.3). 
+
+VLA-0 [3], fine-tuned on the full LIBERO benchmark, is a demonstration-trained upper reference , not a matched baseline. We use it only in the instruction-reframing study, where its in-distribution ceiling makes the generalization gap easy to read (Section 4.4). Comparing raw success against it would confound demonstration fine-tuning with the closed-loop question this paper studies. 
+
+CaP-Agent0 [2] is the concurrent training-free coding agent of CaP-X. Like VLCP it generates control code rather than motor tokens and rewrites it within an episode. We treat it only as an external reference point for where training-free code agents sit, not as a controlled comparison. It is evaluated on a different benchmark (LIBERO-PRO) and harness, so we cite its reported numbers rather than claim a like-for-like comparison (Section 4.3). 
+
+4.3 Within-episode replanning drives success 
+
+Our central experiment isolates the one design choice this paper is about, closing the loop on the control code within an episode, by comparing VLCP against its open-loop K=T case: the same system with the replan cadence set to K=T , so the VLM is queried once at the start of the episode and the resulting control 
+
+function, still called and reacting every step, runs the full horizon with no re-observation. This K=T condition is precisely the Code-as-Policies / ProgPrompt VLCP: Vision Language Control Policy 9Object Picks Kitchen Scenes Living-Room Scenes 
+
+> Overall
+> 020 40 60 80 100
+> Success rate (%)
+> 60 33 24 35 10 304
+> Closed-loop vs open-loop code generation
+> VLCP closed-loop (K=50) Open-loop ablation (K=T)
+
+Fig. 2: Within-episode replanning is the dominant factor. The same system with the replan cadence set to K=T (open-loop, grey) collapses to near-zero success in every scene family, while VLCP’s K=50 closed-loop replanning (orange) recovers an order of magnitude more task completions. Bars are pooled point estimates, whiskers are Wilson 95% CIs, and the dashed separator marks the pooled Overall group. 
+
+protocol [8, 10] — a single control program written before the arm moves — realized in our environment, so the comparison doubles as a matched comparison against the dominant prior code-as-policy paradigm. The ablation shares VLCP’s simulator, control API, privileged object poses, task set, model, and episode budget, so any difference traces to the replanning loop alone and not to a change of environment or interface. Training-free and with zero demonstrations, closed-loop VLCP reaches 60 .0% 
+
+on Object Picks, 33 .3% on Kitchen Scenes, and 23 .5% on Living-Room Scenes, pooling to 35 .1% [24 .0, 48 .1] overall. Set to K=T , the same system collapses to 10 .0% , 3.3% , and 0.0% , or 3.5% [1.0, 11 .9] pooled. That is a tenfold gap, with non-overlapping confidence intervals in every scene family (Figure 2). The gap is the closed-loop contribution, and it matches the granularity argument of Section 3.2. An open-loop controller cannot revise its code once execution begins. VLCP’s fixed short-horizon replanning catches and repairs deviations before they propagate through the rest of the episode, which is the recovery behavior we quantify in Section 4.5. Absolute success tracks the available headroom. It falls from the near-single-step Object Picks to the long-horizon Living-Room scenes, just as you would expect of a training-free controller that solves the core manipulation but has less margin on multi-step tasks. 
+
+4.4 Generalization under instruction reframing 
+
+VLA-0 is trained on LIBERO-Object using the exact language instructions the benchmark provides. Does its performance reflect genuine task understanding, 10 D. Naouali et al. 
+
+or reliance on those specific instruction strings? To find out, we take 6 LIBERO-Object tasks ( alphabet_soup , bbq_sauce , chocolate_pudding , cream_cheese ,
+
+ketchup , butter ) and build a modified variant of each by reframing the in-struction: the original “pick up {object} and place it in the basket” becomes 
+
+“put {object} in the basket” . The task and success condition stay the same. Only the phrasing differs from what VLA-0 saw in training. On the original in-distribution instructions VLA-0 runs near ceiling ( 94 –98% ) across LIBERO, far above training-free VLCP. That is the fine-tuned upper reference (Section 4.2) against which the reframing collapse below should be read, not a matched com-parison, since it mixes demonstration fine-tuning with the loop this paper iso-lates. VLA-0 is evaluated over 50 episodes per original task and 10 per modified task, VLCP over 10 episodes per task variant in both conditions. The 50-episode original-task numbers for VLA-0 come straight from its reported results. For the modified tasks, and for VLCP throughout, the episode count is a cost decision. VLA-0 inference is cheap and local, while every VLCP episode incurs VLM API calls at each replan, so a matched 50-episode evaluation is prohibitively expensive at this stage. We report Wilson score confidence intervals throughout, which widen for the N =10 cells accordingly, and we read the modified-task comparison as indicative rather than statistically conclusive at this sample size. Figure 3 reports per-task success rate on original and modified variants for both methods, with the signed change ∆ = modified − original isolating each method’s generalization gap. VLA-0’s response to reframing is uneven. It is un-changed or near-ceiling on chocolate_pudding , ketchup , and alphabet_soup ,but it collapses outright on butter (96% → 0%) and drops hard on bbq_sauce 
+
+(96% → 50%), pooling to an overall drop from 97.3% to 75.0%. VLA-0’s near-ceiling original performance rests partly on the exact instruction phrasing for at least some tasks, not on task understanding that survives a surface reword-ing. VLCP shows no such phrasing dependence. Its pooled success is unchanged under reframing (40.0% in both conditions, ∆ = 0 ), and the per-task differ-ences scatter both ways: gains on ketchup and alphabet_soup offset drops on 
+
+chocolate_pudding and butter , with none of the systematic, task-specific col-lapse VLA-0 shows on butter and bbq_sauce .
+
+4.5 Recovery behavior 
+
+The mechanism VLCP sells is within-episode recovery: a block fails, the next replan sees the failure and rewrites the controller to fix it. We would rather not leave that as an anecdote, so we measure how often it happens, directly from the logged replan traces. On the 75 closed-loop pick-and-place episodes we reconstruct the target object’s height and the gripper state at every block boundary from the numeric observation logged with each replan, and we label a block a failed grasp when the hand is at the object (end-effector–object distance below 0.13 m) with the gripper closed but the object still on the surface. An episode recovers when a later block secures and lifts the object after such a VLCP: Vision Language Control Policy 11 alphabet soup bbq sauce chocolate pudding cream cheese ketchup butter Overall 
+
+> 020 40 60 80 100
+> Success rate (%)
+> Generalization under instruction reframing
+> VLA-0 orig. VLA-0 mod. VLCP orig. VLCP mod.
+
+Fig. 3: Success rate under instruction reframing, per task and pooled overall (right, dashed separator). Bars are point estimates and whiskers the Wilson 95% confidence interval; colour encodes the method (blue: VLA-0, orange: VLCP). Solid bars: original instruction. Hatched bars: reframed instruction ( “put {object} in the basket” ). VLA-0’s response is uneven: near-ceiling and unchanged on chocolate_pudding and ketchup ,but collapsing outright on butter , for example (non-overlapping intervals). VLCP (or-ange) shows no comparable phrasing dependence, and its pooled success is unchanged under reframing. 
+
+failure. That transition is one an open-loop controller cannot make, because it never re-observes. Of the 75 episodes, 55 contain at least one failed grasp. In 15 of those ( 27 .3%)a later replan re-approaches and lifts the object, recovering a median of 3 replans after the miss (Table 2). The other 40 never secure the object within the horizon. So recovery is common but far from guaranteed, and that is precisely the head-room behind the closed-loop success gain of Section 4.3. The same failed-grasp signature is terminal for the open-loop variant by construction: its recovery rate is 0 and its success collapses to near zero (Figure 2). The 40 non-recovering episodes are where VLCP itself falls short. The loop keeps re-approaching, but a run of near-misses, a grasp that closes short or off-centre and sometimes nudges the object, can burn the block budget before a clean lift lands. Long-horizon tasks make this worse: even a recovered grasp still leaves placement sub-goals to finish inside the same fixed horizon, which is why success drops from Object Picks to Living-Room scenes (Section 4.3). Replanning turns many first-attempt failures into eventual successes, but it cannot buy more time. A longer horizon or a denser cadence around contact (Section 3) is the lever for the rest. Reading the recovery episodes confirms the transitions are model-driven, not physical accidents. At the corrective block the model diagnoses the miss in the code it writes. In one episode it resolves to “recenter lower and regrasp the pud-12 D. Naouali et al. 
+
+(a) grasp attempt (b) grasp fails (c) replan (d) grasp succeeds (e) placed 
+
+Fig. 4: Closed-loop recovery within a single episode (chocolate_pudding , front camera), one instance from the recovery population of Table 2. (a) The first control block reaches for the object and attempts a grasp. (b) The gripper closes short and lifts 
+
+empty ; the object stays on the table. An open-loop controller would carry this failure to the end of the episode. (c) At the next replan boundary VLCP re-observes the miss and rewrites the control function, re-approaching the object. (d) The corrected code grasps and lifts the pudding. (e) It goes into the basket and the task succeeds. Recovery works because the loop closes on the control code itself, not just on the observations fed to a fixed policy. 
+
+Table 2: Within-episode recovery on the 75 closed-loop pick-and-place episodes, computed directly from the logged per-block object height and gripper state (paper/analysis/recovery_rate.py ). A failed grasp is a block with the hand at the object and the gripper closed but the object not lifted; an episode recovers if a later block secures and lifts it. Open-loop ( K=T ) recovery is 0 by construction, since it never re-observes. Quantity Value Pick-and-place episodes (closed-loop) 75 with ≥ 1 failed grasp 55 that recover and lift the object 15 Recovery rate (recovered / failed) 27.3% 
+
+Median replans to recover 3Open-loop ( K=T ) recovery rate 0% (by construction) 
+
+ding after the last miss . . . the pudding [is] still on the floor . . . the previous block closed before the hand got low enough” , then descends and closes again, and the next block’s code reports that “the previous lift succeeded.” The single-episode trace in Figure 4 is one instance from this population. Failed VLA-0 rollouts look different under the same scrutiny. Once a failure starts, the policy typically stalls or repeats the same error, grasping just behind the object or opening the gripper behind the receptacle, with no way to rewrite the behavior that caused it. 
+
+4.6 Cost, latency, and prompt caching 
+
+Since VLCP re-queries the VLM at every block boundary, whether the method is practical comes down to whether that query is cheap. We report operating VLCP: Vision Language Control Policy 13                      
+
+> Table 3: Measured operating cost of VLCP, aggregated over the closed-loop runs ( 81
+> episodes, ≈721 replan calls total). Latency is wall-clock per replan call, recovered from the logged request/response timestamps. The cached-prefix fraction is the share of each replan’s input tokens lying in the static, cache-eligible prompt prefix, measured over the 640 post-first calls that can hit cache. Quantity Median Mean Replan (VLM) calls per episode 10 8.9 Static prompt prefix (tokens) 7.9k 8.2k Input tokens per replan 43k 43k Cached-prefix fraction per replan (%) 83.8 79.4 Output tokens per replan 349 421 Latency per replan (s) 18.8 25.9 Code validity (parsed & compiled) 778 /778 = 100%
+
+cost measured directly from the logged replan traces of our closed-loop runs ( 81 
+
+episodes, ≈ 721 replan calls), summarized in Table 3. Three properties keep the per-replan cost in check. The first is the prompt layout. A long static prefix (Block A documentation and API, Block B skill library, Block C goal pin; ≈ 8k tokens) is followed by a short fresh suffix, so on every replan after the first a median of 84 % of the input tokens fall inside the cached prefix and are billed and processed at the cache-read rate instead of recomputed. The second is compact output: the model emits a median of ≈ 350 
+
+tokens per replan (mean 421 ), so decode latency stays low despite the large context. The third is call count. An episode takes only a handful of queries, a median of 10 replans (one per K=50 -step block over the 500 -step horizon), rather than one query per control step as in a raw VLA. End-to-end latency for a single replan is a median of 18 .8 s (mean 25 .9 s), dominated by frontier-model server-side generation. That sets the practical floor on VLCP’s control rate, the concrete cost behind the latency limitation of Section 5. Code validity, finally, is not a bottleneck. All 778 generated control 
+
+blocks across every episode parsed and compiled successfully (100% ), so the compile-failure safety fallback of Section 3 fired only on transient run-time exceptions, never on malformed generations. The upshot: prompt caching makes within-episode replanning cheap enough that the order-of-magnitude suc-cess gain over the open-loop variant (Section 4.3) costs roughly ten cache-warm VLM calls per episode. 
+
+## 5 Conclusion 
+
+We introduced VLCP, a training-free framework that closes the manipulation loop at the level of the control code itself. A frozen VLM is re-queried every K
+
+steps and rewrites the control function from live multi-view RGB, proprioceptive state, and an explicit state delta, so a failure is caught and corrected while the episode is still unfolding. That is a different place to close the loop than prior 14 D. Naouali et al. 
+
+work chose. VLCP does not retry a fixed policy or reselect a subtask. It edits the failing artifact directly, and the loop, not any single generated program, is the contribution. We think the evidence is hard to pin on anything else. Against its own open-loop degenerate case ( K=T ), an ablation that holds the simulator, con-trol API, privileged poses, task set, model, and episode budget fixed and varies 
+
+only within-episode replanning, closing the loop lifts pooled success from 3.5% to 
+
+35 .1% : a tenfold gain, non-overlapping confidence intervals in every scene family, across a 57 -task sweep. And we tie that gain to a concrete, measured mecha-nism rather than leaving it a black box. 27 .3% of failed grasps are re-approached and lifted by a later replan, a transition the open-loop variant cannot make by construction, and the corrective code names the miss it is fixing. The loop is affordable as well as effective. Prompt caching serves a median 84% of in-put tokens from cache and an episode costs only ∼10 compact queries, so the order-of-magnitude gain runs on roughly ten cache-warm calls. 
+
+Limitations. VLCP relies on simulator-provided object poses and has only been run in simulation, so its robustness to perception noise and real-robot dynam-ics is untested. We factor localization out on purpose, to isolate the closed-loop question, and swapping the poses for a learned detector is an engineering substi-tution that leaves the replanning mechanism intact. Replanning also brings VLM latency and API cost. Each replan takes a median of 18 .8 s of frontier-model in-ference (Section 4.6), so even with prompt caching bounding the token cost, the method suits relatively slow manipulation rather than high-frequency reactive control. That same API cost also bounds our evaluation budget. Because every episode incurs closed-source VLM calls at each replan, the main sweep runs a single episode per task (Section 4.1), and we lean on per-family pooling and Wilson confidence intervals rather than multi-seed repetition. A multi-seed eval-uation that quantifies per-task variance is the right next step, and moving to an open-weight but capable VLM would make it affordable. Performance also depends on a strong frozen VLM. The smaller open models we tried (Qwen3-4B) failed to produce reliable control code or effective replanning, which limits accessibility and raises deployment cost. We read all of these as constraints on the present instantiation, not on the underlying principle of closing the loop on control code. 
+
+Outlook. The direction we find most compelling is the cross-episode skill li-brary. Because successful control blocks are already saved and re-injected into later prompts, the repertoire grows with experience without retraining , which gives VLCP a natural substrate for continual learning : later episodes reuse and compose behaviors written earlier, and the same closed-loop machinery that re-covers within an episode starts to accumulate competence across them. Scaling that library, and measuring how the accumulated repertoire transfers across in-creasingly diverse tasks and onto real-robot perception and dynamics, is where we expect a training-free, self-editing code policy to compound. More broadly, VLCP points to a path to capable robot policies that skips demonstration col-VLCP: Vision Language Control Policy 15 
+
+lection entirely, by keeping the model in the representation it is already most fluent in. We hope the code-level closed loop proves useful well beyond the tasks studied here. 
+
+## 6 Acknowledgement 
+
+This work was conducted as part of the Algoverse AI Research program. 
+
+## References 
+
+1. Black, K., Brown, N., Driess, D., Esmail, A., Equi, M., Finn, C., Fusai, N., Groom, L., Hausman, K., Ichter, B., et al.: π0: A vision-language-action flow model for general robot control. arXiv preprint arXiv:2410.24164 (2024) 2. Fu, M., et al.: CaP-X: A framework for benchmarking and improving coding agents for robot manipulation. arXiv preprint arXiv:2603.22435 (2026) 3. Goyal, A., Hadfield, H., Yang, X., Blukis, V., Ramos, F.: VLA-0: Building state-of-the-art VLAs with zero modification. arXiv preprint arXiv:2510.13054 (2025) 4. Guo, Y., Wang, Y.J., Zha, L., Chen, J.: Doremi: Grounding language model by detecting and recovering from plan-execution misalignment. In: IROS. pp. 12124– 12131. IEEE (2024) 5. Huang, W., Xia, F., Xiao, T., Chan, H., Liang, J., Florence, P., Zeng, A., Tomp-son, J., Mordatch, I., Chebotar, Y., et al.: Inner monologue: Embodied reasoning through planning with language models. arXiv preprint arXiv:2207.05608 (2022) 6. Kim, M.J., Pertsch, K., Karamcheti, S., Xiao, T., Balakrishna, A., Nair, S., Rafailov, R., Foster, E., Lam, G., Sanketi, P., et al.: OpenVLA: An open-source vision-language-action model. arXiv preprint arXiv:2406.09246 (2024) 7. Kumar, V.: Act-observe-rewrite: Multimodal coding agents as in-context policy learners for robot manipulation. arXiv preprint arXiv:2603.04466 (2026) 8. Liang, J., Huang, W., Xia, F., Xu, P., Hausman, K., Ichter, B., Florence, P., Zeng, A.: Code as policies: Language model programs for embodied control. In: ICRA (2023) 9. Mon-Williams, R., Li, G., Long, R., Du, W., Lucas, C.: Embodied large language models enable robots to complete complex tasks in unpredictable environments. Nature Machine Intelligence 7, 592–601 (2025) 10. Singh, I., Blukis, V., Mousavian, A., Goyal, A., Xu, D., Tremblay, J., Fox, D., Thomason, J., Garg, A.: Progprompt: Generating situated robot task plans using large language models. In: ICRA (2023) 11. Wang, G., Xie, Y., Jiang, Y., Mandlekar, A., Xiao, C., Zhu, Y., Fan, L., Anand-kumar, A.: Voyager: An open-ended embodied agent with large language models. arXiv preprint arXiv:2305.16291 (2023) 12. Xie, S., Wang, H., Xiao, Z., Wang, R., Chen, X.: Robotic programmer: Video instructed policy code generation for robotic manipulation. In: IROS. pp. 14923– 14930. IEEE (2025) 13. Zhou, E., Su, Q., Chi, C., Zhang, Z., Wang, Z., Huang, T., Sheng, L., Wang, H.: Code-as-monitor: Constraint-aware visual programming for reactive and proactive robotic failure detection. In: CVPR. pp. 6919–6929 (2025) 16 D. Naouali et al. 
+
+## A Prompt assets 
+
+The system prompt is assembled from the three cache-structured blocks of Sec-tion 3 (A documentation/API/examples, B skill library, C goal pin). We repro-duce here the two pieces of Block A that most directly determine what the VLM emits: the strict output-format contract, and one of the three worked control 
+
+examples the prompt ships with. 
+
+Output-format contract (verbatim). The preamble instructs the frozen VLM to respond only with header-tagged code blocks, defining exactly one control func-tion and any number of reusable skill modules: 
+
+Output format (strict): - Respond with ONE OR MORE fenced ‘‘‘python‘‘‘ blocks and nothing else outside those blocks. No prose before, between, or after. - Each block MUST be preceded on its own immediately-prior line by a header comment naming its destination: ‘# control‘ — exactly one such block per response; it must define ‘def control(obs, J) -> list[dict]‘ with the same contract as the worked examples below. ‘# skills/<snake_case_name>.py‘ — zero or more reusable helper modules. Each is persisted to disk and importable as ‘from skills.<name> import <fn>‘ on this and every subsequent replan, including by other concurrent runs in the same library. - You MAY keep module-level state (e.g. a ‘_STATE‘ dict with a phase field) inside the ‘# control‘ block — the function is called K times in a row with fresh ‘obs‘/‘J‘ before you are queried again. Do NOT keep mutable state inside skill files. - Each replan only needs to handle the *next* phase of the task (~K closed-loop steps), not the full multi-phase plan. - Inspect all provided images carefully. The synchronized camera views often contain the most reliable information about the real state of the world, including whether a grasp or push actually succeeded, and what changed since the previous replan. 
+
+Worked control example (verbatim). One of the three single-phase examples in Block A, demonstrating the control(obs, J) contract, the observation-access idiom, and explicit gripper use through the move_to_target IK primitive: 
+
+"""Single-phase example: close the gripper on the milk carton. Scope: ONLY the grasp/settle phase. Assume a prior block has already descended the hand to the grasp height with the fingers open. This ‘control‘ function holds the end-effector at its current position while commanding both finger joints closed, so the pads can clamp the milk before a later block lifts it. """ import numpy as np VLCP: Vision Language Control Policy 17 
+
+from skills.move_to_target import move_to_target GRIPPER_CLOSE = 0.0 def control(obs: "TensorState", J: np.ndarray) -> list[dict]: arm_q = obs.robots["franka"].joint_pos[0].numpy()[2:9] ee_pos = obs.robots["franka"].body_state[0, 0, :3].numpy() # Hold position while closing. Avoid null-space motion here so the # hand does not drift off the carton as the fingers clamp. return move_to_target( arm_q, J, ee_pos, ee_pos, GRIPPER_CLOSE, lam=0.02, max_step=0.05, null_gain=0.0, dq_cap=0.05, )
+
+## B Generated-code sample 
+
+During a chocolate-pudding pick-and-place episode — the same task family as the recovery trace in Figure 4 — the frozen VLM emitted the skill module below, unedited. It was written to skills/chocolate_pudding_basket_targets.py 
+
+during a replan and re-injected verbatim into every later replan’s Block B, where the episode’s control function imports it. It illustrates the format the VLM was asked to follow: a module docstring stating scope and assumptions, full type hints, and per-function Args/Returns docstrings. 
+
+"""Target helpers for picking chocolate pudding and placing it in a basket. Scope: This module computes simple world-frame panda_hand position targets for top-down manipulation of the small chocolate pudding object and placement into a nearby basket in LIBERO grocery-style scenes. Assumptions: - The chocolate pudding root position is close to the center of the object footprint in XY. - A top-down parallel-jaw grasp is used, with the panda_hand frame roughly 10 cm above the fingertip pads. - Returned targets are panda_hand positions in world coordinates, not object poses or fingertip positions. """ from typing import Tuple import numpy as np def chocolate_pudding_pick_targets( pudding_pos: np.ndarray, hover_z: float = 0.235, 18 D. Naouali et al. 
+
+grasp_z: float = 0.118, lift_z: float = 0.255, xy_offset: np.ndarray | None = None, ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]: """Compute hover, low grasp, and lift targets for chocolate pudding. Args: pudding_pos: (3,) world position of the chocolate pudding root. hover_z: World-frame panda_hand height for the approach hover. grasp_z: World-frame panda_hand height for the low grasp. lift_z: World-frame panda_hand height after closing. xy_offset: Optional (2,) XY offset from the pudding root to the desired gripper center. None uses zero offset. Returns: Tuple (hover_target, grasp_target, lift_target) of (3,) arrays in world coordinates. """ offset = np.zeros(2) if xy_offset is None else xy_offset.astype(float) xy = pudding_pos[:2].astype(float) + offset hover_target = np.array([xy[0], xy[1], float(hover_z)]) grasp_target = np.array([xy[0], xy[1], float(grasp_z)]) lift_target = np.array([xy[0], xy[1], float(lift_z)]) return hover_target, grasp_target, lift_target def chocolate_pudding_basket_place_target( basket_pos: np.ndarray, hand_z: float = 0.175, xy_offset: np.ndarray | None = None, ) -> np.ndarray: """Compute a panda_hand target for placing pudding in the basket. Args: basket_pos: (3,) world position of the basket root. hand_z: World-frame panda_hand height for lowering the held pudding into the basket opening before release. xy_offset: Optional (2,) XY offset from the basket root to the desired placement point. None uses the basket center. Returns: A (3,) world-frame panda_hand target inside the basket opening. """ offset = np.zeros(2) if xy_offset is None else xy_offset.astype(float) xy = basket_pos[:2].astype(float) + offset return np.array([xy[0], xy[1], float(hand_z)])
